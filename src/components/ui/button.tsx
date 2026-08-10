@@ -1,7 +1,7 @@
 import { type ReactNode } from "react";
 import { ActivityIndicator, Pressable, Text } from "react-native";
 
-type ButtonVariant = "primary" | "secondary" | "outline" | "ghost";
+type ButtonVariant = "primary" | "secondary" | "outline" | "ghost" | "danger";
 
 type ButtonProps = {
   label: string;
@@ -18,6 +18,7 @@ const variantStyles: Record<ButtonVariant, string> = {
   secondary: "bg-clay active:bg-clay-600",
   outline: "bg-transparent border border-line active:bg-sand-100",
   ghost: "bg-transparent active:bg-sand-100",
+  danger: "bg-danger active:bg-danger/90",
 };
 
 const variantTextStyles: Record<ButtonVariant, string> = {
@@ -25,6 +26,7 @@ const variantTextStyles: Record<ButtonVariant, string> = {
   secondary: "text-white",
   outline: "text-ink",
   ghost: "text-ink",
+  danger: "text-white",
 };
 
 export function Button({
