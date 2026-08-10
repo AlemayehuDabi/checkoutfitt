@@ -4,10 +4,10 @@ import { useMemo, useState } from "react";
 import { FlatList, Text, View } from "react-native";
 
 import { ItemCard } from "@/components/closet/item-card";
-import { Button } from "@/components/ui/button";
 import { Chip } from "@/components/ui/chip";
 import { IconButton } from "@/components/ui/icon-button";
 import { ScreenContainer } from "@/components/ui/screen-container";
+import { StateView } from "@/components/ui/state-view";
 import { CLOSET_CATEGORIES } from "@/constants/mock-closet";
 import { useCloset } from "@/context/closet-context";
 import type { ClosetCategory } from "@/types";
@@ -29,23 +29,13 @@ export default function ClosetScreen() {
   if (activeItems.length === 0) {
     return (
       <ScreenContainer>
-        <View className="flex-1 items-center justify-center px-4">
-          <View className="h-24 w-24 items-center justify-center rounded-full bg-sand-100">
-            <Shirt size={36} color="#8A8580" strokeWidth={1.5} />
-          </View>
-          <Text className="mt-6 text-center text-2xl font-bold tracking-tight text-ink">
-            Your closet is empty
-          </Text>
-          <Text className="mt-2 text-center text-base leading-6 text-muted">
-            Add your first item and let your AI stylist start building looks from your own
-            wardrobe.
-          </Text>
-          <Button
-            label="Add Your First Item"
-            onPress={() => router.push("/closet/add")}
-            className="mt-8 w-full"
-          />
-        </View>
+        <StateView
+          icon={Shirt}
+          title="Your closet is empty"
+          description="Add your first item and let your AI stylist start building looks from your own wardrobe."
+          actionLabel="Add Your First Item"
+          onAction={() => router.push("/closet/add")}
+        />
       </ScreenContainer>
     );
   }

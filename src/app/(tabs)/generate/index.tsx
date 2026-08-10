@@ -21,7 +21,7 @@ export default function GenerateHomeScreen() {
   const [context, setContext] = useState<string | null>(null);
 
   return (
-    <ScreenContainer scroll>
+    <ScreenContainer scroll edges={["top", "left", "right"]}>
       <View className="flex-row items-center justify-between pt-6">
         <Text className="text-2xl font-bold tracking-tight text-ink">Outfit Generator</Text>
         <Text

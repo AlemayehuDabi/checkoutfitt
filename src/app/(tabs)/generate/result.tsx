@@ -1,5 +1,5 @@
 import { router, useLocalSearchParams } from "expo-router";
-import { ArrowLeft, Shuffle } from "lucide-react-native";
+import { ArrowLeft, CloudAlert, Shuffle } from "lucide-react-native";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   Dimensions,
@@ -15,6 +15,7 @@ import { OutfitCard } from "@/components/outfit/outfit-card";
 import { IconButton } from "@/components/ui/icon-button";
 import { PaginationDots } from "@/components/ui/pagination-dots";
 import { Skeleton } from "@/components/ui/skeleton";
+import { StateView } from "@/components/ui/state-view";
 import { generateOutfits } from "@/constants/mock-outfits";
 import { useOutfits } from "@/context/outfits-context";
 import type { Outfit } from "@/types";
@@ -28,13 +29,20 @@ export default function ResultScreen() {
 
   const [outfits, setOutfits] = useState<Outfit[]>([]);
   const [loading, setLoading] = useState(true);
+  const [failed, setFailed] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const scrollRef = useRef<ScrollView>(null);
 
   const runGenerate = useCallback(() => {
     setLoading(true);
+    setFailed(false);
     setActiveIndex(0);
     const timeout = setTimeout(() => {
+      if (Math.random() < 0.12) {
+        setLoading(false);
+        setFailed(true);
+        return;
+      }
       const next = generateOutfits(context);
       setOutfits(next);
       setLastGenerated(next);
@@ -76,6 +84,15 @@ export default function ResultScreen() {
           </View>
           <Text className="mt-6 text-sm text-muted">Styling your {context.toLowerCase()} look…</Text>
         </View>
+      ) : failed ? (
+        <StateView
+          icon={CloudAlert}
+          tone="error"
+          title="Generation failed"
+          description="Something went wrong while styling this look. Give it another try."
+          actionLabel="Try Again"
+          onAction={runGenerate}
+        />
       ) : (
         <>
           <ScrollView

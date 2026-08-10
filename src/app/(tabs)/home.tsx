@@ -20,7 +20,7 @@ export default function HomeScreen() {
   const { locationName, weather, todayOutfit } = useWeather();
 
   return (
-    <ScreenContainer scroll>
+    <ScreenContainer scroll edges={["top", "left", "right"]}>
       <View className="pt-6">
         <Text className="text-sm text-muted">{getGreeting()}</Text>
         <Text className="text-2xl font-bold tracking-tight text-ink">Welcome back</Text>

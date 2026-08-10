@@ -114,7 +114,7 @@ export default function ChatScreen() {
   const canSend = inputText.trim().length > 0 || !!attachedImage;
 
   return (
-    <SafeAreaView edges={["top", "bottom", "left", "right"]} className="flex-1 bg-sand">
+    <SafeAreaView edges={["top", "left", "right"]} className="flex-1 bg-sand">
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         className="flex-1"

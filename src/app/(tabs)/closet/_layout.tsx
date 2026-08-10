@@ -5,7 +5,7 @@ export default function ClosetLayout() {
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="index" />
       <Stack.Screen name="add" options={{ presentation: "modal" }} />
-      <Stack.Screen name="capture" />
+      <Stack.Screen name="capture" options={{ presentation: "fullScreenModal" }} />
       <Stack.Screen name="upload" />
       <Stack.Screen name="processing" />
       <Stack.Screen name="confirm" />
