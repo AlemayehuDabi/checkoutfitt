@@ -1,0 +1,16 @@
+export const colors = {
+  ink: "#1A1917",
+  inkSoft: "#3A3835",
+  sand: "#FAF8F5",
+  sand100: "#F5F1EA",
+  sand200: "#EDE7DD",
+  clay: "#C1622D",
+  clay50: "#FBEEE6",
+  clay100: "#F6DBC7",
+  clay600: "#A64F21",
+  clay700: "#8A4119",
+  muted: "#8A8580",
+  line: "#E7E2D9",
+  danger: "#C1432D",
+  white: "#FFFFFF",
+} as const;

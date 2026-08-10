@@ -32,6 +32,18 @@
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 76
         }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "CheckoutFitt uses your camera to snap photos of your clothes for your digital closet."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "CheckoutFitt uses your photo library to import clothes into your digital closet."
+        }
       ]
     ],
     "experiments": {
