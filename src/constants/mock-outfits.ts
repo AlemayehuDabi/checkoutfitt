@@ -8,6 +8,16 @@ export const OUTFIT_CONTEXTS: { key: string; label: string; icon: string }[] = [
   { key: "Weekend", label: "Weekend", icon: "sun" },
 ];
 
+export const OCCASIONS: { key: string; label: string; description: string; icon: string }[] = [
+  { key: "Interview", label: "Interview", description: "Sharp and confident", icon: "briefcase" },
+  { key: "Wedding Guest", label: "Wedding Guest", description: "Elevated and celebratory", icon: "gem" },
+  { key: "Meeting", label: "Meeting", description: "Polished and professional", icon: "presentation" },
+  { key: "Party", label: "Party", description: "Fun with a little edge", icon: "party-popper" },
+  { key: "Travel", label: "Travel", description: "Comfortable, layered, easy", icon: "plane" },
+  { key: "Gym", label: "Gym", description: "Built to move", icon: "dumbbell" },
+  { key: "Date Night", label: "Date Night", description: "Effortlessly elevated", icon: "martini" },
+];
+
 const ITEM_POOL: Record<ClosetCategory, { label: string; colorHex: string }[]> = {
   top: [
     { label: "White Poplin Shirt", colorHex: "#F5F1EA" },
@@ -44,6 +54,19 @@ const ITEM_POOL: Record<ClosetCategory, { label: string; colorHex: string }[]> =
   ],
 };
 
+const GYM_ITEM_POOL: Partial<Record<ClosetCategory, { label: string; colorHex: string }[]>> = {
+  top: [
+    { label: "Performance Tank", colorHex: "#1A1917" },
+    { label: "Moisture-Wicking Tee", colorHex: "#5A7691" },
+  ],
+  bottom: [
+    { label: "Track Joggers", colorHex: "#1A1917" },
+    { label: "Compression Leggings", colorHex: "#2B3A55" },
+  ],
+  shoes: [{ label: "Running Sneakers", colorHex: "#F5F1EA" }],
+  accessory: [{ label: "Sport Watch", colorHex: "#1A1917" }],
+};
+
 const REASON_TEMPLATES: Record<string, string[]> = {
   Casual: [
     "Relaxed layers and easy fabrics keep this comfortable without looking undone — great for running around or grabbing coffee.",
@@ -65,6 +88,26 @@ const REASON_TEMPLATES: Record<string, string[]> = {
     "Breathable layers and a relaxed fit are built for wherever the day takes you.",
     "Nothing precious here — just an easy, weather-flexible combination for your two days off.",
   ],
+  Interview: [
+    "A crisp, tailored fit reads as prepared and detail-oriented without feeling overdone.",
+    "Neutral tones and structured pieces keep the focus on you, not the outfit.",
+  ],
+  "Wedding Guest": [
+    "A richer palette and elevated fabric feel celebratory without competing with the couple.",
+    "Polished and a little dressed-up — appropriate for photos and comfortable enough to dance.",
+  ],
+  Party: [
+    "A bolder color and statement piece add a little edge to an otherwise easy silhouette.",
+    "Just enough shine to stand out without overthinking it.",
+  ],
+  Travel: [
+    "Layerable, wrinkle-forgiving pieces move easily from security lines to your seat.",
+    "Comfortable through long stretches of sitting, with layers for changing cabin and climate temps.",
+  ],
+  Gym: [
+    "Breathable, flexible fabric built to move with you through a full session.",
+    "Lightweight and sweat-wicking, with room to move for whatever's on today's workout.",
+  ],
 };
 
 let outfitCounter = 0;
@@ -77,24 +120,27 @@ function pick<T>(items: T[]): T {
   return items[Math.floor(Math.random() * items.length)];
 }
 
-function buildItem(category: ClosetCategory): OutfitItem {
-  const entry = pick(ITEM_POOL[category]);
+function buildItem(category: ClosetCategory, pool: typeof ITEM_POOL | typeof GYM_ITEM_POOL = ITEM_POOL): OutfitItem {
+  const options = pool[category] ?? ITEM_POOL[category];
+  const entry = pick(options);
   return { id: `${category}-${Math.random().toString(36).slice(2, 8)}`, category, ...entry };
 }
 
 export function generateOutfit(context: string): Outfit {
   const items: OutfitItem[] = [];
-  const useDress = Math.random() < 0.3;
+  const isGym = context === "Gym";
+  const pool = isGym ? GYM_ITEM_POOL : ITEM_POOL;
+  const useDress = !isGym && Math.random() < 0.3;
 
   if (useDress) {
-    items.push(buildItem("dress"));
+    items.push(buildItem("dress", pool));
   } else {
-    items.push(buildItem("top"));
-    items.push(buildItem("bottom"));
+    items.push(buildItem("top", pool));
+    items.push(buildItem("bottom", pool));
   }
-  if (Math.random() < 0.55) items.push(buildItem("outerwear"));
-  items.push(buildItem("shoes"));
-  if (Math.random() < 0.7) items.push(buildItem("accessory"));
+  if (!isGym && Math.random() < 0.55) items.push(buildItem("outerwear", pool));
+  items.push(buildItem("shoes", pool));
+  if (Math.random() < 0.7) items.push(buildItem("accessory", pool));
 
   const reasons = REASON_TEMPLATES[context] ?? REASON_TEMPLATES.Casual;
 

@@ -1,9 +1,10 @@
 import { router } from "expo-router";
-import { Briefcase, Coffee, Martini, Presentation, Sun } from "lucide-react-native";
+import { Briefcase, ChevronRight, Coffee, Martini, PartyPopper, Presentation, Sun } from "lucide-react-native";
 import { useState } from "react";
 import { Text, View } from "react-native";
 
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { ScreenContainer } from "@/components/ui/screen-container";
 import { SelectCard } from "@/components/ui/select-card";
 import { OUTFIT_CONTEXTS } from "@/constants/mock-outfits";
@@ -55,8 +56,19 @@ export default function GenerateHomeScreen() {
         label="Generate Outfit"
         disabled={!context}
         onPress={() => router.push(`/generate/result?context=${encodeURIComponent(context ?? "")}`)}
-        className="mb-2 mt-10"
+        className="mt-10"
       />
+
+      <Card onPress={() => router.push("/occasions")} className="mb-2 mt-6 flex-row items-center gap-4 p-4">
+        <View className="h-11 w-11 items-center justify-center rounded-xl bg-clay-50">
+          <PartyPopper size={20} color="#C1622D" />
+        </View>
+        <View className="flex-1">
+          <Text className="text-base font-semibold text-ink">Shop by Occasion</Text>
+          <Text className="mt-0.5 text-sm text-muted">Interviews, weddings, gym days, and more</Text>
+        </View>
+        <ChevronRight size={18} color="#8A8580" />
+      </Card>
     </ScreenContainer>
   );
 }
