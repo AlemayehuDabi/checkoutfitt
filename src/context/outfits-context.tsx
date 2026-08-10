@@ -2,6 +2,8 @@ import { createContext, type ReactNode, useContext, useMemo, useState } from "re
 
 import type { Outfit } from "@/types";
 
+const MAX_REMEMBERED_OUTFITS = 40;
+
 type OutfitsContextValue = {
   savedOutfits: Outfit[];
   toggleSave: (outfit: Outfit) => void;
@@ -29,7 +31,11 @@ export function OutfitsProvider({ children }: { children: ReactNode }) {
       },
       isSaved: (id) => savedOutfits.some((item) => item.id === id),
       lastGenerated,
-      setLastGenerated,
+      // Accumulates rather than replaces, so outfits generated earlier (e.g. still
+      // referenced by a back-stacked detail screen) stay resolvable via findOutfit.
+      setLastGenerated: (outfits) => {
+        setLastGenerated((prev) => [...outfits, ...prev].slice(0, MAX_REMEMBERED_OUTFITS));
+      },
       findOutfit: (id) =>
         lastGenerated.find((item) => item.id === id) ?? savedOutfits.find((item) => item.id === id),
     }),
