@@ -44,6 +44,12 @@
         {
           "photosPermission": "CheckoutFitt uses your photo library to import clothes into your digital closet."
         }
+      ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "CheckoutFitt uses your location to tailor outfit suggestions to today's weather."
+        }
       ]
     ],
     "experiments": {
