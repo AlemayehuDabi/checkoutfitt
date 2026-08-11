@@ -23,6 +23,7 @@ model User {
   sessions      Session[]
   accounts      Account[]
   profile       Profile?
+  attachments   Attachment[]
 
   @@unique([email])
   @@map("user")
@@ -94,4 +95,32 @@ model Profile {
   updatedAt           DateTime @updatedAt
 
   @@map("profile")
+}
+
+enum AttachmentPurpose {
+  CLOSET_ITEM
+  CHAT_ATTACHMENT
+  AVATAR
+  OTHER
+}
+
+/// A Cloudinary asset the client uploaded directly (signed upload), recorded
+/// here after the fact so other modules (closet items, chat) can reference it
+/// by relation instead of juggling raw Cloudinary URLs everywhere.
+model Attachment {
+  id        String            @id @default(cuid())
+  ownerId   String
+  owner     User              @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  publicId  String            @unique
+  url       String
+  secureUrl String
+  format    String?
+  bytes     Int?
+  width     Int?
+  height    Int?
+  purpose   AttachmentPurpose @default(OTHER)
+  createdAt DateTime          @default(now())
+
+  @@index([ownerId])
+  @@map("attachment")
 }

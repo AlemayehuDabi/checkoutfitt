@@ -22,6 +22,22 @@ class EnvironmentVariables {
   @IsOptional()
   @IsString()
   PORT?: string;
+
+  @IsOptional()
+  @IsString()
+  REDIS_URL?: string;
+
+  @IsString()
+  @IsNotEmpty()
+  CLOUDINARY_CLOUD_NAME: string;
+
+  @IsString()
+  @IsNotEmpty()
+  CLOUDINARY_API_KEY: string;
+
+  @IsString()
+  @IsNotEmpty()
+  CLOUDINARY_API_SECRET: string;
 }
 
 export function validateEnv(config: Record<string, unknown>) {
