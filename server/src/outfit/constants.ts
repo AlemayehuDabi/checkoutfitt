@@ -1,5 +1,7 @@
-// Phase 6 extends this list with more occasions (interview, wedding, party,
-// travel, gym); kept as a plain validated array (see Outfit.context in
+// Phase 6's occasion taxonomy (interview, wedding, meeting, party, travel,
+// gym, date) is merged into this same list — "meeting" already existed and
+// "date" is the same concept as Phase 4's "date_night", so those two aren't
+// duplicated. Kept as a plain validated array (see Outfit.context in
 // schema.prisma) rather than a Prisma enum so growing it needs no migration.
 export const OUTFIT_CONTEXTS = [
   'casual',
@@ -7,6 +9,11 @@ export const OUTFIT_CONTEXTS = [
   'date_night',
   'meeting',
   'weekend',
+  'interview',
+  'wedding',
+  'party',
+  'travel',
+  'gym',
 ] as const;
 export type OutfitContextValue = (typeof OUTFIT_CONTEXTS)[number];
 

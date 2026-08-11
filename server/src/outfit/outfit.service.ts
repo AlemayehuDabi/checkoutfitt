@@ -16,6 +16,18 @@ import {
   DAILY_OUTFIT_CACHE_TTL_SECONDS,
   DEFAULT_DAILY_OUTFIT_CONTEXT,
 } from './constants';
+import { getOccasionGuidance } from './occasion-guidance';
+
+/** Occasion guidance is always applied; caller-supplied instructions (e.g.
+ * Phase 5's weather guidance) are layered on top rather than replacing it. */
+function combineInstructions(
+  context: string,
+  extra?: string,
+): string | undefined {
+  return (
+    [getOccasionGuidance(context), extra].filter(Boolean).join(' ') || undefined
+  );
+}
 
 function toCandidate(item: ClosetItem): OutfitItemCandidate {
   return {
@@ -60,7 +72,7 @@ export class OutfitService {
     const generated = await this.llmService.generateOutfit({
       context: dto.context,
       items: items.map(toCandidate),
-      extraInstructions,
+      extraInstructions: combineInstructions(dto.context, extraInstructions),
     });
 
     return this.persistOutfit(
@@ -85,6 +97,7 @@ export class OutfitService {
       context: previous.context,
       items: items.map(toCandidate),
       excludeItemIds: previous.items.map((item) => item.id),
+      extraInstructions: combineInstructions(previous.context),
     });
 
     return this.persistOutfit(
