@@ -1,3 +1,9 @@
+import {
+  ChatParams,
+  ChatResult,
+  StreamChatParams,
+} from './chat-provider.interface';
+
 export interface OutfitItemCandidate {
   id: string;
   type: string;
@@ -27,6 +33,8 @@ export interface GenerateOutfitParams {
 
 export interface LLMProvider {
   generateOutfit(params: GenerateOutfitParams): Promise<GeneratedOutfit>;
+  chat(params: ChatParams): Promise<ChatResult>;
+  streamChat(params: StreamChatParams): Promise<string>;
 }
 
 /** Shared across all three providers so swapping LLM_PROVIDER never changes the response shape. */

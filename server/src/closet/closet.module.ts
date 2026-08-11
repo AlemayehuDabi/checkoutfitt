@@ -13,5 +13,6 @@ import { CLOSET_DETECTION_QUEUE } from './constants';
   ],
   controllers: [ClosetController],
   providers: [ClosetService, ClosetDetectionProcessor],
+  exports: [ClosetService],
 })
 export class ClosetModule {}

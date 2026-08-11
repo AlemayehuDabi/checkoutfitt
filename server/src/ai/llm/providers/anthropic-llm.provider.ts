@@ -8,6 +8,11 @@ import {
   LLMProvider,
   OUTFIT_JSON_SCHEMA,
 } from '../llm-provider.interface';
+import {
+  ChatParams,
+  ChatResult,
+  StreamChatParams,
+} from '../chat-provider.interface';
 
 @Injectable()
 export class AnthropicLlmProvider implements LLMProvider {
@@ -40,5 +45,75 @@ export class AnthropicLlmProvider implements LLMProvider {
       throw new Error('Anthropic outfit-generation response contained no text');
     }
     return JSON.parse(textBlock.text) as GeneratedOutfit;
+  }
+
+  async chat(params: ChatParams): Promise<ChatResult> {
+    const messages: Anthropic.MessageParam[] = [
+      ...params.history.map((h) => ({ role: h.role, content: h.content })),
+      {
+        role: 'user' as const,
+        content: params.imageUrl
+          ? [
+              {
+                type: 'image' as const,
+                source: { type: 'url' as const, url: params.imageUrl },
+              },
+              { type: 'text' as const, text: params.userMessage },
+            ]
+          : params.userMessage,
+      },
+    ];
+
+    const response = await this.client.messages.create({
+      model: this.model,
+      max_tokens: 1024,
+      system: params.systemPrompt,
+      tools: params.tools.map((tool) => ({
+        name: tool.name,
+        description: tool.description,
+        input_schema: tool.inputSchema as Anthropic.Tool.InputSchema,
+      })),
+      messages,
+    });
+
+    const toolUseBlock = response.content.find(
+      (block) => block.type === 'tool_use',
+    );
+    if (toolUseBlock && toolUseBlock.type === 'tool_use') {
+      return {
+        text: null,
+        toolCall: {
+          name: toolUseBlock.name,
+          input: toolUseBlock.input as Record<string, unknown>,
+        },
+      };
+    }
+
+    const textBlock = response.content.find((block) => block.type === 'text');
+    return {
+      text: textBlock && textBlock.type === 'text' ? textBlock.text : '',
+      toolCall: null,
+    };
+  }
+
+  async streamChat(params: StreamChatParams): Promise<string> {
+    const messages: Anthropic.MessageParam[] = [
+      ...params.history.map((h) => ({ role: h.role, content: h.content })),
+      { role: 'user' as const, content: params.userMessage },
+    ];
+
+    const stream = this.client.messages.stream({
+      model: this.model,
+      max_tokens: 1024,
+      system: params.systemPrompt,
+      messages,
+    });
+    stream.on('text', (delta) => params.onDelta(delta));
+
+    const finalMessage = await stream.finalMessage();
+    const textBlock = finalMessage.content.find(
+      (block) => block.type === 'text',
+    );
+    return textBlock && textBlock.type === 'text' ? textBlock.text : '';
   }
 }

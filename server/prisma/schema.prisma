@@ -26,6 +26,7 @@ model User {
   attachments   Attachment[]
   closetItems   ClosetItem[]
   outfits       Outfit[]
+  chatMessages  ChatMessage[]
 
   @@unique([email])
   @@map("user")
@@ -192,7 +193,32 @@ model Outfit {
   saved       Boolean      @default(false)
   createdAt   DateTime     @default(now())
 
+  chatMessages ChatMessage[]
+
   @@index([ownerId])
   @@index([ownerId, saved])
   @@map("outfit")
+}
+
+enum ChatRole {
+  USER
+  ASSISTANT
+}
+
+/// One persistent chat thread per user (no multi-thread support) with the AI
+/// stylist. An assistant message may carry an `outfitCard` when the model
+/// used the generate_outfit tool while composing its reply.
+model ChatMessage {
+  id               String    @id @default(cuid())
+  ownerId          String
+  owner            User      @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  role             ChatRole
+  content          String
+  attachedImageUrl String?
+  outfitCardId     String?
+  outfitCard       Outfit?   @relation(fields: [outfitCardId], references: [id], onDelete: SetNull)
+  createdAt        DateTime  @default(now())
+
+  @@index([ownerId, createdAt])
+  @@map("chat_message")
 }

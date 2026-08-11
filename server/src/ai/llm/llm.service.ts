@@ -6,6 +6,11 @@ import {
   GeneratedOutfit,
   LLMProvider,
 } from './llm-provider.interface';
+import {
+  ChatParams,
+  ChatResult,
+  StreamChatParams,
+} from './chat-provider.interface';
 import { AnthropicLlmProvider } from './providers/anthropic-llm.provider';
 import { OpenAiLlmProvider } from './providers/openai-llm.provider';
 import { GeminiLlmProvider } from './providers/gemini-llm.provider';
@@ -37,5 +42,13 @@ export class LLMService {
 
   generateOutfit(params: GenerateOutfitParams): Promise<GeneratedOutfit> {
     return this.provider.generateOutfit(params);
+  }
+
+  chat(params: ChatParams): Promise<ChatResult> {
+    return this.provider.chat(params);
+  }
+
+  streamChat(params: StreamChatParams): Promise<string> {
+    return this.provider.streamChat(params);
   }
 }
