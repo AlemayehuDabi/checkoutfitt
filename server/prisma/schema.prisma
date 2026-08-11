@@ -25,6 +25,7 @@ model User {
   profile       Profile?
   attachments   Attachment[]
   closetItems   ClosetItem[]
+  outfits       Outfit[]
 
   @@unique([email])
   @@map("user")
@@ -166,7 +167,27 @@ model ClosetItem {
   createdAt     DateTime         @default(now())
   updatedAt     DateTime         @updatedAt
 
+  outfits Outfit[] @relation("OutfitItems")
+
   @@index([ownerId])
   @@index([ownerId, archived])
   @@map("closet_item")
+}
+
+/// `context` is a plain validated string (see OUTFIT_CONTEXTS in
+/// src/outfit/constants.ts) rather than a Prisma enum, since Phase 6 extends
+/// the occasion taxonomy — a TS const array can grow without a migration.
+model Outfit {
+  id          String       @id @default(cuid())
+  ownerId     String
+  owner       User         @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  context     String
+  items       ClosetItem[] @relation("OutfitItems")
+  explanation String
+  saved       Boolean      @default(false)
+  createdAt   DateTime     @default(now())
+
+  @@index([ownerId])
+  @@index([ownerId, saved])
+  @@map("outfit")
 }

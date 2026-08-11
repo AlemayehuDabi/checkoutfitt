@@ -10,6 +10,7 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { UploadModule } from './upload/upload.module';
 import { ClosetModule } from './closet/closet.module';
+import { OutfitModule } from './outfit/outfit.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { ClosetModule } from './closet/closet.module';
     UserModule,
     UploadModule,
     ClosetModule,
+    OutfitModule,
   ],
   controllers: [AppController],
   providers: [AppService],
