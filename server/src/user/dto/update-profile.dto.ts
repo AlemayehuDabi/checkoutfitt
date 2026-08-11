@@ -3,6 +3,8 @@ import {
   IsArray,
   IsBoolean,
   IsIn,
+  IsLatitude,
+  IsLongitude,
   IsOptional,
   IsString,
   MaxLength,
@@ -39,4 +41,19 @@ export class UpdateProfileDto {
   @IsOptional()
   @IsBoolean()
   onboardingCompleted?: boolean;
+
+  // Used by weather-based outfit suggestions (Phase 5). Send latitude and
+  // longitude together — WeatherService looks up conditions by coordinates.
+  @IsOptional()
+  @IsLatitude()
+  latitude?: number;
+
+  @IsOptional()
+  @IsLongitude()
+  longitude?: number;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(100)
+  city?: string;
 }

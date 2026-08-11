@@ -64,6 +64,10 @@ class EnvironmentVariables {
   @IsOptional()
   @IsString()
   GEMINI_API_KEY?: string;
+
+  @IsOptional()
+  @IsString()
+  OPENWEATHER_API_KEY?: string;
 }
 
 export function validateEnv(config: Record<string, unknown>) {

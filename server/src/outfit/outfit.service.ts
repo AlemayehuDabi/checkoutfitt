@@ -5,10 +5,17 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { CacheService } from '../cache/cache.service';
 import { LLMService } from '../ai/llm/llm.service';
 import { OutfitItemCandidate } from '../ai/llm/llm-provider.interface';
+import { WeatherService } from '../weather/weather.service';
+import { buildWeatherInstructions } from '../weather/weather-instructions.util';
 import { ClosetItem } from '../../prisma/generated/prisma';
 import { GenerateOutfitDto } from './dto/generate-outfit.dto';
+import {
+  DAILY_OUTFIT_CACHE_TTL_SECONDS,
+  DEFAULT_DAILY_OUTFIT_CONTEXT,
+} from './constants';
 
 function toCandidate(item: ClosetItem): OutfitItemCandidate {
   return {
@@ -25,6 +32,8 @@ export class OutfitService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly llmService: LLMService,
+    private readonly cache: CacheService,
+    private readonly weatherService: WeatherService,
   ) {}
 
   /** Only items whose AI detection has finished are usable — the LLM needs
@@ -144,6 +153,49 @@ export class OutfitService {
       data: { saved: false },
       include: { items: true },
     });
+  }
+
+  /**
+   * Weather-aware suggestion, generated once per user per calendar day (UTC)
+   * — reopening the app the same day returns the cached outfit instead of
+   * calling the LLM again. The cache holds only the outfit ID; the outfit
+   * itself is durable, so a Redis flush just means the next request
+   * regenerates instead of losing data.
+   */
+  async getTodaysOutfit(userId: string) {
+    const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD, UTC
+    const cacheKey = `daily-outfit:${userId}:${today}`;
+
+    const cachedOutfitId = await this.cache.get<string>(cacheKey);
+    if (cachedOutfitId) {
+      const cachedOutfit = await this.prisma.outfit.findUnique({
+        where: { id: cachedOutfitId },
+        include: { items: true },
+      });
+      if (cachedOutfit) {
+        return cachedOutfit;
+      }
+    }
+
+    const profile = await this.prisma.profile.findUnique({ where: { userId } });
+    if (profile?.latitude == null || profile?.longitude == null) {
+      throw new BadRequestException(
+        'Set your location in your profile (PATCH /user/profile) first.',
+      );
+    }
+
+    const weather = await this.weatherService.getCurrentWeather(
+      profile.latitude,
+      profile.longitude,
+    );
+    const outfit = await this.generate(
+      userId,
+      { context: DEFAULT_DAILY_OUTFIT_CONTEXT },
+      buildWeatherInstructions(weather),
+    );
+
+    await this.cache.set(cacheKey, outfit.id, DAILY_OUTFIT_CACHE_TTL_SECONDS);
+    return outfit;
   }
 
   listSaved(userId: string) {

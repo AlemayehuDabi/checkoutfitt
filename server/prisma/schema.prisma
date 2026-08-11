@@ -93,6 +93,11 @@ model Profile {
   sizeBottom          String?
   sizeShoe            String?
   onboardingCompleted Boolean  @default(false)
+  // Location for weather-based outfit suggestions (Phase 5). Both lat/lng
+  // must be set together — WeatherService needs coordinates, not just a name.
+  latitude            Float?
+  longitude           Float?
+  city                String?
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
 

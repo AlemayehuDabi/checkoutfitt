@@ -11,6 +11,8 @@ import { UserModule } from './user/user.module';
 import { UploadModule } from './upload/upload.module';
 import { ClosetModule } from './closet/closet.module';
 import { OutfitModule } from './outfit/outfit.module';
+import { CacheModule } from './cache/cache.module';
+import { WeatherModule } from './weather/weather.module';
 
 @Module({
   imports: [
@@ -26,11 +28,13 @@ import { OutfitModule } from './outfit/outfit.module';
       }),
     }),
     PrismaModule,
+    CacheModule,
     AuthModule,
     UserModule,
     UploadModule,
     ClosetModule,
     OutfitModule,
+    WeatherModule,
   ],
   controllers: [AppController],
   providers: [AppService],

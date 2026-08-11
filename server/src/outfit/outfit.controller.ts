@@ -27,10 +27,15 @@ export class OutfitController {
     return this.outfitService.unsave(user.id, id);
   }
 
-  // Must be declared before ':id' — otherwise Nest matches "saved" as an :id.
+  // Both must be declared before ':id' — otherwise Nest matches them as an :id.
   @Get('saved')
   listSaved(@CurrentUser() user: CurrentUser) {
     return this.outfitService.listSaved(user.id);
+  }
+
+  @Get('today')
+  getTodaysOutfit(@CurrentUser() user: CurrentUser) {
+    return this.outfitService.getTodaysOutfit(user.id);
   }
 
   @Get(':id')

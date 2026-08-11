@@ -28,4 +28,7 @@ export default () => ({
     geminiVisionModel: process.env.GEMINI_VISION_MODEL,
     geminiLlmModel: process.env.GEMINI_LLM_MODEL,
   },
+  weather: {
+    apiKey: process.env.OPENWEATHER_API_KEY,
+  },
 });
