@@ -24,6 +24,7 @@ model User {
   accounts      Account[]
   profile       Profile?
   attachments   Attachment[]
+  closetItems   ClosetItem[]
 
   @@unique([email])
   @@map("user")
@@ -121,6 +122,51 @@ model Attachment {
   purpose   AttachmentPurpose @default(OTHER)
   createdAt DateTime          @default(now())
 
+  closetItems ClosetItem[]
+
   @@index([ownerId])
   @@map("attachment")
+}
+
+enum ClosetItemStatus {
+  PENDING
+  PROCESSING
+  DONE
+  FAILED
+}
+
+enum ClosetItemType {
+  TOP
+  BOTTOM
+  OUTERWEAR
+  DRESS
+  FOOTWEAR
+  ACCESSORY
+  BAG
+  OTHER
+}
+
+/// A single garment in a user's digital closet. Created immediately on
+/// ingestion with status PENDING; the BullMQ detection worker fills in
+/// type/category/color/tags asynchronously via VisionService.
+model ClosetItem {
+  id            String           @id @default(cuid())
+  ownerId       String
+  owner         User             @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  imageUrl      String
+  attachmentId  String?
+  attachment    Attachment?      @relation(fields: [attachmentId], references: [id], onDelete: SetNull)
+  type          ClosetItemType?
+  category      String?
+  color         String?
+  tags          String[]         @default([])
+  status        ClosetItemStatus @default(PENDING)
+  failureReason String?
+  archived      Boolean          @default(false)
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+
+  @@index([ownerId])
+  @@index([ownerId, archived])
+  @@map("closet_item")
 }

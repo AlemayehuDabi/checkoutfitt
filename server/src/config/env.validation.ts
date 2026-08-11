@@ -1,10 +1,12 @@
 import { plainToInstance } from 'class-transformer';
 import {
+  IsIn,
   IsNotEmpty,
   IsOptional,
   IsString,
   validateSync,
 } from 'class-validator';
+import { AI_PROVIDERS } from '../ai/constants';
 
 class EnvironmentVariables {
   @IsString()
@@ -38,6 +40,30 @@ class EnvironmentVariables {
   @IsString()
   @IsNotEmpty()
   CLOUDINARY_API_SECRET: string;
+
+  // Only the provider actually selected by VISION_PROVIDER/LLM_PROVIDER needs
+  // its key set — a missing key for an unused provider is fine, it's just
+  // never instantiated with real credentials. All three are optional here so
+  // boot doesn't require signing up for vendors you don't use.
+  @IsOptional()
+  @IsIn(AI_PROVIDERS)
+  VISION_PROVIDER?: string;
+
+  @IsOptional()
+  @IsIn(AI_PROVIDERS)
+  LLM_PROVIDER?: string;
+
+  @IsOptional()
+  @IsString()
+  ANTHROPIC_API_KEY?: string;
+
+  @IsOptional()
+  @IsString()
+  OPENAI_API_KEY?: string;
+
+  @IsOptional()
+  @IsString()
+  GEMINI_API_KEY?: string;
 }
 
 export function validateEnv(config: Record<string, unknown>) {
