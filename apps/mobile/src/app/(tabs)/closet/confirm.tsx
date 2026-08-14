@@ -10,13 +10,14 @@ import { Input } from "@/components/ui/input";
 import { ScreenContainer } from "@/components/ui/screen-container";
 import { SectionHeader } from "@/components/ui/section-header";
 import { CLOSET_CATEGORIES, CLOSET_COLORS, randomDetection } from "@/constants/mock-closet";
-import { useCloset } from "@/context/closet-context";
+import { useClosetActions, usePendingImages } from "@/context/closet-context";
 import type { ClosetCategory } from "@/types";
 
 import { color } from "@/design";
 
 export default function ConfirmScreen() {
-  const { pendingImages, addItem, setPendingImages } = useCloset();
+  const { pendingImages, setPendingImages } = usePendingImages();
+  const { addItem } = useClosetActions();
   const [index, setIndex] = useState(0);
 
   const imageUri = pendingImages[index];

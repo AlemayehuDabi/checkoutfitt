@@ -1,5 +1,5 @@
 import { Heart } from "lucide-react-native";
-import { View } from "react-native";
+import { FlatList } from "react-native";
 
 import { OutfitCard } from "@/components/outfit/outfit-card";
 import { Header } from "@/components/ui/header";
@@ -8,10 +8,10 @@ import { StateView } from "@/components/ui/state-view";
 import { useOutfits } from "@/context/outfits-context";
 
 export default function SavedOutfitsScreen() {
-  const { savedOutfits, toggleSave, isSaved } = useOutfits();
+  const { savedOutfits, toggleSave } = useOutfits();
 
   return (
-    <ScreenContainer scroll={savedOutfits.length > 0}>
+    <ScreenContainer>
       <Header title="Saved Outfits" />
 
       {savedOutfits.length === 0 ? (
@@ -21,16 +21,23 @@ export default function SavedOutfitsScreen() {
           description="Tap the heart on any generated look to save it here for later."
         />
       ) : (
-        <View className="gap-4 pb-8">
-          {savedOutfits.map((outfit) => (
-            <OutfitCard
-              key={outfit.id}
-              outfit={outfit}
-              saved={isSaved(outfit.id)}
-              onToggleSave={() => toggleSave(outfit)}
-            />
-          ))}
-        </View>
+        <FlatList
+          data={savedOutfits}
+          keyExtractor={(outfit) => outfit.id}
+          contentContainerClassName="gap-4 pb-8"
+          showsVerticalScrollIndicator={false}
+          // Each card mounts up to four image tiles, so keeping the render
+          // window tight matters more here than on a plain text list.
+          initialNumToRender={4}
+          maxToRenderPerBatch={4}
+          windowSize={7}
+          removeClippedSubviews
+          renderItem={({ item }) => (
+            // Everything on this screen is saved by definition — passing `true`
+            // avoids an O(n) `isSaved` scan per row (O(n²) for the list).
+            <OutfitCard outfit={item} saved onToggleSave={() => toggleSave(item)} />
+          )}
+        />
       )}
     </ScreenContainer>
   );

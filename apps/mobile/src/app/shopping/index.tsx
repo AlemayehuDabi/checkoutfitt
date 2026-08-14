@@ -2,7 +2,7 @@ import * as ImagePicker from "expo-image-picker";
 import { router } from "expo-router";
 import { Camera, Images, Link2, X } from "lucide-react-native";
 import { useState } from "react";
-import { Image, Pressable, Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -12,6 +12,7 @@ import { PageHeading } from "@/components/ui/page-heading";
 import { ScreenContainer } from "@/components/ui/screen-container";
 import { SectionHeader } from "@/components/ui/section-header";
 import { color } from "@/design";
+import { AppImage } from "@/components/ui/app-image";
 
 export default function ShoppingInputScreen() {
   const [link, setLink] = useState("");
@@ -63,7 +64,7 @@ export default function ShoppingInputScreen() {
       {imageUri ? (
         <View className="mt-4">
           <View className="h-56 w-full overflow-hidden rounded-3xl border border-line">
-            <Image source={{ uri: imageUri }} className="h-full w-full" resizeMode="cover" />
+            <AppImage source={{ uri: imageUri }} className="h-full w-full" contentFit="cover" />
           </View>
           <Pressable
             onPress={() => setImageUri(null)}

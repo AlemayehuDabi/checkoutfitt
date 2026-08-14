@@ -1,8 +1,9 @@
 import { ExternalLink, ShoppingBag } from "lucide-react-native";
-import { Image, Pressable, Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 
 import { Tag } from "@/components/ui/tag";
 import { color } from "@/design";
+import { AppImage } from "@/components/ui/app-image";
 
 export type Product = {
   id: string;
@@ -46,7 +47,7 @@ export function ProductCard({
       style={product.colorHex && !product.imageUri ? { backgroundColor: product.colorHex } : undefined}
     >
       {product.imageUri ? (
-        <Image source={{ uri: product.imageUri }} className="h-full w-full" resizeMode="cover" />
+        <AppImage source={{ uri: product.imageUri }} className="h-full w-full" contentFit="cover" />
       ) : (
         <View className="h-full w-full items-center justify-center">
           <ShoppingBag size={isTile ? 28 : 20} color={color.faint} strokeWidth={1.5} />

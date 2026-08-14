@@ -2,16 +2,7 @@ import { router } from "expo-router";
 import * as ImagePicker from "expo-image-picker";
 import { Crown, Image as ImageIcon, Send, X } from "lucide-react-native";
 import { useEffect, useRef, useState } from "react";
-import {
-  FlatList,
-  Image,
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import { FlatList, KeyboardAvoidingView, Platform, Pressable, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { ChatBubble } from "@/components/chat/chat-bubble";
@@ -23,6 +14,7 @@ import { useOutfits } from "@/context/outfits-context";
 import type { ChatMessage } from "@/types";
 
 import { color } from "@/design";
+import { AppImage } from "@/components/ui/app-image";
 
 let messageCounter = 0;
 function nextMessageId() {
@@ -139,7 +131,15 @@ export default function ChatScreen() {
           contentContainerClassName="gap-4 py-4"
           renderItem={({ item }) => <ChatBubble message={item} />}
           ListFooterComponent={typing ? <TypingIndicator /> : null}
-          onContentSizeChange={() => listRef.current?.scrollToEnd({ animated: true })}
+          showsVerticalScrollIndicator={false}
+          initialNumToRender={10}
+          maxToRenderPerBatch={8}
+          windowSize={9}
+          keyboardShouldPersistTaps="handled"
+          // Unanimated: an animated scroll fires on every content-size change
+          // (including each streamed bubble) and competes with the incoming
+          // render, which read as stutter while the assistant was "typing".
+          onContentSizeChange={() => listRef.current?.scrollToEnd({ animated: false })}
         />
 
         {messages.length <= 1 ? (
@@ -164,7 +164,7 @@ export default function ChatScreen() {
         {attachedImage ? (
           <View className="flex-row items-center gap-2 px-4 pb-2">
             <View className="relative">
-              <Image source={{ uri: attachedImage }} className="h-14 w-14 rounded-xl bg-surface-sunken" />
+              <AppImage source={{ uri: attachedImage }} className="h-14 w-14 rounded-xl bg-surface-sunken" />
               <Pressable
                 onPress={() => setAttachedImage(null)}
                 className="absolute -right-1.5 -top-1.5 h-5 w-5 items-center justify-center rounded-full bg-ink active:opacity-70"

@@ -1,6 +1,7 @@
 import { type ReactNode } from "react";
-import { Pressable, View } from "react-native";
+import { View } from "react-native";
 
+import { PressableScale } from "@/components/ui/pressable-scale";
 import { elevation } from "@/design";
 
 type CardTone = "surface" | "sunken" | "inverse" | "primary";
@@ -36,9 +37,11 @@ export function Card({
 
   if (onPress) {
     return (
-      <Pressable onPress={onPress} style={style} className={`${classes} active:opacity-90`}>
+      // Cards are large, so they take a gentler compression than a button —
+      // enough to feel tactile without looking like the whole screen moved.
+      <PressableScale onPress={onPress} pressScale={0.985} style={style} className={classes}>
         {children}
-      </Pressable>
+      </PressableScale>
     );
   }
 

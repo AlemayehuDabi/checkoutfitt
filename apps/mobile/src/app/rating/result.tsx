@@ -1,7 +1,7 @@
 import { router, useLocalSearchParams } from "expo-router";
 import { ArrowUpRight, Camera, Sparkles } from "lucide-react-native";
 import { useMemo } from "react";
-import { Image, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -13,6 +13,7 @@ import { SectionHeader } from "@/components/ui/section-header";
 import { Tag } from "@/components/ui/tag";
 import { generateRating } from "@/constants/mock-rating";
 import { color } from "@/design";
+import { AppImage } from "@/components/ui/app-image";
 
 const VERDICT_TONE = {
   success: "success",
@@ -45,7 +46,7 @@ export default function RatingResultScreen() {
       {uri ? (
         <View className="mt-7 flex-row gap-3">
           <View className="h-40 w-32 overflow-hidden rounded-2xl border border-line">
-            <Image source={{ uri }} className="h-full w-full" resizeMode="cover" />
+            <AppImage source={{ uri }} className="h-full w-full" contentFit="cover" />
           </View>
           <Card tone="sunken" className="flex-1 justify-center p-4">
             <Text className="text-micro font-semibold uppercase text-muted">What we looked at</Text>

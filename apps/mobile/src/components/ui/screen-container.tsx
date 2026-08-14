@@ -40,6 +40,10 @@ export function ScreenContainer({
       className={`flex-1 ${background} ${className}`}
       contentContainerClassName={`flex-grow ${gutter} pb-10 ${contentClassName}`}
       keyboardShouldPersistTaps="handled"
+      // Dismissing on drag replaces the TouchableWithoutFeedback that used to
+      // wrap this ScrollView. That wrapper sat in the touch path of every
+      // control on the screen and delayed press feedback.
+      keyboardDismissMode={keyboardAware ? "on-drag" : "none"}
       showsVerticalScrollIndicator={false}
     >
       {children}
@@ -50,9 +54,15 @@ export function ScreenContainer({
 
   const body = keyboardAware ? (
     <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} className="flex-1">
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-        {content}
-      </TouchableWithoutFeedback>
+      {scroll ? (
+        content
+      ) : (
+        // Non-scrolling forms keep tap-to-dismiss, where there's no scroll
+        // gesture for the wrapper to interfere with.
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+          {content}
+        </TouchableWithoutFeedback>
+      )}
     </KeyboardAvoidingView>
   ) : (
     content

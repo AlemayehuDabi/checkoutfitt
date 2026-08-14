@@ -1,9 +1,10 @@
 import { ArrowLeftRight, ImageOff } from "lucide-react-native";
 import { type ReactNode } from "react";
-import { Image, Pressable, Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 
 import { Meter } from "@/components/ui/meter";
 import { color } from "@/design";
+import { AppImage } from "@/components/ui/app-image";
 
 type ImageMatchProps = {
   /** The inspiration reference being matched against. */
@@ -46,7 +47,7 @@ export function ImageMatch({
         <View className="flex-1 items-center">
           <View className="aspect-square w-full overflow-hidden rounded-xl bg-surface-sunken">
             {sourceUri ? (
-              <Image source={{ uri: sourceUri }} className="h-full w-full" resizeMode="cover" />
+              <AppImage source={{ uri: sourceUri }} className="h-full w-full" contentFit="cover" />
             ) : (
               <View className="h-full w-full items-center justify-center">
                 <ImageOff size={22} color={color.faint} strokeWidth={1.5} />

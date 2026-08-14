@@ -19,6 +19,13 @@ export function OutfitsProvider({ children }: { children: ReactNode }) {
   const [savedOutfits, setSavedOutfits] = useState<Outfit[]>([]);
   const [lastGenerated, setLastGenerated] = useState<Outfit[]>([]);
 
+  // `isSaved` is called once per rendered card, so a linear scan made list
+  // rendering O(n²). The id set is rebuilt only when the saved list changes.
+  const savedIds = useMemo(
+    () => new Set(savedOutfits.map((outfit) => outfit.id)),
+    [savedOutfits]
+  );
+
   const value = useMemo<OutfitsContextValue>(
     () => ({
       savedOutfits,
@@ -29,7 +36,7 @@ export function OutfitsProvider({ children }: { children: ReactNode }) {
             : [outfit, ...prev]
         );
       },
-      isSaved: (id) => savedOutfits.some((item) => item.id === id),
+      isSaved: (id) => savedIds.has(id),
       lastGenerated,
       // Accumulates rather than replaces, so outfits generated earlier (e.g. still
       // referenced by a back-stacked detail screen) stay resolvable via findOutfit.
@@ -39,7 +46,7 @@ export function OutfitsProvider({ children }: { children: ReactNode }) {
       findOutfit: (id) =>
         lastGenerated.find((item) => item.id === id) ?? savedOutfits.find((item) => item.id === id),
     }),
-    [savedOutfits, lastGenerated]
+    [savedOutfits, savedIds, lastGenerated]
   );
 
   return <OutfitsContext.Provider value={value}>{children}</OutfitsContext.Provider>;

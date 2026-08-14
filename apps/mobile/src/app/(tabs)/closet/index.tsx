@@ -103,6 +103,13 @@ export default function ClosetScreen() {
           columnWrapperClassName={layout === "grid" ? "gap-3" : undefined}
           contentContainerClassName="gap-3 pb-8"
           showsVerticalScrollIndicator={false}
+          // Every cell decodes a garment image, so the render window is kept
+          // deliberately small — the default (10 initial / 10 per batch / 21
+          // windows) mounts far more image tiles than a phone screen shows.
+          initialNumToRender={6}
+          maxToRenderPerBatch={6}
+          windowSize={7}
+          removeClippedSubviews
           renderItem={({ item }) => (
             <ItemCard
               item={item}

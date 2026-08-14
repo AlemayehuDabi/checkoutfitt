@@ -1,14 +1,13 @@
 import { Bell, Crown, Heart, Sparkles, Sun } from "lucide-react-native";
-import { useState } from "react";
-import { Pressable, Text, View } from "react-native";
+import { useCallback, useState } from "react";
+import { FlatList, Pressable, Text, View } from "react-native";
 
 import { Header } from "@/components/ui/header";
 import { ScreenContainer } from "@/components/ui/screen-container";
 import { StateView } from "@/components/ui/state-view";
 import { MOCK_NOTIFICATIONS } from "@/constants/mock-notifications";
-import type { AppNotification } from "@/types";
-
 import { color } from "@/design";
+import type { AppNotification } from "@/types";
 
 const ICONS: Record<AppNotification["icon"], typeof Bell> = {
   sparkles: Sparkles,
@@ -21,26 +20,35 @@ const ICONS: Record<AppNotification["icon"], typeof Bell> = {
 export default function NotificationsScreen() {
   const [notifications, setNotifications] = useState(MOCK_NOTIFICATIONS);
 
+  const markRead = useCallback((id: string) => {
+    setNotifications((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, unread: false } : item))
+    );
+  }, []);
+
   return (
-    <ScreenContainer scroll={notifications.length > 0}>
+    <ScreenContainer>
       <Header title="Notifications" />
 
       {notifications.length === 0 ? (
         <StateView icon={Bell} title="No notifications" description="You're all caught up." />
       ) : (
-        <View className="gap-2 pb-8">
-          {notifications.map((notification) => {
-            const Icon = ICONS[notification.icon];
+        <FlatList
+          data={notifications}
+          keyExtractor={(item) => item.id}
+          contentContainerClassName="gap-2 pb-8"
+          showsVerticalScrollIndicator={false}
+          initialNumToRender={8}
+          maxToRenderPerBatch={8}
+          windowSize={9}
+          removeClippedSubviews
+          renderItem={({ item }) => {
+            const Icon = ICONS[item.icon];
             return (
               <Pressable
-                key={notification.id}
-                onPress={() =>
-                  setNotifications((prev) =>
-                    prev.map((item) => (item.id === notification.id ? { ...item, unread: false } : item))
-                  )
-                }
+                onPress={() => markRead(item.id)}
                 className={`flex-row items-start gap-3 rounded-2xl border p-4 active:opacity-80 ${
-                  notification.unread ? "border-primary-100 bg-primary-50" : "border-line bg-surface"
+                  item.unread ? "border-primary-100 bg-primary-50" : "border-line bg-surface"
                 }`}
               >
                 <View className="h-9 w-9 items-center justify-center rounded-full bg-surface">
@@ -48,16 +56,16 @@ export default function NotificationsScreen() {
                 </View>
                 <View className="flex-1">
                   <View className="flex-row items-center gap-2">
-                    <Text className="flex-1 text-sm font-semibold text-ink">{notification.title}</Text>
-                    {notification.unread ? <View className="h-2 w-2 rounded-full bg-primary" /> : null}
+                    <Text className="flex-1 text-body-sm font-semibold text-ink">{item.title}</Text>
+                    {item.unread ? <View className="h-2 w-2 rounded-full bg-primary" /> : null}
                   </View>
-                  <Text className="mt-1 text-sm leading-5 text-muted">{notification.body}</Text>
-                  <Text className="mt-1.5 text-xs text-muted">{notification.time}</Text>
+                  <Text className="mt-1 text-body-sm leading-5 text-muted">{item.body}</Text>
+                  <Text className="mt-1.5 text-caption text-muted">{item.time}</Text>
                 </View>
               </Pressable>
             );
-          })}
-        </View>
+          }}
+        />
       )}
     </ScreenContainer>
   );

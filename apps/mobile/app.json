@@ -50,7 +50,8 @@
         {
           "locationWhenInUsePermission": "CheckoutFitt uses your location to tailor outfit suggestions to today's weather."
         }
-      ]
+      ],
+      "expo-image"
     ],
     "experiments": {
       "typedRoutes": true,

@@ -1,9 +1,10 @@
 import { Sparkles, type LucideIcon } from "lucide-react-native";
 import { useEffect, useState } from "react";
-import { Image, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
 import { ScreenContainer } from "@/components/ui/screen-container";
 import { color } from "@/design";
+import { AppImage } from "@/components/ui/app-image";
 
 type AnalysisScreenProps = {
   /** Copy cycled through while the fake analysis runs. */
@@ -52,7 +53,7 @@ export function AnalysisScreen({
       <View className="flex-1 items-center justify-center">
         {imageUri ? (
           <View className="h-56 w-44 overflow-hidden rounded-3xl border border-line">
-            <Image source={{ uri: imageUri }} className="h-full w-full" resizeMode="cover" />
+            <AppImage source={{ uri: imageUri }} className="h-full w-full" contentFit="cover" />
           </View>
         ) : (
           <View className="h-24 w-24 items-center justify-center rounded-4xl bg-primary-50">

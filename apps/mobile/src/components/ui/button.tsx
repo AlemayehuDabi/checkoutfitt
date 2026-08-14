@@ -1,6 +1,7 @@
 import { type ReactNode } from "react";
-import { ActivityIndicator, Pressable, Text } from "react-native";
+import { ActivityIndicator, Text } from "react-native";
 
+import { PressableScale } from "@/components/ui/pressable-scale";
 import { color } from "@/design";
 
 type ButtonVariant = "primary" | "ink" | "secondary" | "outline" | "ghost" | "danger";
@@ -18,14 +19,17 @@ type ButtonProps = {
 };
 
 /** Paprika owns the primary action; `ink` is the quiet alternative for use on
- *  tinted or photographic surfaces where the brand colour would shout. */
+ *  tinted or photographic surfaces where the brand colour would shout.
+ *
+ *  No `active:` variants here on purpose — those re-render through JS on every
+ *  touch. Press feedback comes from `PressableScale` on the UI thread instead. */
 const surface: Record<ButtonVariant, string> = {
-  primary: "bg-primary active:bg-primary-700",
-  ink: "bg-ink active:bg-ink-soft",
-  secondary: "bg-surface-sunken active:bg-surface-muted",
-  outline: "border border-line-strong bg-transparent active:bg-surface-sunken",
-  ghost: "bg-transparent active:bg-surface-sunken",
-  danger: "bg-danger active:opacity-90",
+  primary: "bg-primary",
+  ink: "bg-ink",
+  secondary: "bg-surface-sunken",
+  outline: "border border-line-strong bg-transparent",
+  ghost: "bg-transparent",
+  danger: "bg-danger",
 };
 
 const label: Record<ButtonVariant, string> = {
@@ -64,9 +68,10 @@ export function Button({
   const isDisabled = disabled || loading;
 
   return (
-    <Pressable
+    <PressableScale
       onPress={onPress}
       disabled={isDisabled}
+      pressScale={0.975}
       accessibilityRole="button"
       accessibilityState={{ disabled: isDisabled, busy: loading }}
       className={`flex-row items-center justify-center rounded-2xl ${sizing[size]} ${surface[variant]} ${
@@ -85,6 +90,6 @@ export function Button({
           </Text>
         </>
       )}
-    </Pressable>
+    </PressableScale>
   );
 }

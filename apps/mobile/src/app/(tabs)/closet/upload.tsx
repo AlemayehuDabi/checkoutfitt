@@ -7,12 +7,12 @@ import { Text, View } from "react-native";
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/ui/header";
 import { ScreenContainer } from "@/components/ui/screen-container";
-import { useCloset } from "@/context/closet-context";
+import { usePendingImages } from "@/context/closet-context";
 
 import { color } from "@/design";
 
 export default function UploadScreen() {
-  const { setPendingImages } = useCloset();
+  const { setPendingImages } = usePendingImages();
   const [picking, setPicking] = useState(false);
 
   const handlePick = async () => {

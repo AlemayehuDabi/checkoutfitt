@@ -4,14 +4,14 @@ import { useEffect, useState } from "react";
 import { ActivityIndicator, Text, View } from "react-native";
 
 import { ScreenContainer } from "@/components/ui/screen-container";
-import { useCloset } from "@/context/closet-context";
+import { usePendingImages } from "@/context/closet-context";
 
 import { color } from "@/design";
 
 const STEPS = ["Detecting item...", "Identifying color...", "Classifying category..."];
 
 export default function ProcessingScreen() {
-  const { pendingImages } = useCloset();
+  const { pendingImages } = usePendingImages();
   const [stepIndex, setStepIndex] = useState(0);
 
   useEffect(() => {

@@ -1,11 +1,12 @@
 import { Sparkles } from "lucide-react-native";
-import { Image, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
 import { OutfitCard } from "@/components/outfit/outfit-card";
 import { useOutfits } from "@/context/outfits-context";
 import type { ChatMessage } from "@/types";
 
 import { color } from "@/design";
+import { AppImage } from "@/components/ui/app-image";
 
 export function ChatBubble({ message }: { message: ChatMessage }) {
   const { toggleSave, isSaved } = useOutfits();
@@ -16,10 +17,10 @@ export function ChatBubble({ message }: { message: ChatMessage }) {
       <View className="flex-row justify-end px-4">
         <View className="max-w-[80%] gap-2">
           {message.imageUri ? (
-            <Image
+            <AppImage
               source={{ uri: message.imageUri }}
               className="h-40 w-40 self-end rounded-2xl rounded-br-md bg-surface-sunken"
-              resizeMode="cover"
+              contentFit="cover"
             />
           ) : null}
           {message.text ? (

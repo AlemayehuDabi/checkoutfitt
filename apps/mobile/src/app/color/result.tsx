@@ -1,6 +1,6 @@
 import { router, useLocalSearchParams } from "expo-router";
 import { Check, Shirt, Sparkles, X } from "lucide-react-native";
-import { Image, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -12,6 +12,7 @@ import { SectionHeader } from "@/components/ui/section-header";
 import { StatTile } from "@/components/ui/stat-tile";
 import { COLOR_SEASON } from "@/constants/mock-color-analysis";
 import { color } from "@/design";
+import { AppImage } from "@/components/ui/app-image";
 
 /** A colour chip that names itself — used for both the best and avoid sets. */
 function Swatch({ name, hex, muted }: { name: string; hex: string; muted?: boolean }) {
@@ -41,7 +42,7 @@ export default function ColorResultScreen() {
       <View className="flex-row items-center gap-4">
         {uri ? (
           <View className="h-20 w-20 overflow-hidden rounded-3xl border border-line">
-            <Image source={{ uri }} className="h-full w-full" resizeMode="cover" />
+            <AppImage source={{ uri }} className="h-full w-full" contentFit="cover" />
           </View>
         ) : null}
         <PageHeading eyebrow="Your palette" title={season.season} className="flex-1" />

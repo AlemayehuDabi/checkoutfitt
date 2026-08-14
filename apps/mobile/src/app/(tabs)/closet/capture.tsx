@@ -7,7 +7,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Button } from "@/components/ui/button";
 import { ScreenContainer } from "@/components/ui/screen-container";
-import { useCloset } from "@/context/closet-context";
+import { usePendingImages } from "@/context/closet-context";
 
 import { color } from "@/design";
 
@@ -16,7 +16,7 @@ export default function CaptureScreen() {
   const [facing, setFacing] = useState<"front" | "back">("back");
   const [capturing, setCapturing] = useState(false);
   const cameraRef = useRef<CameraView>(null);
-  const { setPendingImages } = useCloset();
+  const { setPendingImages } = usePendingImages();
 
   if (!permission) {
     return (
