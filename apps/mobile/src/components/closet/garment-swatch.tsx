@@ -3,6 +3,8 @@ import { Image, View } from "react-native";
 
 import type { ClosetCategory } from "@/types";
 
+import { color } from "@/design";
+
 const CATEGORY_ICONS: Record<ClosetCategory, typeof Shirt> = {
   top: Shirt,
   bottom: Shirt,
@@ -25,7 +27,7 @@ export function GarmentSwatch({ category, colorHex, imageUri, className = "", ic
     return (
       <Image
         source={{ uri: imageUri }}
-        className={`bg-sand-100 ${className}`}
+        className={`bg-surface-sunken ${className}`}
         resizeMode="cover"
       />
     );
@@ -39,7 +41,7 @@ export function GarmentSwatch({ category, colorHex, imageUri, className = "", ic
       className={`items-center justify-center ${className}`}
       style={{ backgroundColor: colorHex }}
     >
-      <Icon size={iconSize} color={isLight ? "#1A1917" : "#FAF8F5"} strokeWidth={1.5} />
+      <Icon size={iconSize} color={isLight ? color.ink : color.canvas} strokeWidth={1.5} />
     </View>
   );
 }

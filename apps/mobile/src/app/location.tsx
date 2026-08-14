@@ -9,6 +9,8 @@ import { ScreenContainer } from "@/components/ui/screen-container";
 import { DEFAULT_LOCATION } from "@/constants/mock-weather";
 import { useWeather } from "@/context/weather-context";
 
+import { color } from "@/design";
+
 export default function LocationScreen() {
   const { setLocationName } = useWeather();
   const [requesting, setRequesting] = useState(false);
@@ -51,10 +53,10 @@ export default function LocationScreen() {
   return (
     <ScreenContainer>
       <View className="flex-1 items-center justify-center px-4">
-        <View className="h-20 w-20 items-center justify-center rounded-full bg-clay-50">
-          <MapPin size={28} color="#C1622D" />
+        <View className="h-20 w-20 items-center justify-center rounded-full bg-primary-50">
+          <MapPin size={28} color={color.primary} />
         </View>
-        <Text className="mt-6 text-center text-2xl font-bold tracking-tight text-ink">
+        <Text className="mt-6 text-center text-2xl font-bold text-ink">
           Set your location
         </Text>
         <Text className="mt-2 text-center text-base leading-6 text-muted">

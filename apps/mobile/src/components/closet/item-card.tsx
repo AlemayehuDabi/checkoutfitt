@@ -4,6 +4,8 @@ import { Pressable, Text, View } from "react-native";
 import { GarmentSwatch } from "@/components/closet/garment-swatch";
 import type { ClosetItem } from "@/types";
 
+import { color } from "@/design";
+
 type ItemCardProps = {
   item: ClosetItem;
   layout: "grid" | "list";
@@ -16,7 +18,7 @@ export function ItemCard({ item, layout, onPress, onToggleFavorite }: ItemCardPr
     return (
       <Pressable
         onPress={onPress}
-        className="flex-row items-center gap-4 rounded-2xl border border-line bg-white p-3 active:opacity-80"
+        className="flex-row items-center gap-4 rounded-2xl border border-line bg-surface p-3 active:opacity-80"
       >
         <GarmentSwatch
           category={item.category}
@@ -32,8 +34,8 @@ export function ItemCard({ item, layout, onPress, onToggleFavorite }: ItemCardPr
         <Pressable hitSlop={8} onPress={onToggleFavorite} className="active:opacity-60">
           <Heart
             size={20}
-            color={item.favorite ? "#C1622D" : "#8A8580"}
-            fill={item.favorite ? "#C1622D" : "transparent"}
+            color={item.favorite ? color.primary : color.muted}
+            fill={item.favorite ? color.primary : "transparent"}
           />
         </Pressable>
       </Pressable>
@@ -42,7 +44,7 @@ export function ItemCard({ item, layout, onPress, onToggleFavorite }: ItemCardPr
 
   return (
     <Pressable onPress={onPress} className="flex-1 active:opacity-80">
-      <View className="overflow-hidden rounded-2xl border border-line bg-white">
+      <View className="overflow-hidden rounded-2xl border border-line bg-surface">
         <View className="relative">
           <GarmentSwatch
             category={item.category}
@@ -57,8 +59,8 @@ export function ItemCard({ item, layout, onPress, onToggleFavorite }: ItemCardPr
           >
             <Heart
               size={16}
-              color={item.favorite ? "#C1622D" : "#8A8580"}
-              fill={item.favorite ? "#C1622D" : "transparent"}
+              color={item.favorite ? color.primary : color.muted}
+              fill={item.favorite ? color.primary : "transparent"}
             />
           </Pressable>
         </View>

@@ -9,6 +9,8 @@ import { Chip } from "@/components/ui/chip";
 import { Header } from "@/components/ui/header";
 import { ScreenContainer } from "@/components/ui/screen-container";
 
+import { color } from "@/design";
+
 type Feature = { label: string; free: string | boolean; pro: string | boolean };
 
 const FEATURES: Feature[] = [
@@ -34,9 +36,9 @@ export default function SubscriptionScreen() {
 
       <View className="items-center pt-2">
         <View className="h-16 w-16 items-center justify-center rounded-full bg-ink">
-          <Crown size={26} color="#FAF8F5" />
+          <Crown size={26} color={color.canvas} />
         </View>
-        <Text className="mt-5 text-center text-2xl font-bold tracking-tight text-ink">
+        <Text className="mt-5 text-center text-2xl font-bold text-ink">
           Unlock your full closet
         </Text>
         <Text className="mt-2 text-center text-base leading-6 text-muted">
@@ -45,12 +47,12 @@ export default function SubscriptionScreen() {
       </View>
 
       <Card className="mt-8 overflow-hidden">
-        <View className="flex-row border-b border-line bg-sand-100 px-4 py-3">
-          <Text className="flex-1 text-xs font-semibold uppercase tracking-wide text-muted">Feature</Text>
-          <Text className="w-16 text-center text-xs font-semibold uppercase tracking-wide text-muted">
+        <View className="flex-row border-b border-line bg-surface-sunken px-4 py-3">
+          <Text className="flex-1 text-micro font-semibold uppercase text-muted">Feature</Text>
+          <Text className="w-16 text-center text-micro font-semibold uppercase text-muted">
             Free
           </Text>
-          <Text className="w-16 text-center text-xs font-semibold uppercase tracking-wide text-clay">
+          <Text className="w-16 text-center text-micro font-semibold uppercase text-primary">
             Pro
           </Text>
         </View>
@@ -91,13 +93,13 @@ export default function SubscriptionScreen() {
 function FeatureValue({ value, accent = false }: { value: string | boolean; accent?: boolean }) {
   if (typeof value === "boolean") {
     return value ? (
-      <Check size={16} color={accent ? "#C1622D" : "#1A1917"} />
+      <Check size={16} color={accent ? color.primary : color.ink} />
     ) : (
-      <Minus size={16} color="#8A8580" />
+      <Minus size={16} color={color.muted} />
     );
   }
 
   return (
-    <Text className={`text-xs font-semibold ${accent ? "text-clay-700" : "text-ink-soft"}`}>{value}</Text>
+    <Text className={`text-xs font-semibold ${accent ? "text-primary-700" : "text-ink-soft"}`}>{value}</Text>
   );
 }

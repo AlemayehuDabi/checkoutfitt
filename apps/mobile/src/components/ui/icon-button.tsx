@@ -4,18 +4,32 @@ import { Pressable } from "react-native";
 type IconButtonProps = {
   children: ReactNode;
   onPress?: () => void;
-  variant?: "ghost" | "solid";
+  variant?: "ghost" | "solid" | "sunken" | "inverse";
+  accessibilityLabel?: string;
   className?: string;
 };
 
-export function IconButton({ children, onPress, variant = "ghost", className = "" }: IconButtonProps) {
+const surfaces = {
+  ghost: "active:bg-surface-sunken",
+  solid: "bg-surface border border-line",
+  sunken: "bg-surface-sunken",
+  inverse: "bg-white/15",
+} as const;
+
+export function IconButton({
+  children,
+  onPress,
+  variant = "ghost",
+  accessibilityLabel,
+  className = "",
+}: IconButtonProps) {
   return (
     <Pressable
       onPress={onPress}
       hitSlop={8}
-      className={`h-10 w-10 items-center justify-center rounded-full active:opacity-70 ${
-        variant === "solid" ? "bg-white" : "active:bg-sand-100"
-      } ${className}`}
+      accessibilityRole="button"
+      accessibilityLabel={accessibilityLabel}
+      className={`h-10 w-10 items-center justify-center rounded-full active:opacity-70 ${surfaces[variant]} ${className}`}
     >
       {children}
     </Pressable>

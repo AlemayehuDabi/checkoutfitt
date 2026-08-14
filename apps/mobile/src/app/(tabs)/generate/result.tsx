@@ -20,6 +20,8 @@ import { generateOutfits } from "@/constants/mock-outfits";
 import { useOutfits } from "@/context/outfits-context";
 import type { Outfit } from "@/types";
 
+import { color } from "@/design";
+
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
 export default function ResultScreen() {
@@ -59,20 +61,20 @@ export default function ResultScreen() {
   };
 
   return (
-    <SafeAreaView edges={["top", "bottom", "left", "right"]} className="flex-1 bg-sand">
+    <SafeAreaView edges={["top", "bottom", "left", "right"]} className="flex-1 bg-canvas">
       <View className="flex-row items-center justify-between px-6 pb-2 pt-2">
         <IconButton onPress={() => router.back()}>
-          <ArrowLeft size={22} color="#1A1917" />
+          <ArrowLeft size={22} color={color.ink} />
         </IconButton>
         <Text className="text-base font-semibold text-ink">{context}</Text>
         <IconButton onPress={runGenerate}>
-          <Shuffle size={20} color="#1A1917" />
+          <Shuffle size={20} color={color.ink} />
         </IconButton>
       </View>
 
       {loading ? (
         <View className="flex-1 items-center justify-center px-6">
-          <View className="w-full gap-3 rounded-3xl border border-line bg-white p-5">
+          <View className="w-full gap-3 rounded-3xl border border-line bg-surface p-5">
             <Skeleton width="35%" height={18} />
             <Skeleton width="65%" height={26} />
             <View className="mt-2 flex-row gap-2">

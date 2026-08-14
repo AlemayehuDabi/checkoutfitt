@@ -15,6 +15,8 @@ import { Header } from "@/components/ui/header";
 import { ScreenContainer } from "@/components/ui/screen-container";
 import { OCCASIONS } from "@/constants/mock-outfits";
 
+import { color } from "@/design";
+
 const OCCASION_ICONS: Record<string, typeof Briefcase> = {
   briefcase: Briefcase,
   gem: Gem,
@@ -42,8 +44,8 @@ export default function OccasionsScreen() {
               onPress={() => router.push(`/generate/result?context=${encodeURIComponent(occasion.key)}`)}
               className="w-[48%] gap-3 p-4"
             >
-              <View className="h-11 w-11 items-center justify-center rounded-xl bg-clay-50">
-                <Icon size={20} color="#C1622D" />
+              <View className="h-11 w-11 items-center justify-center rounded-xl bg-primary-50">
+                <Icon size={20} color={color.primary} />
               </View>
               <View>
                 <Text className="text-base font-semibold text-ink">{occasion.label}</Text>

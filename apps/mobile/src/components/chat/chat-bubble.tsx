@@ -5,6 +5,8 @@ import { OutfitCard } from "@/components/outfit/outfit-card";
 import { useOutfits } from "@/context/outfits-context";
 import type { ChatMessage } from "@/types";
 
+import { color } from "@/design";
+
 export function ChatBubble({ message }: { message: ChatMessage }) {
   const { toggleSave, isSaved } = useOutfits();
   const isUser = message.role === "user";
@@ -16,7 +18,7 @@ export function ChatBubble({ message }: { message: ChatMessage }) {
           {message.imageUri ? (
             <Image
               source={{ uri: message.imageUri }}
-              className="h-40 w-40 self-end rounded-2xl rounded-br-md bg-sand-100"
+              className="h-40 w-40 self-end rounded-2xl rounded-br-md bg-surface-sunken"
               resizeMode="cover"
             />
           ) : null}
@@ -32,12 +34,12 @@ export function ChatBubble({ message }: { message: ChatMessage }) {
 
   return (
     <View className="flex-row items-end gap-2 px-4">
-      <View className="h-8 w-8 items-center justify-center rounded-full bg-clay-50">
-        <Sparkles size={14} color="#C1622D" />
+      <View className="h-8 w-8 items-center justify-center rounded-full bg-primary-50">
+        <Sparkles size={14} color={color.primary} />
       </View>
       <View className="max-w-[82%] gap-3">
         {message.text ? (
-          <View className="rounded-2xl rounded-bl-md border border-line bg-white px-4 py-3">
+          <View className="rounded-2xl rounded-bl-md border border-line bg-surface px-4 py-3">
             <Text className="text-base text-ink">{message.text}</Text>
           </View>
         ) : null}

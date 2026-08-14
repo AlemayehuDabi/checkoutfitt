@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { IconButton } from "@/components/ui/icon-button";
 import { ScreenContainer } from "@/components/ui/screen-container";
 
+import { color } from "@/design";
+
 const FEATURES = [
   "Unlimited AI stylist conversations",
   "Capsule wardrobe & trip packing builder",
@@ -18,15 +20,15 @@ export default function ChatPaywallScreen() {
     <ScreenContainer>
       <View className="flex-row justify-end pt-4">
         <IconButton onPress={() => router.back()}>
-          <X size={20} color="#1A1917" />
+          <X size={20} color={color.ink} />
         </IconButton>
       </View>
 
       <View className="flex-1 items-center px-2 pt-4">
         <View className="h-16 w-16 items-center justify-center rounded-full bg-ink">
-          <Crown size={26} color="#FAF8F5" />
+          <Crown size={26} color={color.canvas} />
         </View>
-        <Text className="mt-6 text-center text-3xl font-bold tracking-tight text-ink">
+        <Text className="mt-6 text-center text-3xl font-bold text-ink">
           Upgrade to Pro
         </Text>
         <Text className="mt-2 text-center text-base leading-6 text-muted">
@@ -36,8 +38,8 @@ export default function ChatPaywallScreen() {
         <View className="mt-8 w-full gap-4">
           {FEATURES.map((feature) => (
             <View key={feature} className="flex-row items-center gap-3">
-              <View className="h-6 w-6 items-center justify-center rounded-full bg-clay-50">
-                <Check size={14} color="#C1622D" />
+              <View className="h-6 w-6 items-center justify-center rounded-full bg-primary-50">
+                <Check size={14} color={color.primary} />
               </View>
               <Text className="flex-1 text-base text-ink">{feature}</Text>
             </View>

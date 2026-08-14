@@ -8,6 +8,8 @@ import { StateView } from "@/components/ui/state-view";
 import { MOCK_NOTIFICATIONS } from "@/constants/mock-notifications";
 import type { AppNotification } from "@/types";
 
+import { color } from "@/design";
+
 const ICONS: Record<AppNotification["icon"], typeof Bell> = {
   sparkles: Sparkles,
   sun: Sun,
@@ -38,16 +40,16 @@ export default function NotificationsScreen() {
                   )
                 }
                 className={`flex-row items-start gap-3 rounded-2xl border p-4 active:opacity-80 ${
-                  notification.unread ? "border-clay-100 bg-clay-50" : "border-line bg-white"
+                  notification.unread ? "border-primary-100 bg-primary-50" : "border-line bg-surface"
                 }`}
               >
-                <View className="h-9 w-9 items-center justify-center rounded-full bg-white">
-                  <Icon size={16} color="#C1622D" />
+                <View className="h-9 w-9 items-center justify-center rounded-full bg-surface">
+                  <Icon size={16} color={color.primary} />
                 </View>
                 <View className="flex-1">
                   <View className="flex-row items-center gap-2">
                     <Text className="flex-1 text-sm font-semibold text-ink">{notification.title}</Text>
-                    {notification.unread ? <View className="h-2 w-2 rounded-full bg-clay" /> : null}
+                    {notification.unread ? <View className="h-2 w-2 rounded-full bg-primary" /> : null}
                   </View>
                   <Text className="mt-1 text-sm leading-5 text-muted">{notification.body}</Text>
                   <Text className="mt-1.5 text-xs text-muted">{notification.time}</Text>

@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Tag } from "@/components/ui/tag";
 import type { Outfit } from "@/types";
 
+import { color } from "@/design";
+
 type OutfitCardProps = {
   outfit: Outfit;
   saved: boolean;
@@ -22,12 +24,12 @@ export function OutfitCard({ outfit, saved, onToggleSave, variant = "full" }: Ou
   return (
     <Pressable
       onPress={() => router.push(`/generate/detail?id=${outfit.id}`)}
-      className="rounded-3xl border border-line bg-white p-5 active:opacity-90"
+      className="rounded-3xl border border-line bg-surface p-5 active:opacity-90"
     >
       <View className="flex-row items-start justify-between">
         <View className="flex-1">
-          <Tag label={outfit.context} tone="clay" />
-          <Text className="mt-2 text-xl font-bold tracking-tight text-ink">{outfit.title}</Text>
+          <Tag label={outfit.context} tone="primary" />
+          <Text className="mt-2 text-xl font-bold text-ink">{outfit.title}</Text>
           <Text className="mt-0.5 text-sm text-muted">
             {outfit.items.length} piece{outfit.items.length === 1 ? "" : "s"}
           </Text>
@@ -40,7 +42,7 @@ export function OutfitCard({ outfit, saved, onToggleSave, variant = "full" }: Ou
           }}
           className="active:opacity-60"
         >
-          <Heart size={22} color={saved ? "#C1622D" : "#8A8580"} fill={saved ? "#C1622D" : "transparent"} />
+          <Heart size={22} color={saved ? color.primary : color.muted} fill={saved ? color.primary : "transparent"} />
         </Pressable>
       </View>
 
@@ -67,7 +69,7 @@ export function OutfitCard({ outfit, saved, onToggleSave, variant = "full" }: Ou
           >
             <Text className="text-sm font-semibold text-ink">Why this outfit</Text>
             <View style={{ transform: [{ rotate: expanded ? "180deg" : "0deg" }] }}>
-              <ChevronDown size={18} color="#1A1917" />
+              <ChevronDown size={18} color={color.ink} />
             </View>
           </Pressable>
           {expanded ? <Text className="mt-2 text-sm leading-5 text-muted">{outfit.reason}</Text> : null}

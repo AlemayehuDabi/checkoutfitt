@@ -8,6 +8,8 @@ import { Text, View } from "react-native";
 import { Button } from "@/components/ui/button";
 import { ScreenContainer } from "@/components/ui/screen-container";
 
+import { color } from "@/design";
+
 export default function PermissionsScreen() {
   const [, requestCameraPermission] = useCameraPermissions();
   const [, requestMediaLibraryPermission] = useMediaLibraryPermissions();
@@ -32,15 +34,15 @@ export default function PermissionsScreen() {
     <ScreenContainer>
       <View className="flex-1 items-center justify-center px-4">
         <View className="flex-row">
-          <View className="h-20 w-20 -mr-3 items-center justify-center rounded-full border-4 border-sand bg-clay-50">
-            <Camera size={28} color="#C1622D" />
+          <View className="h-20 w-20 -mr-3 items-center justify-center rounded-full border-4 border-canvas bg-primary-50">
+            <Camera size={28} color={color.primary} />
           </View>
-          <View className="h-20 w-20 items-center justify-center rounded-full border-4 border-sand bg-ink">
-            <Images size={28} color="#FAF8F5" />
+          <View className="h-20 w-20 items-center justify-center rounded-full border-4 border-canvas bg-ink">
+            <Images size={28} color={color.canvas} />
           </View>
         </View>
 
-        <Text className="mt-8 text-center text-2xl font-bold tracking-tight text-ink">
+        <Text className="mt-8 text-center text-2xl font-bold text-ink">
           Build your digital closet
         </Text>
         <Text className="mt-3 text-center text-base leading-6 text-muted">

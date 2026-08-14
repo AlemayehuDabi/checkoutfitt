@@ -1,38 +1,61 @@
 import { type ReactNode } from "react";
 import { ActivityIndicator, Pressable, Text } from "react-native";
 
-type ButtonVariant = "primary" | "secondary" | "outline" | "ghost" | "danger";
+import { color } from "@/design";
+
+type ButtonVariant = "primary" | "ink" | "secondary" | "outline" | "ghost" | "danger";
+type ButtonSize = "sm" | "md";
 
 type ButtonProps = {
   label: string;
   onPress?: () => void;
   variant?: ButtonVariant;
+  size?: ButtonSize;
   disabled?: boolean;
   loading?: boolean;
   icon?: ReactNode;
   className?: string;
 };
 
-const variantStyles: Record<ButtonVariant, string> = {
-  primary: "bg-ink active:bg-ink/90",
-  secondary: "bg-clay active:bg-clay-600",
-  outline: "bg-transparent border border-line active:bg-sand-100",
-  ghost: "bg-transparent active:bg-sand-100",
-  danger: "bg-danger active:bg-danger/90",
+/** Paprika owns the primary action; `ink` is the quiet alternative for use on
+ *  tinted or photographic surfaces where the brand colour would shout. */
+const surface: Record<ButtonVariant, string> = {
+  primary: "bg-primary active:bg-primary-700",
+  ink: "bg-ink active:bg-ink-soft",
+  secondary: "bg-surface-sunken active:bg-surface-muted",
+  outline: "border border-line-strong bg-transparent active:bg-surface-sunken",
+  ghost: "bg-transparent active:bg-surface-sunken",
+  danger: "bg-danger active:opacity-90",
 };
 
-const variantTextStyles: Record<ButtonVariant, string> = {
+const label: Record<ButtonVariant, string> = {
   primary: "text-white",
-  secondary: "text-white",
+  ink: "text-canvas",
+  secondary: "text-ink",
   outline: "text-ink",
   ghost: "text-ink",
   danger: "text-white",
 };
 
+const spinner: Record<ButtonVariant, string> = {
+  primary: color.white,
+  ink: color.canvas,
+  secondary: color.ink,
+  outline: color.ink,
+  ghost: color.ink,
+  danger: color.white,
+};
+
+const sizing: Record<ButtonSize, string> = {
+  sm: "h-11 px-4 gap-1.5",
+  md: "h-14 px-5 gap-2",
+};
+
 export function Button({
-  label,
+  label: text,
   onPress,
   variant = "primary",
+  size = "md",
   disabled = false,
   loading = false,
   icon,
@@ -44,16 +67,22 @@ export function Button({
     <Pressable
       onPress={onPress}
       disabled={isDisabled}
-      className={`h-14 flex-row items-center justify-center gap-2 rounded-2xl ${variantStyles[variant]} ${
+      accessibilityRole="button"
+      accessibilityState={{ disabled: isDisabled, busy: loading }}
+      className={`flex-row items-center justify-center rounded-2xl ${sizing[size]} ${surface[variant]} ${
         isDisabled ? "opacity-40" : ""
       } ${className}`}
     >
       {loading ? (
-        <ActivityIndicator color={variant === "outline" || variant === "ghost" ? "#1A1917" : "#FFFFFF"} />
+        <ActivityIndicator color={spinner[variant]} />
       ) : (
         <>
           {icon}
-          <Text className={`text-base font-semibold ${variantTextStyles[variant]}`}>{label}</Text>
+          <Text
+            className={`font-semibold ${size === "sm" ? "text-body-sm" : "text-body-lg"} ${label[variant]}`}
+          >
+            {text}
+          </Text>
         </>
       )}
     </Pressable>

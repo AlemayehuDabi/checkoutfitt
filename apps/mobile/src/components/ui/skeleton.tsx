@@ -24,7 +24,7 @@ export function Skeleton({ width = "100%", height = 16, className = "" }: Skelet
   return (
     <Animated.View
       style={{ width, height, opacity }}
-      className={`rounded-xl bg-sand-200 ${className}`}
+      className={`rounded-xl bg-surface-muted ${className}`}
     />
   );
 }

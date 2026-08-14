@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button";
 import { ScreenContainer } from "@/components/ui/screen-container";
 import { useCloset } from "@/context/closet-context";
 
+import { color } from "@/design";
+
 export default function CaptureScreen() {
   const [permission, requestPermission] = useCameraPermissions();
   const [facing, setFacing] = useState<"front" | "back">("back");
@@ -28,10 +30,10 @@ export default function CaptureScreen() {
     return (
       <ScreenContainer>
         <View className="flex-1 items-center justify-center px-4">
-          <View className="h-20 w-20 items-center justify-center rounded-full bg-clay-50">
-            <CameraIcon size={28} color="#C1622D" />
+          <View className="h-20 w-20 items-center justify-center rounded-full bg-primary-50">
+            <CameraIcon size={28} color={color.primary} />
           </View>
-          <Text className="mt-6 text-center text-2xl font-bold tracking-tight text-ink">
+          <Text className="mt-6 text-center text-2xl font-bold text-ink">
             Camera access needed
           </Text>
           <Text className="mt-2 text-center text-base leading-6 text-muted">
@@ -71,14 +73,14 @@ export default function CaptureScreen() {
               hitSlop={8}
               className="h-10 w-10 items-center justify-center rounded-full bg-black/40 active:opacity-70"
             >
-              <X size={20} color="#FFFFFF" />
+              <X size={20} color={color.white} />
             </Pressable>
             <Pressable
               onPress={() => setFacing((prev) => (prev === "back" ? "front" : "back"))}
               hitSlop={8}
               className="h-10 w-10 items-center justify-center rounded-full bg-black/40 active:opacity-70"
             >
-              <RefreshCw size={18} color="#FFFFFF" />
+              <RefreshCw size={18} color={color.white} />
             </Pressable>
           </View>
 
@@ -93,7 +95,7 @@ export default function CaptureScreen() {
                 capturing ? "opacity-50" : ""
               }`}
             >
-              <View className="h-16 w-16 rounded-full bg-white" />
+              <View className="h-16 w-16 rounded-full bg-surface" />
             </Pressable>
           </View>
         </View>

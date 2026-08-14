@@ -1,15 +1,18 @@
 import { useLocalSearchParams } from "expo-router";
-import { Heart, Lightbulb } from "lucide-react-native";
+import { Heart, Shirt } from "lucide-react-native";
 import { Text, View } from "react-native";
 
-import { GarmentSwatch } from "@/components/closet/garment-swatch";
+import { OutfitBreakdown, OutfitGallery } from "@/components/outfit/outfit-breakdown";
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/ui/header";
 import { IconButton } from "@/components/ui/icon-button";
+import { InsightCallout } from "@/components/ui/insight-callout";
 import { ScreenContainer } from "@/components/ui/screen-container";
+import { SectionHeader } from "@/components/ui/section-header";
+import { StateView } from "@/components/ui/state-view";
 import { Tag } from "@/components/ui/tag";
-import { CLOSET_CATEGORIES } from "@/constants/mock-closet";
 import { useOutfits } from "@/context/outfits-context";
+import { color } from "@/design";
 
 export default function OutfitDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -20,9 +23,11 @@ export default function OutfitDetailScreen() {
     return (
       <ScreenContainer>
         <Header title="Outfit" />
-        <View className="flex-1 items-center justify-center">
-          <Text className="text-base text-muted">This outfit is no longer available.</Text>
-        </View>
+        <StateView
+          icon={Shirt}
+          title="Outfit unavailable"
+          description="This look is no longer available. Generate a fresh one to keep styling."
+        />
       </ScreenContainer>
     );
   }
@@ -33,62 +38,30 @@ export default function OutfitDetailScreen() {
     <ScreenContainer scroll>
       <Header title="Outfit Details" />
 
-      <View className="flex-row flex-wrap gap-2">
-        {outfit.items.map((item) => (
-          <GarmentSwatch
-            key={item.id}
-            category={item.category}
-            colorHex={item.colorHex}
-            className="aspect-square w-[48.5%] overflow-hidden rounded-2xl"
-            iconSize={30}
-          />
-        ))}
-      </View>
+      <OutfitGallery items={outfit.items} />
 
-      <View className="mt-6 flex-row items-start justify-between">
+      <View className="mt-6 flex-row items-start justify-between gap-3">
         <View className="flex-1">
-          <Tag label={outfit.context} tone="clay" />
-          <Text className="mt-2 text-2xl font-bold tracking-tight text-ink">{outfit.title}</Text>
+          <Tag label={outfit.context} tone="primary" />
+          <Text className="mt-2 text-h2 font-bold text-ink">{outfit.title}</Text>
         </View>
         <IconButton
           onPress={() => toggleSave(outfit)}
-          className="border border-line active:bg-sand-100"
+          variant="solid"
+          accessibilityLabel={saved ? "Remove from saved" : "Save outfit"}
         >
-          <Heart size={20} color={saved ? "#C1622D" : "#1A1917"} fill={saved ? "#C1622D" : "transparent"} />
+          <Heart
+            size={20}
+            color={saved ? color.primary : color.ink}
+            fill={saved ? color.primary : "transparent"}
+          />
         </IconButton>
       </View>
 
-      <View className="mt-6 flex-row items-start gap-3 rounded-2xl bg-clay-50 p-4">
-        <Lightbulb size={20} color="#C1622D" />
-        <View className="flex-1">
-          <Text className="text-sm font-semibold text-clay-700">Why this outfit</Text>
-          <Text className="mt-1 text-sm leading-5 text-ink-soft">{outfit.reason}</Text>
-        </View>
-      </View>
+      <InsightCallout body={outfit.reason} className="mt-6" />
 
-      <Text className="mb-3 mt-8 text-sm font-semibold text-ink">The Breakdown</Text>
-      <View className="gap-3">
-        {outfit.items.map((item) => {
-          const categoryLabel = CLOSET_CATEGORIES.find((c) => c.key === item.category)?.label;
-          return (
-            <View
-              key={item.id}
-              className="flex-row items-center gap-3 rounded-2xl border border-line bg-white p-3"
-            >
-              <GarmentSwatch
-                category={item.category}
-                colorHex={item.colorHex}
-                className="h-14 w-14 overflow-hidden rounded-xl"
-                iconSize={20}
-              />
-              <View className="flex-1">
-                <Text className="text-base font-semibold text-ink">{item.label}</Text>
-                <Text className="mt-0.5 text-sm text-muted">{categoryLabel}</Text>
-              </View>
-            </View>
-          );
-        })}
-      </View>
+      <SectionHeader title="The Breakdown" index="01" className="mt-8" />
+      <OutfitBreakdown items={outfit.items} />
 
       <Button
         label={saved ? "Saved to Outfits" : "Save This Outfit"}

@@ -45,7 +45,7 @@ export default function LoginScreen() {
   return (
     <ScreenContainer scroll keyboardAware>
       <View className="flex-1 pt-16">
-        <Text className="text-3xl font-bold tracking-tight text-ink">Welcome back</Text>
+        <Text className="text-3xl font-bold text-ink">Welcome back</Text>
         <Text className="mt-2 text-base text-muted">Log in to pick up right where you left off.</Text>
 
         <View className="mt-10 gap-5">
@@ -74,7 +74,7 @@ export default function LoginScreen() {
             />
             <Link href="/forgot-password" asChild>
               <Text
-                className="mt-2 self-end text-sm font-medium text-clay active:opacity-70"
+                className="mt-2 self-end text-sm font-medium text-primary active:opacity-70"
                 suppressHighlighting
               >
                 Forgot password?
@@ -97,7 +97,7 @@ export default function LoginScreen() {
       <View className="flex-row items-center justify-center gap-1.5 pb-2 pt-8">
         <Text className="text-sm text-muted">Don&apos;t have an account?</Text>
         <Link href="/sign-up" replace asChild>
-          <Text className="text-sm font-semibold text-clay active:opacity-70" suppressHighlighting>
+          <Text className="text-sm font-semibold text-primary active:opacity-70" suppressHighlighting>
             Sign Up
           </Text>
         </Link>

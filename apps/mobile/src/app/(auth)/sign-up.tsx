@@ -47,7 +47,7 @@ export default function SignUpScreen() {
   return (
     <ScreenContainer scroll keyboardAware>
       <View className="flex-1 pt-16">
-        <Text className="text-3xl font-bold tracking-tight text-ink">Create your account</Text>
+        <Text className="text-3xl font-bold text-ink">Create your account</Text>
         <Text className="mt-2 text-base text-muted">
           Join CheckoutFitt and let your AI stylist take it from here.
         </Text>
@@ -91,7 +91,7 @@ export default function SignUpScreen() {
       <View className="flex-row items-center justify-center gap-1.5 pb-2 pt-8">
         <Text className="text-sm text-muted">Already have an account?</Text>
         <Link href="/login" replace asChild>
-          <Text className="text-sm font-semibold text-clay active:opacity-70" suppressHighlighting>
+          <Text className="text-sm font-semibold text-primary active:opacity-70" suppressHighlighting>
             Log In
           </Text>
         </Link>

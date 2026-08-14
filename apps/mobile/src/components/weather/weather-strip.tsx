@@ -5,14 +5,16 @@ import { Pressable, Text, View } from "react-native";
 
 import type { WeatherData } from "@/types";
 
+import { color } from "@/design";
+
 export function WeatherStrip({ weather }: { weather: WeatherData }) {
   return (
     <Pressable
       onPress={() => router.push("/location")}
-      className="rounded-3xl border border-line bg-white p-5 active:opacity-90"
+      className="rounded-3xl border border-line bg-surface p-5 active:opacity-90"
     >
       <View className="flex-row items-center gap-1.5">
-        <MapPin size={14} color="#8A8580" />
+        <MapPin size={14} color={color.muted} />
         <Text className="text-sm font-medium text-muted" numberOfLines={1}>
           {weather.location}
         </Text>
@@ -20,19 +22,19 @@ export function WeatherStrip({ weather }: { weather: WeatherData }) {
 
       <View className="mt-4 flex-row items-center justify-between">
         <View className="flex-row items-center gap-3">
-          <View className="h-14 w-14 items-center justify-center rounded-2xl bg-clay-50">
-            <CloudSun size={28} color="#C1622D" strokeWidth={1.5} />
+          <View className="h-14 w-14 items-center justify-center rounded-2xl bg-primary-50">
+            <CloudSun size={28} color={color.primary} strokeWidth={1.5} />
           </View>
           <View>
-            <Text className="text-3xl font-bold tracking-tight text-ink">{weather.tempF}°</Text>
+            <Text className="text-3xl font-bold text-ink">{weather.tempF}°</Text>
             <Text className="text-sm text-muted">{weather.condition}</Text>
           </View>
         </View>
 
         <View className="flex-row gap-4">
-          <Metric icon={<Droplets size={16} color="#8A8580" />} label={`${weather.rainChance}%`} />
-          <Metric icon={<Wind size={16} color="#8A8580" />} label={`${weather.windMph} mph`} />
-          <Metric icon={<Sun size={16} color="#8A8580" />} label={`UV ${weather.uvIndex}`} />
+          <Metric icon={<Droplets size={16} color={color.muted} />} label={`${weather.rainChance}%`} />
+          <Metric icon={<Wind size={16} color={color.muted} />} label={`${weather.windMph} mph`} />
+          <Metric icon={<Sun size={16} color={color.muted} />} label={`UV ${weather.uvIndex}`} />
         </View>
       </View>
     </Pressable>

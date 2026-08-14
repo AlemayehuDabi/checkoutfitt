@@ -13,10 +13,10 @@ export default function SplashScreen() {
 
   return (
     <View className="flex-1 items-center justify-center bg-ink">
-      <View className="h-16 w-16 items-center justify-center rounded-2xl bg-clay">
+      <View className="h-16 w-16 items-center justify-center rounded-2xl bg-primary">
         <Text className="text-2xl font-bold text-white">C</Text>
       </View>
-      <Text className="mt-5 text-2xl font-bold tracking-tight text-white">CheckoutFitt</Text>
+      <Text className="mt-5 text-2xl font-bold text-white">CheckoutFitt</Text>
       <Text className="mt-1 text-sm text-white/50">Your AI stylist</Text>
     </View>
   );

@@ -1,6 +1,8 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Pressable, Text } from "react-native";
 
+import { color } from "@/design";
+
 type SocialButtonProps = {
   provider: "apple" | "google";
   onPress?: () => void;
@@ -17,9 +19,9 @@ export function SocialButton({ provider, onPress }: SocialButtonProps) {
   return (
     <Pressable
       onPress={onPress}
-      className="h-14 flex-1 flex-row items-center justify-center gap-2 rounded-2xl border border-line bg-white active:bg-sand-100"
+      className="h-14 flex-1 flex-row items-center justify-center gap-2 rounded-2xl border border-line bg-surface active:bg-surface-sunken"
     >
-      <Ionicons name={icon} size={18} color="#1A1917" />
+      <Ionicons name={icon} size={18} color={color.ink} />
       <Text className="text-sm font-semibold text-ink" numberOfLines={1}>
         {label}
       </Text>

@@ -9,6 +9,8 @@ import { Header } from "@/components/ui/header";
 import { ScreenContainer } from "@/components/ui/screen-container";
 import { useCloset } from "@/context/closet-context";
 
+import { color } from "@/design";
+
 export default function UploadScreen() {
   const { setPendingImages } = useCloset();
   const [picking, setPicking] = useState(false);
@@ -39,10 +41,10 @@ export default function UploadScreen() {
     <ScreenContainer>
       <Header title="Bulk Upload" />
       <View className="flex-1 items-center justify-center px-2">
-        <View className="h-20 w-20 items-center justify-center rounded-full bg-clay-50">
-          <Images size={28} color="#C1622D" />
+        <View className="h-20 w-20 items-center justify-center rounded-full bg-primary-50">
+          <Images size={28} color={color.primary} />
         </View>
-        <Text className="mt-6 text-center text-2xl font-bold tracking-tight text-ink">
+        <Text className="mt-6 text-center text-2xl font-bold text-ink">
           Import multiple items
         </Text>
         <Text className="mt-2 text-center text-base leading-6 text-muted">

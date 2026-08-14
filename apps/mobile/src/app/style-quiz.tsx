@@ -9,6 +9,8 @@ import { ProgressBar } from "@/components/ui/progress-bar";
 import { ScreenContainer } from "@/components/ui/screen-container";
 import { SelectCard } from "@/components/ui/select-card";
 
+import { color } from "@/design";
+
 const TOTAL_STEPS = 4;
 
 const GENDER_OPTIONS = [
@@ -79,21 +81,21 @@ export default function StyleQuizScreen() {
           <Pressable
             onPress={handleBack}
             hitSlop={8}
-            className="h-10 w-10 items-center justify-center rounded-full active:bg-sand-100"
+            className="h-10 w-10 items-center justify-center rounded-full active:bg-surface-sunken"
           >
-            <ArrowLeft size={22} color="#1A1917" />
+            <ArrowLeft size={22} color={color.ink} />
           </Pressable>
           <View className="flex-1">
             <ProgressBar step={step} total={TOTAL_STEPS} />
           </View>
         </View>
-        <Text className="mt-2 text-xs font-medium uppercase tracking-wide text-muted">
+        <Text className="mt-2 text-micro font-medium uppercase text-muted">
           Step {step} of {TOTAL_STEPS}
         </Text>
 
         {step === 1 ? (
           <View className="mt-8">
-            <Text className="text-3xl font-bold tracking-tight text-ink">
+            <Text className="text-3xl font-bold text-ink">
               Who are we styling?
             </Text>
             <Text className="mt-2 text-base text-muted">
@@ -109,7 +111,7 @@ export default function StyleQuizScreen() {
                   icon={
                     <option.icon
                       size={22}
-                      color={gender === option.key ? "#FAF8F5" : "#1A1917"}
+                      color={gender === option.key ? color.canvas : color.ink}
                     />
                   }
                 />
@@ -120,7 +122,7 @@ export default function StyleQuizScreen() {
 
         {step === 2 ? (
           <View className="mt-8">
-            <Text className="text-3xl font-bold tracking-tight text-ink">
+            <Text className="text-3xl font-bold text-ink">
               What&apos;s your style?
             </Text>
             <Text className="mt-2 text-base text-muted">
@@ -141,7 +143,7 @@ export default function StyleQuizScreen() {
 
         {step === 3 ? (
           <View className="mt-8">
-            <Text className="text-3xl font-bold tracking-tight text-ink">
+            <Text className="text-3xl font-bold text-ink">
               What&apos;s your size?
             </Text>
             <Text className="mt-2 text-base text-muted">
@@ -163,17 +165,17 @@ export default function StyleQuizScreen() {
 
         {step === 4 ? (
           <View className="mt-8 flex-1 items-center">
-            <View className="h-20 w-20 items-center justify-center rounded-full bg-clay-50">
-              <PartyPopper size={32} color="#C1622D" />
+            <View className="h-20 w-20 items-center justify-center rounded-full bg-primary-50">
+              <PartyPopper size={32} color={color.primary} />
             </View>
-            <Text className="mt-6 text-center text-3xl font-bold tracking-tight text-ink">
+            <Text className="mt-6 text-center text-3xl font-bold text-ink">
               You&apos;re all set!
             </Text>
             <Text className="mt-2 text-center text-base text-muted">
               Here&apos;s what we&apos;ll use to style you.
             </Text>
 
-            <View className="mt-8 w-full gap-3 rounded-2xl border border-line bg-white p-5">
+            <View className="mt-8 w-full gap-3 rounded-2xl border border-line bg-surface p-5">
               <SummaryRow icon={Shirt} label="Styling for" value={genderLabel ?? "—"} />
               <SummaryRow icon={Shirt} label="Style" value={styles.join(", ") || "—"} />
               <SummaryRow
@@ -232,9 +234,9 @@ function SummaryRow({
 }) {
   return (
     <View className="flex-row items-start gap-3">
-      <Icon size={18} color="#8A8580" />
+      <Icon size={18} color={color.muted} />
       <View className="flex-1">
-        <Text className="text-xs font-medium uppercase tracking-wide text-muted">{label}</Text>
+        <Text className="text-micro font-medium uppercase text-muted">{label}</Text>
         <Text className="mt-0.5 text-base font-medium text-ink">{value}</Text>
       </View>
     </View>

@@ -2,13 +2,15 @@ import { Sparkles } from "lucide-react-native";
 import { useEffect, useRef } from "react";
 import { Animated, View } from "react-native";
 
+import { color } from "@/design";
+
 export function TypingIndicator() {
   return (
     <View className="flex-row items-end gap-2 px-4">
-      <View className="h-8 w-8 items-center justify-center rounded-full bg-clay-50">
-        <Sparkles size={14} color="#C1622D" />
+      <View className="h-8 w-8 items-center justify-center rounded-full bg-primary-50">
+        <Sparkles size={14} color={color.primary} />
       </View>
-      <View className="flex-row items-center gap-1.5 rounded-2xl rounded-bl-md border border-line bg-white px-4 py-4">
+      <View className="flex-row items-center gap-1.5 rounded-2xl rounded-bl-md border border-line bg-surface px-4 py-4">
         <Dot delay={0} />
         <Dot delay={150} />
         <Dot delay={300} />

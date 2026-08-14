@@ -20,51 +20,51 @@ export const OCCASIONS: { key: string; label: string; description: string; icon:
 
 const ITEM_POOL: Record<ClosetCategory, { label: string; colorHex: string }[]> = {
   top: [
-    { label: "White Poplin Shirt", colorHex: "#F5F1EA" },
+    { label: "White Poplin Shirt", colorHex: "#F2ECE3" },
     { label: "Ribbed Knit Sweater", colorHex: "#6B6E4E" },
-    { label: "Black Tank Top", colorHex: "#1A1917" },
+    { label: "Black Tank Top", colorHex: "#17130F" },
     { label: "Striped Tee", colorHex: "#5A7691" },
   ],
   bottom: [
-    { label: "Tailored Trousers", colorHex: "#1A1917" },
+    { label: "Tailored Trousers", colorHex: "#17130F" },
     { label: "Straight Leg Jeans", colorHex: "#2B3A55" },
     { label: "Pleated Midi Skirt", colorHex: "#6E2A32" },
     { label: "Wide-Leg Chinos", colorHex: "#D9C7A8" },
   ],
   outerwear: [
     { label: "Wool Trench Coat", colorHex: "#D9C7A8" },
-    { label: "Cropped Blazer", colorHex: "#1A1917" },
+    { label: "Cropped Blazer", colorHex: "#17130F" },
     { label: "Denim Jacket", colorHex: "#5A7691" },
   ],
   dress: [
     { label: "Wrap Midi Dress", colorHex: "#6E2A32" },
-    { label: "Slip Dress", colorHex: "#1A1917" },
+    { label: "Slip Dress", colorHex: "#17130F" },
   ],
   shoes: [
     { label: "Leather Loafers", colorHex: "#6E2A32" },
-    { label: "White Sneakers", colorHex: "#F5F1EA" },
-    { label: "Chelsea Boots", colorHex: "#1A1917" },
-    { label: "Strappy Heels", colorHex: "#C1622D" },
+    { label: "White Sneakers", colorHex: "#F2ECE3" },
+    { label: "Chelsea Boots", colorHex: "#17130F" },
+    { label: "Strappy Heels", colorHex: "#C0451F" },
   ],
   accessory: [
-    { label: "Gold Hoop Earrings", colorHex: "#C1622D" },
-    { label: "Leather Tote", colorHex: "#8A8580" },
+    { label: "Gold Hoop Earrings", colorHex: "#C0451F" },
+    { label: "Leather Tote", colorHex: "#857A70" },
     { label: "Silk Scarf", colorHex: "#6E2A32" },
-    { label: "Minimal Watch", colorHex: "#1A1917" },
+    { label: "Minimal Watch", colorHex: "#17130F" },
   ],
 };
 
 const GYM_ITEM_POOL: Partial<Record<ClosetCategory, { label: string; colorHex: string }[]>> = {
   top: [
-    { label: "Performance Tank", colorHex: "#1A1917" },
+    { label: "Performance Tank", colorHex: "#17130F" },
     { label: "Moisture-Wicking Tee", colorHex: "#5A7691" },
   ],
   bottom: [
-    { label: "Track Joggers", colorHex: "#1A1917" },
+    { label: "Track Joggers", colorHex: "#17130F" },
     { label: "Compression Leggings", colorHex: "#2B3A55" },
   ],
-  shoes: [{ label: "Running Sneakers", colorHex: "#F5F1EA" }],
-  accessory: [{ label: "Sport Watch", colorHex: "#1A1917" }],
+  shoes: [{ label: "Running Sneakers", colorHex: "#F2ECE3" }],
+  accessory: [{ label: "Sport Watch", colorHex: "#17130F" }],
 };
 
 const REASON_TEMPLATES: Record<string, string[]> = {

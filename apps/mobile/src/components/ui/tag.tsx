@@ -1,17 +1,46 @@
 import { Text, View } from "react-native";
 
+export type TagTone =
+  | "default"
+  | "primary"
+  | "success"
+  | "warning"
+  | "danger"
+  | "info"
+  | "inverse";
+
 type TagProps = {
   label: string;
-  tone?: "default" | "clay";
+  tone?: TagTone;
+  /** Renders a leading swatch dot — used for garment colours. */
   dotColor?: string;
+  className?: string;
 };
 
-export function Tag({ label, tone = "default", dotColor }: TagProps) {
+const surfaces: Record<TagTone, string> = {
+  default: "bg-surface-sunken",
+  primary: "bg-primary-50",
+  success: "bg-success-soft",
+  warning: "bg-warning-soft",
+  danger: "bg-danger-soft",
+  info: "bg-info-soft",
+  inverse: "bg-surface-inverse",
+};
+
+const labels: Record<TagTone, string> = {
+  default: "text-ink-soft",
+  primary: "text-primary-700",
+  success: "text-success",
+  warning: "text-warning",
+  danger: "text-danger",
+  info: "text-info",
+  inverse: "text-canvas",
+};
+
+export function Tag({ label, tone = "default", dotColor, className = "" }: TagProps) {
   return (
     <View
-      className={`flex-row items-center gap-1.5 rounded-full px-3 py-1.5 ${
-        tone === "clay" ? "bg-clay-50" : "bg-sand-100"
-      }`}
+      className={`flex-row items-center gap-1.5 self-start rounded-full px-3 py-1.5 ${surfaces[tone]} ${className}`}
     >
       {dotColor ? (
         <View
@@ -19,9 +48,7 @@ export function Tag({ label, tone = "default", dotColor }: TagProps) {
           style={{ backgroundColor: dotColor }}
         />
       ) : null}
-      <Text className={`text-xs font-medium ${tone === "clay" ? "text-clay-700" : "text-ink-soft"}`}>
-        {label}
-      </Text>
+      <Text className={`text-micro font-semibold uppercase ${labels[tone]}`}>{label}</Text>
     </View>
   );
 }

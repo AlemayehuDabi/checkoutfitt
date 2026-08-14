@@ -1,16 +1,18 @@
 import { Tabs } from "expo-router";
 import { CircleUser, House, MessageCircle, Shirt, Sparkles } from "lucide-react-native";
 
+import { color } from "@/design";
+
 export default function TabsLayout() {
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: "#1A1917",
-        tabBarInactiveTintColor: "#8A8580",
+        tabBarActiveTintColor: color.ink,
+        tabBarInactiveTintColor: color.muted,
         tabBarStyle: {
-          backgroundColor: "#FAF8F5",
-          borderTopColor: "#E7E2D9",
+          backgroundColor: color.canvas,
+          borderTopColor: color.line,
           height: 60,
           paddingTop: 8,
           paddingBottom: 10,

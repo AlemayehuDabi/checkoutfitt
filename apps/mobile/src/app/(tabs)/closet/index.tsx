@@ -1,9 +1,18 @@
 import { router } from "expo-router";
-import { LayoutGrid, LayoutList, Plus, Shirt } from "lucide-react-native";
+import {
+  ChevronRight,
+  Filter,
+  LayoutGrid,
+  LayoutList,
+  Plus,
+  Shirt,
+  SquareStack,
+} from "lucide-react-native";
 import { useMemo, useState } from "react";
 import { FlatList, Text, View } from "react-native";
 
 import { ItemCard } from "@/components/closet/item-card";
+import { Card } from "@/components/ui/card";
 import { Chip } from "@/components/ui/chip";
 import { IconButton } from "@/components/ui/icon-button";
 import { ScreenContainer } from "@/components/ui/screen-container";
@@ -11,6 +20,8 @@ import { StateView } from "@/components/ui/state-view";
 import { CLOSET_CATEGORIES } from "@/constants/mock-closet";
 import { useCloset } from "@/context/closet-context";
 import type { ClosetCategory } from "@/types";
+
+import { color } from "@/design";
 
 type FilterKey = ClosetCategory | "all";
 
@@ -44,7 +55,7 @@ export default function ClosetScreen() {
     <ScreenContainer edges={["top", "left", "right"]}>
       <View className="flex-row items-center justify-between pb-2 pt-6">
         <View>
-          <Text className="text-2xl font-bold tracking-tight text-ink">Your Closet</Text>
+          <Text className="text-2xl font-bold text-ink">Your Closet</Text>
           <Text className="text-sm text-muted">
             {activeItems.length} item{activeItems.length === 1 ? "" : "s"}
           </Text>
@@ -52,13 +63,13 @@ export default function ClosetScreen() {
         <View className="flex-row gap-2">
           <IconButton onPress={() => setLayout(layout === "grid" ? "list" : "grid")}>
             {layout === "grid" ? (
-              <LayoutList size={20} color="#1A1917" />
+              <LayoutList size={20} color={color.ink} />
             ) : (
-              <LayoutGrid size={20} color="#1A1917" />
+              <LayoutGrid size={20} color={color.ink} />
             )}
           </IconButton>
           <IconButton variant="solid" onPress={() => router.push("/closet/add")} className="bg-ink">
-            <Plus size={20} color="#FAF8F5" />
+            <Plus size={20} color={color.canvas} />
           </IconButton>
         </View>
       </View>
@@ -75,9 +86,13 @@ export default function ClosetScreen() {
       />
 
       {filteredItems.length === 0 ? (
-        <View className="flex-1 items-center justify-center pb-24">
-          <Text className="text-base text-muted">No items match this filter.</Text>
-        </View>
+        <StateView
+          icon={Filter}
+          title="Nothing in this category"
+          description="No items match this filter yet."
+          actionLabel="Clear Filter"
+          onAction={() => setFilter("all")}
+        />
       ) : (
         <FlatList
           key={layout}
@@ -95,6 +110,23 @@ export default function ClosetScreen() {
               onToggleFavorite={() => toggleFavorite(item.id)}
             />
           )}
+          ListFooterComponent={
+            <Card
+              onPress={() => router.push("/gaps")}
+              className="mt-1 flex-row items-center gap-3.5 p-4"
+            >
+              <View className="h-11 w-11 items-center justify-center rounded-2xl bg-primary-50">
+                <SquareStack size={19} color={color.primary} strokeWidth={1.75} />
+              </View>
+              <View className="flex-1">
+                <Text className="text-body font-semibold text-ink">What&apos;s missing?</Text>
+                <Text className="mt-0.5 text-caption text-muted">
+                  See the gaps holding your rotation back
+                </Text>
+              </View>
+              <ChevronRight size={18} color={color.faint} />
+            </Card>
+          }
         />
       )}
     </ScreenContainer>

@@ -1,3 +1,115 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/**
+ * CheckoutFitt design system — CSS custom properties.
+ *
+ * DO NOT hand-edit the generated block below. It is produced from
+ * `src/design/tokens.js` by `npm run tokens`, which keeps these variables,
+ * `tailwind.config.js`, and the runtime values in `src/design/` in lockstep.
+ *
+ * Colors are stored as space-separated RGB channels so NativeWind can compose
+ * opacity modifiers (`bg-primary/10`) via `rgb(var(--color-primary) / <alpha>)`.
+ */
+:root {
+  /* === BEGIN GENERATED TOKENS — edit src/design/tokens.js === */
+
+  /* Color — channel triplets so NativeWind can apply opacity modifiers */
+  --color-primary-50: 253 243 239; /* #FDF3EF */
+  --color-primary-100: 250 226 216; /* #FAE2D8 */
+  --color-primary-200: 244 195 176; /* #F4C3B0 */
+  --color-primary-300: 234 157 128; /* #EA9D80 */
+  --color-primary-400: 220 116 81; /* #DC7451 */
+  --color-primary-500: 206 87 48; /* #CE5730 */
+  --color-primary-600: 192 69 31; /* #C0451F */
+  --color-primary-700: 158 53 23; /* #9E3517 */
+  --color-primary-800: 123 42 20; /* #7B2A14 */
+  --color-primary-900: 92 34 17; /* #5C2211 */
+  --color-primary-950: 51 16 5; /* #331005 */
+  --color-primary: 192 69 31; /* #C0451F */
+  --color-ink: 23 19 15; /* #17130F */
+  --color-ink-soft: 59 50 43; /* #3B322B */
+  --color-muted: 133 122 112; /* #857A70 */
+  --color-faint: 167 156 145; /* #A79C91 */
+  --color-canvas: 250 247 242; /* #FAF7F2 */
+  --color-surface: 255 255 255; /* #FFFFFF */
+  --color-surface-sunken: 242 236 227; /* #F2ECE3 */
+  --color-surface-muted: 233 225 214; /* #E9E1D6 */
+  --color-surface-inverse: 23 19 15; /* #17130F */
+  --color-line: 230 222 212; /* #E6DED4 */
+  --color-line-strong: 212 200 186; /* #D4C8BA */
+  --color-success: 47 107 79; /* #2F6B4F */
+  --color-success-soft: 228 239 232; /* #E4EFE8 */
+  --color-warning: 154 107 31; /* #9A6B1F */
+  --color-warning-soft: 246 235 216; /* #F6EBD8 */
+  --color-danger: 164 36 59; /* #A4243B */
+  --color-danger-soft: 247 227 230; /* #F7E3E6 */
+  --color-info: 44 84 112; /* #2C5470 */
+  --color-info-soft: 226 235 241; /* #E2EBF1 */
+  --color-white: 255 255 255; /* #FFFFFF */
+
+  /* Typography — size / line-height / letter-spacing */
+  --font-size-micro: 11px;
+  --line-height-micro: 14px;
+  --tracking-micro: 0.8px;
+  --font-size-caption: 13px;
+  --line-height-caption: 18px;
+  --tracking-caption: 0px;
+  --font-size-body-sm: 14px;
+  --line-height-body-sm: 20px;
+  --tracking-body-sm: 0px;
+  --font-size-body: 15px;
+  --line-height-body: 22px;
+  --tracking-body: 0px;
+  --font-size-body-lg: 17px;
+  --line-height-body-lg: 25px;
+  --tracking-body-lg: -0.1px;
+  --font-size-h3: 20px;
+  --line-height-h3: 25px;
+  --tracking-h3: -0.3px;
+  --font-size-h2: 24px;
+  --line-height-h2: 28px;
+  --tracking-h2: -0.5px;
+  --font-size-h1: 30px;
+  --line-height-h1: 34px;
+  --tracking-h1: -0.8px;
+  --font-size-display: 40px;
+  --line-height-display: 42px;
+  --tracking-display: -1.2px;
+  --font-size-display-lg: 52px;
+  --line-height-display-lg: 52px;
+  --tracking-display-lg: -1.8px;
+
+  /* Font weight */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Radius */
+  --radius-none: 0px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+  --radius-2xl: 22px;
+  --radius-3xl: 30px;
+  --radius-4xl: 38px;
+  --radius-full: 9999px;
+
+  /* Spacing — named layout rhythm */
+  --spacing-gutter: 24px;
+  --spacing-section: 32px;
+  --spacing-block: 20px;
+
+  /* Elevation — consumed at runtime via src/design/elevation.ts */
+  --shadow-color: 23 19 15; /* #17130F */
+  --shadow-none: 0px 0px 0px rgb(var(--shadow-color) / 0);
+  --shadow-sm: 0px 1px 3px rgb(var(--shadow-color) / 0.04);
+  --shadow-md: 0px 4px 12px rgb(var(--shadow-color) / 0.06);
+  --shadow-lg: 0px 10px 26px rgb(var(--shadow-color) / 0.1);
+  --shadow-xl: 0px 18px 44px rgb(var(--shadow-color) / 0.14);
+
+  /* === END GENERATED TOKENS === */
+}

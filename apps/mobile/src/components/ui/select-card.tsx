@@ -7,25 +7,49 @@ type SelectCardProps = {
   selected: boolean;
   onPress: () => void;
   icon?: ReactNode;
+  /** Trailing slot — e.g. a price or count. */
+  right?: ReactNode;
+  className?: string;
 };
 
-export function SelectCard({ label, description, selected, onPress, icon }: SelectCardProps) {
+export function SelectCard({
+  label,
+  description,
+  selected,
+  onPress,
+  icon,
+  right,
+  className = "",
+}: SelectCardProps) {
   return (
     <Pressable
       onPress={onPress}
-      className={`flex-row items-center gap-4 rounded-2xl border px-5 py-4 active:opacity-80 ${
-        selected ? "border-ink bg-ink" : "border-line bg-white"
-      }`}
+      accessibilityRole="button"
+      accessibilityState={{ selected }}
+      className={`flex-row items-center gap-4 rounded-2xl border px-4 py-4 active:opacity-80 ${
+        selected ? "border-ink bg-ink" : "border-line bg-surface"
+      } ${className}`}
     >
-      {icon ? <View className="h-10 w-10 items-center justify-center">{icon}</View> : null}
+      {icon ? (
+        <View
+          className={`h-11 w-11 items-center justify-center rounded-xl ${
+            selected ? "bg-white/15" : "bg-surface-sunken"
+          }`}
+        >
+          {icon}
+        </View>
+      ) : null}
       <View className="flex-1">
-        <Text className={`text-base font-semibold ${selected ? "text-sand" : "text-ink"}`}>{label}</Text>
+        <Text className={`text-body font-semibold ${selected ? "text-canvas" : "text-ink"}`}>
+          {label}
+        </Text>
         {description ? (
-          <Text className={`mt-0.5 text-sm ${selected ? "text-sand-200" : "text-muted"}`}>
+          <Text className={`mt-0.5 text-caption ${selected ? "text-faint" : "text-muted"}`}>
             {description}
           </Text>
         ) : null}
       </View>
+      {right}
     </Pressable>
   );
 }

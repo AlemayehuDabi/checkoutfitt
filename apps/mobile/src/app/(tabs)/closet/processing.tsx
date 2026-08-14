@@ -6,6 +6,8 @@ import { ActivityIndicator, Text, View } from "react-native";
 import { ScreenContainer } from "@/components/ui/screen-container";
 import { useCloset } from "@/context/closet-context";
 
+import { color } from "@/design";
+
 const STEPS = ["Detecting item...", "Identifying color...", "Classifying category..."];
 
 export default function ProcessingScreen() {
@@ -30,11 +32,11 @@ export default function ProcessingScreen() {
   return (
     <ScreenContainer>
       <View className="flex-1 items-center justify-center px-4">
-        <View className="h-24 w-24 items-center justify-center rounded-full bg-clay-50">
-          <Sparkles size={36} color="#C1622D" strokeWidth={1.5} />
+        <View className="h-24 w-24 items-center justify-center rounded-full bg-primary-50">
+          <Sparkles size={36} color={color.primary} strokeWidth={1.5} />
         </View>
-        <ActivityIndicator className="mt-8" color="#C1622D" />
-        <Text className="mt-6 text-center text-xl font-bold tracking-tight text-ink">
+        <ActivityIndicator className="mt-8" color={color.primary} />
+        <Text className="mt-6 text-center text-xl font-bold text-ink">
           {STEPS[stepIndex]}
         </Text>
         <Text className="mt-2 text-center text-sm text-muted">

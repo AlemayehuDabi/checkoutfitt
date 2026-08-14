@@ -12,7 +12,7 @@ export function PaginationDots({ count, activeIndex }: PaginationDotsProps) {
         <View
           key={index}
           className={`h-2 rounded-full ${
-            index === activeIndex ? "w-6 bg-ink" : "w-2 bg-line"
+            index === activeIndex ? "w-6 bg-primary" : "w-2 bg-line-strong"
           }`}
         />
       ))}

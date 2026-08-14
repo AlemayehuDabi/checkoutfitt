@@ -1,16 +1,9 @@
-export const colors = {
-  ink: "#1A1917",
-  inkSoft: "#3A3835",
-  sand: "#FAF8F5",
-  sand100: "#F5F1EA",
-  sand200: "#EDE7DD",
-  clay: "#C1622D",
-  clay50: "#FBEEE6",
-  clay100: "#F6DBC7",
-  clay600: "#A64F21",
-  clay700: "#8A4119",
-  muted: "#8A8580",
-  line: "#E7E2D9",
-  danger: "#C1432D",
-  white: "#FFFFFF",
-} as const;
+/**
+ * @deprecated Import `color` from `@/design` instead.
+ *
+ * This module used to hand-duplicate every hex value from `tailwind.config.js`.
+ * It now derives entirely from `src/design/tokens.js` — the same source behind
+ * the CSS custom properties in `global.css` — and is kept only as a
+ * compatibility alias. There are no remaining values declared here.
+ */
+export { color as colors } from "@/design";

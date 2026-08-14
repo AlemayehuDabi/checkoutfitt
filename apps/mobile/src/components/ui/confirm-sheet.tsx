@@ -26,11 +26,11 @@ export function ConfirmSheet({
   return (
     <Modal visible={visible} transparent animationType="fade" onRequestClose={onCancel}>
       <Pressable className="flex-1 justify-end bg-ink/40" onPress={onCancel}>
-        <Pressable className="gap-5 rounded-t-3xl bg-white px-6 pb-10 pt-6" onPress={(e) => e.stopPropagation()}>
+        <Pressable className="gap-5 rounded-t-4xl bg-surface px-6 pb-10 pt-6" onPress={(e) => e.stopPropagation()}>
           <View className="self-center h-1 w-10 rounded-full bg-line" />
           <View>
-            <Text className="text-xl font-bold tracking-tight text-ink">{title}</Text>
-            <Text className="mt-2 text-base text-muted">{message}</Text>
+            <Text className="text-h2 font-bold text-ink">{title}</Text>
+            <Text className="mt-2 text-body leading-6 text-muted">{message}</Text>
           </View>
           <View className="gap-3">
             <Button

@@ -8,9 +8,12 @@ import { Chip } from "@/components/ui/chip";
 import { Header } from "@/components/ui/header";
 import { Input } from "@/components/ui/input";
 import { ScreenContainer } from "@/components/ui/screen-container";
+import { SectionHeader } from "@/components/ui/section-header";
 import { CLOSET_CATEGORIES, CLOSET_COLORS, randomDetection } from "@/constants/mock-closet";
 import { useCloset } from "@/context/closet-context";
 import type { ClosetCategory } from "@/types";
+
+import { color } from "@/design";
 
 export default function ConfirmScreen() {
   const { pendingImages, addItem, setPendingImages } = useCloset();
@@ -92,9 +95,7 @@ function ConfirmForm({
         className="h-72 w-full overflow-hidden rounded-3xl"
       />
 
-      <Text className="mb-2 mt-6 text-xs font-semibold uppercase tracking-wide text-clay">
-        AI Detected
-      </Text>
+      <SectionHeader title="AI Detected" index="01" className="mt-7" />
 
       <View className="gap-5">
         <View>

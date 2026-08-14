@@ -13,6 +13,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { PaginationDots } from "@/components/ui/pagination-dots";
 
+import { color } from "@/design";
+
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
 type Slide = {
@@ -67,7 +69,7 @@ export default function OnboardingScreen() {
   };
 
   return (
-    <View className="flex-1 bg-sand">
+    <View className="flex-1 bg-canvas">
       <View className="flex-row justify-end px-6 pt-16">
         <Text
           onPress={handleSkip}
@@ -90,12 +92,12 @@ export default function OnboardingScreen() {
           const Icon = slide.icon;
           return (
             <View key={index} style={{ width: SCREEN_WIDTH }} className="items-center px-8 pt-8">
-              <View className="h-64 w-full items-center justify-center rounded-3xl bg-sand-100">
-                <View className="h-24 w-24 items-center justify-center rounded-full bg-white">
-                  <Icon size={40} color="#C1622D" strokeWidth={1.5} />
+              <View className="h-64 w-full items-center justify-center rounded-3xl bg-surface-sunken">
+                <View className="h-24 w-24 items-center justify-center rounded-full bg-surface">
+                  <Icon size={40} color={color.primary} strokeWidth={1.5} />
                 </View>
               </View>
-              <Text className="mt-12 text-center text-2xl font-bold tracking-tight text-ink">
+              <Text className="mt-12 text-center text-2xl font-bold text-ink">
                 {slide.title}
               </Text>
               <Text className="mt-3 text-center text-base leading-6 text-muted">

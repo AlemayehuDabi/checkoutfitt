@@ -6,6 +6,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { ClosetProvider } from "@/context/closet-context";
 import { OutfitsProvider } from "@/context/outfits-context";
+import { PlannerProvider } from "@/context/planner-context";
 import { WeatherProvider } from "@/context/weather-context";
 
 export default function RootLayout() {
@@ -13,10 +14,12 @@ export default function RootLayout() {
     <SafeAreaProvider>
       <ClosetProvider>
         <OutfitsProvider>
-          <WeatherProvider>
-            <StatusBar style="dark" />
-            <Stack screenOptions={{ headerShown: false, animation: "fade" }} />
-          </WeatherProvider>
+          <PlannerProvider>
+            <WeatherProvider>
+              <StatusBar style="dark" />
+              <Stack screenOptions={{ headerShown: false, animation: "fade" }} />
+            </WeatherProvider>
+          </PlannerProvider>
         </OutfitsProvider>
       </ClosetProvider>
     </SafeAreaProvider>

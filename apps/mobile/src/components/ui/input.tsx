@@ -1,47 +1,75 @@
 import { Eye, EyeOff } from "lucide-react-native";
-import { useState } from "react";
+import { type ReactNode, useState } from "react";
 import { Pressable, Text, TextInput, type TextInputProps, View } from "react-native";
 
+import { color } from "@/design";
+
 type InputProps = TextInputProps & {
-  label: string;
+  label?: string;
   error?: string;
+  hint?: string;
   secureToggle?: boolean;
+  /** Leading slot, e.g. a link or search icon. */
+  icon?: ReactNode;
+  /** Grows the field for pasted URLs and notes. */
+  multiline?: boolean;
+  containerClassName?: string;
 };
 
-export function Input({ label, error, secureToggle, secureTextEntry, ...rest }: InputProps) {
+export function Input({
+  label,
+  error,
+  hint,
+  secureToggle,
+  secureTextEntry,
+  icon,
+  multiline,
+  containerClassName = "",
+  ...rest
+}: InputProps) {
   const [hidden, setHidden] = useState(!!secureTextEntry);
 
   return (
-    <View className="w-full">
-      <Text className="mb-2 text-sm font-medium text-ink">{label}</Text>
+    <View className={`w-full ${containerClassName}`}>
+      {label ? (
+        <Text className="mb-2 text-micro font-semibold uppercase text-muted">{label}</Text>
+      ) : null}
       <View
-        className={`h-14 flex-row items-center rounded-2xl border bg-white px-4 ${
-          error ? "border-danger" : "border-line"
-        }`}
+        className={`flex-row items-center rounded-2xl border bg-surface px-4 ${
+          multiline ? "min-h-24 py-3" : "h-14"
+        } ${error ? "border-danger" : "border-line"}`}
       >
+        {icon ? <View className="mr-2.5">{icon}</View> : null}
         <TextInput
-          className="flex-1 text-base text-ink"
-          placeholderTextColor="#8A8580"
+          className="flex-1 text-body text-ink"
+          placeholderTextColor={color.faint}
           secureTextEntry={secureToggle ? hidden : secureTextEntry}
           autoCapitalize="none"
           autoCorrect={false}
+          multiline={multiline}
+          textAlignVertical={multiline ? "top" : "center"}
           {...rest}
         />
         {secureToggle ? (
           <Pressable
             hitSlop={8}
+            accessibilityLabel={hidden ? "Show password" : "Hide password"}
             onPress={() => setHidden((prev) => !prev)}
             className="ml-2 active:opacity-60"
           >
             {hidden ? (
-              <EyeOff size={20} color="#8A8580" />
+              <EyeOff size={19} color={color.muted} />
             ) : (
-              <Eye size={20} color="#8A8580" />
+              <Eye size={19} color={color.muted} />
             )}
           </Pressable>
         ) : null}
       </View>
-      {error ? <Text className="mt-1.5 text-xs text-danger">{error}</Text> : null}
+      {error ? (
+        <Text className="mt-1.5 text-caption text-danger">{error}</Text>
+      ) : hint ? (
+        <Text className="mt-1.5 text-caption text-muted">{hint}</Text>
+      ) : null}
     </View>
   );
 }

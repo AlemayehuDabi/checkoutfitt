@@ -1,5 +1,5 @@
 import { router, useLocalSearchParams } from "expo-router";
-import { Archive, ArchiveRestore, Heart, Pencil, Trash2 } from "lucide-react-native";
+import { Archive, ArchiveRestore, Heart, Pencil, Shirt, Trash2 } from "lucide-react-native";
 import { useState } from "react";
 import { Text, View } from "react-native";
 
@@ -9,9 +9,12 @@ import { ConfirmSheet } from "@/components/ui/confirm-sheet";
 import { Header } from "@/components/ui/header";
 import { IconButton } from "@/components/ui/icon-button";
 import { ScreenContainer } from "@/components/ui/screen-container";
+import { StateView } from "@/components/ui/state-view";
 import { Tag } from "@/components/ui/tag";
 import { CLOSET_CATEGORIES } from "@/constants/mock-closet";
 import { useCloset } from "@/context/closet-context";
+
+import { color } from "@/design";
 
 export default function ItemDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -24,9 +27,13 @@ export default function ItemDetailScreen() {
     return (
       <ScreenContainer>
         <Header title="Item" />
-        <View className="flex-1 items-center justify-center">
-          <Text className="text-base text-muted">This item no longer exists.</Text>
-        </View>
+        <StateView
+          icon={Shirt}
+          title="Item not found"
+          description="This piece is no longer in your closet."
+          actionLabel="Back to Closet"
+          onAction={() => router.replace("/closet")}
+        />
       </ScreenContainer>
     );
   }
@@ -39,7 +46,7 @@ export default function ItemDetailScreen() {
         title="Item Details"
         right={
           <IconButton onPress={() => toggleFavorite(item.id)}>
-            <Heart size={20} color={item.favorite ? "#C1622D" : "#1A1917"} fill={item.favorite ? "#C1622D" : "transparent"} />
+            <Heart size={20} color={item.favorite ? color.primary : color.ink} fill={item.favorite ? color.primary : "transparent"} />
           </IconButton>
         }
       />
@@ -52,18 +59,18 @@ export default function ItemDetailScreen() {
         iconSize={56}
       />
 
-      <Text className="mt-6 text-3xl font-bold tracking-tight text-ink">{item.type}</Text>
+      <Text className="mt-6 text-3xl font-bold text-ink">{item.type}</Text>
       <View className="mt-3 flex-row flex-wrap gap-2">
         <Tag label={categoryLabel} />
         <Tag label={item.color} dotColor={item.colorHex} />
-        {item.archived ? <Tag label="Archived" tone="clay" /> : null}
+        {item.archived ? <Tag label="Archived" tone="primary" /> : null}
       </View>
 
       <View className="mt-8 gap-3">
         <Button
           label="Edit Item"
           variant="outline"
-          icon={<Pencil size={18} color="#1A1917" />}
+          icon={<Pencil size={18} color={color.ink} />}
           onPress={() => router.push(`/closet/edit/${item.id}`)}
         />
         <Button
@@ -71,9 +78,9 @@ export default function ItemDetailScreen() {
           variant="outline"
           icon={
             item.archived ? (
-              <ArchiveRestore size={18} color="#1A1917" />
+              <ArchiveRestore size={18} color={color.ink} />
             ) : (
-              <Archive size={18} color="#1A1917" />
+              <Archive size={18} color={color.ink} />
             )
           }
           onPress={() => toggleArchive(item.id)}
@@ -81,7 +88,7 @@ export default function ItemDetailScreen() {
         <Button
           label="Delete Item"
           variant="danger"
-          icon={<Trash2 size={18} color="#FFFFFF" />}
+          icon={<Trash2 size={18} color={color.white} />}
           onPress={() => setConfirmVisible(true)}
         />
       </View>
