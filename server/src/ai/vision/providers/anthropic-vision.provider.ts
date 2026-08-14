@@ -11,15 +11,27 @@ import {
 @Injectable()
 export class AnthropicVisionProvider implements VisionProvider {
   private readonly logger = new Logger(AnthropicVisionProvider.name);
-  private readonly client: Anthropic;
   private readonly model: string;
+  private _client?: Anthropic;
 
-  constructor(config: ConfigService) {
-    this.client = new Anthropic({
-      apiKey: config.get<string>('ai.anthropicApiKey'),
-    });
+  constructor(private readonly config: ConfigService) {
     this.model =
       config.get<string>('ai.anthropicVisionModel') ?? 'claude-opus-5';
+  }
+
+  // Constructing the SDK client eagerly in the constructor would throw for
+  // every registered provider at boot, not just the one VISION_PROVIDER
+  // actually selects — Nest instantiates all three concrete providers
+  // because VisionService takes each as a constructor dependency. Deferring
+  // construction to first use means an unselected provider's missing/empty
+  // API key never crashes the app.
+  private get client(): Anthropic {
+    if (!this._client) {
+      this._client = new Anthropic({
+        apiKey: this.config.get<string>('ai.anthropicApiKey'),
+      });
+    }
+    return this._client;
   }
 
   async detectGarment(imageUrl: string): Promise<DetectedGarment> {

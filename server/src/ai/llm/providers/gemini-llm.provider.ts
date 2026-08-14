@@ -28,14 +28,22 @@ function toGeminiHistory(history: ChatHistoryMessage[]): Content[] {
 @Injectable()
 export class GeminiLlmProvider implements LLMProvider {
   private readonly logger = new Logger(GeminiLlmProvider.name);
-  private readonly client: GoogleGenAI;
   private readonly model: string;
+  private _client?: GoogleGenAI;
 
-  constructor(config: ConfigService) {
-    this.client = new GoogleGenAI({
-      apiKey: config.get<string>('ai.geminiApiKey'),
-    });
-    this.model = config.get<string>('ai.geminiLlmModel') ?? 'gemini-pro-latest';
+  constructor(private readonly config: ConfigService) {
+    this.model = config.get<string>('ai.geminiLlmModel') ?? 'gemini-2.5-flash';
+  }
+
+  // See AnthropicLlmProvider for why this is lazy: Nest instantiates all
+  // three concrete providers regardless of which one LLM_PROVIDER selects.
+  private get client(): GoogleGenAI {
+    if (!this._client) {
+      this._client = new GoogleGenAI({
+        apiKey: this.config.get<string>('ai.geminiApiKey'),
+      });
+    }
+    return this._client;
   }
 
   async generateOutfit(params: GenerateOutfitParams): Promise<GeneratedOutfit> {

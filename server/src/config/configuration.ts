@@ -16,8 +16,8 @@ export default () => ({
     apiSecret: process.env.CLOUDINARY_API_SECRET,
   },
   ai: {
-    visionProvider: process.env.VISION_PROVIDER ?? 'anthropic',
-    llmProvider: process.env.LLM_PROVIDER ?? 'anthropic',
+    visionProvider: process.env.VISION_PROVIDER ?? 'gemini',
+    llmProvider: process.env.LLM_PROVIDER ?? 'gemini',
     anthropicApiKey: process.env.ANTHROPIC_API_KEY,
     anthropicVisionModel: process.env.ANTHROPIC_VISION_MODEL,
     anthropicLlmModel: process.env.ANTHROPIC_LLM_MODEL,

@@ -1,7 +1,8 @@
-import { Controller, Get, Param, Post, Body } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, Query } from '@nestjs/common';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { OutfitService } from './outfit.service';
 import { GenerateOutfitDto } from './dto/generate-outfit.dto';
+import { ListSavedOutfitsQueryDto } from './dto/list-saved-outfits-query.dto';
 
 @Controller('outfits')
 export class OutfitController {
@@ -29,8 +30,11 @@ export class OutfitController {
 
   // Both must be declared before ':id' — otherwise Nest matches them as an :id.
   @Get('saved')
-  listSaved(@CurrentUser() user: CurrentUser) {
-    return this.outfitService.listSaved(user.id);
+  listSaved(
+    @CurrentUser() user: CurrentUser,
+    @Query() query: ListSavedOutfitsQueryDto,
+  ) {
+    return this.outfitService.listSaved(user.id, query);
   }
 
   @Get('today')

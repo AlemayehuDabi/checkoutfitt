@@ -12,15 +12,24 @@ import {
 @Injectable()
 export class GeminiVisionProvider implements VisionProvider {
   private readonly logger = new Logger(GeminiVisionProvider.name);
-  private readonly client: GoogleGenAI;
   private readonly model: string;
+  private _client?: GoogleGenAI;
 
-  constructor(config: ConfigService) {
-    this.client = new GoogleGenAI({
-      apiKey: config.get<string>('ai.geminiApiKey'),
-    });
+  constructor(private readonly config: ConfigService) {
     this.model =
       config.get<string>('ai.geminiVisionModel') ?? 'gemini-pro-latest';
+  }
+
+  // See AnthropicVisionProvider for why this is lazy: Nest instantiates all
+  // three concrete providers regardless of which one VISION_PROVIDER
+  // selects.
+  private get client(): GoogleGenAI {
+    if (!this._client) {
+      this._client = new GoogleGenAI({
+        apiKey: this.config.get<string>('ai.geminiApiKey'),
+      });
+    }
+    return this._client;
   }
 
   async detectGarment(imageUrl: string): Promise<DetectedGarment> {

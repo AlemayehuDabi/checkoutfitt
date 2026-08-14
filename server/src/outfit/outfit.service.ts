@@ -12,6 +12,7 @@ import { WeatherService } from '../weather/weather.service';
 import { buildWeatherInstructions } from '../weather/weather-instructions.util';
 import { ClosetItem } from '../../prisma/generated/prisma';
 import { GenerateOutfitDto } from './dto/generate-outfit.dto';
+import { ListSavedOutfitsQueryDto } from './dto/list-saved-outfits-query.dto';
 import {
   DAILY_OUTFIT_CACHE_TTL_SECONDS,
   DEFAULT_DAILY_OUTFIT_CONTEXT,
@@ -211,11 +212,22 @@ export class OutfitService {
     return outfit;
   }
 
-  listSaved(userId: string) {
-    return this.prisma.outfit.findMany({
-      where: { ownerId: userId, saved: true },
-      include: { items: true },
-      orderBy: { createdAt: 'desc' },
-    });
+  async listSaved(userId: string, query: ListSavedOutfitsQueryDto) {
+    const page = query.page ?? 1;
+    const limit = query.limit ?? 20;
+    const where = { ownerId: userId, saved: true };
+
+    const [items, total] = await Promise.all([
+      this.prisma.outfit.findMany({
+        where,
+        include: { items: true },
+        orderBy: { createdAt: 'desc' },
+        skip: (page - 1) * limit,
+        take: limit,
+      }),
+      this.prisma.outfit.count({ where }),
+    ]);
+
+    return { items, total, page, limit };
   }
 }

@@ -17,12 +17,23 @@ import {
 @Injectable()
 export class OpenAiLlmProvider implements LLMProvider {
   private readonly logger = new Logger(OpenAiLlmProvider.name);
-  private readonly client: OpenAI;
   private readonly model: string;
+  private _client?: OpenAI;
 
-  constructor(config: ConfigService) {
-    this.client = new OpenAI({ apiKey: config.get<string>('ai.openaiApiKey') });
-    this.model = config.get<string>('ai.openaiLlmModel') ?? 'gpt-5.1';
+  constructor(private readonly config: ConfigService) {
+    this.model = config.get<string>('ai.openaiLlmModel') ?? 'gpt-4o-mini';
+  }
+
+  // See AnthropicLlmProvider for why this is lazy: Nest instantiates all
+  // three concrete providers regardless of which one LLM_PROVIDER selects,
+  // and the OpenAI SDK throws in its constructor when no API key is set.
+  private get client(): OpenAI {
+    if (!this._client) {
+      this._client = new OpenAI({
+        apiKey: this.config.get<string>('ai.openaiApiKey'),
+      });
+    }
+    return this._client;
   }
 
   async generateOutfit(params: GenerateOutfitParams): Promise<GeneratedOutfit> {

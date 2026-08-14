@@ -11,12 +11,24 @@ import {
 @Injectable()
 export class OpenAiVisionProvider implements VisionProvider {
   private readonly logger = new Logger(OpenAiVisionProvider.name);
-  private readonly client: OpenAI;
   private readonly model: string;
+  private _client?: OpenAI;
 
-  constructor(config: ConfigService) {
-    this.client = new OpenAI({ apiKey: config.get<string>('ai.openaiApiKey') });
+  constructor(private readonly config: ConfigService) {
     this.model = config.get<string>('ai.openaiVisionModel') ?? 'gpt-5.1';
+  }
+
+  // See AnthropicVisionProvider for why this is lazy: Nest instantiates all
+  // three concrete providers regardless of which one VISION_PROVIDER
+  // selects, and the OpenAI SDK throws in its constructor when no API key
+  // is set.
+  private get client(): OpenAI {
+    if (!this._client) {
+      this._client = new OpenAI({
+        apiKey: this.config.get<string>('ai.openaiApiKey'),
+      });
+    }
+    return this._client;
   }
 
   async detectGarment(imageUrl: string): Promise<DetectedGarment> {

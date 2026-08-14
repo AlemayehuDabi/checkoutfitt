@@ -17,14 +17,26 @@ import {
 @Injectable()
 export class AnthropicLlmProvider implements LLMProvider {
   private readonly logger = new Logger(AnthropicLlmProvider.name);
-  private readonly client: Anthropic;
   private readonly model: string;
+  private _client?: Anthropic;
 
-  constructor(config: ConfigService) {
-    this.client = new Anthropic({
-      apiKey: config.get<string>('ai.anthropicApiKey'),
-    });
+  constructor(private readonly config: ConfigService) {
     this.model = config.get<string>('ai.anthropicLlmModel') ?? 'claude-opus-5';
+  }
+
+  // Constructing the SDK client eagerly in the constructor would throw for
+  // every registered provider at boot, not just the one LLM_PROVIDER
+  // actually selects — Nest instantiates all three concrete providers
+  // because LLMService takes each as a constructor dependency. Deferring
+  // construction to first use means an unselected provider's missing/empty
+  // API key never crashes the app.
+  private get client(): Anthropic {
+    if (!this._client) {
+      this._client = new Anthropic({
+        apiKey: this.config.get<string>('ai.anthropicApiKey'),
+      });
+    }
+    return this._client;
   }
 
   async generateOutfit(params: GenerateOutfitParams): Promise<GeneratedOutfit> {
