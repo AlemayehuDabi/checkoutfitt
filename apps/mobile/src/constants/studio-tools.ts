@@ -1,9 +1,13 @@
 import {
   CalendarDays,
+  Images,
+  Luggage,
   Palette,
   ScanLine,
+  ShoppingBag,
   Sparkles,
   SquareStack,
+  Wallet,
   type LucideIcon,
 } from "lucide-react-native";
 
@@ -54,6 +58,14 @@ export const STUDIO_TOOLS: StudioTool[] = [
     group: "understand",
   },
   {
+    key: "value",
+    name: "Closet Value",
+    description: "What it's worth, and what each wear costs",
+    href: "/value",
+    icon: Wallet,
+    group: "understand",
+  },
+  {
     key: "calendar",
     name: "Outfit Calendar",
     description: "Plan looks ahead so mornings are decided",
@@ -62,11 +74,43 @@ export const STUDIO_TOOLS: StudioTool[] = [
     group: "plan",
   },
   {
+    key: "capsule",
+    name: "Capsule Wardrobe",
+    description: "The smallest set that still dresses you for everything",
+    href: "/capsule",
+    icon: SquareStack,
+    group: "plan",
+  },
+  {
+    key: "packing",
+    name: "Travel Packing",
+    description: "A list and an outfit plan for your next trip",
+    href: "/packing",
+    icon: Luggage,
+    group: "plan",
+  },
+  {
     key: "rating",
     name: "Outfit Rating",
     description: "Score a look on colour, fit and proportion",
     href: "/rating/capture",
     icon: ScanLine,
+    group: "refine",
+  },
+  {
+    key: "recreate",
+    name: "Recreate a Look",
+    description: "Rebuild a saved image from what you own",
+    href: "/recreate",
+    icon: Images,
+    group: "refine",
+  },
+  {
+    key: "shopping",
+    name: "Shopping Assistant",
+    description: "Check whether a purchase is actually worth it",
+    href: "/shopping",
+    icon: ShoppingBag,
     group: "refine",
   },
 ];

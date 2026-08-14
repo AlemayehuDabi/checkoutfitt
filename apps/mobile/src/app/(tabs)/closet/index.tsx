@@ -7,6 +7,7 @@ import {
   Plus,
   Shirt,
   SquareStack,
+  Wallet,
 } from "lucide-react-native";
 import { useMemo, useState } from "react";
 import { FlatList, Text, View } from "react-native";
@@ -111,21 +112,39 @@ export default function ClosetScreen() {
             />
           )}
           ListFooterComponent={
-            <Card
-              onPress={() => router.push("/gaps")}
-              className="mt-1 flex-row items-center gap-3.5 p-4"
-            >
-              <View className="h-11 w-11 items-center justify-center rounded-2xl bg-primary-50">
-                <SquareStack size={19} color={color.primary} strokeWidth={1.75} />
-              </View>
-              <View className="flex-1">
-                <Text className="text-body font-semibold text-ink">What&apos;s missing?</Text>
-                <Text className="mt-0.5 text-caption text-muted">
-                  See the gaps holding your rotation back
-                </Text>
-              </View>
-              <ChevronRight size={18} color={color.faint} />
-            </Card>
+            <View className="mt-1 gap-2.5">
+              <Card
+                onPress={() => router.push("/gaps")}
+                className="flex-row items-center gap-3.5 p-4"
+              >
+                <View className="h-11 w-11 items-center justify-center rounded-2xl bg-primary-50">
+                  <SquareStack size={19} color={color.primary} strokeWidth={1.75} />
+                </View>
+                <View className="flex-1">
+                  <Text className="text-body font-semibold text-ink">What&apos;s missing?</Text>
+                  <Text className="mt-0.5 text-caption text-muted">
+                    See the gaps holding your rotation back
+                  </Text>
+                </View>
+                <ChevronRight size={18} color={color.faint} />
+              </Card>
+
+              <Card
+                onPress={() => router.push("/value")}
+                className="flex-row items-center gap-3.5 p-4"
+              >
+                <View className="h-11 w-11 items-center justify-center rounded-2xl bg-primary-50">
+                  <Wallet size={19} color={color.primary} strokeWidth={1.75} />
+                </View>
+                <View className="flex-1">
+                  <Text className="text-body font-semibold text-ink">What&apos;s it worth?</Text>
+                  <Text className="mt-0.5 text-caption text-muted">
+                    Total value and cost per wear
+                  </Text>
+                </View>
+                <ChevronRight size={18} color={color.faint} />
+              </Card>
+            </View>
           }
         />
       )}

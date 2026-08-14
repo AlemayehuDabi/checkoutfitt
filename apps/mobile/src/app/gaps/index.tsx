@@ -1,5 +1,5 @@
 import { router } from "expo-router";
-import { Plus } from "lucide-react-native";
+import { ArrowUpRight, Plus, ShoppingBag } from "lucide-react-native";
 import { Text, View } from "react-native";
 
 import { Button } from "@/components/ui/button";
@@ -115,12 +115,29 @@ export default function WardrobeGapsScreen() {
         })}
       </View>
 
+      <Card
+        tone="primary"
+        onPress={() => router.push("/shopping")}
+        className="mt-8 flex-row items-center gap-3 p-4"
+      >
+        <ShoppingBag size={18} color={color.primary} />
+        <View className="flex-1">
+          <Text className="text-body font-semibold text-primary-700">
+            Considering something specific?
+          </Text>
+          <Text className="mt-0.5 text-caption text-primary-600">
+            Run it through the Shopping Assistant first
+          </Text>
+        </View>
+        <ArrowUpRight size={18} color={color.primary} />
+      </Card>
+
       <Button
         label="Add to Closet"
         variant="outline"
         icon={<Plus size={17} color={color.ink} />}
         onPress={() => router.push("/closet/add")}
-        className="mb-2 mt-8"
+        className="mb-2 mt-4"
       />
     </ScreenContainer>
   );
