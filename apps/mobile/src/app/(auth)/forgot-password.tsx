@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { ScreenContainer } from "@/components/ui/screen-container";
 
 import { color } from "@/design";
+import { IconWell } from "@/components/ui/icon-well";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -48,9 +49,7 @@ export default function ForgotPasswordScreen() {
 
         {sent ? (
           <View className="flex-1 items-center justify-center px-4">
-            <View className="h-20 w-20 items-center justify-center rounded-full bg-primary-50">
-              <MailCheck size={32} color={color.primary} />
-            </View>
+            <IconWell size="2xl"><MailCheck size={32} color={color.primary} /></IconWell>
             <Text className="mt-6 text-center text-2xl font-bold text-ink">
               Check your email
             </Text>

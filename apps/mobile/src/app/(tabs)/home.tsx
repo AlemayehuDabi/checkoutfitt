@@ -21,6 +21,7 @@ import { usePlanner } from "@/context/planner-context";
 import { useWeather } from "@/context/weather-context";
 import { color } from "@/design";
 import { shortDate } from "@/lib/date";
+import { IconWell } from "@/components/ui/icon-well";
 
 function getGreeting() {
   const hour = new Date().getHours();
@@ -46,9 +47,7 @@ export default function HomeScreen() {
           <WeatherStrip weather={weather} />
         ) : (
           <Card onPress={() => router.push("/location")} className="flex-row items-center gap-4 p-5">
-            <View className="h-12 w-12 items-center justify-center rounded-2xl bg-primary-50">
-              <MapPin size={20} color={color.primary} />
-            </View>
+            <IconWell size="md" className="h-12 w-12"><MapPin size={20} color={color.primary} /></IconWell>
             <View className="flex-1">
               <Text className="text-body font-semibold text-ink">Set your location</Text>
               <Text className="mt-0.5 text-caption text-muted">
@@ -60,16 +59,13 @@ export default function HomeScreen() {
         )}
       </View>
 
-      <Pressable
-        onPress={() => router.push("/outfit-today")}
-        className="mt-6 rounded-3xl border border-line bg-surface p-5 active:opacity-90"
-      >
+      <Card hero raise="md" onPress={() => router.push("/outfit-today")} className="mt-6 p-5">
         <View className="flex-row items-center justify-between">
           <Text className="text-micro font-bold uppercase text-primary">Today&apos;s Outfit</Text>
           <ChevronRight size={18} color={color.faint} />
         </View>
         <Text className="mt-1.5 text-h2 font-bold text-ink">{todayOutfit.title}</Text>
-        <View className="mt-4 flex-row gap-2">
+        <View className="mt-4 flex-row gap-2 rounded-2xl bg-surface-sunken p-2">
           {todayOutfit.items.slice(0, 4).map((item) => (
             <GarmentSwatch
               key={item.id}
@@ -80,7 +76,7 @@ export default function HomeScreen() {
             />
           ))}
         </View>
-      </Pressable>
+      </Card>
 
       {upcoming.length ? (
         <>
@@ -157,9 +153,7 @@ export default function HomeScreen() {
           raise="md"
           className="flex-row items-center gap-4 p-5"
         >
-          <View className="h-12 w-12 items-center justify-center rounded-2xl bg-white/15">
-            <Wand2 size={20} color={color.canvas} strokeWidth={1.75} />
-          </View>
+          <IconWell size="md" tone="translucent" className="h-12 w-12"><Wand2 size={20} color={color.canvas} strokeWidth={1.75} /></IconWell>
           <View className="flex-1">
             <Text className="text-body-lg font-semibold text-canvas">The Studio</Text>
             <Text className="mt-0.5 text-caption text-faint">

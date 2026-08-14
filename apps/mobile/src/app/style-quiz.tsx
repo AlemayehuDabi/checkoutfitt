@@ -10,6 +10,7 @@ import { ScreenContainer } from "@/components/ui/screen-container";
 import { SelectCard } from "@/components/ui/select-card";
 
 import { color } from "@/design";
+import { IconWell } from "@/components/ui/icon-well";
 
 const TOTAL_STEPS = 4;
 
@@ -165,9 +166,7 @@ export default function StyleQuizScreen() {
 
         {step === 4 ? (
           <View className="mt-8 flex-1 items-center">
-            <View className="h-20 w-20 items-center justify-center rounded-full bg-primary-50">
-              <PartyPopper size={32} color={color.primary} />
-            </View>
+            <IconWell size="2xl"><PartyPopper size={32} color={color.primary} /></IconWell>
             <Text className="mt-6 text-center text-3xl font-bold text-ink">
               You&apos;re all set!
             </Text>

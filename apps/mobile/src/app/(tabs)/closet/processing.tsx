@@ -7,6 +7,7 @@ import { ScreenContainer } from "@/components/ui/screen-container";
 import { usePendingImages } from "@/context/closet-context";
 
 import { color } from "@/design";
+import { IconWell } from "@/components/ui/icon-well";
 
 const STEPS = ["Detecting item...", "Identifying color...", "Classifying category..."];
 
@@ -32,9 +33,7 @@ export default function ProcessingScreen() {
   return (
     <ScreenContainer>
       <View className="flex-1 items-center justify-center px-4">
-        <View className="h-24 w-24 items-center justify-center rounded-full bg-primary-50">
-          <Sparkles size={36} color={color.primary} strokeWidth={1.5} />
-        </View>
+        <IconWell size="2xl"><Sparkles size={36} color={color.primary} strokeWidth={1.5} /></IconWell>
         <ActivityIndicator className="mt-8" color={color.primary} />
         <Text className="mt-6 text-center text-xl font-bold text-ink">
           {STEPS[stepIndex]}

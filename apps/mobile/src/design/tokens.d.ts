@@ -1,7 +1,7 @@
 /** Type surface for the CommonJS token source in `tokens.js`. */
 
 export type TypeStep = { size: number; lineHeight: number; tracking: number };
-export type ShadowStep = { y: number; blur: number; opacity: number };
+export type ShadowStep = { y: number; blur: number; opacity: number; android: number };
 
 export declare const palette: {
   primary: Record<
@@ -51,6 +51,8 @@ export declare const shadow: Record<
   "none" | "sm" | "md" | "lg" | "xl",
   ShadowStep
 >;
+
+export declare const glow: Record<"primary", ShadowStep>;
 
 export declare const shadowColor: string;
 

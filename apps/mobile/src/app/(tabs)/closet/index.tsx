@@ -23,6 +23,7 @@ import { useCloset } from "@/context/closet-context";
 import type { ClosetCategory } from "@/types";
 
 import { color } from "@/design";
+import { IconWell } from "@/components/ui/icon-well";
 
 type FilterKey = ClosetCategory | "all";
 
@@ -124,9 +125,7 @@ export default function ClosetScreen() {
                 onPress={() => router.push("/gaps")}
                 className="flex-row items-center gap-3.5 p-4"
               >
-                <View className="h-11 w-11 items-center justify-center rounded-2xl bg-primary-50">
-                  <SquareStack size={19} color={color.primary} strokeWidth={1.75} />
-                </View>
+                <IconWell size="md"><SquareStack size={19} color={color.primary} strokeWidth={1.75} /></IconWell>
                 <View className="flex-1">
                   <Text className="text-body font-semibold text-ink">What&apos;s missing?</Text>
                   <Text className="mt-0.5 text-caption text-muted">
@@ -140,9 +139,7 @@ export default function ClosetScreen() {
                 onPress={() => router.push("/value")}
                 className="flex-row items-center gap-3.5 p-4"
               >
-                <View className="h-11 w-11 items-center justify-center rounded-2xl bg-primary-50">
-                  <Wallet size={19} color={color.primary} strokeWidth={1.75} />
-                </View>
+                <IconWell size="md"><Wallet size={19} color={color.primary} strokeWidth={1.75} /></IconWell>
                 <View className="flex-1">
                   <Text className="text-body font-semibold text-ink">What&apos;s it worth?</Text>
                   <Text className="mt-0.5 text-caption text-muted">

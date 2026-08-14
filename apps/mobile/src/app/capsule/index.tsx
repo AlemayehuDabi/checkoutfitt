@@ -12,6 +12,7 @@ import { ScreenContainer } from "@/components/ui/screen-container";
 import { SectionHeader } from "@/components/ui/section-header";
 import { CAPSULE_OCCASIONS, CAPSULE_SIZES } from "@/constants/mock-capsule";
 import { color } from "@/design";
+import { IconWell } from "@/components/ui/icon-well";
 
 export default function CapsuleInputScreen() {
   const [size, setSize] = useState<number>(12);
@@ -34,9 +35,7 @@ export default function CapsuleInputScreen() {
       />
 
       <Card tone="inverse" hero raise="lg" className="mt-7 flex-row items-center gap-4 p-6">
-        <View className="h-14 w-14 items-center justify-center rounded-3xl bg-white/15">
-          <SquareStack size={24} color={color.canvas} strokeWidth={1.5} />
-        </View>
+        <IconWell size="lg" tone="translucent"><SquareStack size={24} color={color.canvas} strokeWidth={1.5} /></IconWell>
         <Text className="flex-1 text-body leading-6 text-canvas">
           A well-chosen capsule of {size} pieces usually beats a closet three times the size.
         </Text>

@@ -15,6 +15,7 @@ import { StatTile } from "@/components/ui/stat-tile";
 import { generatePackingList } from "@/constants/mock-packing";
 import { color } from "@/design";
 import { shortDate, toISODate } from "@/lib/date";
+import { PressableScale } from "@/components/ui/pressable-scale";
 
 export default function PackingResultScreen() {
   const { destination, startDate, purpose } = useLocalSearchParams<{
@@ -126,11 +127,11 @@ export default function PackingResultScreen() {
               return (
                 <View key={item.id}>
                   {index > 0 ? <View className="h-px bg-line" /> : null}
-                  <Pressable
+                  <PressableScale
                     onPress={() => togglePacked(item.id)}
                     accessibilityRole="checkbox"
                     accessibilityState={{ checked: isPacked }}
-                    className="flex-row items-center gap-3 py-3.5 active:opacity-60"
+                    className="flex-row items-center gap-3 py-3.5"
                   >
                     <View
                       className={`h-5 w-5 items-center justify-center rounded-md border ${
@@ -149,7 +150,7 @@ export default function PackingResultScreen() {
                     {item.qty > 1 ? (
                       <Text className="text-caption font-semibold text-muted">×{item.qty}</Text>
                     ) : null}
-                  </Pressable>
+                  </PressableScale>
                 </View>
               );
             })}

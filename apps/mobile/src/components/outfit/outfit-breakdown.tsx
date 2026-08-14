@@ -1,6 +1,7 @@
 import { Text, View } from "react-native";
 
 import { GarmentSwatch } from "@/components/closet/garment-swatch";
+import { Card } from "@/components/ui/card";
 import { CLOSET_CATEGORIES } from "@/constants/mock-closet";
 import type { OutfitItem } from "@/types";
 
@@ -31,10 +32,7 @@ export function OutfitBreakdown({ items }: { items: OutfitItem[] }) {
       {items.map((item) => {
         const categoryLabel = CLOSET_CATEGORIES.find((c) => c.key === item.category)?.label;
         return (
-          <View
-            key={item.id}
-            className="flex-row items-center gap-3 rounded-2xl border border-line bg-surface p-3"
-          >
+          <Card key={item.id} className="flex-row items-center gap-3 p-3">
             <GarmentSwatch
               category={item.category}
               colorHex={item.colorHex}
@@ -45,7 +43,7 @@ export function OutfitBreakdown({ items }: { items: OutfitItem[] }) {
               <Text className="text-body font-semibold text-ink">{item.label}</Text>
               <Text className="mt-0.5 text-caption text-muted">{categoryLabel}</Text>
             </View>
-          </View>
+          </Card>
         );
       })}
     </View>

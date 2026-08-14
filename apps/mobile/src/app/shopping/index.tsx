@@ -13,6 +13,7 @@ import { ScreenContainer } from "@/components/ui/screen-container";
 import { SectionHeader } from "@/components/ui/section-header";
 import { color } from "@/design";
 import { AppImage } from "@/components/ui/app-image";
+import { IconWell } from "@/components/ui/icon-well";
 
 export default function ShoppingInputScreen() {
   const [link, setLink] = useState("");
@@ -78,15 +79,11 @@ export default function ShoppingInputScreen() {
       ) : (
         <View className="mt-4 flex-row gap-2.5">
           <Card onPress={pickImage} className="flex-1 items-center gap-2.5 p-5">
-            <View className="h-11 w-11 items-center justify-center rounded-2xl bg-primary-50">
-              <Images size={19} color={color.primary} strokeWidth={1.75} />
-            </View>
+            <IconWell size="md"><Images size={19} color={color.primary} strokeWidth={1.75} /></IconWell>
             <Text className="text-body-sm font-semibold text-ink">From Library</Text>
           </Card>
           <Card onPress={pickImage} className="flex-1 items-center gap-2.5 p-5">
-            <View className="h-11 w-11 items-center justify-center rounded-2xl bg-primary-50">
-              <Camera size={19} color={color.primary} strokeWidth={1.75} />
-            </View>
+            <IconWell size="md"><Camera size={19} color={color.primary} strokeWidth={1.75} /></IconWell>
             <Text className="text-body-sm font-semibold text-ink">Take a Photo</Text>
           </Card>
         </View>

@@ -2,6 +2,7 @@ import { type LucideIcon } from "lucide-react-native";
 import { Text, View } from "react-native";
 
 import { Button } from "@/components/ui/button";
+import { ICON_SIZE, IconWell } from "@/components/ui/icon-well";
 import { color } from "@/design";
 
 type StateTone = "neutral" | "error";
@@ -34,13 +35,13 @@ export function StateView({
 
   return (
     <View className={`items-center justify-center ${inline ? "py-10" : "flex-1 px-gutter"}`}>
-      <View
-        className={`h-16 w-16 items-center justify-center rounded-3xl ${
-          isError ? "bg-danger-soft" : "bg-surface-muted"
-        }`}
-      >
-        <Icon size={26} color={isError ? color.danger : color.muted} strokeWidth={1.5} />
-      </View>
+      <IconWell size="xl" tone={isError ? "danger" : "sunken"}>
+        <Icon
+          size={ICON_SIZE.xl}
+          color={isError ? color.danger : color.muted}
+          strokeWidth={1.5}
+        />
+      </IconWell>
       <Text className="mt-5 text-center text-h3 font-bold text-ink">{title}</Text>
       {description ? (
         <Text className="mt-2 max-w-xs text-center text-body leading-6 text-muted">

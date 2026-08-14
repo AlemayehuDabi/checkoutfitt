@@ -1,7 +1,14 @@
 import { cssInterop } from "nativewind";
 import { forwardRef } from "react";
-import { Pressable, type PressableProps, type View } from "react-native";
+import {
+  Pressable,
+  type PressableProps,
+  type StyleProp,
+  type View,
+  type ViewStyle,
+} from "react-native";
 import Animated, {
+  type AnimatedStyle,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
@@ -11,7 +18,9 @@ import Animated, {
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 cssInterop(AnimatedPressable, { className: "style" });
 
-type PressableScaleProps = PressableProps & {
+type PressableScaleProps = Omit<PressableProps, "style"> & {
+  /** Widened so callers can hand in Reanimated styles (e.g. animated fills). */
+  style?: StyleProp<AnimatedStyle<ViewStyle>>;
   className?: string;
   /** How far it compresses on press. Larger surfaces want a subtler value. */
   pressScale?: number;

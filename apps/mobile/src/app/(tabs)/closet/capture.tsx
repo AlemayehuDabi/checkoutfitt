@@ -10,6 +10,8 @@ import { ScreenContainer } from "@/components/ui/screen-container";
 import { usePendingImages } from "@/context/closet-context";
 
 import { color } from "@/design";
+import { IconWell } from "@/components/ui/icon-well";
+import { PressableScale } from "@/components/ui/pressable-scale";
 
 export default function CaptureScreen() {
   const [permission, requestPermission] = useCameraPermissions();
@@ -30,9 +32,7 @@ export default function CaptureScreen() {
     return (
       <ScreenContainer>
         <View className="flex-1 items-center justify-center px-4">
-          <View className="h-20 w-20 items-center justify-center rounded-full bg-primary-50">
-            <CameraIcon size={28} color={color.primary} />
-          </View>
+          <IconWell size="2xl"><CameraIcon size={28} color={color.primary} /></IconWell>
           <Text className="mt-6 text-center text-2xl font-bold text-ink">
             Camera access needed
           </Text>
@@ -68,35 +68,35 @@ export default function CaptureScreen() {
       <SafeAreaView edges={["top", "bottom"]} className="absolute inset-0">
         <View className="flex-1 justify-between">
           <View className="flex-row items-center justify-between px-6 pt-4">
-            <Pressable
+            <PressableScale
               onPress={() => router.back()}
               hitSlop={8}
-              className="h-10 w-10 items-center justify-center rounded-full bg-black/40 active:opacity-70"
+              className="h-10 w-10 items-center justify-center rounded-full bg-black/40"
             >
               <X size={20} color={color.white} />
-            </Pressable>
-            <Pressable
+            </PressableScale>
+            <PressableScale
               onPress={() => setFacing((prev) => (prev === "back" ? "front" : "back"))}
               hitSlop={8}
-              className="h-10 w-10 items-center justify-center rounded-full bg-black/40 active:opacity-70"
+              className="h-10 w-10 items-center justify-center rounded-full bg-black/40"
             >
               <RefreshCw size={18} color={color.white} />
-            </Pressable>
+            </PressableScale>
           </View>
 
           <View className="items-center pb-10">
             <Text className="mb-6 text-sm font-medium text-white/80">
               Center the item in frame
             </Text>
-            <Pressable
+            <PressableScale
               onPress={handleCapture}
               disabled={capturing}
-              className={`h-20 w-20 items-center justify-center rounded-full border-4 border-white/70 active:opacity-80 ${
+              className={`h-20 w-20 items-center justify-center rounded-full border-4 border-white/70 ${
                 capturing ? "opacity-50" : ""
               }`}
             >
               <View className="h-16 w-16 rounded-full bg-surface" />
-            </Pressable>
+            </PressableScale>
           </View>
         </View>
       </SafeAreaView>

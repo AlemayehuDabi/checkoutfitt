@@ -1,8 +1,9 @@
 import { ExternalLink, ShoppingBag } from "lucide-react-native";
-import { Pressable, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
 import { Tag } from "@/components/ui/tag";
-import { color } from "@/design";
+import { PressableScale } from "@/components/ui/pressable-scale";
+import { color, elevation } from "@/design";
 import { AppImage } from "@/components/ui/app-image";
 
 export type Product = {
@@ -79,13 +80,14 @@ export function ProductCard({
     </View>
   );
 
-  const Wrapper = onPress ? Pressable : View;
+  const Wrapper = onPress ? PressableScale : View;
 
   return (
     <Wrapper
       onPress={onPress}
-      className={`rounded-2xl border border-line bg-surface p-3 ${
-        onPress ? "active:opacity-90" : ""
+      style={elevation.sm}
+      className={`rounded-2xl bg-surface p-3 ${
+        ""
       } ${isTile ? "w-44" : "flex-row items-center gap-3"} ${className}`}
     >
       {media}

@@ -8,6 +8,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Button } from "@/components/ui/button";
 import { ScreenContainer } from "@/components/ui/screen-container";
 import { color } from "@/design";
+import { IconWell } from "@/components/ui/icon-well";
+import { PressableScale } from "@/components/ui/pressable-scale";
 
 type CameraCaptureProps = {
   /** Instruction shown above the shutter. */
@@ -53,9 +55,7 @@ export function CameraCapture({
     return (
       <ScreenContainer>
         <View className="flex-1 items-center justify-center">
-          <View className="h-16 w-16 items-center justify-center rounded-3xl bg-primary-50">
-            <CameraIcon size={26} color={color.primary} strokeWidth={1.5} />
-          </View>
+          <IconWell size="xl"><CameraIcon size={26} color={color.primary} strokeWidth={1.5} /></IconWell>
           <Text className="mt-5 text-center text-h2 font-bold text-ink">{permissionTitle}</Text>
           <Text className="mt-2 text-center text-body leading-6 text-muted">{permissionBody}</Text>
 
@@ -96,22 +96,22 @@ export function CameraCapture({
       <SafeAreaView edges={["top", "bottom"]} className="absolute inset-0">
         <View className="flex-1 justify-between">
           <View className="flex-row items-center justify-between px-gutter pt-4">
-            <Pressable
+            <PressableScale
               onPress={() => router.back()}
               hitSlop={8}
               accessibilityLabel="Close camera"
-              className="h-10 w-10 items-center justify-center rounded-full bg-black/40 active:opacity-70"
+              className="h-10 w-10 items-center justify-center rounded-full bg-black/40"
             >
               <X size={20} color={color.white} />
-            </Pressable>
-            <Pressable
+            </PressableScale>
+            <PressableScale
               onPress={() => setFacing((prev) => (prev === "back" ? "front" : "back"))}
               hitSlop={8}
               accessibilityLabel="Flip camera"
-              className="h-10 w-10 items-center justify-center rounded-full bg-black/40 active:opacity-70"
+              className="h-10 w-10 items-center justify-center rounded-full bg-black/40"
             >
               <RefreshCw size={18} color={color.white} />
-            </Pressable>
+            </PressableScale>
           </View>
 
           {guide !== "none" ? (
@@ -128,16 +128,16 @@ export function CameraCapture({
 
           <View className="items-center pb-10">
             <Text className="mb-6 text-body-sm font-medium text-white/80">{hint}</Text>
-            <Pressable
+            <PressableScale
               onPress={handleCapture}
               disabled={capturing}
               accessibilityLabel="Take photo"
-              className={`h-20 w-20 items-center justify-center rounded-full border-4 border-white/70 active:opacity-80 ${
+              className={`h-20 w-20 items-center justify-center rounded-full border-4 border-white/70 ${
                 capturing ? "opacity-50" : ""
               }`}
             >
               <View className="h-16 w-16 rounded-full bg-surface" />
-            </Pressable>
+            </PressableScale>
           </View>
         </View>
       </SafeAreaView>

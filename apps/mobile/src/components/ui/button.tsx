@@ -1,8 +1,8 @@
 import { type ReactNode } from "react";
-import { ActivityIndicator, Text } from "react-native";
+import { ActivityIndicator, Text, View } from "react-native";
 
 import { PressableScale } from "@/components/ui/pressable-scale";
-import { color } from "@/design";
+import { color, elevation } from "@/design";
 
 type ButtonVariant = "primary" | "ink" | "secondary" | "outline" | "ghost" | "danger";
 type ButtonSize = "sm" | "md";
@@ -27,7 +27,7 @@ const surface: Record<ButtonVariant, string> = {
   primary: "bg-primary",
   ink: "bg-ink",
   secondary: "bg-surface-sunken",
-  outline: "border border-line-strong bg-transparent",
+  outline: "border border-line-strong bg-surface",
   ghost: "bg-transparent",
   danger: "bg-danger",
 };
@@ -50,9 +50,20 @@ const spinner: Record<ButtonVariant, string> = {
   danger: color.white,
 };
 
+/**
+ * Solid buttons sit on their own plane. Primary casts a paprika-tinted glow so
+ * it reads as lit rather than dirty; quiet variants stay flat on purpose, since
+ * shadowing everything flattens the hierarchy again.
+ */
+const lift: Partial<Record<ButtonVariant, typeof elevation.md>> = {
+  primary: elevation.primary,
+  ink: elevation.md,
+  danger: elevation.md,
+};
+
 const sizing: Record<ButtonSize, string> = {
-  sm: "h-11 px-4 gap-1.5",
-  md: "h-14 px-5 gap-2",
+  sm: "h-11 px-4 gap-2",
+  md: "h-14 px-5 gap-2.5",
 };
 
 export function Button({
@@ -72,6 +83,9 @@ export function Button({
       onPress={onPress}
       disabled={isDisabled}
       pressScale={0.975}
+      // A disabled control shouldn't float — dropping the shadow is what sells
+      // that it isn't pressable, more than the opacity change does.
+      style={isDisabled ? undefined : lift[variant]}
       accessibilityRole="button"
       accessibilityState={{ disabled: isDisabled, busy: loading }}
       className={`flex-row items-center justify-center rounded-2xl ${sizing[size]} ${surface[variant]} ${
@@ -82,7 +96,7 @@ export function Button({
         <ActivityIndicator color={spinner[variant]} />
       ) : (
         <>
-          {icon}
+          {icon ? <View className="-ml-0.5">{icon}</View> : null}
           <Text
             className={`font-semibold ${size === "sm" ? "text-body-sm" : "text-body-lg"} ${label[variant]}`}
           >

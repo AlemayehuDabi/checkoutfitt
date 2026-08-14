@@ -9,6 +9,7 @@
  * CSS custom properties in `global.css` and feeds `tailwind.config.js`.
  */
 import {
+  glow,
   palette,
   radius as radiusTokens,
   shadow,
@@ -61,22 +62,27 @@ export const color = {
  * Elevation as React Native style objects. Shadows are cast in warm ink rather
  * than neutral black so they sit correctly on the paper canvas.
  */
-function toShadow(step: { y: number; blur: number; opacity: number }, android: number) {
+function toShadow(
+  step: { y: number; blur: number; opacity: number; android: number },
+  tint: string = shadowColor
+) {
   return {
-    shadowColor,
+    shadowColor: tint,
     shadowOffset: { width: 0, height: step.y },
     shadowOpacity: step.opacity,
     shadowRadius: step.blur,
-    elevation: android,
+    elevation: step.android,
   } as const;
 }
 
 export const elevation = {
-  none: toShadow(shadow.none, 0),
-  sm: toShadow(shadow.sm, 1),
-  md: toShadow(shadow.md, 3),
-  lg: toShadow(shadow.lg, 8),
-  xl: toShadow(shadow.xl, 16),
+  none: toShadow(shadow.none),
+  sm: toShadow(shadow.sm),
+  md: toShadow(shadow.md),
+  lg: toShadow(shadow.lg),
+  xl: toShadow(shadow.xl),
+  /** Paprika-tinted lift for primary actions. */
+  primary: toShadow(glow.primary, palette.primary.DEFAULT),
 } as const;
 
 export { radiusTokens as radius, spacingTokens as spacing, typography };

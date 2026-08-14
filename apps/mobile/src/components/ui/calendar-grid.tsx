@@ -2,6 +2,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react-native";
 import { Pressable, Text, View } from "react-native";
 
 import { color } from "@/design";
+import { PressableScale } from "@/components/ui/pressable-scale";
 import {
   addMonths,
   daysInMonth,
@@ -49,23 +50,23 @@ export function CalendarGrid({
   return (
     <View className={className}>
       <View className="flex-row items-center justify-between">
-        <Pressable
+        <PressableScale
           hitSlop={10}
           onPress={() => onMonthChange(addMonths(month, -1))}
           accessibilityLabel="Previous month"
-          className="h-10 w-10 items-center justify-center rounded-full active:bg-surface-sunken"
+          className="h-10 w-10 items-center justify-center rounded-full"
         >
           <ChevronLeft size={20} color={color.ink} />
-        </Pressable>
+        </PressableScale>
         <Text className="text-h3 font-bold text-ink">{monthLabel(month)}</Text>
-        <Pressable
+        <PressableScale
           hitSlop={10}
           onPress={() => onMonthChange(addMonths(month, 1))}
           accessibilityLabel="Next month"
-          className="h-10 w-10 items-center justify-center rounded-full active:bg-surface-sunken"
+          className="h-10 w-10 items-center justify-center rounded-full"
         >
           <ChevronRight size={20} color={color.ink} />
-        </Pressable>
+        </PressableScale>
       </View>
 
       <View className="mt-4 flex-row">
@@ -93,7 +94,7 @@ export function CalendarGrid({
 
           return (
             <View key={iso} className="h-12 w-[14.28%] items-center justify-center">
-              <Pressable
+              <PressableScale
                 onPress={() => onSelect(iso)}
                 accessibilityRole="button"
                 accessibilityState={{ selected: isSelected }}
@@ -102,7 +103,7 @@ export function CalendarGrid({
                     ? "bg-ink"
                     : isToday
                       ? "border border-primary bg-primary-50"
-                      : "active:bg-surface-sunken"
+                      : ""
                 }`}
               >
                 <Text
@@ -116,7 +117,7 @@ export function CalendarGrid({
                 >
                   {day}
                 </Text>
-              </Pressable>
+              </PressableScale>
               <View className="mt-0.5 h-1.5">
                 {marker && !isSelected ? (
                   <View

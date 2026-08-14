@@ -1,8 +1,10 @@
 import { ChevronRight } from "lucide-react-native";
 import { type ReactNode } from "react";
-import { Pressable, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
 import { color } from "@/design";
+import { IconWell } from "@/components/ui/icon-well";
+import { PressableScale } from "@/components/ui/pressable-scale";
 
 type ListRowProps = {
   label: string;
@@ -29,18 +31,18 @@ export function ListRow({
   destructive = false,
   className = "",
 }: ListRowProps) {
-  const Wrapper = onPress ? Pressable : View;
+  const Wrapper = onPress ? PressableScale : View;
 
   return (
     <Wrapper
       onPress={onPress}
       accessibilityRole={onPress ? "button" : undefined}
-      className={`flex-row items-center gap-3 py-3.5 ${onPress ? "active:opacity-60" : ""} ${className}`}
+      className={`flex-row items-center gap-3 py-3.5 ${className}`}
     >
       {icon ? (
-        <View className="h-10 w-10 items-center justify-center rounded-xl bg-surface-sunken">
+        <IconWell size="sm" tone="sunken" className="h-10 w-10">
           {icon}
-        </View>
+        </IconWell>
       ) : null}
       <View className="flex-1">
         <Text className={`text-body font-medium ${destructive ? "text-danger" : "text-ink"}`}>

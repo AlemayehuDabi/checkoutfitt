@@ -10,6 +10,7 @@ import { ScreenContainer } from "@/components/ui/screen-container";
 import { SectionHeader } from "@/components/ui/section-header";
 import { COLOR_CAPTURE_TIPS } from "@/constants/mock-color-analysis";
 import { color } from "@/design";
+import { IconWell } from "@/components/ui/icon-well";
 
 export default function ColorAnalysisIntroScreen() {
   return (
@@ -23,9 +24,7 @@ export default function ColorAnalysisIntroScreen() {
       />
 
       <Card tone="inverse" hero raise="lg" className="mt-7 items-center p-7">
-        <View className="h-16 w-16 items-center justify-center rounded-3xl bg-white/15">
-          <Palette size={26} color={color.canvas} strokeWidth={1.5} />
-        </View>
+        <IconWell size="xl" tone="translucent"><Palette size={26} color={color.canvas} strokeWidth={1.5} /></IconWell>
         <Text className="mt-4 text-center text-body-lg leading-6 text-canvas">
           Most people wear at least a third of their closet in colours that quietly work against
           them.

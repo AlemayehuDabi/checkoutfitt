@@ -10,6 +10,7 @@ import { ScreenContainer } from "@/components/ui/screen-container";
 import { usePendingImages } from "@/context/closet-context";
 
 import { color } from "@/design";
+import { IconWell } from "@/components/ui/icon-well";
 
 export default function UploadScreen() {
   const { setPendingImages } = usePendingImages();
@@ -41,9 +42,7 @@ export default function UploadScreen() {
     <ScreenContainer>
       <Header title="Bulk Upload" />
       <View className="flex-1 items-center justify-center px-2">
-        <View className="h-20 w-20 items-center justify-center rounded-full bg-primary-50">
-          <Images size={28} color={color.primary} />
-        </View>
+        <IconWell size="2xl"><Images size={28} color={color.primary} /></IconWell>
         <Text className="mt-6 text-center text-2xl font-bold text-ink">
           Import multiple items
         </Text>

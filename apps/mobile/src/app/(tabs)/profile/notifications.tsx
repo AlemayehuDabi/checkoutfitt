@@ -8,6 +8,7 @@ import { StateView } from "@/components/ui/state-view";
 import { MOCK_NOTIFICATIONS } from "@/constants/mock-notifications";
 import { color } from "@/design";
 import type { AppNotification } from "@/types";
+import { PressableScale } from "@/components/ui/pressable-scale";
 
 const ICONS: Record<AppNotification["icon"], typeof Bell> = {
   sparkles: Sparkles,
@@ -45,9 +46,9 @@ export default function NotificationsScreen() {
           renderItem={({ item }) => {
             const Icon = ICONS[item.icon];
             return (
-              <Pressable
+              <PressableScale
                 onPress={() => markRead(item.id)}
-                className={`flex-row items-start gap-3 rounded-2xl border p-4 active:opacity-80 ${
+                className={`flex-row items-start gap-3 rounded-2xl border p-4 ${
                   item.unread ? "border-primary-100 bg-primary-50" : "border-line bg-surface"
                 }`}
               >
@@ -62,7 +63,7 @@ export default function NotificationsScreen() {
                   <Text className="mt-1 text-body-sm leading-5 text-muted">{item.body}</Text>
                   <Text className="mt-1.5 text-caption text-muted">{item.time}</Text>
                 </View>
-              </Pressable>
+              </PressableScale>
             );
           }}
         />

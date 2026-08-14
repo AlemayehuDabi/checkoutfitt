@@ -15,6 +15,7 @@ import type { ChatMessage } from "@/types";
 
 import { color } from "@/design";
 import { AppImage } from "@/components/ui/app-image";
+import { PressableScale } from "@/components/ui/pressable-scale";
 
 let messageCounter = 0;
 function nextMessageId() {
@@ -150,13 +151,13 @@ export default function ChatScreen() {
             keyExtractor={(item) => item.label}
             contentContainerClassName="gap-2 px-4 pb-3"
             renderItem={({ item }) => (
-              <Pressable
+              <PressableScale
                 onPress={() => (item.pro ? router.push("/chat/paywall") : handleSend(item.prompt))}
-                className="flex-row items-center gap-1.5 rounded-full border border-line bg-surface px-4 py-2.5 active:opacity-70"
+                className="flex-row items-center gap-1.5 rounded-full border border-line bg-surface px-4 py-2.5"
               >
                 {item.pro ? <Crown size={13} color={color.primary} /> : null}
                 <Text className="text-sm font-medium text-ink">{item.label}</Text>
-              </Pressable>
+              </PressableScale>
             )}
           />
         ) : null}
@@ -165,12 +166,12 @@ export default function ChatScreen() {
           <View className="flex-row items-center gap-2 px-4 pb-2">
             <View className="relative">
               <AppImage source={{ uri: attachedImage }} className="h-14 w-14 rounded-xl bg-surface-sunken" />
-              <Pressable
+              <PressableScale
                 onPress={() => setAttachedImage(null)}
-                className="absolute -right-1.5 -top-1.5 h-5 w-5 items-center justify-center rounded-full bg-ink active:opacity-70"
+                className="absolute -right-1.5 -top-1.5 h-5 w-5 items-center justify-center rounded-full bg-ink"
               >
                 <X size={12} color={color.canvas} />
-              </Pressable>
+              </PressableScale>
             </View>
             <Text className="text-xs text-muted">Attached — add a note or just hit send</Text>
           </View>
@@ -190,15 +191,15 @@ export default function ChatScreen() {
             onSubmitEditing={() => handleSend()}
             returnKeyType="send"
           />
-          <Pressable
+          <PressableScale
             onPress={() => handleSend()}
             disabled={!canSend}
-            className={`h-11 w-11 items-center justify-center rounded-full bg-ink active:opacity-80 ${
+            className={`h-11 w-11 items-center justify-center rounded-full bg-ink ${
               canSend ? "" : "opacity-40"
             }`}
           >
             <Send size={18} color={color.canvas} />
-          </Pressable>
+          </PressableScale>
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>

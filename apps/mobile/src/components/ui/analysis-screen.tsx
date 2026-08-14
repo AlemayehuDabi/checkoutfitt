@@ -5,6 +5,7 @@ import { Text, View } from "react-native";
 import { ScreenContainer } from "@/components/ui/screen-container";
 import { color } from "@/design";
 import { AppImage } from "@/components/ui/app-image";
+import { IconWell } from "@/components/ui/icon-well";
 
 type AnalysisScreenProps = {
   /** Copy cycled through while the fake analysis runs. */
@@ -56,9 +57,7 @@ export function AnalysisScreen({
             <AppImage source={{ uri: imageUri }} className="h-full w-full" contentFit="cover" />
           </View>
         ) : (
-          <View className="h-24 w-24 items-center justify-center rounded-4xl bg-primary-50">
-            <Icon size={34} color={color.primary} strokeWidth={1.5} />
-          </View>
+          <IconWell size="2xl"><Icon size={34} color={color.primary} strokeWidth={1.5} /></IconWell>
         )}
 
         <Text className="mt-9 text-center text-h3 font-bold text-ink">{steps[index]}</Text>

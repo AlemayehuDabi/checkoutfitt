@@ -16,6 +16,7 @@ import { ScreenContainer } from "@/components/ui/screen-container";
 import { OCCASIONS } from "@/constants/mock-outfits";
 
 import { color } from "@/design";
+import { IconWell } from "@/components/ui/icon-well";
 
 const OCCASION_ICONS: Record<string, typeof Briefcase> = {
   briefcase: Briefcase,
@@ -44,9 +45,7 @@ export default function OccasionsScreen() {
               onPress={() => router.push(`/generate/result?context=${encodeURIComponent(occasion.key)}`)}
               className="w-[48%] gap-3 p-4"
             >
-              <View className="h-11 w-11 items-center justify-center rounded-xl bg-primary-50">
-                <Icon size={20} color={color.primary} />
-              </View>
+              <IconWell size="md"><Icon size={20} color={color.primary} /></IconWell>
               <View>
                 <Text className="text-base font-semibold text-ink">{occasion.label}</Text>
                 <Text className="mt-0.5 text-xs text-muted">{occasion.description}</Text>

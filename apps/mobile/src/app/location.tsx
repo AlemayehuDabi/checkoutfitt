@@ -10,6 +10,7 @@ import { DEFAULT_LOCATION } from "@/constants/mock-weather";
 import { useWeather } from "@/context/weather-context";
 
 import { color } from "@/design";
+import { IconWell } from "@/components/ui/icon-well";
 
 export default function LocationScreen() {
   const { setLocationName } = useWeather();
@@ -53,9 +54,7 @@ export default function LocationScreen() {
   return (
     <ScreenContainer>
       <View className="flex-1 items-center justify-center px-4">
-        <View className="h-20 w-20 items-center justify-center rounded-full bg-primary-50">
-          <MapPin size={28} color={color.primary} />
-        </View>
+        <IconWell size="2xl"><MapPin size={28} color={color.primary} /></IconWell>
         <Text className="mt-6 text-center text-2xl font-bold text-ink">
           Set your location
         </Text>

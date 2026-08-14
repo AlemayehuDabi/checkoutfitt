@@ -23,6 +23,7 @@ const {
   radius,
   spacing,
   shadow,
+  glow,
   shadowColor,
   hexToChannels,
   flattenPalette,
@@ -62,11 +63,17 @@ for (const [name, value] of Object.entries(spacing)) {
   lines.push(`  --spacing-${name}: ${value}px;`);
 }
 
-section("Elevation — consumed at runtime via src/design/elevation.ts");
+section("Elevation — consumed at runtime via src/design/index.ts");
 lines.push(`  --shadow-color: ${hexToChannels(shadowColor)}; /* ${shadowColor} */`);
 for (const [name, step] of Object.entries(shadow)) {
   lines.push(
     `  --shadow-${name}: 0px ${step.y}px ${step.blur}px rgb(var(--shadow-color) / ${step.opacity});`
+  );
+  lines.push(`  --elevation-${name}: ${step.android};`);
+}
+for (const [name, step] of Object.entries(glow)) {
+  lines.push(
+    `  --glow-${name}: 0px ${step.y}px ${step.blur}px rgb(var(--color-${name}) / ${step.opacity});`
   );
 }
 

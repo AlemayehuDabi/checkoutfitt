@@ -137,17 +137,31 @@ const spacing = {
  * Elevation. React Native needs real style objects rather than CSS shadows, so
  * these are consumed through `src/design/elevation.ts`. Values are also emitted
  * as custom properties for documentation parity.
+ *
+ * The original ramp topped out around 0.04–0.06 opacity, which on a warm paper
+ * canvas was indistinguishable from a hairline border — every surface read as
+ * flat. These are tuned so each step is a visibly distinct plane, and `android`
+ * carries the native elevation that Android composites separately from the
+ * iOS shadow parameters.
  */
 const shadow = {
-  none: { y: 0, blur: 0, opacity: 0 },
-  /** Cards resting on the canvas. */
-  sm: { y: 1, blur: 3, opacity: 0.04 },
-  /** Raised cards, sheets. */
-  md: { y: 4, blur: 12, opacity: 0.06 },
-  /** Hero cards, floating actions. */
-  lg: { y: 10, blur: 26, opacity: 0.1 },
-  /** Modals. */
-  xl: { y: 18, blur: 44, opacity: 0.14 },
+  none: { y: 0, blur: 0, opacity: 0, android: 0 },
+  /** Resting cards, list rows. Just enough to lift off the canvas. */
+  sm: { y: 2, blur: 8, opacity: 0.07, android: 2 },
+  /** Standard interactive cards. The workhorse. */
+  md: { y: 6, blur: 18, opacity: 0.1, android: 5 },
+  /** Hero cards, primary buttons, floating actions. */
+  lg: { y: 14, blur: 32, opacity: 0.14, android: 10 },
+  /** Sheets and modals. */
+  xl: { y: 24, blur: 56, opacity: 0.2, android: 20 },
+};
+
+/**
+ * Brand-tinted glow for primary actions. A paprika button casting a neutral ink
+ * shadow looks dirty; casting its own hue makes it look lit.
+ */
+const glow = {
+  primary: { y: 8, blur: 20, opacity: 0.32, android: 6 },
 };
 
 /** Shadows are cast in warm ink, not neutral black. */
@@ -186,6 +200,7 @@ module.exports = {
   radius,
   spacing,
   shadow,
+  glow,
   shadowColor,
   hexToChannels,
   flattenPalette,

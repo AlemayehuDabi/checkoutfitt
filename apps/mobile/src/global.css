@@ -103,13 +103,19 @@
   --spacing-section: 32px;
   --spacing-block: 20px;
 
-  /* Elevation — consumed at runtime via src/design/elevation.ts */
+  /* Elevation — consumed at runtime via src/design/index.ts */
   --shadow-color: 23 19 15; /* #17130F */
   --shadow-none: 0px 0px 0px rgb(var(--shadow-color) / 0);
-  --shadow-sm: 0px 1px 3px rgb(var(--shadow-color) / 0.04);
-  --shadow-md: 0px 4px 12px rgb(var(--shadow-color) / 0.06);
-  --shadow-lg: 0px 10px 26px rgb(var(--shadow-color) / 0.1);
-  --shadow-xl: 0px 18px 44px rgb(var(--shadow-color) / 0.14);
+  --elevation-none: 0;
+  --shadow-sm: 0px 2px 8px rgb(var(--shadow-color) / 0.07);
+  --elevation-sm: 2;
+  --shadow-md: 0px 6px 18px rgb(var(--shadow-color) / 0.1);
+  --elevation-md: 5;
+  --shadow-lg: 0px 14px 32px rgb(var(--shadow-color) / 0.14);
+  --elevation-lg: 10;
+  --shadow-xl: 0px 24px 56px rgb(var(--shadow-color) / 0.2);
+  --elevation-xl: 20;
+  --glow-primary: 0px 8px 20px rgb(var(--color-primary) / 0.32);
 
   /* === END GENERATED TOKENS === */
 }

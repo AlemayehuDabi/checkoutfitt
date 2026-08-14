@@ -1,5 +1,6 @@
 import { type ReactNode } from "react";
-import { Pressable } from "react-native";
+
+import { PressableScale } from "@/components/ui/pressable-scale";
 
 type IconButtonProps = {
   children: ReactNode;
@@ -10,8 +11,8 @@ type IconButtonProps = {
 };
 
 const surfaces = {
-  ghost: "active:bg-surface-sunken",
-  solid: "bg-surface border border-line",
+  ghost: "",
+  solid: "bg-surface",
   sunken: "bg-surface-sunken",
   inverse: "bg-white/15",
 } as const;
@@ -24,14 +25,17 @@ export function IconButton({
   className = "",
 }: IconButtonProps) {
   return (
-    <Pressable
+    <PressableScale
       onPress={onPress}
-      hitSlop={8}
+      hitSlop={10}
+      // Small targets need a deeper compression than cards to register as pressed.
+      pressScale={0.88}
+      pressOpacity={0.7}
       accessibilityRole="button"
       accessibilityLabel={accessibilityLabel}
-      className={`h-10 w-10 items-center justify-center rounded-full active:opacity-70 ${surfaces[variant]} ${className}`}
+      className={`h-10 w-10 items-center justify-center rounded-full ${surfaces[variant]} ${className}`}
     >
       {children}
-    </Pressable>
+    </PressableScale>
   );
 }

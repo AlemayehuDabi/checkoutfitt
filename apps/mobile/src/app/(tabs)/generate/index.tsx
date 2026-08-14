@@ -21,6 +21,7 @@ import { SelectCard } from "@/components/ui/select-card";
 import { OUTFIT_CONTEXTS } from "@/constants/mock-outfits";
 
 import { color } from "@/design";
+import { IconWell } from "@/components/ui/icon-well";
 
 const CONTEXT_ICONS: Record<string, typeof Coffee> = {
   coffee: Coffee,
@@ -75,9 +76,7 @@ export default function GenerateHomeScreen() {
       <SectionHeader title="Other ways in" className="mt-9" />
       <View className="mb-2 gap-2.5">
         <Card onPress={() => router.push("/occasions")} className="flex-row items-center gap-4 p-4">
-          <View className="h-11 w-11 items-center justify-center rounded-2xl bg-primary-50">
-            <PartyPopper size={19} color={color.primary} strokeWidth={1.75} />
-          </View>
+          <IconWell size="md"><PartyPopper size={19} color={color.primary} strokeWidth={1.75} /></IconWell>
           <View className="flex-1">
             <Text className="text-body font-semibold text-ink">Shop by Occasion</Text>
             <Text className="mt-0.5 text-caption text-muted">
@@ -88,9 +87,7 @@ export default function GenerateHomeScreen() {
         </Card>
 
         <Card onPress={() => router.push("/calendar")} className="flex-row items-center gap-4 p-4">
-          <View className="h-11 w-11 items-center justify-center rounded-2xl bg-primary-50">
-            <CalendarDays size={19} color={color.primary} strokeWidth={1.75} />
-          </View>
+          <IconWell size="md"><CalendarDays size={19} color={color.primary} strokeWidth={1.75} /></IconWell>
           <View className="flex-1">
             <Text className="text-body font-semibold text-ink">Plan Ahead</Text>
             <Text className="mt-0.5 text-caption text-muted">
@@ -101,9 +98,7 @@ export default function GenerateHomeScreen() {
         </Card>
 
         <Card onPress={() => router.push("/rating/capture")} className="flex-row items-center gap-4 p-4">
-          <View className="h-11 w-11 items-center justify-center rounded-2xl bg-primary-50">
-            <ScanLine size={19} color={color.primary} strokeWidth={1.75} />
-          </View>
+          <IconWell size="md"><ScanLine size={19} color={color.primary} strokeWidth={1.75} /></IconWell>
           <View className="flex-1">
             <Text className="text-body font-semibold text-ink">Rate What You&apos;re Wearing</Text>
             <Text className="mt-0.5 text-caption text-muted">

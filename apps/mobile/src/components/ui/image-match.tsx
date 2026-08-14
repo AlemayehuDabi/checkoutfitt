@@ -1,10 +1,12 @@
 import { ArrowLeftRight, ImageOff } from "lucide-react-native";
 import { type ReactNode } from "react";
-import { Pressable, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
 import { Meter } from "@/components/ui/meter";
-import { color } from "@/design";
+import { PressableScale } from "@/components/ui/pressable-scale";
+import { color, elevation } from "@/design";
 import { AppImage } from "@/components/ui/app-image";
+import { IconWell } from "@/components/ui/icon-well";
 
 type ImageMatchProps = {
   /** The inspiration reference being matched against. */
@@ -34,13 +36,14 @@ export function ImageMatch({
   onPress,
   className = "",
 }: ImageMatchProps) {
-  const Wrapper = onPress ? Pressable : View;
+  const Wrapper = onPress ? PressableScale : View;
 
   return (
     <Wrapper
       onPress={onPress}
-      className={`rounded-2xl border border-line bg-surface p-4 ${
-        onPress ? "active:opacity-90" : ""
+      style={elevation.sm}
+      className={`rounded-2xl bg-surface p-4 ${
+        ""
       } ${className}`}
     >
       <View className="flex-row items-center gap-3">
@@ -60,9 +63,7 @@ export function ImageMatch({
         </View>
 
         <View className="items-center">
-          <View className="h-9 w-9 items-center justify-center rounded-full bg-primary-50">
-            <ArrowLeftRight size={15} color={color.primary} />
-          </View>
+          <IconWell size="sm"><ArrowLeftRight size={15} color={color.primary} /></IconWell>
         </View>
 
         <View className="flex-1 items-center">
