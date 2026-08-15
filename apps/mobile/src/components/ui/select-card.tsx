@@ -1,15 +1,6 @@
 import { Check } from "lucide-react-native";
 import { type ReactNode } from "react";
 import { Text, View } from "react-native";
-import Animated, {
-  FadeIn,
-  FadeOut,
-  interpolate,
-  interpolateColor,
-  useAnimatedStyle,
-  useDerivedValue,
-  withTiming,
-} from "react-native-reanimated";
 
 import { PressableScale } from "@/components/ui/pressable-scale";
 import { color, elevation, motion } from "@/design";
@@ -25,15 +16,18 @@ type SelectCardProps = {
   className?: string;
 };
 
-const TRANSITION = { duration: motion.duration.normal };
-
 /**
  * The selection tile behind the Outfit Generator and the style quiz.
  *
- * The mockups stack it: glyph centred over a centred label, sized to sit two
- * to a row. Selecting fills it with `primary-50` behind a 1.5px brand border
- * and drops a small filled check badge into the top-right corner — the badge is
- * absolutely positioned so selection never reflows the grid.
+ * The mockups stack it: glyph centred over a centred label, sized to sit two to
+ * a row. Selecting fills it with `primary-50` behind a brand border and drops a
+ * filled check badge into the top-right corner — absolutely positioned, so
+ * selection never reflows the grid.
+ *
+ * Fill and border are utility classes, not an interpolated animated style:
+ * `PressableScale` resolves `className` and `style` onto the same prop, so an
+ * animated `backgroundColor` loses to the class layer and the tile never reads
+ * as selected.
  */
 export function SelectCard({
   label,
@@ -44,23 +38,17 @@ export function SelectCard({
   right,
   className = "",
 }: SelectCardProps) {
-  const progress = useDerivedValue(() => withTiming(selected ? 1 : 0, TRANSITION), [selected]);
-
-  const containerStyle = useAnimatedStyle(() => ({
-    backgroundColor: interpolateColor(progress.value, [0, 1], [color.surface, color.primary50]),
-    borderColor: interpolateColor(progress.value, [0, 1], [color.border, color.primary500]),
-    borderWidth: interpolate(progress.value, [0, 1], [1, 1.5]),
-  }));
-
   return (
     <PressableScale
       onPress={onPress}
       pressScale={motion.pressScale.md}
-      pressOpacity={1}
+      pressOpacity={0.9}
       accessibilityRole="button"
       accessibilityState={{ selected }}
-      style={[selected ? elevation.md : elevation.sm, containerStyle]}
-      className={`items-center justify-center gap-sm rounded-md px-md py-lg ${className}`}
+      style={selected ? elevation.md : elevation.sm}
+      className={`items-center justify-center gap-sm rounded-md border px-md py-lg ${
+        selected ? "border-[1.5px] border-primary-500 bg-primary-50" : "border-border bg-surface"
+      } ${className}`}
     >
       {icon ? <View className="items-center justify-center">{icon}</View> : null}
 
@@ -85,13 +73,9 @@ export function SelectCard({
       {right ? <View className="mt-1">{right}</View> : null}
 
       {selected ? (
-        <Animated.View
-          entering={FadeIn.duration(motion.duration.fast)}
-          exiting={FadeOut.duration(motion.duration.fast)}
-          className="absolute right-1.5 top-1.5 h-5 w-5 items-center justify-center rounded-full bg-primary-500"
-        >
+        <View className="absolute right-1.5 top-1.5 h-5 w-5 items-center justify-center rounded-full bg-primary-500">
           <Check size={12} color={color.textOnPrimary} strokeWidth={3} />
-        </Animated.View>
+        </View>
       ) : null}
     </PressableScale>
   );

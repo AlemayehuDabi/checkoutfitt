@@ -1,14 +1,8 @@
 import { type ReactNode } from "react";
 import { View } from "react-native";
-import {
-  interpolate,
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from "react-native-reanimated";
 
 import { PressableScale } from "@/components/ui/pressable-scale";
-import { elevation, motion, shadowColor, shadowStep } from "@/design";
+import { elevation, motion } from "@/design";
 
 type CardTone = "surface" | "sunken" | "inverse" | "primary" | "outline";
 type CardElevation = "none" | "sm" | "md" | "lg";
@@ -56,14 +50,6 @@ const roundness: Record<CardTone, string> = {
   outline: "rounded-xl",
 };
 
-/** One step up the ramp, so a press lifts the card rather than just shrinking it. */
-const liftTarget: Record<CardElevation, CardElevation> = {
-  none: "none",
-  sm: "md",
-  md: "lg",
-  lg: "lg",
-};
-
 export function Card({
   children,
   onPress,
@@ -74,25 +60,11 @@ export function Card({
 }: CardProps) {
   const resting = raise ?? (hero ? "lg" : defaultRaise[tone]);
   const classes = `${roundness[tone]} ${tones[tone]} ${className}`;
-
-  // 0 at rest, 1 while held — interpolates the shadow between two steps of the
-  // elevation ramp on the UI thread, so the lift lands with the compression
-  // rather than a frame or two behind it.
-  const pressed = useSharedValue(0);
-
-  const from = shadowStep[resting];
-  const to = shadowStep[liftTarget[resting]];
-
-  const shadowStyle = useAnimatedStyle(() => {
-    if (resting === "none") return {};
-    return {
-      shadowColor,
-      shadowOffset: { width: 0, height: interpolate(pressed.value, [0, 1], [from.y, to.y]) },
-      shadowOpacity: interpolate(pressed.value, [0, 1], [from.opacity, to.opacity]),
-      shadowRadius: interpolate(pressed.value, [0, 1], [from.blur, to.blur]),
-      elevation: interpolate(pressed.value, [0, 1], [from.android, to.android]),
-    };
-  });
+  // A plain style object, not an animated one: `PressableScale` resolves
+  // `className` and `style` onto the same prop, and a shadow that only exists
+  // inside a `useAnimatedStyle` gets dropped — which left every tappable card
+  // completely flat. The press response is the scale.
+  const style = resting === "none" ? undefined : elevation[resting];
 
   if (onPress) {
     return (
@@ -101,14 +73,8 @@ export function Card({
       <PressableScale
         onPress={onPress}
         pressScale={motion.pressScale.md}
-        pressOpacity={1}
-        onPressIn={() => {
-          pressed.value = withTiming(1, { duration: motion.duration.normal });
-        }}
-        onPressOut={() => {
-          pressed.value = withTiming(0, { duration: motion.duration.normal });
-        }}
-        style={shadowStyle}
+        pressOpacity={0.95}
+        style={style}
         className={classes}
       >
         {children}
@@ -117,7 +83,7 @@ export function Card({
   }
 
   return (
-    <View style={resting === "none" ? undefined : elevation[resting]} className={classes}>
+    <View style={style} className={classes}>
       {children}
     </View>
   );

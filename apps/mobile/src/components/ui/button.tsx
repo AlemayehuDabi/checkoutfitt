@@ -1,11 +1,5 @@
 import { type ReactNode } from "react";
 import { ActivityIndicator, Text, View } from "react-native";
-import {
-  interpolateColor,
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from "react-native-reanimated";
 
 import { PressableScale } from "@/components/ui/pressable-scale";
 import { color, elevation, motion } from "@/design";
@@ -25,35 +19,26 @@ type ButtonProps = {
 };
 
 /**
- * Fill and press-fill per variant.
+ * Fill and border per variant, as plain utility classes.
  *
- * `null` means "stays transparent" — ghost has no fill at all, so it feeds the
- * opacity fallback below instead of an animated background.
- *
- * No `active:` variants here on purpose: those re-render through JS on every
- * touch. Both the scale (via `PressableScale`) and the colour shift run on the
- * UI thread so a press registers even while JS is busy.
+ * These are deliberately *not* driven through a Reanimated animated style.
+ * `PressableScale` is a `cssInterop`-wrapped animated Pressable, so its
+ * `className` and its `style` prop both resolve onto `style` — and when both
+ * try to set `backgroundColor`, the animated one loses. Driving the resting
+ * fill from an animated style is what left every primary button transparent
+ * with a white label on it. Press feedback is carried by scale and opacity
+ * instead, which nothing else writes to.
  */
-const fills: Record<ButtonVariant, { rest: string; pressed: string } | null> = {
-  primary: { rest: color.primary500, pressed: color.primary600 },
-  ink: { rest: color.ink, pressed: color.ink },
-  /** Spec §6.1 secondary: outlined in the brand colour, fills primary-50. */
-  secondary: { rest: "rgba(255, 245, 240, 0)", pressed: color.primary50 },
+const surface: Record<ButtonVariant, string> = {
+  primary: "bg-primary-500",
+  ink: "bg-ink",
+  /** Spec §6.1 secondary: outlined in the brand colour. */
+  secondary: "border-[1.5px] border-primary-500 bg-transparent",
   /** Neutral outline — the quiet alternative on tinted or photographic stock. */
-  outline: { rest: "rgba(245, 241, 234, 0)", pressed: color.surfaceSunken },
-  ghost: null,
-  /** Spec §6.1 destructive: outlined in danger, fills danger-light. */
-  danger: { rest: "rgba(253, 237, 234, 0)", pressed: color.dangerLight },
-};
-
-/** 1.5px hairline on the outlined variants; the filled ones carry none. */
-const borders: Record<ButtonVariant, string> = {
-  primary: "",
-  ink: "",
-  secondary: "border-[1.5px] border-primary-500",
-  outline: "border-[1.5px] border-border-strong",
-  ghost: "",
-  danger: "border-[1.5px] border-danger",
+  outline: "border-[1.5px] border-border-strong bg-surface",
+  ghost: "bg-transparent",
+  /** Spec §6.1 destructive. */
+  danger: "border-[1.5px] border-danger bg-danger-light",
 };
 
 const label: Record<ButtonVariant, string> = {
@@ -101,37 +86,19 @@ export function Button({
   className = "",
 }: ButtonProps) {
   const isDisabled = disabled || loading;
-  const fill = fills[variant];
-
-  // 0 at rest, 1 while held. Drives the colour shift that pairs with the scale.
-  const pressed = useSharedValue(0);
-
-  const fillStyle = useAnimatedStyle(() => {
-    if (!fill) return {};
-    return {
-      backgroundColor: interpolateColor(pressed.value, [0, 1], [fill.rest, fill.pressed]),
-    };
-  });
 
   return (
     <PressableScale
       onPress={onPress}
       disabled={isDisabled}
       pressScale={motion.pressScale.sm}
-      // Ghost has no fill to shift, so it leans on the opacity fade instead.
-      pressOpacity={fill ? 1 : 0.7}
-      onPressIn={() => {
-        pressed.value = withTiming(1, { duration: motion.duration.fast });
-      }}
-      onPressOut={() => {
-        pressed.value = withTiming(0, { duration: motion.duration.normal });
-      }}
+      pressOpacity={0.85}
       // A disabled control shouldn't float — dropping the shadow is what sells
       // that it isn't pressable, more than the opacity change does.
-      style={[isDisabled ? undefined : lift[variant], fillStyle]}
+      style={isDisabled ? undefined : lift[variant]}
       accessibilityRole="button"
       accessibilityState={{ disabled: isDisabled, busy: loading }}
-      className={`flex-row items-center justify-center rounded-lg ${sizing[size]} ${borders[variant]} ${
+      className={`flex-row items-center justify-center rounded-lg ${sizing[size]} ${surface[variant]} ${
         isDisabled ? "opacity-40" : ""
       } ${className}`}
     >

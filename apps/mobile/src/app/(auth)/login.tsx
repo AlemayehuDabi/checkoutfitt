@@ -1,112 +1,84 @@
 import { Link, router } from "expo-router";
 import { useState } from "react";
 import { Text, View } from "react-native";
-
 import { Button } from "@/components/ui/button";
-import { Divider } from "@/components/ui/divider";
 import { Input } from "@/components/ui/input";
 import { ScreenContainer } from "@/components/ui/screen-container";
 import { SocialButton } from "@/components/ui/social-button";
 
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-type Errors = {
-  email?: string;
-  password?: string;
-};
-
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState<Errors>({});
-
-  const validate = () => {
-    const nextErrors: Errors = {};
-
-    if (!email.trim()) {
-      nextErrors.email = "Email is required";
-    } else if (!EMAIL_REGEX.test(email.trim())) {
-      nextErrors.email = "Enter a valid email address";
-    }
-
-    if (!password) {
-      nextErrors.password = "Password is required";
-    }
-
-    setErrors(nextErrors);
-    return Object.keys(nextErrors).length === 0;
-  };
-
-  const handleLogin = () => {
-    if (!validate()) return;
-    router.push("/permissions");
-  };
 
   return (
-    <ScreenContainer scroll keyboardAware>
-      <View className="grow pt-4xl">
-        <Text className="text-eyebrow font-semibold uppercase text-primary-500">CheckoutFitt</Text>
-        <Text className="mt-md text-h1 font-bold text-text-primary">Welcome back</Text>
-        <Text className="mt-sm text-body text-text-muted">
-          Log in to pick up right where you left off.
+    <ScreenContainer scroll keyboardAware className="bg-[#F9F8F6]">
+      <View className="grow px-2 pt-10">
+        {/* Branding - matching the small uppercase style */}
+        <Text className="text-center text-[12px] font-bold uppercase tracking-[2px] text-[#1A1A1A]">
+          CheckoutFitt
         </Text>
 
-        <View className="mt-3xl gap-xl">
+        {/* Headline - Using Serif style for the "Old Money" look */}
+        <View className="mt-12 items-center">
+          <Text 
+            style={{ fontFamily: 'System' }} // In production, use a Serif font like Playfair Display
+            className="text-center text-[34px] leading-[40px] text-[#1A1A1A]"
+          >
+            Welcome back
+          </Text>
+          <Text className="mt-3 text-center text-[16px] text-[#666666]">
+            Start your style journey today.
+          </Text>
+        </View>
+
+        {/* Form */}
+        <View className="mt-10 gap-y-5">
           <Input
-            label="Email"
-            placeholder="you@example.com"
+            label="Email address"
+            placeholder="email@example.com"
             value={email}
-            onChangeText={(value) => {
-              setEmail(value);
-              if (errors.email) setErrors((prev) => ({ ...prev, email: undefined }));
-            }}
-            error={errors.email}
-            keyboardType="email-address"
+            onChangeText={setEmail}
+            autoCapitalize="none"
           />
           <View>
             <Input
               label="Password"
-              placeholder="Enter your password"
+              placeholder="••••••••"
               value={password}
-              onChangeText={(value) => {
-                setPassword(value);
-                if (errors.password) setErrors((prev) => ({ ...prev, password: undefined }));
-              }}
-              error={errors.password}
+              onChangeText={setPassword}
               secureToggle
             />
             <Link href="/forgot-password" asChild>
-              <Text
-                className="mt-sm self-end text-caption font-semibold text-text-accent active:opacity-70"
-                suppressHighlighting
-              >
+              <Text className="mt-3 self-end text-[13px] font-medium text-[#666666]">
                 Forgot password?
               </Text>
             </Link>
           </View>
         </View>
 
-        <Button label="Log In" onPress={handleLogin} className="mt-3xl" />
+        {/* CTAs */}
+        <View className="mt-10">
+          <Button label="Sign In" onPress={() => router.push("/home")} variant="primary"/>
+          
+          <View className="my-8 flex-row items-center">
+            <View className="h-[1px] flex-1 bg-[#E5E5E5]" />
+            <Text className="px-4 text-[13px] text-[#999999]">or continue with</Text>
+            <View className="h-[1px] flex-1 bg-[#E5E5E5]" />
+          </View>
 
-        <View className="mt-3xl gap-xl">
-          <Divider label="or continue with" />
-          <View className="gap-md">
+          <View className="gap-y-3">
             <SocialButton provider="apple" />
             <SocialButton provider="google" />
           </View>
         </View>
-      </View>
 
-      <View className="flex-row items-center justify-center gap-1.5 pb-sm pt-3xl">
-        <Text className="text-caption text-text-muted">Don&apos;t have an account?</Text>
-        <Link href="/sign-up" replace asChild>
-          <Text
-            className="text-caption font-semibold text-text-accent active:opacity-70"
-            suppressHighlighting
-          >
-            Sign Up
-          </Text>
-        </Link>
+        {/* Footer */}
+        <View className="mt-12 flex-row justify-center pb-10">
+          <Text className="text-[14px] text-[#666666]">Don't have an account? </Text>
+          <Link href="/sign-up" asChild>
+            <Text className="text-[14px] font-bold text-[#C4572D]">Sign Up</Text>
+          </Link>
+        </View>
       </View>
     </ScreenContainer>
   );

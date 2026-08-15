@@ -2,14 +2,11 @@ import { useEffect } from "react";
 import { type DimensionValue } from "react-native";
 import Animated, {
   Easing,
-  interpolateColor,
   useAnimatedStyle,
   useSharedValue,
   withRepeat,
   withTiming,
 } from "react-native-reanimated";
-
-import { color } from "@/design";
 
 type SkeletonProps = {
   width?: DimensionValue;
@@ -20,16 +17,18 @@ type SkeletonProps = {
 };
 
 /**
- * Loading placeholder. Pulses between the tertiary and secondary surfaces
- * rather than fading opacity, so the block never thins out to show the canvas
- * through it.
+ * Loading placeholder.
+ *
+ * The fill is a class and only the opacity animates. Animating
+ * `backgroundColor` instead puts the animated style in competition with the
+ * class layer for the same prop, and the block ends up with no fill at all.
  *
  * Runs on Reanimated rather than the legacy Animated API so the pulse keeps
  * time on the UI thread — a skeleton that stutters while the JS thread is busy
  * doing the very work it's covering for defeats the point.
  */
 export function Skeleton({ width = "100%", height = 16, delay = 0, className = "" }: SkeletonProps) {
-  const progress = useSharedValue(0);
+  const progress = useSharedValue(0.5);
 
   useEffect(() => {
     const start = setTimeout(() => {
@@ -42,15 +41,12 @@ export function Skeleton({ width = "100%", height = 16, delay = 0, className = "
     return () => clearTimeout(start);
   }, [progress, delay]);
 
-  const style = useAnimatedStyle(() => ({
-    backgroundColor: interpolateColor(
-      progress.value,
-      [0, 1],
-      [color.surfaceTertiary, color.surfaceSecondary]
-    ),
-  }));
+  const style = useAnimatedStyle(() => ({ opacity: progress.value }));
 
   return (
-    <Animated.View style={[{ width, height }, style]} className={`rounded-md ${className}`} />
+    <Animated.View
+      style={[{ width, height }, style]}
+      className={`rounded-md bg-surface-tertiary ${className}`}
+    />
   );
 }
