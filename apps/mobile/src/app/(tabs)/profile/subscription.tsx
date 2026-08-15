@@ -1,6 +1,6 @@
 import { router } from "expo-router";
 import { Check, Minus } from "lucide-react-native";
-import { useState } from "react";
+import { type ReactNode, useState } from "react";
 import { Text, View } from "react-native";
 
 import { Button } from "@/components/ui/button";
@@ -79,31 +79,36 @@ export default function SubscriptionScreen() {
         })}
       </View>
 
-      {/* Spec §6.17 plan comparison cards. */}
-      <View className="mt-3xl flex-row gap-md">
+      {/* Spec §6.17 plan comparison cards, each carrying its own CTA. */}
+      <View className="mt-3xl flex-row items-stretch gap-md">
         <PlanCard
           name="Free"
           price="$0"
-          period="forever"
+          period="/month"
           features={FEATURES}
           column="free"
+          cta={<Button label="Current Plan" variant="outline" size="sm" disabled />}
         />
         <PlanCard
           name="Pro"
           price={activePlan.price.split("/")[0]}
-          period={plan === "yearly" ? "per year" : "per month"}
+          period={plan === "yearly" ? "/year" : "/month"}
           features={FEATURES}
           column="pro"
           featured
+          cta={
+            <Button
+              label={plan === "yearly" ? "Start Yearly Plan" : "Start Monthly Plan"}
+              size="sm"
+              onPress={() => router.back()}
+            />
+          }
         />
       </View>
 
-      <Button
-        label={plan === "yearly" ? "Start Yearly Plan" : "Start Monthly Plan"}
-        onPress={() => router.back()}
-        className="mt-3xl"
-      />
-      <Text className="mt-md text-center text-caption text-text-muted">Cancel anytime</Text>
+      <Text className="mt-lg text-center text-caption text-text-muted">
+        Cancel anytime. No commitment.
+      </Text>
       <Button label="Maybe Later" variant="ghost" onPress={() => router.back()} className="mb-lg mt-sm" />
     </ScreenContainer>
   );
@@ -115,6 +120,7 @@ function PlanCard({
   period,
   features,
   column,
+  cta,
   featured = false,
 }: {
   name: string;
@@ -122,33 +128,30 @@ function PlanCard({
   period: string;
   features: Feature[];
   column: "free" | "pro";
+  cta: ReactNode;
   featured?: boolean;
 }) {
   return (
     <View className="flex-1">
       <View
         style={featured ? elevation.md : elevation.sm}
-        className={`rounded-xl bg-surface p-lg ${
+        className={`h-full rounded-xl bg-surface p-lg ${
           featured ? "border-2 border-primary-500" : "border border-border"
         }`}
       >
-        <Text
-          className={`text-eyebrow font-semibold uppercase ${
-            featured ? "text-primary-500" : "text-text-muted"
-          }`}
-        >
-          {name}
-        </Text>
-        <Text
-          className={`mt-sm text-display font-bold ${
-            featured ? "text-primary-500" : "text-text-primary"
-          }`}
-        >
-          {price}
-        </Text>
-        <Text className="mt-0.5 text-caption text-text-muted">{period}</Text>
+        <Text className="text-h3 font-semibold text-text-primary">{name}</Text>
+        <View className="mt-sm flex-row items-baseline gap-1">
+          <Text
+            className={`text-display font-bold ${
+              featured ? "text-primary-500" : "text-text-primary"
+            }`}
+          >
+            {price}
+          </Text>
+          <Text className="text-caption text-text-muted">{period}</Text>
+        </View>
 
-        <View className="mt-lg gap-md">
+        <View className="mt-lg flex-1 gap-md">
           {features.map((feature) => (
             <View key={feature.label} className="flex-row items-start gap-sm">
               <FeatureMark value={feature[column]} accent={featured} />
@@ -165,6 +168,8 @@ function PlanCard({
             </View>
           ))}
         </View>
+
+        <View className="mt-lg">{cta}</View>
       </View>
 
       {featured ? (

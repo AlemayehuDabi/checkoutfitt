@@ -28,12 +28,12 @@ type SelectCardProps = {
 const TRANSITION = { duration: motion.duration.normal };
 
 /**
- * The onboarding/generator selection card.
+ * The selection tile behind the Outfit Generator and the style quiz.
  *
- * Selected state follows the spec's Outfit Generator mockup: a primary-50 fill
- * behind a brand-coloured border, with a small filled check badge on the
- * trailing edge. The badge sits in a fixed-width slot so the row never reflows
- * as selection moves between cards.
+ * The mockups stack it: glyph centred over a centred label, sized to sit two
+ * to a row. Selecting fills it with `primary-50` behind a 1.5px brand border
+ * and drops a small filled check badge into the top-right corner — the badge is
+ * absolutely positioned so selection never reflows the grid.
  */
 export function SelectCard({
   label,
@@ -52,14 +52,6 @@ export function SelectCard({
     borderWidth: interpolate(progress.value, [0, 1], [1, 1.5]),
   }));
 
-  const iconWellStyle = useAnimatedStyle(() => ({
-    backgroundColor: interpolateColor(
-      progress.value,
-      [0, 1],
-      [color.surfaceSecondary, color.primary100]
-    ),
-  }));
-
   return (
     <PressableScale
       onPress={onPress}
@@ -68,45 +60,39 @@ export function SelectCard({
       accessibilityRole="button"
       accessibilityState={{ selected }}
       style={[selected ? elevation.md : elevation.sm, containerStyle]}
-      className={`flex-row items-center gap-lg rounded-xl px-lg py-lg ${className}`}
+      className={`items-center justify-center gap-sm rounded-md px-md py-lg ${className}`}
     >
-      {icon ? (
-        <Animated.View
-          style={iconWellStyle}
-          className="h-11 w-11 items-center justify-center rounded-md"
+      {icon ? <View className="items-center justify-center">{icon}</View> : null}
+
+      <Text
+        className={`text-center text-body font-semibold ${
+          selected ? "text-primary-700" : "text-text-primary"
+        }`}
+        numberOfLines={1}
+      >
+        {label}
+      </Text>
+      {description ? (
+        <Text
+          className={`text-center text-caption ${
+            selected ? "text-primary-600" : "text-text-muted"
+          }`}
         >
-          {icon}
-        </Animated.View>
+          {description}
+        </Text>
       ) : null}
 
-      <View className="flex-1">
-        <Text
-          className={`text-body font-semibold ${selected ? "text-primary-700" : "text-text-primary"}`}
-        >
-          {label}
-        </Text>
-        {description ? (
-          <Text
-            className={`mt-0.5 text-caption ${selected ? "text-primary-600" : "text-text-muted"}`}
-          >
-            {description}
-          </Text>
-        ) : null}
-      </View>
+      {right ? <View className="mt-1">{right}</View> : null}
 
-      {right ?? (
-        <View className="h-6 w-6 items-center justify-center">
-          {selected ? (
-            <Animated.View
-              entering={FadeIn.duration(motion.duration.fast)}
-              exiting={FadeOut.duration(motion.duration.fast)}
-              className="h-6 w-6 items-center justify-center rounded-full bg-primary-500"
-            >
-              <Check size={13} color={color.textOnPrimary} strokeWidth={3} />
-            </Animated.View>
-          ) : null}
-        </View>
-      )}
+      {selected ? (
+        <Animated.View
+          entering={FadeIn.duration(motion.duration.fast)}
+          exiting={FadeOut.duration(motion.duration.fast)}
+          className="absolute right-1.5 top-1.5 h-5 w-5 items-center justify-center rounded-full bg-primary-500"
+        >
+          <Check size={12} color={color.textOnPrimary} strokeWidth={3} />
+        </Animated.View>
+      ) : null}
     </PressableScale>
   );
 }

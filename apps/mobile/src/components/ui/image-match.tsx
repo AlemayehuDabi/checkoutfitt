@@ -1,4 +1,4 @@
-import { ArrowLeftRight, ImageOff } from "lucide-react-native";
+import { ImageOff } from "lucide-react-native";
 import { type ReactNode } from "react";
 import { Text, View } from "react-native";
 
@@ -6,7 +6,6 @@ import { Meter } from "@/components/ui/meter";
 import { PressableScale } from "@/components/ui/pressable-scale";
 import { color, elevation } from "@/design";
 import { AppImage } from "@/components/ui/app-image";
-import { IconWell } from "@/components/ui/icon-well";
 
 type ImageMatchProps = {
   /** The inspiration reference being matched against. */
@@ -60,10 +59,14 @@ export function ImageMatch({
           </Text>
         </View>
 
-        <View className="items-center">
-          <IconWell size="sm" round>
-            <ArrowLeftRight size={15} color={color.primary500} />
-          </IconWell>
+        <View
+          style={elevation.lg}
+          className="z-10 -mx-md h-16 w-16 items-center justify-center rounded-full border-2 border-surface bg-primary-500"
+        >
+          <Text className="text-body font-bold text-text-on-primary">
+            {Math.round(match)}%
+          </Text>
+          <Text className="text-tag font-medium text-text-on-primary">Match</Text>
         </View>
 
         <View className="flex-1 items-center">

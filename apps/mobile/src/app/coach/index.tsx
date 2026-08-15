@@ -42,16 +42,16 @@ export default function StyleCoachScreen() {
       />
 
       {/* Editorial hero: the summary set as a pull-quote on inverse stock. */}
-      <Card tone="inverse" hero raise="lg" className="mt-2xl p-2xl">
+      <Card tone="sunken" className="mt-2xl p-lg">
         <View className="flex-row items-center justify-between">
-          <Text className="text-eyebrow font-bold uppercase text-primary-300">The read</Text>
-          <View className="rounded-full bg-white/15 px-md py-1.5">
-            <Text className="text-eyebrow font-bold uppercase text-canvas">
+          <Text className="text-eyebrow font-semibold uppercase text-text-muted">The read</Text>
+          <View className="rounded-full bg-primary-100 px-md py-1.5">
+            <Text className="text-eyebrow font-semibold uppercase text-primary-700">
               {profile.confidence}% match
             </Text>
           </View>
         </View>
-        <Text className="mt-lg text-body-lg text-canvas">{profile.summary}</Text>
+        <Text className="mt-md text-body text-text-secondary">{profile.summary}</Text>
       </Card>
 
       <SectionHeader title="Signature palette" index="01" className="mt-3xl" />

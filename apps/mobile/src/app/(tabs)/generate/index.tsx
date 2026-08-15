@@ -50,7 +50,7 @@ export default function GenerateHomeScreen() {
         Tell us the vibe and we&apos;ll style a look from your closet.
       </Text>
 
-      <View className="mt-3xl gap-md">
+      <View className="mt-3xl flex-row flex-wrap gap-md">
         {OUTFIT_CONTEXTS.map((option) => {
           const Icon = CONTEXT_ICONS[option.icon] ?? Coffee;
           const selected = context === option.key;
@@ -60,7 +60,14 @@ export default function GenerateHomeScreen() {
               label={option.label}
               selected={selected}
               onPress={() => setContext(option.key)}
-              icon={<Icon size={22} color={selected ? color.primary500 : color.textPrimary} />}
+              className="w-[48%]"
+              icon={
+                <Icon
+                  size={24}
+                  color={selected ? color.primary500 : color.textSecondary}
+                  strokeWidth={1.75}
+                />
+              }
             />
           );
         })}

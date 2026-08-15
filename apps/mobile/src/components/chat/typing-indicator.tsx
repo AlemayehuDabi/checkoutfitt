@@ -17,7 +17,7 @@ export function TypingIndicator() {
           borderBottomRightRadius: radius.lg,
           borderBottomLeftRadius: 4,
         }}
-        className="flex-row items-center gap-1.5 border border-border bg-surface px-lg py-lg"
+        className="flex-row items-center gap-1.5 bg-surface-secondary px-lg py-lg"
       >
         <Dot delay={0} />
         <Dot delay={150} />

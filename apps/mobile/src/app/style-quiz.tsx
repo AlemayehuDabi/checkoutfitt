@@ -95,17 +95,19 @@ export default function StyleQuizScreen() {
             <Text className="mt-sm text-body text-text-muted">
               This helps us tailor outfit recommendations to you.
             </Text>
-            <View className="mt-3xl gap-md">
+            <View className="mt-3xl flex-row flex-wrap gap-md">
               {GENDER_OPTIONS.map((option) => (
                 <SelectCard
                   key={option.key}
                   label={option.label}
                   selected={gender === option.key}
                   onPress={() => setGender(option.key)}
+                  className="w-[48%]"
                   icon={
                     <option.icon
-                      size={22}
-                      color={gender === option.key ? color.primary500 : color.textPrimary}
+                      size={24}
+                      color={gender === option.key ? color.primary500 : color.textSecondary}
+                      strokeWidth={1.75}
                     />
                   }
                 />

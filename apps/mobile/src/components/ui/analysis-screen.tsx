@@ -2,11 +2,9 @@ import { Sparkles, type LucideIcon } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 
-import { ProgressBar } from "@/components/ui/progress-bar";
 import { ScreenContainer } from "@/components/ui/screen-container";
 import { color } from "@/design";
 import { AppImage } from "@/components/ui/app-image";
-import { IconWell } from "@/components/ui/icon-well";
 
 type AnalysisScreenProps = {
   /** Copy cycled through while the fake analysis runs. */
@@ -58,9 +56,10 @@ export function AnalysisScreen({
             <AppImage source={{ uri: imageUri }} className="h-full w-full" contentFit="cover" />
           </View>
         ) : (
-          <IconWell size="2xl" round>
-            <Icon size={34} color={color.primary500} strokeWidth={1.5} />
-          </IconWell>
+          // A thin brand ring around a soft tint, per the AI Processing mockup.
+          <View className="h-32 w-32 items-center justify-center rounded-full border-[1.5px] border-primary-300 bg-primary-50">
+            <Icon size={40} color={color.primary500} strokeWidth={1.5} />
+          </View>
         )}
 
         <Text className="mt-3xl text-center text-h2 font-bold text-text-primary">{steps[index]}</Text>
@@ -68,8 +67,11 @@ export function AnalysisScreen({
           <Text className="mt-sm text-center text-body text-text-muted">{caption}</Text>
         ) : null}
 
-        <View className="mt-3xl w-48">
-          <ProgressBar step={index + 1} total={steps.length} />
+        <View className="mt-3xl h-1.5 w-48 overflow-hidden rounded-full bg-primary-200">
+          <View
+            className="h-full rounded-full bg-primary-500"
+            style={{ width: `${Math.round(progress * 100)}%` }}
+          />
         </View>
         <Text className="mt-md text-eyebrow font-semibold uppercase text-text-muted">
           Step {index + 1} of {steps.length}

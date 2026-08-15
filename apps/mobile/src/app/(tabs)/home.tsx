@@ -39,9 +39,9 @@ export default function HomeScreen() {
   return (
     <ScreenContainer scroll edges={["top", "left", "right"]}>
       <View className="pt-2xl">
-        {/* Spec screen 13: the greeting is the h2 that opens the screen. */}
-        <Text className="text-h2 font-bold text-text-primary">{getGreeting()}</Text>
-        <Text className="mt-1 text-caption text-text-muted">Welcome back</Text>
+        {/* Spec screen 13: a two-line greeting, second line in the accent. */}
+        <Text className="text-h1 font-bold text-text-primary">{getGreeting()},</Text>
+        <Text className="text-h1 font-bold text-primary-500">Welcome back 👋</Text>
       </View>
 
       <View className="mt-2xl">
@@ -156,22 +156,17 @@ export default function HomeScreen() {
 
       <SectionHeader title="Quick Actions" className="mt-3xl" />
       <View className="gap-md pb-3xl">
-        <Card
-          tone="inverse"
-          onPress={() => router.push("/studio")}
-          raise="md"
-          className="flex-row items-center gap-lg p-lg"
-        >
-          <IconWell size="lg" tone="translucent" round>
-            <Wand2 size={22} color={color.canvas} strokeWidth={1.75} />
+        <Card onPress={() => router.push("/studio")} className="flex-row items-center gap-lg p-lg">
+          <IconWell size="lg">
+            <Wand2 size={22} color={color.primary500} strokeWidth={1.75} />
           </IconWell>
           <View className="flex-1">
-            <Text className="text-h3 font-semibold text-canvas">The Studio</Text>
-            <Text className="mt-0.5 text-caption text-faint">
+            <Text className="text-h3 font-semibold text-text-primary">The Studio</Text>
+            <Text className="mt-0.5 text-caption text-text-muted">
               Coaching, colour, gaps, planning & rating
             </Text>
           </View>
-          <ChevronRight size={18} color={color.textMuted} />
+          <ChevronRight size={16} color={color.textMuted} />
         </Card>
 
         {/* Spec screen 13: two side-by-side cards, with Generate carried in

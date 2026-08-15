@@ -109,14 +109,7 @@ export function CameraCapture({
             >
               <X size={20} color={color.white} />
             </PressableScale>
-            <PressableScale
-              onPress={() => setFacing((prev) => (prev === "back" ? "front" : "back"))}
-              hitSlop={8}
-              accessibilityLabel="Flip camera"
-              className="h-10 w-10 items-center justify-center rounded-full bg-overlay"
-            >
-              <RefreshCw size={18} color={color.white} />
-            </PressableScale>
+            <View className="h-10 w-10" />
           </View>
 
           {guide !== "none" ? (
@@ -133,7 +126,9 @@ export function CameraCapture({
 
           <View className="items-center pb-4xl">
             <Text className="mb-2xl text-body font-medium text-white/85">{hint}</Text>
-            <PressableScale
+            <View className="w-full flex-row items-center justify-evenly">
+              <View className="h-11 w-11" />
+              <PressableScale
               onPress={handleCapture}
               disabled={capturing}
               accessibilityLabel="Take photo"
@@ -144,8 +139,17 @@ export function CameraCapture({
                 capturing ? "opacity-50" : ""
               }`}
             >
-              <View className="h-16 w-16 rounded-full bg-surface" />
-            </PressableScale>
+                <View className="h-16 w-16 rounded-full bg-surface" />
+              </PressableScale>
+              <PressableScale
+                onPress={() => setFacing((prev) => (prev === "back" ? "front" : "back"))}
+                hitSlop={8}
+                accessibilityLabel="Flip camera"
+                className="h-11 w-11 items-center justify-center rounded-full bg-overlay"
+              >
+                <RefreshCw size={20} color={color.white} />
+              </PressableScale>
+            </View>
           </View>
         </View>
       </SafeAreaView>

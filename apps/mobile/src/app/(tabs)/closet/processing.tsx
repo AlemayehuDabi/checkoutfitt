@@ -3,12 +3,10 @@ import { Sparkles } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 
-import { ProgressBar } from "@/components/ui/progress-bar";
 import { ScreenContainer } from "@/components/ui/screen-container";
 import { usePendingImages } from "@/context/closet-context";
 
 import { color } from "@/design";
-import { IconWell } from "@/components/ui/icon-well";
 
 const STEPS = ["Detecting item...", "Identifying color...", "Classifying category..."];
 
@@ -34,10 +32,10 @@ export default function ProcessingScreen() {
   return (
     <ScreenContainer>
       <View className="flex-1 items-center justify-center">
-        {/* Spec screen 7: an 80px tinted disc over a segmented progress bar. */}
-        <IconWell size="2xl" round>
-          <Sparkles size={36} color={color.primary500} strokeWidth={1.5} />
-        </IconWell>
+        {/* Spec screen 7: a thin brand ring around a soft tint. */}
+        <View className="h-32 w-32 items-center justify-center rounded-full border-[1.5px] border-primary-300 bg-primary-50">
+          <Sparkles size={40} color={color.primary500} strokeWidth={1.5} />
+        </View>
         <Text className="mt-3xl text-center text-h2 font-bold text-text-primary">
           {STEPS[stepIndex]}
         </Text>
@@ -46,8 +44,11 @@ export default function ProcessingScreen() {
             ? `Analyzing ${pendingImages.length} items with AI`
             : "Analyzing your item with AI"}
         </Text>
-        <View className="mt-3xl w-48">
-          <ProgressBar step={stepIndex + 1} total={STEPS.length} />
+        <View className="mt-3xl h-1.5 w-48 overflow-hidden rounded-full bg-primary-200">
+          <View
+            className="h-full rounded-full bg-primary-500"
+            style={{ width: `${Math.round(((stepIndex + 1) / STEPS.length) * 100)}%` }}
+          />
         </View>
       </View>
     </ScreenContainer>

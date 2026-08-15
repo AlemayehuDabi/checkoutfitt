@@ -34,9 +34,11 @@ export default function CapsuleInputScreen() {
         subtitle="Pick a size and what it needs to cover. We'll find the set that multiplies best."
       />
 
-      <Card tone="inverse" hero raise="lg" className="mt-2xl flex-row items-center gap-lg p-2xl">
-        <IconWell size="lg" tone="translucent"><SquareStack size={24} color={color.canvas} strokeWidth={1.5} /></IconWell>
-        <Text className="flex-1 text-body text-canvas">
+      <Card tone="sunken" className="mt-2xl flex-row items-center gap-lg p-lg">
+        <IconWell size="lg" tone="primary">
+          <SquareStack size={24} color={color.primary500} strokeWidth={1.5} />
+        </IconWell>
+        <Text className="flex-1 text-body text-text-secondary">
           A well-chosen capsule of {size} pieces usually beats a closet three times the size.
         </Text>
       </Card>
@@ -47,17 +49,21 @@ export default function CapsuleInputScreen() {
           <Card
             key={option}
             onPress={() => setSize(option)}
-            tone={size === option ? "inverse" : "surface"}
-            className="flex-1 items-center py-lg"
+            tone={size === option ? "primary" : "surface"}
+            className={`flex-1 items-center py-lg ${
+              size === option ? "border border-primary-500" : ""
+            }`}
           >
             <Text
-              className={`text-h2 font-bold ${size === option ? "text-canvas" : "text-text-primary"}`}
+              className={`text-stat font-bold ${
+                size === option ? "text-primary-500" : "text-text-primary"
+              }`}
             >
               {option}
             </Text>
             <Text
               className={`mt-0.5 text-eyebrow font-semibold uppercase ${
-                size === option ? "text-faint" : "text-text-muted"
+                size === option ? "text-primary-600" : "text-text-muted"
               }`}
             >
               pieces

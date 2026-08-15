@@ -17,7 +17,7 @@ type InputProps = TextInputProps & {
   error?: string;
   hint?: string;
   secureToggle?: boolean;
-  /** Trailing slot, e.g. a location pin or calendar glyph. Rendered at 20px. */
+  /** Leading slot, e.g. an envelope, lock or location pin. Rendered at 20px. */
   icon?: ReactNode;
   /** Grows the field for pasted URLs and notes. */
   multiline?: boolean;
@@ -72,6 +72,7 @@ export function Input({
           multiline ? "min-h-24 py-md" : "h-[52px]"
         } ${border}`}
       >
+        {icon ? <View className="mr-md">{icon}</View> : null}
         <TextInput
           className="flex-1 text-body text-text-primary"
           placeholderTextColor={color.textMuted}
@@ -84,7 +85,6 @@ export function Input({
           onBlur={handleBlur}
           {...rest}
         />
-        {icon ? <View className="ml-sm">{icon}</View> : null}
         {secureToggle ? (
           <Pressable
             hitSlop={8}

@@ -40,9 +40,11 @@ export default function ProfileScreen() {
           <Text className="text-h2 font-bold text-primary-700">AM</Text>
         </View>
         <View className="flex-1">
-          <Text className="text-h2 font-bold text-text-primary">{MOCK_ACCOUNT.name}</Text>
+          <Text className="text-h3 font-semibold text-text-primary">{MOCK_ACCOUNT.name}</Text>
           <Text className="mt-0.5 text-caption text-text-muted">{MOCK_ACCOUNT.email}</Text>
-          <Text className="mt-1.5 text-caption font-semibold text-text-accent">Edit Profile</Text>
+          <View className="mt-sm h-7 items-center justify-center self-start rounded-full bg-surface-secondary px-md">
+            <Text className="text-tag font-medium text-text-secondary">Edit Profile</Text>
+          </View>
         </View>
       </View>
 
@@ -52,20 +54,22 @@ export default function ProfileScreen() {
         pressScale={motion.pressScale.md}
         pressOpacity={1}
         accessibilityRole="button"
-        className="mt-2xl flex-row items-center gap-lg rounded-lg border border-primary-200 bg-primary-100 p-lg"
+        className="mt-2xl flex-row items-start gap-lg rounded-lg border border-primary-200 bg-primary-100 p-lg"
       >
-        <View className="h-12 w-12 items-center justify-center rounded-md bg-surface">
-          <Crown size={22} color={color.primary500} strokeWidth={1.75} />
-        </View>
         <View className="flex-1">
           <Text className="text-h3 font-semibold text-primary-700">
             Upgrade to CheckoutFitt Pro
           </Text>
-          <Text className="mt-0.5 text-caption text-primary-600">
-            Unlimited styling, closet & chat
+          <Text className="mt-1 text-caption text-primary-600">
+            Unlock unlimited outfits, advanced AI insights, and more.
           </Text>
+          <View className="mt-md h-9 items-center justify-center self-start rounded-full border-[1.5px] border-primary-500 px-lg">
+            <Text className="text-tag font-semibold text-text-accent">Upgrade Now</Text>
+          </View>
         </View>
-        <ChevronRight size={16} color={color.primary500} />
+        <View className="h-12 w-12 items-center justify-center rounded-full bg-primary-200">
+          <Crown size={22} color={color.primary500} strokeWidth={1.75} />
+        </View>
       </PressableScale>
 
       <SectionHeader title="Styling tools" className="mt-3xl" />

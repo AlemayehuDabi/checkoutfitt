@@ -23,9 +23,11 @@ export default function ColorAnalysisIntroScreen() {
         subtitle="One photo in daylight is enough to place your undertone, contrast and seasonal palette."
       />
 
-      <Card tone="inverse" hero raise="lg" className="mt-2xl items-center p-2xl">
-        <IconWell size="xl" tone="translucent"><Palette size={26} color={color.canvas} strokeWidth={1.5} /></IconWell>
-        <Text className="mt-lg text-center text-body-lg text-canvas">
+      <Card tone="sunken" className="mt-2xl items-center p-2xl">
+        <IconWell size="xl" tone="primary" round>
+          <Palette size={28} color={color.primary500} strokeWidth={1.5} />
+        </IconWell>
+        <Text className="mt-lg text-center text-body text-text-secondary">
           Most people wear at least a third of their closet in colours that quietly work against
           them.
         </Text>

@@ -60,7 +60,7 @@ export function ChatBubble({ message }: { message: ChatMessage }) {
       </View>
       <View className="max-w-[82%] gap-md">
         {message.text ? (
-          <View style={AI_RADIUS} className="border border-border bg-surface px-lg py-md">
+          <View style={AI_RADIUS} className="bg-surface-secondary px-lg py-md">
             <Text className="text-body text-text-primary">{message.text}</Text>
           </View>
         ) : null}

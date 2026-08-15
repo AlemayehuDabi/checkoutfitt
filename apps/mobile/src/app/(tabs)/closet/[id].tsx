@@ -5,16 +5,19 @@ import { Text, View } from "react-native";
 
 import { GarmentSwatch } from "@/components/closet/garment-swatch";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { ConfirmSheet } from "@/components/ui/confirm-sheet";
 import { Header } from "@/components/ui/header";
 import { IconButton } from "@/components/ui/icon-button";
+import { PressableScale } from "@/components/ui/pressable-scale";
 import { ScreenContainer } from "@/components/ui/screen-container";
+import { SectionHeader } from "@/components/ui/section-header";
 import { StateView } from "@/components/ui/state-view";
 import { Tag } from "@/components/ui/tag";
 import { CLOSET_CATEGORIES } from "@/constants/mock-closet";
 import { useCloset } from "@/context/closet-context";
 
-import { color } from "@/design";
+import { color, motion } from "@/design";
 
 export default function ItemDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -63,38 +66,57 @@ export default function ItemDetailScreen() {
         iconSize={56}
       />
 
-      <Text className="mt-2xl text-h1 font-bold text-text-primary">{item.type}</Text>
+      <Text className="mt-2xl text-h2 font-bold text-text-primary">{item.type}</Text>
+      <Text className="mt-1 text-caption text-text-muted">
+        {categoryLabel} · {item.color}
+      </Text>
       <View className="mt-md flex-row flex-wrap gap-sm">
         <Tag label={categoryLabel} />
         <Tag label={item.color} dotColor={item.colorHex} />
         {item.archived ? <Tag label="Archived" tone="primary" /> : null}
       </View>
 
-      <View className="mt-3xl gap-md">
+      <SectionHeader title="Details" className="mt-3xl" />
+      <Card className="px-lg">
+        <DetailRow label="Category" value={categoryLabel} />
+        <View className="h-px bg-border" />
+        <DetailRow label="Colour" value={item.color} />
+        <View className="h-px bg-border" />
+        <DetailRow label="Status" value={item.archived ? "Archived" : "In rotation"} />
+      </Card>
+
+      {/* Screen 9 lays the actions out as one row: a wide Edit alongside the
+          two icon-only controls. */}
+      <View className="mt-3xl flex-row gap-md">
         <Button
           label="Edit Item"
-          variant="secondary"
-          icon={<Pencil size={18} color={color.primary500} />}
-          onPress={() => router.push(`/closet/edit/${item.id}`)}
-        />
-        <Button
-          label={item.archived ? "Restore Item" : "Archive Item"}
           variant="outline"
-          icon={
-            item.archived ? (
-              <ArchiveRestore size={18} color={color.textPrimary} />
-            ) : (
-              <Archive size={18} color={color.textPrimary} />
-            )
-          }
+          icon={<Pencil size={18} color={color.textPrimary} />}
+          onPress={() => router.push(`/closet/edit/${item.id}`)}
+          className="flex-1"
+        />
+        <PressableScale
           onPress={() => toggleArchive(item.id)}
-        />
-        <Button
-          label="Delete Item"
-          variant="danger"
-          icon={<Trash2 size={18} color={color.danger} />}
+          pressScale={motion.pressScale.sm}
+          accessibilityRole="button"
+          accessibilityLabel={item.archived ? "Restore item" : "Archive item"}
+          className="h-[52px] w-[52px] items-center justify-center rounded-lg border-[1.5px] border-border-strong"
+        >
+          {item.archived ? (
+            <ArchiveRestore size={20} color={color.textPrimary} />
+          ) : (
+            <Archive size={20} color={color.textPrimary} />
+          )}
+        </PressableScale>
+        <PressableScale
           onPress={() => setConfirmVisible(true)}
-        />
+          pressScale={motion.pressScale.sm}
+          accessibilityRole="button"
+          accessibilityLabel="Delete item"
+          className="h-[52px] w-[52px] items-center justify-center rounded-lg border-[1.5px] border-danger bg-danger-light"
+        >
+          <Trash2 size={20} color={color.danger} />
+        </PressableScale>
       </View>
 
       <ConfirmSheet
@@ -111,5 +133,14 @@ export default function ItemDetailScreen() {
         onCancel={() => setConfirmVisible(false)}
       />
     </ScreenContainer>
+  );
+}
+
+function DetailRow({ label, value }: { label: string; value: string }) {
+  return (
+    <View className="h-14 flex-row items-center justify-between">
+      <Text className="text-body text-text-muted">{label}</Text>
+      <Text className="text-body font-medium text-text-primary">{value}</Text>
+    </View>
   );
 }

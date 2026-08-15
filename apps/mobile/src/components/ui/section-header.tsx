@@ -12,10 +12,14 @@ type SectionHeaderProps = {
 };
 
 /**
- * The uppercase eyebrow that opens every section.
+ * The title that opens a section.
  *
- * Replaces the hand-rolled `text-xs font-semibold uppercase` block that had
- * been copy-pasted across Home, Closet Confirm, Profile and Subscription.
+ * The mockups set these as dark, sentence-case `h3` headings ("Missing
+ * Essentials", "Top Items by Value", "Quick Actions") rather than the muted
+ * uppercase eyebrow with a rule that this used to render — the eyebrow
+ * treatment is reserved for `PageHeading`'s kicker and for standalone labels
+ * like "Pieces". Replaces the hand-rolled block that had been copy-pasted
+ * across Home, Closet Confirm, Profile and Subscription.
  */
 export function SectionHeader({
   title,
@@ -26,19 +30,18 @@ export function SectionHeader({
 }: SectionHeaderProps) {
   return (
     <View className={`mb-md ${className}`}>
-      <View className="flex-row items-center justify-between">
-        <View className="flex-1 flex-row items-center gap-sm">
+      <View className="flex-row items-center justify-between gap-md">
+        <View className="flex-1 flex-row items-baseline gap-sm">
           {index ? (
-            <Text className="text-eyebrow font-semibold uppercase text-primary-500">{index}</Text>
+            <Text className="text-eyebrow font-semibold text-primary-500">{index}</Text>
           ) : null}
-          <Text className="text-eyebrow font-semibold uppercase text-text-muted" numberOfLines={1}>
+          <Text className="flex-1 text-h3 font-semibold text-text-primary" numberOfLines={1}>
             {title}
           </Text>
-          <View className="h-px flex-1 bg-border" />
         </View>
-        {action ? <View className="ml-md">{action}</View> : null}
+        {action ? <View>{action}</View> : null}
       </View>
-      {subtitle ? <Text className="mt-sm text-caption text-text-muted">{subtitle}</Text> : null}
+      {subtitle ? <Text className="mt-1 text-caption text-text-muted">{subtitle}</Text> : null}
     </View>
   );
 }

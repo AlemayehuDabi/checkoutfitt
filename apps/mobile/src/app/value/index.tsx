@@ -102,41 +102,48 @@ export default function ClosetValueScreen() {
         ))}
       </View>
 
-      <View className="gap-sm">
-        {sorted.map((item) => {
+      {/* Screen 5 groups the rows into one card separated by hairlines rather
+          than giving every row its own raised card. */}
+      <Card className="px-lg">
+        {sorted.map((item, index) => {
           const cpw = costPerWear(item);
           const categoryLabel = CLOSET_CATEGORIES.find((c) => c.key === item.category)?.label;
 
           return (
-            <Card key={item.id} className="flex-row items-center gap-md p-md">
-              <GarmentSwatch
-                category={item.category}
-                colorHex={item.colorHex}
-                className="h-14 w-14 overflow-hidden rounded-md"
-                iconSize={20}
-              />
-              <View className="flex-1">
-                <Text className="text-body font-semibold text-text-primary" numberOfLines={1}>
-                  {item.label}
-                </Text>
-                <Text className="mt-0.5 text-caption text-text-muted">
-                  {categoryLabel} · {item.wears} wears
-                </Text>
+            <View key={item.id}>
+              {index > 0 ? <View className="ml-[68px] h-px bg-border" /> : null}
+              <View className="flex-row items-center gap-md py-md">
+                <GarmentSwatch
+                  category={item.category}
+                  colorHex={item.colorHex}
+                  className="h-14 w-14 overflow-hidden rounded-md"
+                  iconSize={20}
+                />
+                <View className="flex-1">
+                  <Text className="text-body font-semibold text-text-primary" numberOfLines={1}>
+                    {item.label}
+                  </Text>
+                  <Text className="mt-0.5 text-caption text-text-muted">
+                    {categoryLabel} · {item.wears} wears
+                  </Text>
+                </View>
+                <View className="items-end">
+                  <Text className="text-body font-bold text-text-primary">
+                    {formatMoney(item.value)}
+                  </Text>
+                  <Text
+                    className={`mt-0.5 text-caption font-semibold ${
+                      cpw <= 3 ? "text-success" : cpw <= 8 ? "text-text-muted" : "text-danger"
+                    }`}
+                  >
+                    {formatMoney(cpw, 2)}/wear
+                  </Text>
+                </View>
               </View>
-              <View className="items-end">
-                <Text className="text-body font-bold text-text-primary">{formatMoney(item.value)}</Text>
-                <Text
-                  className={`mt-0.5 text-caption font-semibold ${
-                    cpw <= 3 ? "text-success" : cpw <= 8 ? "text-text-muted" : "text-danger"
-                  }`}
-                >
-                  {formatMoney(cpw, 2)}/wear
-                </Text>
-              </View>
-            </Card>
+            </View>
           );
         })}
-      </View>
+      </Card>
 
       <SectionHeader
         title="Costing you most"

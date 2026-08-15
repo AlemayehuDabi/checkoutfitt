@@ -83,7 +83,7 @@ export default function OnboardingScreen() {
     <View className="flex-1 bg-bg">
       <View className="flex-row items-center justify-between px-gutter pt-16">
         {/* Wordmark, top-left in the brand colour — spec screen 1. */}
-        <Text className="text-h3 font-bold text-primary-500">CheckoutFitt</Text>
+        <Text className="text-h3 font-bold text-text-primary">CheckoutFitt</Text>
         <Text
           onPress={handleSkip}
           className="text-caption font-medium text-text-muted active:opacity-60"

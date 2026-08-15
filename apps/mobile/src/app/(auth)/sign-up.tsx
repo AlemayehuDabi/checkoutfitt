@@ -82,7 +82,7 @@ export default function SignUpScreen() {
 
         <View className="mt-3xl gap-xl">
           <Divider label="or continue with" />
-          <View className="flex-row gap-md">
+          <View className="gap-md">
             <SocialButton provider="apple" />
             <SocialButton provider="google" />
           </View>

@@ -16,7 +16,7 @@ export default function SplashScreen() {
       <View className="h-16 w-16 items-center justify-center rounded-xl bg-primary-500">
         <Text className="text-h2 font-bold text-text-on-primary">C</Text>
       </View>
-      <Text className="mt-xl text-h2 font-bold text-primary-500">CheckoutFitt</Text>
+      <Text className="mt-xl text-h2 font-bold text-text-primary">CheckoutFitt</Text>
       <Text className="mt-1 text-caption text-text-muted">Your AI stylist</Text>
     </View>
   );
