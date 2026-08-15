@@ -27,6 +27,7 @@ model User {
   closetItems   ClosetItem[]
   outfits       Outfit[]
   chatMessages  ChatMessage[]
+  outfitSchedules OutfitSchedule[]
 
   @@unique([email])
   @@map("user")
@@ -194,10 +195,31 @@ model Outfit {
   createdAt   DateTime     @default(now())
 
   chatMessages ChatMessage[]
+  schedules    OutfitSchedule[]
 
   @@index([ownerId])
   @@index([ownerId, saved])
   @@map("outfit")
+}
+
+/// An outfit planned for a specific calendar day. `date` is a date-only
+/// PostgreSQL DATE column (no time, no timezone) — the calendar is a wall
+/// calendar, so "2026-05-04" must mean the same square regardless of where
+/// the user opens the app from.
+model OutfitSchedule {
+  id        String   @id @default(cuid())
+  ownerId   String
+  owner     User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  outfitId  String
+  outfit    Outfit   @relation(fields: [outfitId], references: [id], onDelete: Cascade)
+  date      DateTime @db.Date
+  notes     String?
+  createdAt DateTime @default(now())
+
+  // One outfit per day per user — the calendar has a single slot per square.
+  @@unique([ownerId, date])
+  @@index([ownerId])
+  @@map("outfit_schedule")
 }
 
 enum ChatRole {

@@ -14,6 +14,7 @@ import { OutfitModule } from './outfit/outfit.module';
 import { CacheModule } from './cache/cache.module';
 import { WeatherModule } from './weather/weather.module';
 import { ChatModule } from './chat/chat.module';
+import { CalendarModule } from './calendar/calendar.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { ChatModule } from './chat/chat.module';
     OutfitModule,
     WeatherModule,
     ChatModule,
+    CalendarModule,
   ],
   controllers: [AppController],
   providers: [AppService],
