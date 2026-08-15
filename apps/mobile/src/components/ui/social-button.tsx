@@ -23,7 +23,7 @@ export function SocialButton({ provider, onPress }: SocialButtonProps) {
       onPress={onPress}
       accessibilityRole="button"
       accessibilityLabel={`Continue with ${label}`}
-      className="h-[52px] flex-1 flex-row items-center justify-center rounded-lg border-[1.5px] border-border-strong bg-surface px-lg"
+      className="h-[52px] w-full flex-row items-center justify-center rounded-lg border-[1.5px] border-border-strong bg-surface px-lg"
     >
       {/* Absolute so the glyph sits at the leading edge while the label stays
           optically centred — the pattern the mockups use for both providers. */}

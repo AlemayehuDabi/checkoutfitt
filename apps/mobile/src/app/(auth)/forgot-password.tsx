@@ -39,11 +39,11 @@ export default function ForgotPasswordScreen() {
 
   return (
     <ScreenContainer scroll keyboardAware>
-      <View className="flex-1 pt-2xl">
+      <View className="grow pt-2xl">
         <Header showBack />
 
         {sent ? (
-          <View className="flex-1 items-center justify-center">
+          <View className="grow items-center justify-center py-4xl">
             <IconWell size="2xl" round>
               <MailCheck size={32} color={color.primary500} />
             </IconWell>

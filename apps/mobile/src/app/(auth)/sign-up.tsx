@@ -46,7 +46,7 @@ export default function SignUpScreen() {
 
   return (
     <ScreenContainer scroll keyboardAware>
-      <View className="flex-1 pt-4xl">
+      <View className="grow pt-4xl">
         <Text className="text-eyebrow font-semibold uppercase text-primary-500">CheckoutFitt</Text>
         <Text className="mt-md text-h1 font-bold text-text-primary">Create your account</Text>
         <Text className="mt-sm text-body text-text-muted">

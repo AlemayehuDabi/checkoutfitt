@@ -1,11 +1,11 @@
 import { router } from "expo-router";
-import { PartyPopper, Shirt, User, Users } from "lucide-react-native";
+import { ArrowLeft, PartyPopper, Shirt, User, Users } from "lucide-react-native";
 import { useMemo, useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 
 import { Button } from "@/components/ui/button";
 import { Chip } from "@/components/ui/chip";
-import { Header } from "@/components/ui/header";
+import { IconButton } from "@/components/ui/icon-button";
 import { ProgressBar } from "@/components/ui/progress-bar";
 import { ScreenContainer } from "@/components/ui/screen-container";
 import { SelectCard } from "@/components/ui/select-card";
@@ -78,9 +78,11 @@ export default function StyleQuizScreen() {
 
   return (
     <ScreenContainer scroll>
-      <View className="flex-1 pt-2xl">
-        <View className="flex-row items-center gap-lg">
-          <Header showBack onBack={handleBack} />
+      <View className="grow pt-2xl">
+        <View className="h-14 flex-row items-center gap-lg">
+          <IconButton onPress={handleBack} accessibilityLabel="Go back">
+            <ArrowLeft size={24} color={color.textPrimary} />
+          </IconButton>
           <View className="flex-1">
             <ProgressBar step={step} total={TOTAL_STEPS} />
           </View>
