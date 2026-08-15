@@ -13,6 +13,7 @@ import {
   ChatResult,
   StreamChatParams,
 } from '../chat-provider.interface';
+import { StructuredParams } from '../structured-output.interface';
 
 @Injectable()
 export class OpenAiLlmProvider implements LLMProvider {
@@ -57,6 +58,39 @@ export class OpenAiLlmProvider implements LLMProvider {
       );
     }
     return JSON.parse(response.output_text) as GeneratedOutfit;
+  }
+
+  async generateStructured<T>(params: StructuredParams): Promise<T> {
+    const content: OpenAI.Responses.ResponseInputMessageContentList = [
+      { type: 'input_text' as const, text: params.prompt },
+      ...(params.imageUrls ?? []).map((url) => ({
+        type: 'input_image' as const,
+        image_url: url,
+        detail: 'auto' as const,
+      })),
+    ];
+
+    const response = await this.client.responses.create({
+      model: this.model,
+      ...(params.systemPrompt ? { instructions: params.systemPrompt } : {}),
+      input: [{ role: 'user', content }],
+      text: {
+        format: {
+          type: 'json_schema',
+          name: params.schemaName,
+          schema: params.schema,
+          strict: true,
+        },
+      },
+    });
+
+    if (!response.output_text) {
+      this.logger.error(
+        `Empty OpenAI structured response for "${params.schemaName}"`,
+      );
+      throw new Error('OpenAI structured response contained no output text');
+    }
+    return JSON.parse(response.output_text) as T;
   }
 
   async chat(params: ChatParams): Promise<ChatResult> {

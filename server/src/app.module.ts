@@ -15,6 +15,7 @@ import { CacheModule } from './cache/cache.module';
 import { WeatherModule } from './weather/weather.module';
 import { ChatModule } from './chat/chat.module';
 import { CalendarModule } from './calendar/calendar.module';
+import { InsightsModule } from './insights/insights.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { CalendarModule } from './calendar/calendar.module';
     WeatherModule,
     ChatModule,
     CalendarModule,
+    InsightsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

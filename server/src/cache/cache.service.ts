@@ -25,6 +25,18 @@ export class CacheService implements OnModuleDestroy {
     await this.client.set(key, JSON.stringify(value), 'EX', ttlSeconds);
   }
 
+  /**
+   * Drops cached entries. Variadic because the derived closet analyses
+   * (gap analysis, valuation, ...) all go stale on the same closet edit and
+   * are cleared together. Missing keys are a no-op.
+   */
+  async del(...keys: string[]): Promise<void> {
+    if (keys.length === 0) {
+      return;
+    }
+    await this.client.del(...keys);
+  }
+
   async onModuleDestroy() {
     await this.client.quit();
   }

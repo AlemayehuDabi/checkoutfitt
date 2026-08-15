@@ -15,6 +15,7 @@ import {
   ChatResult,
   StreamChatParams,
 } from '../chat-provider.interface';
+import { StructuredParams } from '../structured-output.interface';
 import { fetchImageAsBase64 } from '../../image-fetch.util';
 
 // Gemini uses "model" rather than "assistant" for the AI's turns.
@@ -61,6 +62,39 @@ export class GeminiLlmProvider implements LLMProvider {
       throw new Error('Gemini outfit-generation response contained no text');
     }
     return JSON.parse(response.text) as GeneratedOutfit;
+  }
+
+  async generateStructured<T>(params: StructuredParams): Promise<T> {
+    const parts: {
+      text?: string;
+      inlineData?: { data: string; mimeType: string };
+    }[] = [{ text: params.prompt }];
+    // Gemini has no arbitrary-URL image part, so images are fetched and
+    // inlined — same reason GeminiVisionProvider does it.
+    for (const url of params.imageUrls ?? []) {
+      const { data, mimeType } = await fetchImageAsBase64(url);
+      parts.push({ inlineData: { data, mimeType } });
+    }
+
+    const response = await this.client.models.generateContent({
+      model: this.model,
+      contents: [{ role: 'user', parts }],
+      config: {
+        ...(params.systemPrompt
+          ? { systemInstruction: params.systemPrompt }
+          : {}),
+        responseMimeType: 'application/json',
+        responseJsonSchema: params.schema,
+      },
+    });
+
+    if (!response.text) {
+      this.logger.error(
+        `Empty Gemini structured response for "${params.schemaName}"`,
+      );
+      throw new Error('Gemini structured response contained no text');
+    }
+    return JSON.parse(response.text) as T;
   }
 
   async chat(params: ChatParams): Promise<ChatResult> {

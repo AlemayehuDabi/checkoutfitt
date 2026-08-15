@@ -3,6 +3,7 @@ import {
   ChatResult,
   StreamChatParams,
 } from './chat-provider.interface';
+import { StructuredParams } from './structured-output.interface';
 
 export interface OutfitItemCandidate {
   id: string;
@@ -35,6 +36,8 @@ export interface LLMProvider {
   generateOutfit(params: GenerateOutfitParams): Promise<GeneratedOutfit>;
   chat(params: ChatParams): Promise<ChatResult>;
   streamChat(params: StreamChatParams): Promise<string>;
+  /** Schema-driven JSON for everything other than outfit generation. */
+  generateStructured<T>(params: StructuredParams): Promise<T>;
 }
 
 /** Shared across all three providers so swapping LLM_PROVIDER never changes the response shape. */

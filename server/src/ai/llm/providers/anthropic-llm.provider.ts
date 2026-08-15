@@ -13,6 +13,7 @@ import {
   ChatResult,
   StreamChatParams,
 } from '../chat-provider.interface';
+import { StructuredParams } from '../structured-output.interface';
 
 @Injectable()
 export class AnthropicLlmProvider implements LLMProvider {
@@ -57,6 +58,35 @@ export class AnthropicLlmProvider implements LLMProvider {
       throw new Error('Anthropic outfit-generation response contained no text');
     }
     return JSON.parse(textBlock.text) as GeneratedOutfit;
+  }
+
+  async generateStructured<T>(params: StructuredParams): Promise<T> {
+    const content: Anthropic.ContentBlockParam[] = [
+      ...(params.imageUrls ?? []).map((url) => ({
+        type: 'image' as const,
+        source: { type: 'url' as const, url },
+      })),
+      { type: 'text' as const, text: params.prompt },
+    ];
+
+    const response = await this.client.messages.create({
+      model: this.model,
+      max_tokens: params.maxTokens ?? 2048,
+      ...(params.systemPrompt ? { system: params.systemPrompt } : {}),
+      output_config: {
+        format: { type: 'json_schema', schema: params.schema },
+      },
+      messages: [{ role: 'user', content }],
+    });
+
+    const textBlock = response.content.find((block) => block.type === 'text');
+    if (!textBlock || textBlock.type !== 'text') {
+      this.logger.error(
+        `No text block in Anthropic structured response for "${params.schemaName}"`,
+      );
+      throw new Error('Anthropic structured response contained no text');
+    }
+    return JSON.parse(textBlock.text) as T;
   }
 
   async chat(params: ChatParams): Promise<ChatResult> {

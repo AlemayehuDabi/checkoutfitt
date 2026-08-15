@@ -4,6 +4,7 @@ import { Job } from 'bullmq';
 import { PrismaService } from '../prisma/prisma.service';
 import { VisionService } from '../ai/vision/vision.service';
 import { ClosetItemType } from '../../prisma/generated/prisma';
+import { ClosetService } from './closet.service';
 import { CLOSET_DETECTION_QUEUE } from './constants';
 
 interface DetectionJobData {
@@ -17,6 +18,7 @@ export class ClosetDetectionProcessor extends WorkerHost {
   constructor(
     private readonly prisma: PrismaService,
     private readonly visionService: VisionService,
+    private readonly closetService: ClosetService,
   ) {
     super();
   }
@@ -51,6 +53,9 @@ export class ClosetDetectionProcessor extends WorkerHost {
           failureReason: null,
         },
       });
+      // The item only becomes analyzable now that it has type/category/color,
+      // so this is the point at which derived analyses go stale.
+      await this.closetService.invalidateDerivedAnalyses(item.ownerId);
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Unknown error';
       this.logger.error(

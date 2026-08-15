@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  Logger,
+  ServiceUnavailableException,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AiProvider } from '../constants';
 import {
@@ -11,6 +15,7 @@ import {
   ChatResult,
   StreamChatParams,
 } from './chat-provider.interface';
+import { StructuredParams } from './structured-output.interface';
 import { AnthropicLlmProvider } from './providers/anthropic-llm.provider';
 import { OpenAiLlmProvider } from './providers/openai-llm.provider';
 import { GeminiLlmProvider } from './providers/gemini-llm.provider';
@@ -22,6 +27,7 @@ import { GeminiLlmProvider } from './providers/gemini-llm.provider';
  */
 @Injectable()
 export class LLMService {
+  private readonly logger = new Logger(LLMService.name);
   private readonly provider: LLMProvider;
 
   constructor(
@@ -50,5 +56,29 @@ export class LLMService {
 
   streamChat(params: StreamChatParams): Promise<string> {
     return this.provider.streamChat(params);
+  }
+
+  /**
+   * Schema-driven JSON, optionally over images. See StructuredParams.
+   *
+   * Vendor SDK failures (rate limits, 5xx, "model overloaded") are surfaced
+   * as 503 rather than escaping as an unhandled 500 — an upstream outage
+   * isn't an internal error, and the same convention already applies to the
+   * weather provider. The original error is logged so real bugs behind a
+   * 503 stay diagnosable.
+   */
+  async generateStructured<T>(params: StructuredParams): Promise<T> {
+    try {
+      return await this.provider.generateStructured<T>(params);
+    } catch (error) {
+      this.logger.error(
+        `Structured generation "${params.schemaName}" failed: ${
+          error instanceof Error ? error.message : String(error)
+        }`,
+      );
+      throw new ServiceUnavailableException(
+        'The AI provider is currently unavailable. Please try again shortly.',
+      );
+    }
   }
 }
