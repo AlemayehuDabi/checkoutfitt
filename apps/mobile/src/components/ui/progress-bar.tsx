@@ -11,7 +11,7 @@ export function ProgressBar({ step, total }: ProgressBarProps) {
       {Array.from({ length: total }).map((_, index) => (
         <View
           key={index}
-          className={`h-1 flex-1 rounded-full ${index < step ? "bg-primary" : "bg-surface-muted"}`}
+          className={`h-1 flex-1 rounded-full ${index < step ? "bg-primary-500" : "bg-primary-200"}`}
         />
       ))}
     </View>

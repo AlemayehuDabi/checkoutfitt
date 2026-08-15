@@ -36,7 +36,9 @@ export function GarmentSwatch({
         // Lets expo-image drop the previous row's bitmap when a virtualized cell
         // is recycled, instead of briefly showing the wrong garment mid-scroll.
         recyclingKey={imageUri}
-        className={`bg-surface-sunken ${className}`}
+        // The secondary surface shows through while the bitmap decodes, and
+        // stays visible behind garments shot on a removed background.
+        className={`border border-border bg-surface-secondary ${className}`}
       />
     );
   }
@@ -45,8 +47,11 @@ export function GarmentSwatch({
   const isLight = isLightColor(colorHex);
 
   return (
-    <View className={`items-center justify-center ${className}`} style={{ backgroundColor: colorHex }}>
-      <Icon size={iconSize} color={isLight ? color.ink : color.canvas} strokeWidth={1.5} />
+    <View
+      className={`items-center justify-center border border-border ${className}`}
+      style={{ backgroundColor: colorHex }}
+    >
+      <Icon size={iconSize} color={isLight ? color.textPrimary : color.canvas} strokeWidth={1.5} />
     </View>
   );
 }

@@ -36,21 +36,21 @@ export default function GenerateHomeScreen() {
 
   return (
     <ScreenContainer scroll edges={["top", "left", "right"]}>
-      <View className="flex-row items-center justify-between pt-6">
-        <Text className="text-2xl font-bold text-ink">Outfit Generator</Text>
+      <View className="flex-row items-center justify-between pt-2xl">
+        <Text className="text-h1 font-bold text-text-primary">Outfit Generator</Text>
         <Text
           onPress={() => router.push("/generate/saved")}
           suppressHighlighting
-          className="text-sm font-semibold text-primary active:opacity-70"
+          className="text-caption font-semibold text-text-accent active:opacity-70"
         >
           Saved
         </Text>
       </View>
-      <Text className="mt-2 text-base text-muted">
+      <Text className="mt-sm text-body text-text-muted">
         Tell us the vibe and we&apos;ll style a look from your closet.
       </Text>
 
-      <View className="mt-8 gap-3">
+      <View className="mt-3xl gap-md">
         {OUTFIT_CONTEXTS.map((option) => {
           const Icon = CONTEXT_ICONS[option.icon] ?? Coffee;
           const selected = context === option.key;
@@ -60,7 +60,7 @@ export default function GenerateHomeScreen() {
               label={option.label}
               selected={selected}
               onPress={() => setContext(option.key)}
-              icon={<Icon size={22} color={selected ? color.canvas : color.ink} />}
+              icon={<Icon size={22} color={selected ? color.primary500 : color.textPrimary} />}
             />
           );
         })}
@@ -70,42 +70,48 @@ export default function GenerateHomeScreen() {
         label="Generate Outfit"
         disabled={!context}
         onPress={() => router.push(`/generate/result?context=${encodeURIComponent(context ?? "")}`)}
-        className="mt-10"
+        className="mt-4xl"
       />
 
-      <SectionHeader title="Other ways in" className="mt-9" />
-      <View className="mb-2 gap-2.5">
-        <Card onPress={() => router.push("/occasions")} className="flex-row items-center gap-4 p-4">
-          <IconWell size="md"><PartyPopper size={19} color={color.primary} strokeWidth={1.75} /></IconWell>
+      <SectionHeader title="Other ways in" className="mt-3xl" />
+      <View className="mb-sm gap-md">
+        <Card onPress={() => router.push("/occasions")} className="flex-row items-center gap-lg p-lg">
+          <IconWell size="md">
+            <PartyPopper size={20} color={color.primary500} strokeWidth={1.75} />
+          </IconWell>
           <View className="flex-1">
-            <Text className="text-body font-semibold text-ink">Shop by Occasion</Text>
-            <Text className="mt-0.5 text-caption text-muted">
+            <Text className="text-body font-medium text-text-primary">Shop by Occasion</Text>
+            <Text className="mt-0.5 text-caption text-text-muted">
               Interviews, weddings, gym days, and more
             </Text>
           </View>
-          <ChevronRight size={18} color={color.faint} />
+          <ChevronRight size={16} color={color.textMuted} />
         </Card>
 
-        <Card onPress={() => router.push("/calendar")} className="flex-row items-center gap-4 p-4">
-          <IconWell size="md"><CalendarDays size={19} color={color.primary} strokeWidth={1.75} /></IconWell>
+        <Card onPress={() => router.push("/calendar")} className="flex-row items-center gap-lg p-lg">
+          <IconWell size="md">
+            <CalendarDays size={20} color={color.primary500} strokeWidth={1.75} />
+          </IconWell>
           <View className="flex-1">
-            <Text className="text-body font-semibold text-ink">Plan Ahead</Text>
-            <Text className="mt-0.5 text-caption text-muted">
+            <Text className="text-body font-medium text-text-primary">Plan Ahead</Text>
+            <Text className="mt-0.5 text-caption text-text-muted">
               Assign looks to days on your calendar
             </Text>
           </View>
-          <ChevronRight size={18} color={color.faint} />
+          <ChevronRight size={16} color={color.textMuted} />
         </Card>
 
-        <Card onPress={() => router.push("/rating/capture")} className="flex-row items-center gap-4 p-4">
-          <IconWell size="md"><ScanLine size={19} color={color.primary} strokeWidth={1.75} /></IconWell>
+        <Card onPress={() => router.push("/rating/capture")} className="flex-row items-center gap-lg p-lg">
+          <IconWell size="md">
+            <ScanLine size={20} color={color.primary500} strokeWidth={1.75} />
+          </IconWell>
           <View className="flex-1">
-            <Text className="text-body font-semibold text-ink">Rate What You&apos;re Wearing</Text>
-            <Text className="mt-0.5 text-caption text-muted">
+            <Text className="text-body font-medium text-text-primary">Rate What You&apos;re Wearing</Text>
+            <Text className="mt-0.5 text-caption text-text-muted">
               Score an outfit on colour, fit and proportion
             </Text>
           </View>
-          <ChevronRight size={18} color={color.faint} />
+          <ChevronRight size={16} color={color.textMuted} />
         </Card>
       </View>
     </ScreenContainer>

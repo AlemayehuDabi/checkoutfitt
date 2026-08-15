@@ -2,6 +2,7 @@ import { Sparkles, type LucideIcon } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 
+import { ProgressBar } from "@/components/ui/progress-bar";
 import { ScreenContainer } from "@/components/ui/screen-container";
 import { color } from "@/design";
 import { AppImage } from "@/components/ui/app-image";
@@ -53,25 +54,24 @@ export function AnalysisScreen({
     <ScreenContainer>
       <View className="flex-1 items-center justify-center">
         {imageUri ? (
-          <View className="h-56 w-44 overflow-hidden rounded-3xl border border-line">
+          <View className="h-56 w-44 overflow-hidden rounded-xl border border-border">
             <AppImage source={{ uri: imageUri }} className="h-full w-full" contentFit="cover" />
           </View>
         ) : (
-          <IconWell size="2xl"><Icon size={34} color={color.primary} strokeWidth={1.5} /></IconWell>
+          <IconWell size="2xl" round>
+            <Icon size={34} color={color.primary500} strokeWidth={1.5} />
+          </IconWell>
         )}
 
-        <Text className="mt-9 text-center text-h3 font-bold text-ink">{steps[index]}</Text>
+        <Text className="mt-3xl text-center text-h2 font-bold text-text-primary">{steps[index]}</Text>
         {caption ? (
-          <Text className="mt-2 text-center text-body text-muted">{caption}</Text>
+          <Text className="mt-sm text-center text-body text-text-muted">{caption}</Text>
         ) : null}
 
-        <View className="mt-8 h-1 w-40 overflow-hidden rounded-full bg-surface-muted">
-          <View
-            className="h-full rounded-full bg-primary"
-            style={{ width: `${Math.round(progress * 100)}%` }}
-          />
+        <View className="mt-3xl w-48">
+          <ProgressBar step={index + 1} total={steps.length} />
         </View>
-        <Text className="mt-3 text-micro font-semibold uppercase text-faint">
+        <Text className="mt-md text-eyebrow font-semibold uppercase text-text-muted">
           Step {index + 1} of {steps.length}
         </Text>
       </View>

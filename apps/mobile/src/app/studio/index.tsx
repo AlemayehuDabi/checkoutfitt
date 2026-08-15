@@ -28,24 +28,24 @@ export default function StudioScreen() {
 
         return (
           <View key={group.key}>
-            <SectionHeader title={group.title} index={group.index} className="mt-9" />
-            <View className="gap-2.5">
+            <SectionHeader title={group.title} index={group.index} className="mt-3xl" />
+            <View className="gap-sm">
               {tools.map((tool) => (
                 <Card
                   key={tool.key}
                   onPress={() => router.push(tool.href as Href)}
-                  className="flex-row items-center gap-3.5 p-4"
+                  className="flex-row items-center gap-md p-lg"
                 >
-                  <View className="h-12 w-12 items-center justify-center rounded-2xl bg-primary-50">
-                    <tool.icon size={20} color={color.primary} strokeWidth={1.75} />
+                  <View className="h-12 w-12 items-center justify-center rounded-md bg-primary-100">
+                    <tool.icon size={20} color={color.primary500} strokeWidth={1.75} />
                   </View>
                   <View className="flex-1">
-                    <Text className="text-body font-semibold text-ink">{tool.name}</Text>
-                    <Text className="mt-0.5 text-caption leading-4 text-muted">
+                    <Text className="text-body font-semibold text-text-primary">{tool.name}</Text>
+                    <Text className="mt-0.5 text-caption text-text-muted">
                       {tool.description}
                     </Text>
                   </View>
-                  <ChevronRight size={18} color={color.faint} />
+                  <ChevronRight size={18} color={color.textMuted} />
                 </Card>
               ))}
             </View>

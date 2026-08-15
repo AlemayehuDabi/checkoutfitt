@@ -12,13 +12,13 @@ import type { OutfitItem } from "@/types";
 
 export function OutfitGallery({ items }: { items: OutfitItem[] }) {
   return (
-    <View className="flex-row flex-wrap gap-2">
+    <View className="flex-row flex-wrap gap-md">
       {items.map((item) => (
         <GarmentSwatch
           key={item.id}
           category={item.category}
           colorHex={item.colorHex}
-          className="aspect-square w-[48.5%] overflow-hidden rounded-2xl"
+          className="aspect-square w-[48.5%] overflow-hidden rounded-lg"
           iconSize={30}
         />
       ))}
@@ -28,20 +28,20 @@ export function OutfitGallery({ items }: { items: OutfitItem[] }) {
 
 export function OutfitBreakdown({ items }: { items: OutfitItem[] }) {
   return (
-    <View className="gap-2.5">
+    <View className="gap-md">
       {items.map((item) => {
         const categoryLabel = CLOSET_CATEGORIES.find((c) => c.key === item.category)?.label;
         return (
-          <Card key={item.id} className="flex-row items-center gap-3 p-3">
+          <Card key={item.id} className="flex-row items-center gap-md p-md">
             <GarmentSwatch
               category={item.category}
               colorHex={item.colorHex}
-              className="h-14 w-14 overflow-hidden rounded-xl"
+              className="h-14 w-14 overflow-hidden rounded-md"
               iconSize={20}
             />
             <View className="flex-1">
-              <Text className="text-body font-semibold text-ink">{item.label}</Text>
-              <Text className="mt-0.5 text-caption text-muted">{categoryLabel}</Text>
+              <Text className="text-h3 font-semibold text-text-primary">{item.label}</Text>
+              <Text className="mt-0.5 text-caption text-text-muted">{categoryLabel}</Text>
             </View>
           </Card>
         );

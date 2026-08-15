@@ -12,12 +12,12 @@ export default function SplashScreen() {
   }, []);
 
   return (
-    <View className="flex-1 items-center justify-center bg-ink">
-      <View className="h-16 w-16 items-center justify-center rounded-2xl bg-primary">
-        <Text className="text-2xl font-bold text-white">C</Text>
+    <View className="flex-1 items-center justify-center bg-bg">
+      <View className="h-16 w-16 items-center justify-center rounded-xl bg-primary-500">
+        <Text className="text-h2 font-bold text-text-on-primary">C</Text>
       </View>
-      <Text className="mt-5 text-2xl font-bold text-white">CheckoutFitt</Text>
-      <Text className="mt-1 text-sm text-white/50">Your AI stylist</Text>
+      <Text className="mt-xl text-h2 font-bold text-primary-500">CheckoutFitt</Text>
+      <Text className="mt-1 text-caption text-text-muted">Your AI stylist</Text>
     </View>
   );
 }

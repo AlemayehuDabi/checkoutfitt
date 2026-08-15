@@ -1,9 +1,11 @@
 export { Button } from "./button";
+export { CalloutCard } from "./callout-card";
 export { CalendarGrid } from "./calendar-grid";
 export { Card } from "./card";
 export { Chip } from "./chip";
 export { ConfirmSheet } from "./confirm-sheet";
 export { Divider } from "./divider";
+export { Fab } from "./fab";
 export { Header } from "./header";
 export { IconButton } from "./icon-button";
 export { ImageMatch } from "./image-match";

@@ -3,6 +3,22 @@
 export type TypeStep = { size: number; lineHeight: number; tracking: number };
 export type ShadowStep = { y: number; blur: number; opacity: number; android: number };
 
+export type TypeScaleName =
+  | "eyebrow"
+  | "micro"
+  | "tag"
+  | "caption"
+  | "bodySm"
+  | "body"
+  | "bodyLg"
+  | "h3"
+  | "h2"
+  | "h1"
+  | "display"
+  | "displayLg"
+  | "score"
+  | "stat";
+
 export declare const palette: {
   primary: Record<
     50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 | 950 | "DEFAULT",
@@ -21,19 +37,12 @@ export declare const palette: {
   white: string;
 };
 
-export declare const typography: Record<
-  | "micro"
-  | "caption"
-  | "bodySm"
-  | "body"
-  | "bodyLg"
-  | "h3"
-  | "h2"
-  | "h1"
-  | "display"
-  | "displayLg",
-  TypeStep
->;
+/** Spec token name → canonical token name, e.g. `bg` → `canvas`. */
+export declare const colorAliases: Record<string, string>;
+
+export declare const overlay: { DEFAULT: string; light: string };
+
+export declare const typography: Record<TypeScaleName, TypeStep>;
 
 export declare const fontWeight: Record<
   "regular" | "medium" | "semibold" | "bold",
@@ -45,7 +54,20 @@ export declare const radius: Record<
   number
 >;
 
-export declare const spacing: Record<"gutter" | "section" | "block", number>;
+export declare const spacing: Record<
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl"
+  | "gutter"
+  | "section"
+  | "block",
+  number
+>;
 
 export declare const shadow: Record<
   "none" | "sm" | "md" | "lg" | "xl",
@@ -56,8 +78,14 @@ export declare const glow: Record<"primary", ShadowStep>;
 
 export declare const shadowColor: string;
 
+export declare const motion: {
+  duration: Record<"fast" | "normal" | "slow", number>;
+  pressScale: Record<"sm" | "md" | "lg", number>;
+};
+
 export declare function hexToChannels(hex: string): string;
 export declare function flattenPalette(
   source?: unknown,
   prefix?: string
 ): Record<string, string>;
+export declare function resolveAliases(): Record<string, string>;

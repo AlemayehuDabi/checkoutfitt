@@ -32,18 +32,18 @@ export default function PackingInputScreen() {
         subtitle="Tell us where and when — we'll build a list that re-wears rather than over-packs."
       />
 
-      <SectionHeader title="Where to" index="01" className="mt-8" />
+      <SectionHeader title="Where to" index="01" className="mt-3xl" />
       <Input
         label="Destination"
         placeholder="Lisbon, Portugal"
         value={destination}
         onChangeText={setDestination}
         autoCapitalize="words"
-        icon={<MapPin size={17} color={color.faint} />}
+        icon={<MapPin size={17} color={color.textMuted} />}
       />
 
-      <SectionHeader title="Trip type" index="02" className="mt-8" />
-      <View className="flex-row flex-wrap gap-2">
+      <SectionHeader title="Trip type" index="02" className="mt-3xl" />
+      <View className="flex-row flex-wrap gap-sm">
         {TRIP_PURPOSES.map((entry) => (
           <Chip
             key={entry}
@@ -54,8 +54,8 @@ export default function PackingInputScreen() {
         ))}
       </View>
 
-      <SectionHeader title="Departure" index="03" className="mt-8" />
-      <Card className="p-4">
+      <SectionHeader title="Departure" index="03" className="mt-3xl" />
+      <Card className="p-lg">
         <CalendarGrid
           month={month}
           onMonthChange={setMonth}
@@ -73,7 +73,7 @@ export default function PackingInputScreen() {
             params: { destination: destination.trim(), startDate, purpose },
           })
         }
-        className="mb-2 mt-9"
+        className="mb-sm mt-3xl"
       />
     </ScreenContainer>
   );

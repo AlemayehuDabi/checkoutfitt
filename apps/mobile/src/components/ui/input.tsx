@@ -1,21 +1,34 @@
 import { Eye, EyeOff } from "lucide-react-native";
 import { type ReactNode, useState } from "react";
-import { Pressable, Text, TextInput, type TextInputProps, View } from "react-native";
+import {
+  type BlurEvent,
+  type FocusEvent,
+  Pressable,
+  Text,
+  TextInput,
+  type TextInputProps,
+  View,
+} from "react-native";
 
-import { color } from "@/design";
+import { color, elevation } from "@/design";
 
 type InputProps = TextInputProps & {
   label?: string;
   error?: string;
   hint?: string;
   secureToggle?: boolean;
-  /** Leading slot, e.g. a link or search icon. */
+  /** Trailing slot, e.g. a location pin or calendar glyph. Rendered at 20px. */
   icon?: ReactNode;
   /** Grows the field for pasted URLs and notes. */
   multiline?: boolean;
   containerClassName?: string;
 };
 
+/**
+ * Spec §6.4. 52px tall, 12px radius, hairline border. Focus moves the border to
+ * the brand colour and adds the lightest shadow step — enough that the active
+ * field reads as raised out of the form without the whole stack looking busy.
+ */
 export function Input({
   label,
   error,
@@ -25,42 +38,64 @@ export function Input({
   icon,
   multiline,
   containerClassName = "",
+  onFocus,
+  onBlur,
   ...rest
 }: InputProps) {
   const [hidden, setHidden] = useState(!!secureTextEntry);
+  const [focused, setFocused] = useState(false);
+
+  const handleFocus = (event: FocusEvent) => {
+    setFocused(true);
+    onFocus?.(event);
+  };
+
+  const handleBlur = (event: BlurEvent) => {
+    setFocused(false);
+    onBlur?.(event);
+  };
+
+  const border = error
+    ? "border-danger"
+    : focused
+      ? "border-primary-500"
+      : "border-border";
 
   return (
     <View className={`w-full ${containerClassName}`}>
       {label ? (
-        <Text className="mb-2 text-micro font-semibold uppercase text-muted">{label}</Text>
+        <Text className="mb-1.5 text-caption font-medium text-text-secondary">{label}</Text>
       ) : null}
       <View
-        className={`flex-row items-center rounded-2xl border bg-surface px-4 ${
-          multiline ? "min-h-24 py-3" : "h-14"
-        } ${error ? "border-danger" : "border-line"}`}
+        style={focused && !error ? elevation.sm : undefined}
+        className={`flex-row items-center rounded-md border bg-surface px-lg ${
+          multiline ? "min-h-24 py-md" : "h-[52px]"
+        } ${border}`}
       >
-        {icon ? <View className="mr-2.5">{icon}</View> : null}
         <TextInput
-          className="flex-1 text-body text-ink"
-          placeholderTextColor={color.faint}
+          className="flex-1 text-body text-text-primary"
+          placeholderTextColor={color.textMuted}
           secureTextEntry={secureToggle ? hidden : secureTextEntry}
           autoCapitalize="none"
           autoCorrect={false}
           multiline={multiline}
           textAlignVertical={multiline ? "top" : "center"}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
           {...rest}
         />
+        {icon ? <View className="ml-sm">{icon}</View> : null}
         {secureToggle ? (
           <Pressable
             hitSlop={8}
             accessibilityLabel={hidden ? "Show password" : "Hide password"}
             onPress={() => setHidden((prev) => !prev)}
-            className="ml-2 active:opacity-60"
+            className="ml-sm active:opacity-60"
           >
             {hidden ? (
-              <EyeOff size={19} color={color.muted} />
+              <EyeOff size={20} color={color.textMuted} />
             ) : (
-              <Eye size={19} color={color.muted} />
+              <Eye size={20} color={color.textMuted} />
             )}
           </Pressable>
         ) : null}
@@ -68,7 +103,7 @@ export function Input({
       {error ? (
         <Text className="mt-1.5 text-caption text-danger">{error}</Text>
       ) : hint ? (
-        <Text className="mt-1.5 text-caption text-muted">{hint}</Text>
+        <Text className="mt-1.5 text-caption text-text-muted">{hint}</Text>
       ) : null}
     </View>
   );

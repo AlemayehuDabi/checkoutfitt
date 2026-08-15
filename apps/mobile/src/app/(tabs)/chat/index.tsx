@@ -109,19 +109,25 @@ export default function ChatScreen() {
   const canSend = inputText.trim().length > 0 || !!attachedImage;
 
   return (
-    <SafeAreaView edges={["top", "left", "right"]} className="flex-1 bg-canvas">
+    <SafeAreaView edges={["top", "left", "right"]} className="flex-1 bg-bg">
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         className="flex-1"
         keyboardVerticalOffset={Platform.OS === "ios" ? 8 : 0}
       >
-        <View className="flex-row items-center justify-between px-4 pb-2 pt-2">
+        <View className="h-14 flex-row items-center justify-between px-gutter">
           <View>
-            <Text className="text-lg font-bold text-ink">AI Stylist</Text>
-            <Text className="text-xs text-muted">Always here to help you get dressed</Text>
+            <Text className="text-h3 font-semibold text-text-primary">AI Stylist</Text>
+            <Text className="text-caption text-text-muted">
+              Always here to help you get dressed
+            </Text>
           </View>
-          <IconButton className="bg-ink" variant="solid" onPress={() => router.push("/chat/paywall")}>
-            <Crown size={18} color={color.primary} />
+          <IconButton
+            variant="sunken"
+            accessibilityLabel="Upgrade to Pro"
+            onPress={() => router.push("/chat/paywall")}
+          >
+            <Crown size={20} color={color.primary500} />
           </IconButton>
         </View>
 
@@ -129,7 +135,7 @@ export default function ChatScreen() {
           ref={listRef}
           data={messages}
           keyExtractor={(item) => item.id}
-          contentContainerClassName="gap-4 py-4"
+          contentContainerClassName="gap-lg py-lg"
           renderItem={({ item }) => <ChatBubble message={item} />}
           ListFooterComponent={typing ? <TypingIndicator /> : null}
           showsVerticalScrollIndicator={false}
@@ -149,44 +155,46 @@ export default function ChatScreen() {
             showsHorizontalScrollIndicator={false}
             data={SUGGESTION_CHIPS}
             keyExtractor={(item) => item.label}
-            contentContainerClassName="gap-2 px-4 pb-3"
+            contentContainerClassName="gap-sm px-gutter pb-md"
             renderItem={({ item }) => (
               <PressableScale
                 onPress={() => (item.pro ? router.push("/chat/paywall") : handleSend(item.prompt))}
-                className="flex-row items-center gap-1.5 rounded-full border border-line bg-surface px-4 py-2.5"
+                pressScale={0.94}
+                className="h-9 flex-row items-center gap-1.5 rounded-full border border-border bg-surface px-lg"
               >
-                {item.pro ? <Crown size={13} color={color.primary} /> : null}
-                <Text className="text-sm font-medium text-ink">{item.label}</Text>
+                {item.pro ? <Crown size={13} color={color.primary500} /> : null}
+                <Text className="text-tag font-medium text-text-primary">{item.label}</Text>
               </PressableScale>
             )}
           />
         ) : null}
 
         {attachedImage ? (
-          <View className="flex-row items-center gap-2 px-4 pb-2">
+          <View className="flex-row items-center gap-sm px-gutter pb-sm">
             <View className="relative">
-              <AppImage source={{ uri: attachedImage }} className="h-14 w-14 rounded-xl bg-surface-sunken" />
+              <AppImage source={{ uri: attachedImage }} className="h-14 w-14 rounded-md bg-surface-secondary" />
               <PressableScale
                 onPress={() => setAttachedImage(null)}
-                className="absolute -right-1.5 -top-1.5 h-5 w-5 items-center justify-center rounded-full bg-ink"
+                className="absolute -right-1.5 -top-1.5 h-5 w-5 items-center justify-center rounded-full bg-primary-500"
               >
-                <X size={12} color={color.canvas} />
+                <X size={12} color={color.textOnPrimary} />
               </PressableScale>
             </View>
-            <Text className="text-xs text-muted">Attached — add a note or just hit send</Text>
+            <Text className="text-caption text-text-muted">Attached — add a note or just hit send</Text>
           </View>
         ) : null}
 
-        <View className="flex-row items-center gap-2 border-t border-line px-4 py-3">
-          <IconButton onPress={handleAttach}>
-            <ImageIcon size={20} color={color.ink} />
+        {/* Spec screen 14: attach glyph, field, then a filled circular send. */}
+        <View className="flex-row items-center gap-sm border-t border-border bg-surface px-gutter py-md">
+          <IconButton accessibilityLabel="Attach a photo" onPress={handleAttach}>
+            <ImageIcon size={20} color={color.textMuted} />
           </IconButton>
           <TextInput
             value={inputText}
             onChangeText={setInputText}
             placeholder="Ask your stylist anything…"
-            placeholderTextColor={color.muted}
-            className="h-11 flex-1 rounded-full border border-line bg-surface px-4 text-base text-ink"
+            placeholderTextColor={color.textMuted}
+            className="h-11 flex-1 rounded-full border border-border bg-surface-secondary px-lg text-body text-text-primary"
             multiline={false}
             onSubmitEditing={() => handleSend()}
             returnKeyType="send"
@@ -194,11 +202,12 @@ export default function ChatScreen() {
           <PressableScale
             onPress={() => handleSend()}
             disabled={!canSend}
-            className={`h-11 w-11 items-center justify-center rounded-full bg-ink ${
+            accessibilityLabel="Send message"
+            className={`h-11 w-11 items-center justify-center rounded-full bg-primary-500 ${
               canSend ? "" : "opacity-40"
             }`}
           >
-            <Send size={18} color={color.canvas} />
+            <Send size={18} color={color.textOnPrimary} />
           </PressableScale>
         </View>
       </KeyboardAvoidingView>

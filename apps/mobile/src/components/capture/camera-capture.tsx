@@ -7,7 +7,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Button } from "@/components/ui/button";
 import { ScreenContainer } from "@/components/ui/screen-container";
-import { color } from "@/design";
+import { color, elevation } from "@/design";
 import { IconWell } from "@/components/ui/icon-well";
 import { PressableScale } from "@/components/ui/pressable-scale";
 
@@ -55,22 +55,24 @@ export function CameraCapture({
     return (
       <ScreenContainer>
         <View className="flex-1 items-center justify-center">
-          <IconWell size="xl"><CameraIcon size={26} color={color.primary} strokeWidth={1.5} /></IconWell>
-          <Text className="mt-5 text-center text-h2 font-bold text-ink">{permissionTitle}</Text>
-          <Text className="mt-2 text-center text-body leading-6 text-muted">{permissionBody}</Text>
+          <IconWell size="2xl" round>
+            <CameraIcon size={30} color={color.primary500} strokeWidth={1.5} />
+          </IconWell>
+          <Text className="mt-xl text-center text-h1 font-bold text-text-primary">{permissionTitle}</Text>
+          <Text className="mt-sm text-center text-body text-text-muted">{permissionBody}</Text>
 
           {tips?.length ? (
-            <View className="mt-7 w-full gap-2.5 rounded-2xl border border-line bg-surface p-4">
+            <View className="mt-3xl w-full gap-md rounded-xl border border-border bg-surface p-lg">
               {tips.map((tip) => (
-                <View key={tip} className="flex-row items-start gap-2.5">
-                  <Check size={15} color={color.primary} strokeWidth={2.5} />
-                  <Text className="flex-1 text-body-sm text-ink-soft">{tip}</Text>
+                <View key={tip} className="flex-row items-start gap-sm">
+                  <Check size={15} color={color.primary500} strokeWidth={2.5} />
+                  <Text className="flex-1 text-body text-text-secondary">{tip}</Text>
                 </View>
               ))}
             </View>
           ) : null}
         </View>
-        <View className="gap-2.5 pb-4">
+        <View className="gap-md pb-lg">
           <Button label="Allow Camera Access" onPress={requestPermission} />
           <Button label="Cancel" variant="ghost" onPress={() => router.back()} />
         </View>
@@ -90,17 +92,20 @@ export function CameraCapture({
   };
 
   return (
-    <View className="flex-1 bg-ink">
+    <View className="flex-1 bg-surface-inverse">
       <CameraView ref={cameraRef} style={{ flex: 1 }} facing={facing} />
+      {/* Spec §Overlay: the feed sits under a scrim so the white chrome and
+          framing guide stay legible over any scene. */}
+      <View className="absolute inset-0 bg-overlay" pointerEvents="none" />
 
       <SafeAreaView edges={["top", "bottom"]} className="absolute inset-0">
         <View className="flex-1 justify-between">
-          <View className="flex-row items-center justify-between px-gutter pt-4">
+          <View className="flex-row items-center justify-between px-gutter pt-lg">
             <PressableScale
               onPress={() => router.back()}
               hitSlop={8}
               accessibilityLabel="Close camera"
-              className="h-10 w-10 items-center justify-center rounded-full bg-black/40"
+              className="h-10 w-10 items-center justify-center rounded-full bg-overlay"
             >
               <X size={20} color={color.white} />
             </PressableScale>
@@ -108,7 +113,7 @@ export function CameraCapture({
               onPress={() => setFacing((prev) => (prev === "back" ? "front" : "back"))}
               hitSlop={8}
               accessibilityLabel="Flip camera"
-              className="h-10 w-10 items-center justify-center rounded-full bg-black/40"
+              className="h-10 w-10 items-center justify-center rounded-full bg-overlay"
             >
               <RefreshCw size={18} color={color.white} />
             </PressableScale>
@@ -120,18 +125,21 @@ export function CameraCapture({
                 className={
                   guide === "face"
                     ? "h-64 w-52 rounded-full border-2 border-white/50"
-                    : "h-3/4 w-full max-w-xs rounded-3xl border-2 border-white/40"
+                    : "h-3/4 w-full max-w-xs rounded-xl border-2 border-white/40"
                 }
               />
             </View>
           ) : null}
 
-          <View className="items-center pb-10">
-            <Text className="mb-6 text-body-sm font-medium text-white/80">{hint}</Text>
+          <View className="items-center pb-4xl">
+            <Text className="mb-2xl text-body font-medium text-white/85">{hint}</Text>
             <PressableScale
               onPress={handleCapture}
               disabled={capturing}
               accessibilityLabel="Take photo"
+              pressScale={0.92}
+              // Spec screen 6: an 80px white ring around a 64px filled disc.
+              style={elevation.xl}
               className={`h-20 w-20 items-center justify-center rounded-full border-4 border-white/70 ${
                 capturing ? "opacity-50" : ""
               }`}

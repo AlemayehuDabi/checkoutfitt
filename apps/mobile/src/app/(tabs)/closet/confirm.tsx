@@ -1,4 +1,5 @@
 import { router } from "expo-router";
+import { PackageOpen } from "lucide-react-native";
 import { useMemo, useState } from "react";
 import { Text, View } from "react-native";
 
@@ -9,6 +10,7 @@ import { Header } from "@/components/ui/header";
 import { Input } from "@/components/ui/input";
 import { ScreenContainer } from "@/components/ui/screen-container";
 import { SectionHeader } from "@/components/ui/section-header";
+import { StateView } from "@/components/ui/state-view";
 import { CLOSET_CATEGORIES, CLOSET_COLORS, randomDetection } from "@/constants/mock-closet";
 import { useClosetActions, usePendingImages } from "@/context/closet-context";
 import type { ClosetCategory } from "@/types";
@@ -27,9 +29,13 @@ export default function ConfirmScreen() {
     return (
       <ScreenContainer>
         <Header title="Confirm Item" />
-        <View className="flex-1 items-center justify-center">
-          <Text className="text-base text-muted">Nothing to confirm.</Text>
-        </View>
+        <StateView
+          icon={PackageOpen}
+          title="Nothing to confirm"
+          description="There are no captured photos waiting to be added to your closet."
+          actionLabel="Back to Closet"
+          onAction={() => router.replace("/closet")}
+        />
       </ScreenContainer>
     );
   }
@@ -93,15 +99,15 @@ function ConfirmForm({
         category={category}
         colorHex={colorHex}
         imageUri={imageUri}
-        className="h-72 w-full overflow-hidden rounded-3xl"
+        className="h-72 w-full overflow-hidden rounded-xl"
       />
 
-      <SectionHeader title="AI Detected" index="01" className="mt-7" />
+      <SectionHeader title="AI Detected" index="01" className="mt-2xl" />
 
-      <View className="gap-5">
+      <View className="gap-xl">
         <View>
-          <Text className="mb-2 text-sm font-medium text-ink">Category</Text>
-          <View className="flex-row flex-wrap gap-2">
+          <Text className="mb-sm text-caption font-medium text-text-secondary">Category</Text>
+          <View className="flex-row flex-wrap gap-sm">
             {CLOSET_CATEGORIES.map((option) => (
               <Chip
                 key={option.key}
@@ -116,8 +122,8 @@ function ConfirmForm({
         <Input label="Type" value={type} onChangeText={setType} placeholder="e.g. Sweater" />
 
         <View>
-          <Text className="mb-2 text-sm font-medium text-ink">Color</Text>
-          <View className="flex-row flex-wrap gap-2">
+          <Text className="mb-sm text-caption font-medium text-text-secondary">Color</Text>
+          <View className="flex-row flex-wrap gap-sm">
             {CLOSET_COLORS.map((option) => (
               <Chip
                 key={option.name}
@@ -137,7 +143,7 @@ function ConfirmForm({
         label={isLast ? "Save to Closet" : "Save & Next"}
         onPress={() => onSave({ category, type, color, colorHex })}
         disabled={!type.trim()}
-        className="mb-2 mt-10"
+        className="mb-sm mt-4xl"
       />
     </ScreenContainer>
   );

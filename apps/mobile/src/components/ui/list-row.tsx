@@ -37,24 +37,24 @@ export function ListRow({
     <Wrapper
       onPress={onPress}
       accessibilityRole={onPress ? "button" : undefined}
-      className={`flex-row items-center gap-3 py-3.5 ${className}`}
+      className={`min-h-14 flex-row items-center gap-md py-sm ${className}`}
     >
       {icon ? (
-        <IconWell size="sm" tone="sunken" className="h-10 w-10">
+        <IconWell size="md" tone="sunken">
           {icon}
         </IconWell>
       ) : null}
       <View className="flex-1">
-        <Text className={`text-body font-medium ${destructive ? "text-danger" : "text-ink"}`}>
+        <Text className={`text-body font-medium ${destructive ? "text-danger" : "text-text-primary"}`}>
           {label}
         </Text>
         {description ? (
-          <Text className="mt-0.5 text-caption text-muted" numberOfLines={2}>
+          <Text className="mt-0.5 text-caption text-text-muted" numberOfLines={2}>
             {description}
           </Text>
         ) : null}
       </View>
-      {right ?? (onPress ? <ChevronRight size={18} color={color.faint} /> : null)}
+      {right ?? (onPress ? <ChevronRight size={16} color={color.textMuted} /> : null)}
     </Wrapper>
   );
 }

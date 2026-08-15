@@ -23,7 +23,7 @@ export default function CalendarScreen() {
   const [selected, setSelected] = useState(() => toISODate(new Date()));
 
   const plan = getPlan(selected);
-  const markers = Object.fromEntries(Object.keys(planned).map((date) => [date, color.primary]));
+  const markers = Object.fromEntries(Object.keys(planned).map((date) => [date, color.primary500]));
 
   return (
     <ScreenContainer scroll>
@@ -35,7 +35,7 @@ export default function CalendarScreen() {
         subtitle="Assign looks to days so mornings are already decided."
       />
 
-      <Card className="mt-6 p-4">
+      <Card className="mt-2xl p-lg">
         <CalendarGrid
           month={month}
           onMonthChange={setMonth}
@@ -45,33 +45,33 @@ export default function CalendarScreen() {
         />
       </Card>
 
-      <SectionHeader title={shortDate(selected)} index="01" className="mt-9" />
+      <SectionHeader title={shortDate(selected)} index="01" className="mt-3xl" />
 
       {plan ? (
-        <Card className="p-4">
-          <View className="flex-row items-start justify-between gap-3">
+        <Card className="p-lg">
+          <View className="flex-row items-start justify-between gap-md">
             <View className="flex-1">
               <Tag label={plan.outfit.context} tone="primary" />
-              <Text className="mt-2 text-h3 font-bold text-ink">{plan.outfit.title}</Text>
+              <Text className="mt-sm text-h3 font-bold text-text-primary">{plan.outfit.title}</Text>
               {plan.note ? (
-                <Text className="mt-1 text-caption text-muted">{plan.note}</Text>
+                <Text className="mt-1 text-caption text-text-muted">{plan.note}</Text>
               ) : null}
             </View>
           </View>
 
-          <View className="mt-4 flex-row gap-2">
+          <View className="mt-lg flex-row gap-sm">
             {plan.outfit.items.slice(0, 4).map((item) => (
               <GarmentSwatch
                 key={item.id}
                 category={item.category}
                 colorHex={item.colorHex}
-                className="aspect-square flex-1 overflow-hidden rounded-xl"
+                className="aspect-square flex-1 overflow-hidden rounded-sm"
                 iconSize={18}
               />
             ))}
           </View>
 
-          <View className="mt-4 flex-row gap-2.5">
+          <View className="mt-lg flex-row gap-sm">
             <Button
               label="Change"
               variant="outline"
@@ -90,18 +90,18 @@ export default function CalendarScreen() {
           </View>
         </Card>
       ) : (
-        <Card tone="sunken" className="items-center p-6">
-          <View className="h-12 w-12 items-center justify-center rounded-2xl bg-surface">
-            <CalendarPlus size={20} color={color.muted} strokeWidth={1.5} />
+        <Card tone="sunken" className="items-center p-2xl">
+          <View className="h-12 w-12 items-center justify-center rounded-md bg-surface">
+            <CalendarPlus size={20} color={color.textMuted} strokeWidth={1.5} />
           </View>
-          <Text className="mt-3 text-body font-semibold text-ink">Nothing planned</Text>
-          <Text className="mt-1 text-center text-body-sm text-muted">
+          <Text className="mt-md text-body font-semibold text-text-primary">Nothing planned</Text>
+          <Text className="mt-1 text-center text-body-sm text-text-muted">
             Pick a look for {shortDate(selected)}.
           </Text>
           <Button
             label="Plan an Outfit"
             size="sm"
-            className="mt-4"
+            className="mt-lg"
             onPress={() => router.push({ pathname: "/calendar/assign", params: { date: selected } })}
           />
         </Card>
@@ -109,19 +109,19 @@ export default function CalendarScreen() {
 
       {upcoming.length ? (
         <>
-          <SectionHeader title="Coming up" index="02" className="mt-9" />
-          <Card className="px-4">
+          <SectionHeader title="Coming up" index="02" className="mt-3xl" />
+          <Card className="px-lg">
             {upcoming.slice(0, 5).map((entry, index) => (
               <View key={entry.date}>
-                {index > 0 ? <View className="h-px bg-line" /> : null}
+                {index > 0 ? <View className="h-px bg-border" /> : null}
                 <ListRow
                   label={entry.outfit.title}
                   description={`${shortDate(entry.date)}${entry.note ? ` · ${entry.note}` : ""}`}
                   icon={
                     <GarmentSwatch
                       category={entry.outfit.items[0]?.category ?? "top"}
-                      colorHex={entry.outfit.items[0]?.colorHex ?? color.surfaceMuted}
-                      className="h-10 w-10 overflow-hidden rounded-xl"
+                      colorHex={entry.outfit.items[0]?.colorHex ?? color.surfaceTertiary}
+                      className="h-10 w-10 overflow-hidden rounded-md"
                       iconSize={16}
                     />
                   }

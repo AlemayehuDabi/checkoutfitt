@@ -15,6 +15,7 @@ import { FlatList, Text, View } from "react-native";
 import { ItemCard } from "@/components/closet/item-card";
 import { Card } from "@/components/ui/card";
 import { Chip } from "@/components/ui/chip";
+import { Fab } from "@/components/ui/fab";
 import { IconButton } from "@/components/ui/icon-button";
 import { ScreenContainer } from "@/components/ui/screen-container";
 import { StateView } from "@/components/ui/state-view";
@@ -55,25 +56,24 @@ export default function ClosetScreen() {
 
   return (
     <ScreenContainer edges={["top", "left", "right"]}>
-      <View className="flex-row items-center justify-between pb-2 pt-6">
+      <View className="flex-row items-center justify-between pb-sm pt-2xl">
         <View>
-          <Text className="text-2xl font-bold text-ink">Your Closet</Text>
-          <Text className="text-sm text-muted">
+          <Text className="text-h1 font-bold text-text-primary">Your Closet</Text>
+          <Text className="mt-0.5 text-caption text-text-muted">
             {activeItems.length} item{activeItems.length === 1 ? "" : "s"}
           </Text>
         </View>
-        <View className="flex-row gap-2">
-          <IconButton onPress={() => setLayout(layout === "grid" ? "list" : "grid")}>
-            {layout === "grid" ? (
-              <LayoutList size={20} color={color.ink} />
-            ) : (
-              <LayoutGrid size={20} color={color.ink} />
-            )}
-          </IconButton>
-          <IconButton variant="solid" onPress={() => router.push("/closet/add")} className="bg-ink">
-            <Plus size={20} color={color.canvas} />
-          </IconButton>
-        </View>
+        <IconButton
+          variant="sunken"
+          accessibilityLabel={layout === "grid" ? "Switch to list" : "Switch to grid"}
+          onPress={() => setLayout(layout === "grid" ? "list" : "grid")}
+        >
+          {layout === "grid" ? (
+            <LayoutList size={20} color={color.textPrimary} />
+          ) : (
+            <LayoutGrid size={20} color={color.textPrimary} />
+          )}
+        </IconButton>
       </View>
 
       <FlatList
@@ -81,7 +81,7 @@ export default function ClosetScreen() {
         showsHorizontalScrollIndicator={false}
         data={[{ key: "all", label: "All" }, ...CLOSET_CATEGORIES.map((c) => ({ key: c.key, label: c.label }))]}
         keyExtractor={(item) => item.key}
-        contentContainerClassName="gap-2 py-3"
+        contentContainerClassName="gap-sm py-md"
         renderItem={({ item }) => (
           <Chip label={item.label} selected={filter === item.key} onPress={() => setFilter(item.key as FilterKey)} />
         )}
@@ -101,8 +101,8 @@ export default function ClosetScreen() {
           data={filteredItems}
           keyExtractor={(item) => item.id}
           numColumns={layout === "grid" ? 2 : 1}
-          columnWrapperClassName={layout === "grid" ? "gap-3" : undefined}
-          contentContainerClassName="gap-3 pb-8"
+          columnWrapperClassName={layout === "grid" ? "gap-lg" : undefined}
+          contentContainerClassName="gap-lg pb-4xl"
           showsVerticalScrollIndicator={false}
           // Every cell decodes a garment image, so the render window is kept
           // deliberately small — the default (10 initial / 10 per batch / 21
@@ -120,38 +120,51 @@ export default function ClosetScreen() {
             />
           )}
           ListFooterComponent={
-            <View className="mt-1 gap-2.5">
+            <View className="mt-1 gap-md">
               <Card
                 onPress={() => router.push("/gaps")}
-                className="flex-row items-center gap-3.5 p-4"
+                className="flex-row items-center gap-lg p-lg"
               >
-                <IconWell size="md"><SquareStack size={19} color={color.primary} strokeWidth={1.75} /></IconWell>
+                <IconWell size="md">
+                  <SquareStack size={20} color={color.primary500} strokeWidth={1.75} />
+                </IconWell>
                 <View className="flex-1">
-                  <Text className="text-body font-semibold text-ink">What&apos;s missing?</Text>
-                  <Text className="mt-0.5 text-caption text-muted">
+                  <Text className="text-body font-medium text-text-primary">
+                    What&apos;s missing?
+                  </Text>
+                  <Text className="mt-0.5 text-caption text-text-muted">
                     See the gaps holding your rotation back
                   </Text>
                 </View>
-                <ChevronRight size={18} color={color.faint} />
+                <ChevronRight size={16} color={color.textMuted} />
               </Card>
 
               <Card
                 onPress={() => router.push("/value")}
-                className="flex-row items-center gap-3.5 p-4"
+                className="flex-row items-center gap-lg p-lg"
               >
-                <IconWell size="md"><Wallet size={19} color={color.primary} strokeWidth={1.75} /></IconWell>
+                <IconWell size="md">
+                  <Wallet size={20} color={color.primary500} strokeWidth={1.75} />
+                </IconWell>
                 <View className="flex-1">
-                  <Text className="text-body font-semibold text-ink">What&apos;s it worth?</Text>
-                  <Text className="mt-0.5 text-caption text-muted">
+                  <Text className="text-body font-medium text-text-primary">
+                    What&apos;s it worth?
+                  </Text>
+                  <Text className="mt-0.5 text-caption text-text-muted">
                     Total value and cost per wear
                   </Text>
                 </View>
-                <ChevronRight size={18} color={color.faint} />
+                <ChevronRight size={16} color={color.textMuted} />
               </Card>
             </View>
           }
         />
       )}
+
+      {/* Spec §6.11: the add action lives in a floating disc bottom-right. */}
+      <Fab accessibilityLabel="Add an item" onPress={() => router.push("/closet/add")}>
+        <Plus size={24} color={color.textOnPrimary} strokeWidth={2.5} />
+      </Fab>
     </ScreenContainer>
   );
 }

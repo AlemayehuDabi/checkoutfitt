@@ -17,18 +17,23 @@ type TagProps = {
   className?: string;
 };
 
+/**
+ * Spec §6.3 static tag: 28px tall, 8px radius, 10px of horizontal padding, no
+ * border. Flat by design — tags sit *inside* raised surfaces, so giving them
+ * their own edge treatment reads as clutter.
+ */
 const surfaces: Record<TagTone, string> = {
-  default: "bg-surface-sunken",
+  default: "bg-surface-secondary",
   primary: "bg-primary-50",
-  success: "bg-success-soft",
-  warning: "bg-warning-soft",
-  danger: "bg-danger-soft",
-  info: "bg-info-soft",
+  success: "bg-success-light",
+  warning: "bg-warning-light",
+  danger: "bg-danger-light",
+  info: "bg-info-light",
   inverse: "bg-surface-inverse",
 };
 
 const labels: Record<TagTone, string> = {
-  default: "text-ink-soft",
+  default: "text-text-secondary",
   primary: "text-primary-700",
   success: "text-success",
   warning: "text-warning",
@@ -40,15 +45,15 @@ const labels: Record<TagTone, string> = {
 export function Tag({ label, tone = "default", dotColor, className = "" }: TagProps) {
   return (
     <View
-      className={`flex-row items-center gap-1.5 self-start rounded-full px-3 py-1.5 ${surfaces[tone]} ${className}`}
+      className={`h-7 flex-row items-center gap-xs self-start rounded-sm px-sm ${surfaces[tone]} ${className}`}
     >
       {dotColor ? (
         <View
-          className="h-2.5 w-2.5 rounded-full border border-line"
+          className="h-2.5 w-2.5 rounded-full border border-border"
           style={{ backgroundColor: dotColor }}
         />
       ) : null}
-      <Text className={`text-micro font-semibold uppercase ${labels[tone]}`}>{label}</Text>
+      <Text className={`text-tag font-medium ${labels[tone]}`}>{label}</Text>
     </View>
   );
 }

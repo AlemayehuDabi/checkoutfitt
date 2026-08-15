@@ -62,8 +62,8 @@ function FavouriteButton({
       <Animated.View style={style}>
         <Heart
           size={16}
-          color={favorite ? color.primary : color.muted}
-          fill={favorite ? color.primary : "transparent"}
+          color={favorite ? color.primary500 : color.textMuted}
+          fill={favorite ? color.primary500 : "transparent"}
           strokeWidth={2}
         />
       </Animated.View>
@@ -77,26 +77,26 @@ export function ItemCard({ item, layout, onPress, onToggleFavorite }: ItemCardPr
       <PressableScale
         onPress={onPress}
         pressScale={0.985}
-        style={elevation.sm}
-        className="flex-row items-center gap-4 rounded-2xl bg-surface p-3"
+        style={elevation.md}
+        className="flex-row items-center gap-lg rounded-md border border-border bg-surface p-md"
       >
         <GarmentSwatch
           category={item.category}
           colorHex={item.colorHex}
           imageUri={item.imageUri}
-          className="h-16 w-16 overflow-hidden rounded-xl"
+          className="h-16 w-16 overflow-hidden rounded-md"
           iconSize={22}
         />
         <View className="flex-1">
-          <Text className="text-body font-semibold text-ink" numberOfLines={1}>
+          <Text className="text-h3 font-semibold text-text-primary" numberOfLines={1}>
             {item.type}
           </Text>
-          <Text className="mt-0.5 text-caption text-muted">{item.color}</Text>
+          <Text className="mt-0.5 text-caption text-text-muted">{item.color}</Text>
         </View>
         <FavouriteButton
           favorite={item.favorite}
           onPress={onToggleFavorite}
-          className="h-9 w-9 items-center justify-center rounded-full bg-surface-sunken"
+          className="h-9 w-9 items-center justify-center rounded-full bg-surface-secondary"
         />
       </PressableScale>
     );
@@ -106,8 +106,8 @@ export function ItemCard({ item, layout, onPress, onToggleFavorite }: ItemCardPr
     <PressableScale
       onPress={onPress}
       pressScale={0.975}
-      style={elevation.sm}
-      className="flex-1 overflow-hidden rounded-2xl bg-surface"
+      style={elevation.md}
+      className="flex-1 overflow-hidden rounded-md border border-border bg-surface"
     >
       <View className="relative">
         <GarmentSwatch
@@ -124,11 +124,11 @@ export function ItemCard({ item, layout, onPress, onToggleFavorite }: ItemCardPr
           className="absolute right-2.5 top-2.5 h-9 w-9 items-center justify-center rounded-full bg-surface/90"
         />
       </View>
-      <View className="px-3.5 py-3">
-        <Text className="text-body-sm font-semibold text-ink" numberOfLines={1}>
+      <View className="px-md py-md">
+        <Text className="text-caption font-medium text-text-primary" numberOfLines={1}>
           {item.type}
         </Text>
-        <Text className="mt-0.5 text-caption text-muted" numberOfLines={1}>
+        <Text className="mt-0.5 text-caption text-text-muted" numberOfLines={1}>
           {item.color}
         </Text>
       </View>

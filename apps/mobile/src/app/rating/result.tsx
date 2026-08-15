@@ -33,24 +33,24 @@ export default function RatingResultScreen() {
     <ScreenContainer scroll>
       <Header title="Outfit Rating" />
 
-      <View className="items-center pt-2">
+      <View className="items-center pt-sm">
         <ScoreDial score={rating.overall} label="Overall" size={168} />
-        <View className="mt-4">
+        <View className="mt-lg">
           <Tag label={rating.verdict} tone={VERDICT_TONE[tone]} />
         </View>
-        <Text className="mt-4 px-2 text-center text-body-lg leading-6 text-muted">
+        <Text className="mt-lg px-sm text-center text-body-lg text-text-muted">
           {rating.summary}
         </Text>
       </View>
 
       {uri ? (
-        <View className="mt-7 flex-row gap-3">
-          <View className="h-40 w-32 overflow-hidden rounded-2xl border border-line">
+        <View className="mt-2xl flex-row gap-md">
+          <View className="h-40 w-32 overflow-hidden rounded-lg border border-border">
             <AppImage source={{ uri }} className="h-full w-full" contentFit="cover" />
           </View>
-          <Card tone="sunken" className="flex-1 justify-center p-4">
-            <Text className="text-micro font-semibold uppercase text-muted">What we looked at</Text>
-            <Text className="mt-2 text-body-sm leading-5 text-ink-soft">
+          <Card tone="sunken" className="flex-1 justify-center p-lg">
+            <Text className="text-eyebrow font-semibold uppercase text-text-muted">What we looked at</Text>
+            <Text className="mt-sm text-body-sm text-text-secondary">
               Garment edges, drape, hem break, and how the colours sit against each other in this
               light.
             </Text>
@@ -58,8 +58,8 @@ export default function RatingResultScreen() {
         </View>
       ) : null}
 
-      <SectionHeader title="The breakdown" index="01" className="mt-9" />
-      <Card className="gap-5 p-5">
+      <SectionHeader title="The breakdown" index="01" className="mt-3xl" />
+      <Card className="gap-xl p-xl">
         {rating.breakdown.map((entry) => (
           <Meter
             key={entry.label}
@@ -75,15 +75,15 @@ export default function RatingResultScreen() {
         title="Make it sharper"
         index="02"
         subtitle="Three changes, in the order that will move the score most."
-        className="mt-9"
+        className="mt-3xl"
       />
-      <View className="gap-2.5">
+      <View className="gap-sm">
         {rating.improvements.map((item, index) => (
-          <Card key={item} className="flex-row items-start gap-3 p-4">
+          <Card key={item} className="flex-row items-start gap-md p-lg">
             <View className="h-7 w-7 items-center justify-center rounded-full bg-primary-50">
-              <Text className="text-micro font-bold text-primary-700">{index + 1}</Text>
+              <Text className="text-eyebrow font-bold text-primary-700">{index + 1}</Text>
             </View>
-            <Text className="flex-1 text-body-sm leading-5 text-ink-soft">{item}</Text>
+            <Text className="flex-1 text-body-sm text-text-secondary">{item}</Text>
           </Card>
         ))}
       </View>
@@ -91,9 +91,9 @@ export default function RatingResultScreen() {
       <Card
         tone="primary"
         onPress={() => router.push("/coach")}
-        className="mt-6 flex-row items-center gap-3 p-4"
+        className="mt-2xl flex-row items-center gap-md p-lg"
       >
-        <Sparkles size={18} color={color.primary} />
+        <Sparkles size={18} color={color.primary500} />
         <View className="flex-1">
           <Text className="text-body font-semibold text-primary-700">
             See how this fits your profile
@@ -102,14 +102,14 @@ export default function RatingResultScreen() {
             Compare against your Modern Minimalist read
           </Text>
         </View>
-        <ArrowUpRight size={18} color={color.primary} />
+        <ArrowUpRight size={18} color={color.primary500} />
       </Card>
 
       <Button
         label="Rate Another Outfit"
         icon={<Camera size={17} color={color.white} />}
         onPress={() => router.replace("/rating/capture")}
-        className="mb-2 mt-8"
+        className="mb-sm mt-3xl"
       />
     </ScreenContainer>
   );

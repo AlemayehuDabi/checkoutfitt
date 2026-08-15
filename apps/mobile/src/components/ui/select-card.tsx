@@ -4,6 +4,7 @@ import { Text, View } from "react-native";
 import Animated, {
   FadeIn,
   FadeOut,
+  interpolate,
   interpolateColor,
   useAnimatedStyle,
   useDerivedValue,
@@ -11,7 +12,7 @@ import Animated, {
 } from "react-native-reanimated";
 
 import { PressableScale } from "@/components/ui/pressable-scale";
-import { color, elevation } from "@/design";
+import { color, elevation, motion } from "@/design";
 
 type SelectCardProps = {
   label: string;
@@ -24,12 +25,15 @@ type SelectCardProps = {
   className?: string;
 };
 
-const TRANSITION = { duration: 200 };
+const TRANSITION = { duration: motion.duration.normal };
 
 /**
- * The onboarding/generator selection row. Selecting animates the fill and lifts
- * the card, and a check mark fades in on the trailing edge — a fixed-width slot
- * so the row never reflows.
+ * The onboarding/generator selection card.
+ *
+ * Selected state follows the spec's Outfit Generator mockup: a primary-50 fill
+ * behind a brand-coloured border, with a small filled check badge on the
+ * trailing edge. The badge sits in a fixed-width slot so the row never reflows
+ * as selection moves between cards.
  */
 export function SelectCard({
   label,
@@ -43,41 +47,48 @@ export function SelectCard({
   const progress = useDerivedValue(() => withTiming(selected ? 1 : 0, TRANSITION), [selected]);
 
   const containerStyle = useAnimatedStyle(() => ({
-    backgroundColor: interpolateColor(progress.value, [0, 1], [color.surface, color.ink]),
+    backgroundColor: interpolateColor(progress.value, [0, 1], [color.surface, color.primary50]),
+    borderColor: interpolateColor(progress.value, [0, 1], [color.border, color.primary500]),
+    borderWidth: interpolate(progress.value, [0, 1], [1, 1.5]),
   }));
 
   const iconWellStyle = useAnimatedStyle(() => ({
     backgroundColor: interpolateColor(
       progress.value,
       [0, 1],
-      [color.surfaceSunken, "rgba(255,255,255,0.14)"]
+      [color.surfaceSecondary, color.primary100]
     ),
   }));
 
   return (
     <PressableScale
       onPress={onPress}
-      pressScale={0.985}
+      pressScale={motion.pressScale.md}
+      pressOpacity={1}
       accessibilityRole="button"
       accessibilityState={{ selected }}
       style={[selected ? elevation.md : elevation.sm, containerStyle]}
-      className={`flex-row items-center gap-4 rounded-2xl px-4 py-4 ${className}`}
+      className={`flex-row items-center gap-lg rounded-xl px-lg py-lg ${className}`}
     >
       {icon ? (
         <Animated.View
           style={iconWellStyle}
-          className="h-11 w-11 items-center justify-center rounded-2xl"
+          className="h-11 w-11 items-center justify-center rounded-md"
         >
           {icon}
         </Animated.View>
       ) : null}
 
       <View className="flex-1">
-        <Text className={`text-body font-semibold ${selected ? "text-canvas" : "text-ink"}`}>
+        <Text
+          className={`text-body font-semibold ${selected ? "text-primary-700" : "text-text-primary"}`}
+        >
           {label}
         </Text>
         {description ? (
-          <Text className={`mt-0.5 text-caption ${selected ? "text-faint" : "text-muted"}`}>
+          <Text
+            className={`mt-0.5 text-caption ${selected ? "text-primary-600" : "text-text-muted"}`}
+          >
             {description}
           </Text>
         ) : null}
@@ -87,11 +98,11 @@ export function SelectCard({
         <View className="h-6 w-6 items-center justify-center">
           {selected ? (
             <Animated.View
-              entering={FadeIn.duration(180)}
-              exiting={FadeOut.duration(120)}
-              className="h-6 w-6 items-center justify-center rounded-full bg-primary"
+              entering={FadeIn.duration(motion.duration.fast)}
+              exiting={FadeOut.duration(motion.duration.fast)}
+              className="h-6 w-6 items-center justify-center rounded-full bg-primary-500"
             >
-              <Check size={13} color={color.white} strokeWidth={3} />
+              <Check size={13} color={color.textOnPrimary} strokeWidth={3} />
             </Animated.View>
           ) : null}
         </View>

@@ -15,6 +15,8 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
+import { motion } from "@/design";
+
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 cssInterop(AnimatedPressable, { className: "style" });
 
@@ -75,7 +77,8 @@ export const PressableScale = forwardRef<View, PressableScaleProps>(function Pre
       style={isInert ? style : [style, animatedStyle]}
       onPressIn={(event) => {
         // Snappy on the way down so the surface reacts with the finger…
-        if (!isInert) progress.value = withTiming(1, { duration: 90 });
+        if (!isInert)
+          progress.value = withTiming(1, { duration: motion.duration.fast });
         onPressIn?.(event);
       }}
       onPressOut={(event) => {

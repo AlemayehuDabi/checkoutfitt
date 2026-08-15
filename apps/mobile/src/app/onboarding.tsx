@@ -41,6 +41,17 @@ const slides: Slide[] = [
   },
 ];
 
+/**
+ * The mockups set the payoff word of each onboarding headline in the brand
+ * colour ("Reimagined", "Every Day"). Splitting on the comma gives the same
+ * treatment without touching the copy: everything after it takes the accent.
+ */
+function splitHeadline(title: string) {
+  const comma = title.indexOf(",");
+  if (comma === -1) return { lead: title, accent: "" };
+  return { lead: title.slice(0, comma + 1), accent: title.slice(comma + 1) };
+}
+
 export default function OnboardingScreen() {
   const scrollRef = useRef<ScrollView>(null);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -69,11 +80,13 @@ export default function OnboardingScreen() {
   };
 
   return (
-    <View className="flex-1 bg-canvas">
-      <View className="flex-row justify-end px-6 pt-16">
+    <View className="flex-1 bg-bg">
+      <View className="flex-row items-center justify-between px-gutter pt-16">
+        {/* Wordmark, top-left in the brand colour — spec screen 1. */}
+        <Text className="text-h3 font-bold text-primary-500">CheckoutFitt</Text>
         <Text
           onPress={handleSkip}
-          className="text-sm font-medium text-muted active:opacity-60"
+          className="text-caption font-medium text-text-muted active:opacity-60"
           suppressHighlighting
         >
           Skip
@@ -90,17 +103,23 @@ export default function OnboardingScreen() {
       >
         {slides.map((slide, index) => {
           const Icon = slide.icon;
+          const { lead, accent } = splitHeadline(slide.title);
           return (
-            <View key={index} style={{ width: SCREEN_WIDTH }} className="items-center px-8 pt-8">
-              <View className="h-64 w-full items-center justify-center rounded-3xl bg-surface-sunken">
+            <View
+              key={index}
+              style={{ width: SCREEN_WIDTH }}
+              className="items-center px-gutter pt-3xl"
+            >
+              <View className="h-64 w-full items-center justify-center rounded-xl bg-surface-secondary">
                 <View className="h-24 w-24 items-center justify-center rounded-full bg-surface">
-                  <Icon size={40} color={color.primary} strokeWidth={1.5} />
+                  <Icon size={40} color={color.primary500} strokeWidth={1.5} />
                 </View>
               </View>
-              <Text className="mt-12 text-center text-2xl font-bold text-ink">
-                {slide.title}
+              <Text className="mt-4xl text-center text-display font-bold text-text-primary">
+                {lead}
+                {accent ? <Text className="text-primary-500">{accent}</Text> : null}
               </Text>
-              <Text className="mt-3 text-center text-base leading-6 text-muted">
+              <Text className="mt-md text-center text-body text-text-muted">
                 {slide.description}
               </Text>
             </View>
@@ -108,7 +127,7 @@ export default function OnboardingScreen() {
         })}
       </ScrollView>
 
-      <View className="gap-6 px-6 pb-8 pt-4">
+      <View className="gap-2xl px-gutter pb-3xl pt-lg">
         <PaginationDots count={slides.length} activeIndex={activeIndex} />
         <Button label={isLastSlide ? "Get Started" : "Next"} onPress={handleNext} />
       </View>

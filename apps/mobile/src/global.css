@@ -16,43 +16,69 @@
   /* === BEGIN GENERATED TOKENS — edit src/design/tokens.js === */
 
   /* Color — channel triplets so NativeWind can apply opacity modifiers */
-  --color-primary-50: 253 243 239; /* #FDF3EF */
-  --color-primary-100: 250 226 216; /* #FAE2D8 */
-  --color-primary-200: 244 195 176; /* #F4C3B0 */
-  --color-primary-300: 234 157 128; /* #EA9D80 */
-  --color-primary-400: 220 116 81; /* #DC7451 */
-  --color-primary-500: 206 87 48; /* #CE5730 */
-  --color-primary-600: 192 69 31; /* #C0451F */
-  --color-primary-700: 158 53 23; /* #9E3517 */
-  --color-primary-800: 123 42 20; /* #7B2A14 */
-  --color-primary-900: 92 34 17; /* #5C2211 */
-  --color-primary-950: 51 16 5; /* #331005 */
-  --color-primary: 192 69 31; /* #C0451F */
-  --color-ink: 23 19 15; /* #17130F */
-  --color-ink-soft: 59 50 43; /* #3B322B */
-  --color-muted: 133 122 112; /* #857A70 */
-  --color-faint: 167 156 145; /* #A79C91 */
-  --color-canvas: 250 247 242; /* #FAF7F2 */
+  --color-primary-50: 255 245 240; /* #FFF5F0 */
+  --color-primary-100: 251 238 230; /* #FBEEE6 */
+  --color-primary-200: 246 219 199; /* #F6DBC7 */
+  --color-primary-300: 232 168 120; /* #E8A878 */
+  --color-primary-400: 212 120 60; /* #D4783C */
+  --color-primary-500: 193 98 45; /* #C1622D */
+  --color-primary-600: 166 79 33; /* #A64F21 */
+  --color-primary-700: 138 65 25; /* #8A4119 */
+  --color-primary-800: 110 52 20; /* #6E3414 */
+  --color-primary-900: 82 39 15; /* #52270F */
+  --color-primary-950: 46 22 8; /* #2E1608 */
+  --color-primary: 193 98 45; /* #C1622D */
+  --color-ink: 26 25 23; /* #1A1917 */
+  --color-ink-soft: 58 56 53; /* #3A3835 */
+  --color-muted: 138 133 128; /* #8A8580 */
+  --color-faint: 168 163 157; /* #A8A39D */
+  --color-canvas: 250 248 245; /* #FAF8F5 */
   --color-surface: 255 255 255; /* #FFFFFF */
-  --color-surface-sunken: 242 236 227; /* #F2ECE3 */
-  --color-surface-muted: 233 225 214; /* #E9E1D6 */
-  --color-surface-inverse: 23 19 15; /* #17130F */
-  --color-line: 230 222 212; /* #E6DED4 */
-  --color-line-strong: 212 200 186; /* #D4C8BA */
-  --color-success: 47 107 79; /* #2F6B4F */
-  --color-success-soft: 228 239 232; /* #E4EFE8 */
-  --color-warning: 154 107 31; /* #9A6B1F */
-  --color-warning-soft: 246 235 216; /* #F6EBD8 */
-  --color-danger: 164 36 59; /* #A4243B */
-  --color-danger-soft: 247 227 230; /* #F7E3E6 */
-  --color-info: 44 84 112; /* #2C5470 */
-  --color-info-soft: 226 235 241; /* #E2EBF1 */
+  --color-surface-sunken: 245 241 234; /* #F5F1EA */
+  --color-surface-muted: 237 231 221; /* #EDE7DD */
+  --color-surface-inverse: 26 25 23; /* #1A1917 */
+  --color-line: 231 226 217; /* #E7E2D9 */
+  --color-line-strong: 213 207 197; /* #D5CFC5 */
+  --color-success: 74 158 107; /* #4A9E6B */
+  --color-success-soft: 237 247 240; /* #EDF7F0 */
+  --color-warning: 212 160 60; /* #D4A03C */
+  --color-warning-soft: 250 242 226; /* #FAF2E2 */
+  --color-danger: 193 67 45; /* #C1432D */
+  --color-danger-soft: 253 237 234; /* #FDEDEA */
+  --color-info: 91 143 199; /* #5B8FC7 */
+  --color-info-soft: 237 243 250; /* #EDF3FA */
   --color-white: 255 255 255; /* #FFFFFF */
 
+  /* Color aliases — the spec's token names, same values */
+  --color-bg: 250 248 245; /* #FAF8F5 — alias of --color-canvas */
+  --color-surface-secondary: 245 241 234; /* #F5F1EA — alias of --color-surface-sunken */
+  --color-surface-tertiary: 237 231 221; /* #EDE7DD — alias of --color-surface-muted */
+  --color-border: 231 226 217; /* #E7E2D9 — alias of --color-line */
+  --color-border-strong: 213 207 197; /* #D5CFC5 — alias of --color-line-strong */
+  --color-text-primary: 26 25 23; /* #1A1917 — alias of --color-ink */
+  --color-text-secondary: 58 56 53; /* #3A3835 — alias of --color-ink-soft */
+  --color-text-muted: 138 133 128; /* #8A8580 — alias of --color-muted */
+  --color-text-on-primary: 255 255 255; /* #FFFFFF — alias of --color-white */
+  --color-text-accent: 193 98 45; /* #C1622D — alias of --color-primary-500 */
+  --color-success-light: 237 247 240; /* #EDF7F0 — alias of --color-success-soft */
+  --color-warning-light: 250 242 226; /* #FAF2E2 — alias of --color-warning-soft */
+  --color-danger-light: 253 237 234; /* #FDEDEA — alias of --color-danger-soft */
+  --color-info-light: 237 243 250; /* #EDF3FA — alias of --color-info-soft */
+
+  /* Overlay — carries its own alpha, so not a channel triplet */
+  --color-overlay: rgba(26, 25, 23, 0.4);
+  --color-overlay-light: rgba(26, 25, 23, 0.08);
+
   /* Typography — size / line-height / letter-spacing */
+  --font-size-eyebrow: 11px;
+  --line-height-eyebrow: 14px;
+  --tracking-eyebrow: 1px;
   --font-size-micro: 11px;
   --line-height-micro: 14px;
-  --tracking-micro: 0.8px;
+  --tracking-micro: 1px;
+  --font-size-tag: 12px;
+  --line-height-tag: 16px;
+  --tracking-tag: 0.2px;
   --font-size-caption: 13px;
   --line-height-caption: 18px;
   --tracking-caption: 0px;
@@ -63,23 +89,45 @@
   --line-height-body: 22px;
   --tracking-body: 0px;
   --font-size-body-lg: 17px;
-  --line-height-body-lg: 25px;
+  --line-height-body-lg: 24px;
   --tracking-body-lg: -0.1px;
-  --font-size-h3: 20px;
-  --line-height-h3: 25px;
-  --tracking-h3: -0.3px;
-  --font-size-h2: 24px;
+  --font-size-h3: 18px;
+  --line-height-h3: 24px;
+  --tracking-h3: -0.2px;
+  --font-size-h2: 22px;
   --line-height-h2: 28px;
-  --tracking-h2: -0.5px;
-  --font-size-h1: 30px;
+  --tracking-h2: -0.3px;
+  --font-size-h1: 28px;
   --line-height-h1: 34px;
-  --tracking-h1: -0.8px;
-  --font-size-display: 40px;
-  --line-height-display: 42px;
-  --tracking-display: -1.2px;
-  --font-size-display-lg: 52px;
-  --line-height-display-lg: 52px;
-  --tracking-display-lg: -1.8px;
+  --tracking-h1: -0.5px;
+  --font-size-display: 32px;
+  --line-height-display: 38px;
+  --tracking-display: -0.5px;
+  --font-size-display-lg: 40px;
+  --line-height-display-lg: 44px;
+  --tracking-display-lg: -0.8px;
+  --font-size-score: 24px;
+  --line-height-score: 28px;
+  --tracking-score: -0.3px;
+  --font-size-stat: 28px;
+  --line-height-stat: 32px;
+  --tracking-stat: -0.3px;
+
+  /* Typography aliases — the spec's `--text-*` role names */
+  --text-eyebrow: var(--font-size-eyebrow);
+  --text-micro: var(--font-size-micro);
+  --text-tag: var(--font-size-tag);
+  --text-caption: var(--font-size-caption);
+  --text-body-sm: var(--font-size-body-sm);
+  --text-body: var(--font-size-body);
+  --text-body-lg: var(--font-size-body-lg);
+  --text-h3: var(--font-size-h3);
+  --text-h2: var(--font-size-h2);
+  --text-h1: var(--font-size-h1);
+  --text-display: var(--font-size-display);
+  --text-display-lg: var(--font-size-display-lg);
+  --text-score: var(--font-size-score);
+  --text-stat: var(--font-size-stat);
 
   /* Font weight */
   --font-weight-regular: 400;
@@ -91,31 +139,58 @@
   --radius-none: 0px;
   --radius-sm: 8px;
   --radius-md: 12px;
-  --radius-lg: 14px;
-  --radius-xl: 18px;
-  --radius-2xl: 22px;
-  --radius-3xl: 30px;
-  --radius-4xl: 38px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+  --radius-3xl: 32px;
+  --radius-4xl: 40px;
   --radius-full: 9999px;
 
-  /* Spacing — named layout rhythm */
-  --spacing-gutter: 24px;
+  /* Spacing */
+  --space-xs: 4px;
+  --spacing-xs: 4px;
+  --space-sm: 8px;
+  --spacing-sm: 8px;
+  --space-md: 12px;
+  --spacing-md: 12px;
+  --space-lg: 16px;
+  --spacing-lg: 16px;
+  --space-xl: 20px;
+  --spacing-xl: 20px;
+  --space-2xl: 24px;
+  --spacing-2xl: 24px;
+  --space-3xl: 32px;
+  --spacing-3xl: 32px;
+  --space-4xl: 40px;
+  --spacing-4xl: 40px;
+  --space-gutter: 20px;
+  --spacing-gutter: 20px;
+  --space-section: 32px;
   --spacing-section: 32px;
+  --space-block: 20px;
   --spacing-block: 20px;
 
   /* Elevation — consumed at runtime via src/design/index.ts */
-  --shadow-color: 23 19 15; /* #17130F */
+  --shadow-color: 26 25 23; /* #1A1917 */
   --shadow-none: 0px 0px 0px rgb(var(--shadow-color) / 0);
   --elevation-none: 0;
-  --shadow-sm: 0px 2px 8px rgb(var(--shadow-color) / 0.07);
-  --elevation-sm: 2;
-  --shadow-md: 0px 6px 18px rgb(var(--shadow-color) / 0.1);
-  --elevation-md: 5;
-  --shadow-lg: 0px 14px 32px rgb(var(--shadow-color) / 0.14);
-  --elevation-lg: 10;
-  --shadow-xl: 0px 24px 56px rgb(var(--shadow-color) / 0.2);
-  --elevation-xl: 20;
-  --glow-primary: 0px 8px 20px rgb(var(--color-primary) / 0.32);
+  --shadow-sm: 0px 1px 3px rgb(var(--shadow-color) / 0.06);
+  --elevation-sm: 1;
+  --shadow-md: 0px 2px 8px rgb(var(--shadow-color) / 0.08);
+  --elevation-md: 3;
+  --shadow-lg: 0px 4px 16px rgb(var(--shadow-color) / 0.1);
+  --elevation-lg: 6;
+  --shadow-xl: 0px 8px 24px rgb(var(--shadow-color) / 0.12);
+  --elevation-xl: 12;
+  --glow-primary: 0px 2px 8px rgb(var(--color-primary) / 0.24);
+
+  /* Interaction — press feedback is driven from these at runtime */
+  --transition-fast: 120ms ease-out;
+  --transition-normal: 200ms ease-out;
+  --transition-slow: 300ms ease-out;
+  --press-scale-sm: 0.97;
+  --press-scale-md: 0.98;
+  --press-scale-lg: 0.92;
 
   /* === END GENERATED TOKENS === */
 }

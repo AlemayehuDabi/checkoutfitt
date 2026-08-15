@@ -34,30 +34,30 @@ export default function CapsuleInputScreen() {
         subtitle="Pick a size and what it needs to cover. We'll find the set that multiplies best."
       />
 
-      <Card tone="inverse" hero raise="lg" className="mt-7 flex-row items-center gap-4 p-6">
+      <Card tone="inverse" hero raise="lg" className="mt-2xl flex-row items-center gap-lg p-2xl">
         <IconWell size="lg" tone="translucent"><SquareStack size={24} color={color.canvas} strokeWidth={1.5} /></IconWell>
-        <Text className="flex-1 text-body leading-6 text-canvas">
+        <Text className="flex-1 text-body text-canvas">
           A well-chosen capsule of {size} pieces usually beats a closet three times the size.
         </Text>
       </Card>
 
-      <SectionHeader title="How many pieces" index="01" className="mt-9" />
-      <View className="flex-row gap-2.5">
+      <SectionHeader title="How many pieces" index="01" className="mt-3xl" />
+      <View className="flex-row gap-sm">
         {CAPSULE_SIZES.map((option) => (
           <Card
             key={option}
             onPress={() => setSize(option)}
             tone={size === option ? "inverse" : "surface"}
-            className="flex-1 items-center py-4"
+            className="flex-1 items-center py-lg"
           >
             <Text
-              className={`text-h2 font-bold ${size === option ? "text-canvas" : "text-ink"}`}
+              className={`text-h2 font-bold ${size === option ? "text-canvas" : "text-text-primary"}`}
             >
               {option}
             </Text>
             <Text
-              className={`mt-0.5 text-micro font-semibold uppercase ${
-                size === option ? "text-faint" : "text-muted"
+              className={`mt-0.5 text-eyebrow font-semibold uppercase ${
+                size === option ? "text-faint" : "text-text-muted"
               }`}
             >
               pieces
@@ -70,9 +70,9 @@ export default function CapsuleInputScreen() {
         title="What must it cover"
         index="02"
         subtitle="Pick every context this capsule has to handle."
-        className="mt-9"
+        className="mt-3xl"
       />
-      <View className="flex-row flex-wrap gap-2">
+      <View className="flex-row flex-wrap gap-sm">
         {CAPSULE_OCCASIONS.map((occasion) => (
           <Chip
             key={occasion}
@@ -92,7 +92,7 @@ export default function CapsuleInputScreen() {
             params: { size: String(size), occasions: occasions.join(",") },
           })
         }
-        className="mb-2 mt-9"
+        className="mb-sm mt-3xl"
       />
     </ScreenContainer>
   );

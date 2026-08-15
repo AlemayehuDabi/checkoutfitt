@@ -41,12 +41,14 @@ export default function UploadScreen() {
   return (
     <ScreenContainer>
       <Header title="Bulk Upload" />
-      <View className="flex-1 items-center justify-center px-2">
-        <IconWell size="2xl"><Images size={28} color={color.primary} /></IconWell>
-        <Text className="mt-6 text-center text-2xl font-bold text-ink">
+      <View className="flex-1 items-center justify-center">
+        <IconWell size="2xl" round>
+          <Images size={30} color={color.primary500} />
+        </IconWell>
+        <Text className="mt-2xl text-center text-h1 font-bold text-text-primary">
           Import multiple items
         </Text>
-        <Text className="mt-2 text-center text-base leading-6 text-muted">
+        <Text className="mt-sm text-center text-body text-text-muted">
           Select up to 10 photos from your library and we&apos;ll process them one by one.
         </Text>
       </View>
@@ -54,7 +56,7 @@ export default function UploadScreen() {
         label="Select Photos"
         onPress={handlePick}
         loading={picking}
-        className="mb-4"
+        className="mb-lg"
       />
     </ScreenContainer>
   );

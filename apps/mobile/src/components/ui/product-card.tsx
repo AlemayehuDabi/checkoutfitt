@@ -42,7 +42,7 @@ export function ProductCard({
 
   const media = (
     <View
-      className={`overflow-hidden rounded-xl bg-surface-sunken ${
+      className={`overflow-hidden rounded-md border border-border bg-surface-secondary ${
         isTile ? "aspect-[3/4] w-full" : "h-20 w-20"
       }`}
       style={product.colorHex && !product.imageUri ? { backgroundColor: product.colorHex } : undefined}
@@ -51,32 +51,32 @@ export function ProductCard({
         <AppImage source={{ uri: product.imageUri }} className="h-full w-full" contentFit="cover" />
       ) : (
         <View className="h-full w-full items-center justify-center">
-          <ShoppingBag size={isTile ? 28 : 20} color={color.faint} strokeWidth={1.5} />
+          <ShoppingBag size={isTile ? 28 : 20} color={color.textMuted} strokeWidth={1.5} />
         </View>
       )}
     </View>
   );
 
   const body = (
-    <View className={isTile ? "mt-3" : "flex-1"}>
-      <Text className="text-micro font-semibold uppercase text-muted" numberOfLines={1}>
+    <View className={isTile ? "mt-md" : "flex-1"}>
+      <Text className="text-eyebrow font-semibold uppercase text-text-muted" numberOfLines={1}>
         {product.brand}
       </Text>
-      <Text className="mt-1 text-body font-semibold text-ink" numberOfLines={2}>
+      <Text className="mt-1 text-h3 font-semibold text-text-primary" numberOfLines={2}>
         {product.name}
       </Text>
-      <View className="mt-1.5 flex-row items-center gap-2">
-        <Text className="text-body font-bold text-ink">{product.price}</Text>
+      <View className="mt-1.5 flex-row items-center gap-sm">
+        <Text className="text-body font-bold text-text-primary">{product.price}</Text>
         {product.retailer ? (
           <View className="flex-row items-center gap-1">
-            <ExternalLink size={11} color={color.faint} />
-            <Text className="text-caption text-faint" numberOfLines={1}>
+            <ExternalLink size={11} color={color.textMuted} />
+            <Text className="text-caption text-text-muted" numberOfLines={1}>
               {product.retailer}
             </Text>
           </View>
         ) : null}
       </View>
-      {footer ? <Text className="mt-2 text-caption text-muted">{footer}</Text> : null}
+      {footer ? <Text className="mt-sm text-caption text-text-muted">{footer}</Text> : null}
     </View>
   );
 
@@ -85,15 +85,15 @@ export function ProductCard({
   return (
     <Wrapper
       onPress={onPress}
-      style={elevation.sm}
-      className={`rounded-2xl bg-surface p-3 ${
-        ""
-      } ${isTile ? "w-44" : "flex-row items-center gap-3"} ${className}`}
+      style={elevation.md}
+      className={`rounded-xl border border-border bg-surface p-md ${
+        isTile ? "w-44" : "flex-row items-center gap-md"
+      } ${className}`}
     >
       {media}
       {body}
       {product.badge ? (
-        <View className={isTile ? "mt-3" : "absolute right-3 top-3"}>
+        <View className={isTile ? "mt-md" : "absolute right-3 top-3"}>
           <Tag label={product.badge} tone="primary" />
         </View>
       ) : null}

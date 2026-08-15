@@ -56,32 +56,32 @@ export function CalendarGrid({
           accessibilityLabel="Previous month"
           className="h-10 w-10 items-center justify-center rounded-full"
         >
-          <ChevronLeft size={20} color={color.ink} />
+          <ChevronLeft size={20} color={color.textPrimary} />
         </PressableScale>
-        <Text className="text-h3 font-bold text-ink">{monthLabel(month)}</Text>
+        <Text className="text-h2 font-bold text-text-primary">{monthLabel(month)}</Text>
         <PressableScale
           hitSlop={10}
           onPress={() => onMonthChange(addMonths(month, 1))}
           accessibilityLabel="Next month"
           className="h-10 w-10 items-center justify-center rounded-full"
         >
-          <ChevronRight size={20} color={color.ink} />
+          <ChevronRight size={20} color={color.textPrimary} />
         </PressableScale>
       </View>
 
-      <View className="mt-4 flex-row">
+      <View className="mt-lg flex-row">
         {WEEKDAY_INITIALS.map((day, index) => (
           <Text
             key={`${day}-${index}`}
-            className="flex-1 text-center text-micro font-semibold uppercase text-faint"
+            className="flex-1 text-center text-eyebrow font-semibold uppercase text-text-muted"
           >
             {day}
           </Text>
         ))}
       </View>
-      <View className="mt-2 h-px bg-line" />
+      <View className="mt-sm h-px bg-border" />
 
-      <View className="mt-2 flex-row flex-wrap">
+      <View className="mt-sm flex-row flex-wrap">
         {cells.map((day, index) => {
           if (day === null) {
             return <View key={`blank-${index}`} className="h-12 w-[14.28%]" />;
@@ -98,21 +98,21 @@ export function CalendarGrid({
                 onPress={() => onSelect(iso)}
                 accessibilityRole="button"
                 accessibilityState={{ selected: isSelected }}
-                className={`h-9 w-9 items-center justify-center rounded-xl ${
+                className={`h-9 w-9 items-center justify-center rounded-full ${
                   isSelected
-                    ? "bg-ink"
+                    ? "bg-primary-500"
                     : isToday
-                      ? "border border-primary bg-primary-50"
+                      ? "border border-primary-500 bg-primary-50"
                       : ""
                 }`}
               >
                 <Text
-                  className={`text-body-sm ${
+                  className={`text-body ${
                     isSelected
-                      ? "font-bold text-canvas"
+                      ? "font-semibold text-text-on-primary"
                       : isToday
-                        ? "font-bold text-primary-700"
-                        : "font-medium text-ink"
+                        ? "font-semibold text-primary-700"
+                        : "font-medium text-text-primary"
                   }`}
                 >
                   {day}

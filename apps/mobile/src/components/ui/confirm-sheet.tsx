@@ -1,6 +1,7 @@
 import { Modal, Pressable, Text, View } from "react-native";
 
 import { Button } from "@/components/ui/button";
+import { elevation } from "@/design";
 
 type ConfirmSheetProps = {
   visible: boolean;
@@ -13,6 +14,10 @@ type ConfirmSheetProps = {
   onCancel: () => void;
 };
 
+/**
+ * Spec §6.12 bottom sheet: 24px top corners, a 36×4 drag handle in
+ * `border-strong` centred above the content, and the heaviest shadow step.
+ */
 export function ConfirmSheet({
   visible,
   title,
@@ -25,14 +30,18 @@ export function ConfirmSheet({
 }: ConfirmSheetProps) {
   return (
     <Modal visible={visible} transparent animationType="fade" onRequestClose={onCancel}>
-      <Pressable className="flex-1 justify-end bg-ink/40" onPress={onCancel}>
-        <Pressable className="gap-5 rounded-t-4xl bg-surface px-6 pb-10 pt-6" onPress={(e) => e.stopPropagation()}>
-          <View className="self-center h-1 w-10 rounded-full bg-line" />
+      <Pressable className="flex-1 justify-end bg-overlay" onPress={onCancel}>
+        <Pressable
+          style={elevation.xl}
+          className="gap-xl rounded-t-2xl bg-surface px-xl pb-4xl pt-lg"
+          onPress={(e) => e.stopPropagation()}
+        >
+          <View className="h-1 w-9 self-center rounded-full bg-border-strong" />
           <View>
-            <Text className="text-h2 font-bold text-ink">{title}</Text>
-            <Text className="mt-2 text-body leading-6 text-muted">{message}</Text>
+            <Text className="text-h2 font-bold text-text-primary">{title}</Text>
+            <Text className="mt-sm text-body text-text-secondary">{message}</Text>
           </View>
-          <View className="gap-3">
+          <View className="gap-md">
             <Button
               label={confirmLabel}
               variant={destructive ? "danger" : "primary"}

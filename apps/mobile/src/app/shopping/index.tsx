@@ -45,7 +45,7 @@ export default function ShoppingInputScreen() {
         subtitle="Paste a link or add a photo and we'll check it against what you already own."
       />
 
-      <SectionHeader title="The item" index="01" className="mt-8" />
+      <SectionHeader title="The item" index="01" className="mt-3xl" />
 
       <Input
         label="Product link"
@@ -53,18 +53,18 @@ export default function ShoppingInputScreen() {
         value={link}
         onChangeText={setLink}
         keyboardType="url"
-        icon={<Link2 size={17} color={color.faint} />}
+        icon={<Link2 size={17} color={color.textMuted} />}
       />
 
-      <View className="mt-4 flex-row items-center gap-3">
-        <View className="h-px flex-1 bg-line" />
-        <Text className="text-micro font-semibold uppercase text-muted">or</Text>
-        <View className="h-px flex-1 bg-line" />
+      <View className="mt-lg flex-row items-center gap-md">
+        <View className="h-px flex-1 bg-border" />
+        <Text className="text-eyebrow font-semibold uppercase text-text-muted">or</Text>
+        <View className="h-px flex-1 bg-border" />
       </View>
 
       {imageUri ? (
-        <View className="mt-4">
-          <View className="h-56 w-full overflow-hidden rounded-3xl border border-line">
+        <View className="mt-lg">
+          <View className="h-56 w-full overflow-hidden rounded-xl border border-border">
             <AppImage source={{ uri: imageUri }} className="h-full w-full" contentFit="cover" />
           </View>
           <Pressable
@@ -77,19 +77,19 @@ export default function ShoppingInputScreen() {
           </Pressable>
         </View>
       ) : (
-        <View className="mt-4 flex-row gap-2.5">
-          <Card onPress={pickImage} className="flex-1 items-center gap-2.5 p-5">
-            <IconWell size="md"><Images size={19} color={color.primary} strokeWidth={1.75} /></IconWell>
-            <Text className="text-body-sm font-semibold text-ink">From Library</Text>
+        <View className="mt-lg flex-row gap-sm">
+          <Card onPress={pickImage} className="flex-1 items-center gap-sm p-xl">
+            <IconWell size="md"><Images size={19} color={color.primary500} strokeWidth={1.75} /></IconWell>
+            <Text className="text-body-sm font-semibold text-text-primary">From Library</Text>
           </Card>
-          <Card onPress={pickImage} className="flex-1 items-center gap-2.5 p-5">
-            <IconWell size="md"><Camera size={19} color={color.primary} strokeWidth={1.75} /></IconWell>
-            <Text className="text-body-sm font-semibold text-ink">Take a Photo</Text>
+          <Card onPress={pickImage} className="flex-1 items-center gap-sm p-xl">
+            <IconWell size="md"><Camera size={19} color={color.primary500} strokeWidth={1.75} /></IconWell>
+            <Text className="text-body-sm font-semibold text-text-primary">Take a Photo</Text>
           </Card>
         </View>
       )}
 
-      <SectionHeader title="The price" index="02" className="mt-9" />
+      <SectionHeader title="The price" index="02" className="mt-3xl" />
       <Input
         label="What does it cost?"
         placeholder="128"
@@ -108,7 +108,7 @@ export default function ShoppingInputScreen() {
             params: { price: price || "128", uri: imageUri ?? "" },
           })
         }
-        className="mb-2 mt-9"
+        className="mb-sm mt-3xl"
       />
     </ScreenContainer>
   );

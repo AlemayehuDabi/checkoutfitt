@@ -24,13 +24,13 @@ export function PageHeading({
   return (
     <View className={className}>
       {eyebrow ? (
-        <Text className="mb-2 text-micro font-bold uppercase text-primary">{eyebrow}</Text>
+        <Text className="mb-sm text-eyebrow font-semibold uppercase text-primary-500">{eyebrow}</Text>
       ) : null}
-      <Text className={`font-bold text-ink ${size === "display" ? "text-display" : "text-h1"}`}>
+      <Text className={`font-bold text-text-primary ${size === "display" ? "text-display" : "text-h1"}`}>
         {title}
       </Text>
       {subtitle ? (
-        <Text className="mt-2.5 text-body-lg leading-6 text-muted">{subtitle}</Text>
+        <Text className="mt-sm text-body text-text-muted">{subtitle}</Text>
       ) : null}
     </View>
   );

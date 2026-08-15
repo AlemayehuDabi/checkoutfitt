@@ -10,6 +10,8 @@
  */
 import {
   glow,
+  motion as motionTokens,
+  overlay as overlayTokens,
   palette,
   radius as radiusTokens,
   shadow,
@@ -18,7 +20,14 @@ import {
   typography,
 } from "./tokens";
 
-/** Literal hex values, for props that can't take a class name. */
+/**
+ * Literal hex values, for props that can't take a class name.
+ *
+ * Both spellings of every semantic slot are exported: the canonical names the
+ * app has always used (`ink`, `canvas`, `line`) and the design spec's role
+ * names (`textPrimary`, `bg`, `border`). They are the same values — see the
+ * `colorAliases` map in `tokens.js`.
+ */
 export const color = {
   primary: palette.primary.DEFAULT,
   primary50: palette.primary[50],
@@ -56,11 +65,30 @@ export const color = {
   infoSoft: palette.info.soft,
 
   white: palette.white,
+
+  // ── Spec role names ──────────────────────────────────────────────────────
+  bg: palette.canvas,
+  surfaceSecondary: palette.surface.sunken,
+  surfaceTertiary: palette.surface.muted,
+  border: palette.line.DEFAULT,
+  borderStrong: palette.line.strong,
+  textPrimary: palette.ink.DEFAULT,
+  textSecondary: palette.ink.soft,
+  textMuted: palette.muted,
+  textOnPrimary: palette.white,
+  textAccent: palette.primary[500],
+  successLight: palette.success.soft,
+  warningLight: palette.warning.soft,
+  dangerLight: palette.danger.soft,
+  infoLight: palette.info.soft,
+
+  overlay: overlayTokens.DEFAULT,
+  overlayLight: overlayTokens.light,
 } as const;
 
 /**
  * Elevation as React Native style objects. Shadows are cast in warm ink rather
- * than neutral black so they sit correctly on the paper canvas.
+ * than neutral black so they sit correctly on the sand canvas.
  */
 function toShadow(
   step: { y: number; blur: number; opacity: number; android: number },
@@ -81,9 +109,20 @@ export const elevation = {
   md: toShadow(shadow.md),
   lg: toShadow(shadow.lg),
   xl: toShadow(shadow.xl),
-  /** Paprika-tinted lift for primary actions. */
+  /** Terracotta-tinted lift for primary actions. */
   primary: toShadow(glow.primary, palette.primary.DEFAULT),
 } as const;
 
-export { radiusTokens as radius, spacingTokens as spacing, typography };
+/** Raw shadow steps, for animating between two levels on the UI thread. */
+export { shadow as shadowStep, shadowColor };
+
+/** Press durations and compression ratios (spec §7). */
+export const motion = motionTokens;
+
+export {
+  radiusTokens as radius,
+  spacingTokens as spacing,
+  typography,
+  overlayTokens as overlay,
+};
 export type AppColor = keyof typeof color;

@@ -46,13 +46,14 @@ export default function SignUpScreen() {
 
   return (
     <ScreenContainer scroll keyboardAware>
-      <View className="flex-1 pt-16">
-        <Text className="text-3xl font-bold text-ink">Create your account</Text>
-        <Text className="mt-2 text-base text-muted">
+      <View className="flex-1 pt-4xl">
+        <Text className="text-eyebrow font-semibold uppercase text-primary-500">CheckoutFitt</Text>
+        <Text className="mt-md text-h1 font-bold text-text-primary">Create your account</Text>
+        <Text className="mt-sm text-body text-text-muted">
           Join CheckoutFitt and let your AI stylist take it from here.
         </Text>
 
-        <View className="mt-10 gap-5">
+        <View className="mt-3xl gap-xl">
           <Input
             label="Email"
             placeholder="you@example.com"
@@ -77,21 +78,24 @@ export default function SignUpScreen() {
           />
         </View>
 
-        <Button label="Sign Up" onPress={handleSignUp} className="mt-8" />
+        <Button label="Sign Up" onPress={handleSignUp} className="mt-3xl" />
 
-        <View className="mt-8 gap-5">
+        <View className="mt-3xl gap-xl">
           <Divider label="or continue with" />
-          <View className="flex-row gap-3">
+          <View className="flex-row gap-md">
             <SocialButton provider="apple" />
             <SocialButton provider="google" />
           </View>
         </View>
       </View>
 
-      <View className="flex-row items-center justify-center gap-1.5 pb-2 pt-8">
-        <Text className="text-sm text-muted">Already have an account?</Text>
+      <View className="flex-row items-center justify-center gap-1.5 pb-sm pt-3xl">
+        <Text className="text-caption text-text-muted">Already have an account?</Text>
         <Link href="/login" replace asChild>
-          <Text className="text-sm font-semibold text-primary active:opacity-70" suppressHighlighting>
+          <Text
+            className="text-caption font-semibold text-text-accent active:opacity-70"
+            suppressHighlighting
+          >
             Log In
           </Text>
         </Link>

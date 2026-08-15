@@ -18,36 +18,34 @@ const FEATURES = [
 export default function ChatPaywallScreen() {
   return (
     <ScreenContainer>
-      <View className="flex-row justify-end pt-4">
-        <IconButton onPress={() => router.back()}>
-          <X size={20} color={color.ink} />
+      <View className="h-14 flex-row justify-end">
+        <IconButton accessibilityLabel="Close" onPress={() => router.back()}>
+          <X size={24} color={color.textPrimary} />
         </IconButton>
       </View>
 
-      <View className="flex-1 items-center px-2 pt-4">
-        <View className="h-16 w-16 items-center justify-center rounded-full bg-ink">
-          <Crown size={26} color={color.canvas} />
+      <View className="flex-1 items-center pt-lg">
+        <View className="h-20 w-20 items-center justify-center rounded-full bg-primary-100">
+          <Crown size={32} color={color.primary500} />
         </View>
-        <Text className="mt-6 text-center text-3xl font-bold text-ink">
-          Upgrade to Pro
-        </Text>
-        <Text className="mt-2 text-center text-base leading-6 text-muted">
+        <Text className="mt-2xl text-center text-h1 font-bold text-text-primary">Upgrade to Pro</Text>
+        <Text className="mt-sm text-center text-body text-text-muted">
           Unlock your AI stylist&apos;s full closet of tricks.
         </Text>
 
-        <View className="mt-8 w-full gap-4">
+        <View className="mt-3xl w-full gap-lg">
           {FEATURES.map((feature) => (
-            <View key={feature} className="flex-row items-center gap-3">
+            <View key={feature} className="flex-row items-center gap-md">
               <View className="h-6 w-6 items-center justify-center rounded-full bg-primary-50">
-                <Check size={14} color={color.primary} />
+                <Check size={14} color={color.primary500} />
               </View>
-              <Text className="flex-1 text-base text-ink">{feature}</Text>
+              <Text className="flex-1 text-body text-text-primary">{feature}</Text>
             </View>
           ))}
         </View>
       </View>
 
-      <View className="gap-3 pb-4">
+      <View className="gap-md pb-lg">
         <Button label="Upgrade for $9.99/mo" onPress={() => router.back()} />
         <Button label="Maybe Later" variant="ghost" onPress={() => router.back()} />
       </View>

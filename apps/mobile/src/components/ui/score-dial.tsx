@@ -18,7 +18,7 @@ type ScoreDialProps = {
 
 const strokes: Record<ScoreTone, string> = {
   success: color.success,
-  primary: color.primary,
+  primary: color.primary500,
   warning: color.warning,
   danger: color.danger,
 };
@@ -61,7 +61,7 @@ export function ScoreDial({
             cx={center}
             cy={center}
             r={radius}
-            stroke={color.surfaceMuted}
+            stroke={color.primary200}
             strokeWidth={stroke}
             fill="none"
           />
@@ -81,18 +81,18 @@ export function ScoreDial({
         </Svg>
         <View className="items-center">
           <Text
-            className="font-bold text-ink"
-            style={{ fontSize: size * 0.28, letterSpacing: -1 }}
+            className="font-bold text-primary-500"
+            style={{ fontSize: size * 0.28, letterSpacing: -0.3 }}
           >
             {clamped}
           </Text>
           {label ? (
-            <Text className="mt-0.5 text-micro font-semibold uppercase text-muted">{label}</Text>
+            <Text className="mt-0.5 text-caption font-medium text-text-muted">{label}</Text>
           ) : null}
         </View>
       </View>
       {caption ? (
-        <Text className="mt-3 text-center text-body-sm leading-5 text-muted">{caption}</Text>
+        <Text className="mt-md text-center text-caption text-text-muted">{caption}</Text>
       ) : null}
     </View>
   );

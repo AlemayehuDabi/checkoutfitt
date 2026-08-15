@@ -1,5 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Pressable, Text } from "react-native";
+import { Text, View } from "react-native";
+
+import { PressableScale } from "@/components/ui/pressable-scale";
 
 import { color } from "@/design";
 
@@ -17,14 +19,20 @@ export function SocialButton({ provider, onPress }: SocialButtonProps) {
   const { icon, label } = providerConfig[provider];
 
   return (
-    <Pressable
+    <PressableScale
       onPress={onPress}
-      className="h-14 flex-1 flex-row items-center justify-center gap-2 rounded-2xl border border-line bg-surface active:bg-surface-sunken"
+      accessibilityRole="button"
+      accessibilityLabel={`Continue with ${label}`}
+      className="h-[52px] flex-1 flex-row items-center justify-center rounded-lg border-[1.5px] border-border-strong bg-surface px-lg"
     >
-      <Ionicons name={icon} size={18} color={color.ink} />
-      <Text className="text-sm font-semibold text-ink" numberOfLines={1}>
+      {/* Absolute so the glyph sits at the leading edge while the label stays
+          optically centred — the pattern the mockups use for both providers. */}
+      <View className="absolute left-lg">
+        <Ionicons name={icon} size={20} color={color.textPrimary} />
+      </View>
+      <Text className="text-body font-semibold text-text-primary" numberOfLines={1}>
         {label}
       </Text>
-    </Pressable>
+    </PressableScale>
   );
 }

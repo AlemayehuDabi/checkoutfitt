@@ -8,99 +8,161 @@
  *
  * After editing this file run `npm run tokens` to regenerate global.css.
  *
- * ── Design language: "Editorial Atelier" ──────────────────────────────────
- * Warm paper canvas, pure-white cards, hairline rules, and a paprika accent.
- * Neutrals are warm (ochre-tinted) rather than true grey so the whole surface
- * reads like magazine stock instead of a dashboard.
+ * ── Design language ───────────────────────────────────────────────────────
+ * Values here are transcribed from `docs/design-system.md`, which was extracted
+ * from the 27 finalized mockups. Warm sand canvas, pure-white cards, hairline
+ * rules, and a burnt-orange / terracotta accent.
+ *
+ * Two naming schemes coexist deliberately:
+ *   • the *canonical* names below (`canvas`, `ink`, `line`, `surface.sunken`)
+ *     are what Tailwind utilities are built from, and
+ *   • the *spec* names (`bg`, `text-primary`, `border`, `surface-secondary`)
+ *     from the design document, emitted as aliases in `global.css` by
+ *     `colorAliases` so every token in the spec is present verbatim.
+ * Both resolve to the same value — see `colorAliases`.
  */
 
-/** Brand anchor: paprika / burnt orange — hsl(14, 72%, 44%). */
+/** Brand anchor: burnt orange / terracotta. `500` is the brand colour. */
 const palette = {
   // ── Brand ────────────────────────────────────────────────────────────────
   primary: {
-    50: "#FDF3EF",
-    100: "#FAE2D8",
-    200: "#F4C3B0",
-    300: "#EA9D80",
-    400: "#DC7451",
-    500: "#CE5730",
-    DEFAULT: "#C0451F",
-    600: "#C0451F",
-    700: "#9E3517",
-    800: "#7B2A14",
-    900: "#5C2211",
-    950: "#331005",
+    50: "#FFF5F0",
+    100: "#FBEEE6",
+    200: "#F6DBC7",
+    300: "#E8A878",
+    400: "#D4783C",
+    500: "#C1622D",
+    /** `bg-primary` / `text-primary` resolve here — the brand colour is 500. */
+    DEFAULT: "#C1622D",
+    600: "#A64F21",
+    700: "#8A4119",
+    800: "#6E3414",
+    900: "#52270F",
+    950: "#2E1608",
   },
 
   // ── Text ─────────────────────────────────────────────────────────────────
-  /** Primary text + inverse surfaces. Warm near-black, never pure #000. */
+  /** `--color-text-primary`. Deep warm charcoal, never pure black. */
   ink: {
-    DEFAULT: "#17130F",
-    soft: "#3B322B",
+    DEFAULT: "#1A1917",
+    /** `--color-text-secondary`. */
+    soft: "#3A3835",
   },
-  /** Secondary / supporting text. */
-  muted: "#857A70",
-  /** Tertiary text on inverse surfaces. */
-  faint: "#A79C91",
+  /** `--color-text-muted` — placeholders, timestamps, inactive tab labels. */
+  muted: "#8A8580",
+  /** Quietest step. Chevrons, metadata on inverse surfaces. */
+  faint: "#A8A39D",
 
   // ── Surfaces ─────────────────────────────────────────────────────────────
-  /** Page background — warm paper. */
-  canvas: "#FAF7F2",
-  /** Cards and raised surfaces. */
+  /** `--color-bg`. Every screen sits on this warm off-white. */
+  canvas: "#FAF8F5",
   surface: {
     DEFAULT: "#FFFFFF",
-    sunken: "#F2ECE3",
-    muted: "#E9E1D6",
-    inverse: "#17130F",
+    /** `--color-surface-secondary` — weather strip, tags, grouped sections. */
+    sunken: "#F5F1EA",
+    /** `--color-surface-tertiary` — skeletons, disabled surfaces. */
+    muted: "#EDE7DD",
+    inverse: "#1A1917",
   },
 
   // ── Lines ────────────────────────────────────────────────────────────────
   line: {
-    DEFAULT: "#E6DED4",
-    strong: "#D4C8BA",
+    /** `--color-border`. */
+    DEFAULT: "#E7E2D9",
+    /** `--color-border-strong` — sheet drag handle, focused input before focus. */
+    strong: "#D5CFC5",
   },
 
   // ── Semantic ─────────────────────────────────────────────────────────────
-  /** Deep forest. Reads as "good" without going neon. */
   success: {
-    DEFAULT: "#2F6B4F",
-    soft: "#E4EFE8",
+    DEFAULT: "#4A9E6B",
+    soft: "#EDF7F0",
   },
-  /** Ochre. Distinct from the primary paprika at a glance. */
   warning: {
-    DEFAULT: "#9A6B1F",
-    soft: "#F6EBD8",
+    DEFAULT: "#D4A03C",
+    soft: "#FAF2E2",
   },
-  /** Crimson wine — deliberately cooler than `primary` so destructive actions
-   *  never get confused with brand actions. */
   danger: {
-    DEFAULT: "#A4243B",
-    soft: "#F7E3E6",
+    DEFAULT: "#C1432D",
+    soft: "#FDEDEA",
   },
   info: {
-    DEFAULT: "#2C5470",
-    soft: "#E2EBF1",
+    DEFAULT: "#5B8FC7",
+    soft: "#EDF3FA",
   },
 
   white: "#FFFFFF",
 };
 
 /**
- * Type scale. Numeric Tailwind names are retuned to this editorial ramp so
- * `text-base` and friends stay meaningful, and semantic aliases
- * (`text-display`, `text-h1`, `text-micro`…) map onto the same values.
+ * Spec token name → canonical token name.
+ *
+ * `generate-tokens.mjs` emits one custom property per entry, resolved to the
+ * same channel triplet as its target, so `--color-bg` and `--color-canvas` are
+ * interchangeable in `global.css`. Aliases are emitted as literal channels
+ * rather than `var()` indirection so NativeWind's runtime never has to chase a
+ * variable through a second lookup.
+ */
+const colorAliases = {
+  bg: "canvas",
+  "surface-secondary": "surface-sunken",
+  "surface-tertiary": "surface-muted",
+  border: "line",
+  "border-strong": "line-strong",
+  "text-primary": "ink",
+  "text-secondary": "ink-soft",
+  "text-muted": "muted",
+  "text-on-primary": "white",
+  "text-accent": "primary-500",
+  "success-light": "success-soft",
+  "warning-light": "warning-soft",
+  "danger-light": "danger-soft",
+  "info-light": "info-soft",
+};
+
+/**
+ * Translucent scrims. Held apart from `palette` because they carry their own
+ * alpha and so can't be stored as a channel triplet.
+ */
+const overlay = {
+  DEFAULT: "rgba(26, 25, 23, 0.4)",
+  light: "rgba(26, 25, 23, 0.08)",
+};
+
+/**
+ * Type scale, straight off the spec's typography table.
+ *
+ * `eyebrow` / `tag` / `score` / `stat` are the spec's role names; `micro` is
+ * kept as the pre-existing alias of `eyebrow` so older utility usage keeps
+ * resolving to the same step.
  */
 const typography = {
-  micro: { size: 11, lineHeight: 14, tracking: 0.8 },
+  /** 11 / 600 / +1 — UPPERCASE section eyebrows. */
+  eyebrow: { size: 11, lineHeight: 14, tracking: 1 },
+  /** Legacy alias of `eyebrow`. */
+  micro: { size: 11, lineHeight: 14, tracking: 1 },
+  /** 12 / 500 — chip and tag labels. */
+  tag: { size: 12, lineHeight: 16, tracking: 0.2 },
+  /** 13 / 500 — secondary metadata, helper text. */
   caption: { size: 13, lineHeight: 18, tracking: 0 },
   bodySm: { size: 14, lineHeight: 20, tracking: 0 },
+  /** 15 — the body workhorse. */
   body: { size: 15, lineHeight: 22, tracking: 0 },
-  bodyLg: { size: 17, lineHeight: 25, tracking: -0.1 },
-  h3: { size: 20, lineHeight: 25, tracking: -0.3 },
-  h2: { size: 24, lineHeight: 28, tracking: -0.5 },
-  h1: { size: 30, lineHeight: 34, tracking: -0.8 },
-  display: { size: 40, lineHeight: 42, tracking: -1.2 },
-  displayLg: { size: 52, lineHeight: 52, tracking: -1.8 },
+  bodyLg: { size: 17, lineHeight: 24, tracking: -0.1 },
+  /** 18 / 600 — card titles. */
+  h3: { size: 18, lineHeight: 24, tracking: -0.2 },
+  /** 22 / 700 — section headers, greetings. */
+  h2: { size: 22, lineHeight: 28, tracking: -0.3 },
+  /** 28 / 700 — screen titles. */
+  h1: { size: 28, lineHeight: 34, tracking: -0.5 },
+  /** 32 / 700 — hero headlines and value displays. */
+  display: { size: 32, lineHeight: 38, tracking: -0.5 },
+  /** Above the spec ramp, for the single biggest editorial moments. */
+  displayLg: { size: 40, lineHeight: 44, tracking: -0.8 },
+  /** 24 / 700 — score numbers ("8.5", "87%"). */
+  score: { size: 24, lineHeight: 28, tracking: -0.3 },
+  /** 28 / 700 — stat numbers ("42 Items"). */
+  stat: { size: 28, lineHeight: 32, tracking: -0.3 },
 };
 
 const fontWeight = {
@@ -110,64 +172,101 @@ const fontWeight = {
   bold: "700",
 };
 
-/** Border radius. Cards sit at `2xl`; hero/editorial surfaces at `3xl`. */
+/** Border radius. Buttons sit at `lg`; cards at `xl`; sheets at `2xl`. */
 const radius = {
   none: 0,
+  /** Tags, small badges, checkboxes. */
   sm: 8,
+  /** Inputs, inner cards, thumbnails. */
   md: 12,
-  lg: 14,
-  xl: 18,
-  "2xl": 22,
-  "3xl": 30,
-  "4xl": 38,
+  /** Buttons, standard images inside a card. */
+  lg: 16,
+  /** Cards, hero surfaces. */
+  xl: 20,
+  /** Modals and bottom sheets. */
+  "2xl": 24,
+  "3xl": 32,
+  "4xl": 40,
   full: 9999,
 };
 
 /**
- * Spacing. Extends the default 4px rhythm with named layout tokens so screen
+ * Spacing. The spec's `xs…4xl` ramp, plus the named layout tokens so screen
  * gutters and section rhythm are declared once rather than per-screen.
  */
 const spacing = {
-  gutter: 24,
+  xs: 4,
+  sm: 8,
+  md: 12,
+  lg: 16,
+  xl: 20,
+  "2xl": 24,
+  "3xl": 32,
+  "4xl": 40,
+  /** Screen horizontal padding — 20px on every screen. */
+  gutter: 20,
   section: 32,
   block: 20,
 };
 
 /**
  * Elevation. React Native needs real style objects rather than CSS shadows, so
- * these are consumed through `src/design/elevation.ts`. Values are also emitted
- * as custom properties for documentation parity.
+ * these are consumed through `src/design/index.ts`. Values are also emitted as
+ * custom properties for documentation parity.
  *
- * The original ramp topped out around 0.04–0.06 opacity, which on a warm paper
- * canvas was indistinguishable from a hairline border — every surface read as
- * flat. These are tuned so each step is a visibly distinct plane, and `android`
- * carries the native elevation that Android composites separately from the
+ * The ramp is deliberately restrained: on a warm paper canvas a card reads as
+ * lifted from very little, and the spec pairs each shadow with a hairline
+ * border rather than asking the shadow to describe the whole edge. `android`
+ * carries the native elevation, which Android composites separately from the
  * iOS shadow parameters.
  */
 const shadow = {
   none: { y: 0, blur: 0, opacity: 0, android: 0 },
-  /** Resting cards, list rows. Just enough to lift off the canvas. */
-  sm: { y: 2, blur: 8, opacity: 0.07, android: 2 },
-  /** Standard interactive cards. The workhorse. */
-  md: { y: 6, blur: 18, opacity: 0.1, android: 5 },
-  /** Hero cards, primary buttons, floating actions. */
-  lg: { y: 14, blur: 32, opacity: 0.14, android: 10 },
-  /** Sheets and modals. */
-  xl: { y: 24, blur: 56, opacity: 0.2, android: 20 },
+  /** Input fields on focus, list item cards. */
+  sm: { y: 1, blur: 3, opacity: 0.06, android: 1 },
+  /** The workhorse — all content cards and grid items. */
+  md: { y: 2, blur: 8, opacity: 0.08, android: 3 },
+  /** Hero cards, floating action button, tab bar. */
+  lg: { y: 4, blur: 16, opacity: 0.1, android: 6 },
+  /** Modals, bottom sheets, camera capture ring. */
+  xl: { y: 8, blur: 24, opacity: 0.12, android: 12 },
 };
 
 /**
- * Brand-tinted glow for primary actions. A paprika button casting a neutral ink
- * shadow looks dirty; casting its own hue makes it look lit.
+ * Brand-tinted glow for primary actions. A terracotta button casting a neutral
+ * ink shadow looks dirty; casting its own hue makes it look lit.
  */
 const glow = {
-  primary: { y: 8, blur: 20, opacity: 0.32, android: 6 },
+  primary: { y: 2, blur: 8, opacity: 0.24, android: 3 },
 };
 
 /** Shadows are cast in warm ink, not neutral black. */
 const shadowColor = palette.ink.DEFAULT;
 
-/** `#C0451F` → `192 69 31` (the channel form NativeWind needs for `bg-x/50`). */
+/**
+ * Interaction tokens (spec §7). Durations are in milliseconds; scales are the
+ * compression each surface takes on press.
+ */
+const motion = {
+  duration: {
+    /** Button press, chip toggle. */
+    fast: 120,
+    /** Card press, shadow transitions. */
+    normal: 200,
+    /** Screen transitions, sheet open/close. */
+    slow: 300,
+  },
+  pressScale: {
+    /** Buttons. */
+    sm: 0.97,
+    /** Cards. */
+    md: 0.98,
+    /** Floating action button. */
+    lg: 0.92,
+  },
+};
+
+/** `#C1622D` → `193 98 45` (the channel form NativeWind needs for `bg-x/50`). */
 function hexToChannels(hex) {
   const value = hex.replace("#", "");
   const r = parseInt(value.slice(0, 2), 16);
@@ -193,8 +292,18 @@ function flattenPalette(source = palette, prefix = "") {
   return out;
 }
 
+/** Resolves the spec-named aliases to their hex values. */
+function resolveAliases() {
+  const flat = flattenPalette();
+  return Object.fromEntries(
+    Object.entries(colorAliases).map(([alias, target]) => [alias, flat[target]])
+  );
+}
+
 module.exports = {
   palette,
+  colorAliases,
+  overlay,
   typography,
   fontWeight,
   radius,
@@ -202,6 +311,8 @@ module.exports = {
   shadow,
   glow,
   shadowColor,
+  motion,
   hexToChannels,
   flattenPalette,
+  resolveAliases,
 };

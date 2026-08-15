@@ -1,4 +1,6 @@
 const {
+  colorAliases,
+  overlay,
   palette,
   typography,
   fontWeight,
@@ -26,6 +28,21 @@ function toCssVars(source, prefix = "") {
   return out;
 }
 
+/**
+ * The spec's token names as first-class utilities — `bg-bg`, `border-border`,
+ * `text-text-muted`, `bg-surface-secondary`. Each points at the alias custom
+ * property generated alongside its canonical twin, so both spellings resolve to
+ * one value and neither can drift.
+ */
+function aliasColors() {
+  return Object.fromEntries(
+    Object.keys(colorAliases).map((alias) => [
+      alias,
+      `rgb(var(--color-${alias}) / <alpha-value>)`,
+    ])
+  );
+}
+
 /** `{ size, lineHeight, tracking }` → Tailwind's `[size, { … }]` tuple. */
 const step = ({ size, lineHeight, tracking }) => [
   `${size}px`,
@@ -40,15 +57,23 @@ module.exports = {
   presets: [require("nativewind/preset")],
   theme: {
     extend: {
-      colors: toCssVars(palette),
+      colors: {
+        ...toCssVars(palette),
+        ...aliasColors(),
+        overlay: {
+          DEFAULT: overlay.DEFAULT,
+          light: overlay.light,
+        },
+      },
 
       /**
-       * The numeric ramp is retuned onto the editorial scale so existing
-       * `text-base` / `text-sm` usage inherits the new system, and semantic
-       * aliases are added for new work. Both point at the same tokens.
+       * The numeric ramp is retuned onto the spec's scale so existing
+       * `text-base` / `text-sm` usage inherits the new system, and the spec's
+       * role names (`text-eyebrow`, `text-tag`, `text-score`, `text-stat`…)
+       * are added alongside. Both point at the same tokens.
        */
       fontSize: {
-        xs: step(typography.micro),
+        xs: step(typography.eyebrow),
         sm: step(typography.caption),
         base: step(typography.body),
         lg: step(typography.bodyLg),
@@ -58,7 +83,9 @@ module.exports = {
         "4xl": step(typography.display),
         "5xl": step(typography.displayLg),
 
+        eyebrow: step(typography.eyebrow),
         micro: step(typography.micro),
+        tag: step(typography.tag),
         caption: step(typography.caption),
         "body-sm": step(typography.bodySm),
         body: step(typography.body),
@@ -68,6 +95,8 @@ module.exports = {
         h1: step(typography.h1),
         display: step(typography.display),
         "display-lg": step(typography.displayLg),
+        score: step(typography.score),
+        stat: step(typography.stat),
       },
 
       fontWeight,

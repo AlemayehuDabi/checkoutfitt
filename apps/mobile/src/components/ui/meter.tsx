@@ -16,7 +16,7 @@ type MeterProps = {
 
 const fills: Record<ScoreTone, string> = {
   success: "bg-success",
-  primary: "bg-primary",
+  primary: "bg-primary-500",
   warning: "bg-warning",
   danger: "bg-danger",
 };
@@ -40,15 +40,15 @@ export function Meter({
   return (
     <View className={className}>
       <View className="flex-row items-baseline justify-between">
-        <Text className="text-body-sm font-medium text-ink">{label}</Text>
-        <Text className="text-body-sm font-semibold text-ink-soft">
+        <Text className="text-caption font-medium text-text-primary">{label}</Text>
+        <Text className="text-caption font-semibold text-text-secondary">
           {valueLabel ?? `${Math.round(value)}`}
         </Text>
       </View>
-      <View className="mt-2 h-2 overflow-hidden rounded-full bg-surface-muted">
+      <View className="mt-sm h-2 overflow-hidden rounded-full bg-surface-tertiary">
         <View className={`h-full rounded-full ${fills[resolved]}`} style={{ width: `${pct}%` }} />
       </View>
-      {hint ? <Text className="mt-1.5 text-caption text-muted">{hint}</Text> : null}
+      {hint ? <Text className="mt-1.5 text-caption text-text-muted">{hint}</Text> : null}
     </View>
   );
 }

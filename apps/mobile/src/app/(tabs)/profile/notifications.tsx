@@ -37,7 +37,7 @@ export default function NotificationsScreen() {
         <FlatList
           data={notifications}
           keyExtractor={(item) => item.id}
-          contentContainerClassName="gap-2 pb-8"
+          contentContainerClassName="gap-md pb-4xl"
           showsVerticalScrollIndicator={false}
           initialNumToRender={8}
           maxToRenderPerBatch={8}
@@ -48,20 +48,20 @@ export default function NotificationsScreen() {
             return (
               <PressableScale
                 onPress={() => markRead(item.id)}
-                className={`flex-row items-start gap-3 rounded-2xl border p-4 ${
-                  item.unread ? "border-primary-100 bg-primary-50" : "border-line bg-surface"
+                className={`flex-row items-start gap-md rounded-xl border p-lg ${
+                  item.unread ? "border-primary-200 bg-primary-50" : "border-border bg-surface"
                 }`}
               >
-                <View className="h-9 w-9 items-center justify-center rounded-full bg-surface">
-                  <Icon size={16} color={color.primary} />
+                <View className="h-10 w-10 items-center justify-center rounded-md bg-surface">
+                  <Icon size={18} color={color.primary500} />
                 </View>
                 <View className="flex-1">
-                  <View className="flex-row items-center gap-2">
-                    <Text className="flex-1 text-body-sm font-semibold text-ink">{item.title}</Text>
-                    {item.unread ? <View className="h-2 w-2 rounded-full bg-primary" /> : null}
+                  <View className="flex-row items-center gap-sm">
+                    <Text className="flex-1 text-body font-semibold text-text-primary">{item.title}</Text>
+                    {item.unread ? <View className="h-2 w-2 rounded-full bg-primary-500" /> : null}
                   </View>
-                  <Text className="mt-1 text-body-sm leading-5 text-muted">{item.body}</Text>
-                  <Text className="mt-1.5 text-caption text-muted">{item.time}</Text>
+                  <Text className="mt-1 text-caption text-text-secondary">{item.body}</Text>
+                  <Text className="mt-1.5 text-caption text-text-muted">{item.time}</Text>
                 </View>
               </PressableScale>
             );

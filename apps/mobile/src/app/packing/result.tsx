@@ -52,20 +52,20 @@ export default function PackingResultScreen() {
     <ScreenContainer scroll>
       <Header title="Packing List" />
 
-      <Text className="text-micro font-bold uppercase text-primary">
+      <Text className="text-eyebrow font-bold uppercase text-primary-500">
         {shortDate(list.startDate)} — {shortDate(list.endDate)}
       </Text>
-      <Text className="mt-2 text-display font-bold text-ink">{list.destination}</Text>
+      <Text className="mt-sm text-display font-bold text-text-primary">{list.destination}</Text>
 
       <InsightCallout
         title="Forecast"
         body={list.weatherNote}
         icon={CloudSun}
         tone="info"
-        className="mt-5"
+        className="mt-xl"
       />
 
-      <View className="mt-3 flex-row gap-3">
+      <View className="mt-md flex-row gap-md">
         <StatTile label="Pieces" value={`${totalItems}`} className="flex-1" />
         <StatTile
           label="Days covered"
@@ -75,23 +75,23 @@ export default function PackingResultScreen() {
         />
       </View>
 
-      <SectionHeader title="Outfit plan" index="01" className="mt-9" />
-      <View className="gap-2.5">
+      <SectionHeader title="Outfit plan" index="01" className="mt-3xl" />
+      <View className="gap-sm">
         {list.outfitPlan.map((day) => (
-          <Card key={day.day} className="p-4">
+          <Card key={day.day} className="p-lg">
             <View className="flex-row items-center justify-between">
-              <Text className="text-micro font-semibold uppercase text-muted">
+              <Text className="text-eyebrow font-semibold uppercase text-text-muted">
                 {shortDate(day.day)}
               </Text>
-              <Text className="text-caption font-semibold text-primary">{day.label}</Text>
+              <Text className="text-caption font-semibold text-primary-500">{day.label}</Text>
             </View>
-            <View className="mt-3 flex-row gap-2">
+            <View className="mt-md flex-row gap-sm">
               {day.items.map((item) => (
                 <GarmentSwatch
                   key={`${day.day}-${item.id}`}
                   category={item.category}
                   colorHex={item.colorHex}
-                  className="aspect-square flex-1 overflow-hidden rounded-xl"
+                  className="aspect-square flex-1 overflow-hidden rounded-sm"
                   iconSize={18}
                 />
               ))}
@@ -104,10 +104,10 @@ export default function PackingResultScreen() {
         title="The checklist"
         index="02"
         subtitle="Tap to tick items off as you pack."
-        className="mt-9"
+        className="mt-3xl"
       />
 
-      <Card className="mb-3 p-5">
+      <Card className="mb-md p-xl">
         <Meter
           label="Packed"
           value={packedCount}
@@ -116,39 +116,39 @@ export default function PackingResultScreen() {
         />
       </Card>
 
-      <View className="gap-3">
+      <View className="gap-md">
         {list.categories.map((group) => (
-          <Card key={group.label} className="px-4 py-2">
-            <Text className="py-2.5 text-micro font-semibold uppercase text-muted">
+          <Card key={group.label} className="px-lg py-sm">
+            <Text className="py-sm text-eyebrow font-semibold uppercase text-text-muted">
               {group.label}
             </Text>
             {group.items.map((item, index) => {
               const isPacked = packed.has(item.id);
               return (
                 <View key={item.id}>
-                  {index > 0 ? <View className="h-px bg-line" /> : null}
+                  {index > 0 ? <View className="h-px bg-border" /> : null}
                   <PressableScale
                     onPress={() => togglePacked(item.id)}
                     accessibilityRole="checkbox"
                     accessibilityState={{ checked: isPacked }}
-                    className="flex-row items-center gap-3 py-3.5"
+                    className="flex-row items-center gap-md py-md"
                   >
                     <View
                       className={`h-5 w-5 items-center justify-center rounded-md border ${
-                        isPacked ? "border-primary bg-primary" : "border-line-strong"
+                        isPacked ? "border-primary-500 bg-primary-500" : "border-border-strong"
                       }`}
                     >
                       {isPacked ? <Check size={13} color={color.white} strokeWidth={3} /> : null}
                     </View>
                     <Text
                       className={`flex-1 text-body ${
-                        isPacked ? "text-muted line-through" : "text-ink"
+                        isPacked ? "text-text-muted line-through" : "text-text-primary"
                       }`}
                     >
                       {item.label}
                     </Text>
                     {item.qty > 1 ? (
-                      <Text className="text-caption font-semibold text-muted">×{item.qty}</Text>
+                      <Text className="text-caption font-semibold text-text-muted">×{item.qty}</Text>
                     ) : null}
                   </PressableScale>
                 </View>
@@ -161,9 +161,9 @@ export default function PackingResultScreen() {
       <Button
         label="Plan Another Trip"
         variant="outline"
-        icon={<Luggage size={17} color={color.ink} />}
+        icon={<Luggage size={17} color={color.textPrimary} />}
         onPress={() => router.replace("/packing")}
-        className="mb-2 mt-8"
+        className="mb-sm mt-3xl"
       />
     </ScreenContainer>
   );

@@ -15,19 +15,25 @@ type HeaderProps = {
   dark?: boolean;
 };
 
+/**
+ * Spec §6.9: 56px tall, transparent so content scrolls beneath, 24px back
+ * arrow, title set in `h3`.
+ */
 export function Header({ title, onBack, showBack = true, right, dark = false }: HeaderProps) {
   return (
-    <View className="flex-row items-center justify-between pb-2 pt-4">
+    <View className="h-14 flex-row items-center justify-between bg-transparent">
       {showBack ? (
         <IconButton onPress={onBack ?? (() => router.back())} accessibilityLabel="Go back">
-          <ArrowLeft size={22} color={dark ? color.canvas : color.ink} />
+          <ArrowLeft size={24} color={dark ? color.canvas : color.textPrimary} />
         </IconButton>
       ) : (
         <View className="h-10 w-10" />
       )}
       {title ? (
         <Text
-          className={`flex-1 text-center text-body font-semibold ${dark ? "text-canvas" : "text-ink"}`}
+          className={`flex-1 text-center text-h3 font-semibold ${
+            dark ? "text-canvas" : "text-text-primary"
+          }`}
           numberOfLines={1}
         >
           {title}

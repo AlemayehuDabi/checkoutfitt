@@ -1,10 +1,11 @@
 import { router } from "expo-router";
-import { ArrowLeft, PartyPopper, Shirt, User, Users } from "lucide-react-native";
+import { PartyPopper, Shirt, User, Users } from "lucide-react-native";
 import { useMemo, useState } from "react";
-import { Pressable, ScrollView, Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 
 import { Button } from "@/components/ui/button";
 import { Chip } from "@/components/ui/chip";
+import { Header } from "@/components/ui/header";
 import { ProgressBar } from "@/components/ui/progress-bar";
 import { ScreenContainer } from "@/components/ui/screen-container";
 import { SelectCard } from "@/components/ui/select-card";
@@ -77,32 +78,24 @@ export default function StyleQuizScreen() {
 
   return (
     <ScreenContainer scroll>
-      <View className="flex-1 pt-6">
-        <View className="flex-row items-center gap-4">
-          <Pressable
-            onPress={handleBack}
-            hitSlop={8}
-            className="h-10 w-10 items-center justify-center rounded-full active:bg-surface-sunken"
-          >
-            <ArrowLeft size={22} color={color.ink} />
-          </Pressable>
+      <View className="flex-1 pt-2xl">
+        <View className="flex-row items-center gap-lg">
+          <Header showBack onBack={handleBack} />
           <View className="flex-1">
             <ProgressBar step={step} total={TOTAL_STEPS} />
           </View>
         </View>
-        <Text className="mt-2 text-micro font-medium uppercase text-muted">
+        <Text className="mt-sm text-eyebrow font-semibold uppercase text-text-muted">
           Step {step} of {TOTAL_STEPS}
         </Text>
 
         {step === 1 ? (
-          <View className="mt-8">
-            <Text className="text-3xl font-bold text-ink">
-              Who are we styling?
-            </Text>
-            <Text className="mt-2 text-base text-muted">
+          <View className="mt-3xl">
+            <Text className="text-h1 font-bold text-text-primary">Who are we styling?</Text>
+            <Text className="mt-sm text-body text-text-muted">
               This helps us tailor outfit recommendations to you.
             </Text>
-            <View className="mt-8 gap-3">
+            <View className="mt-3xl gap-md">
               {GENDER_OPTIONS.map((option) => (
                 <SelectCard
                   key={option.key}
@@ -112,7 +105,7 @@ export default function StyleQuizScreen() {
                   icon={
                     <option.icon
                       size={22}
-                      color={gender === option.key ? color.canvas : color.ink}
+                      color={gender === option.key ? color.primary500 : color.textPrimary}
                     />
                   }
                 />
@@ -122,20 +115,20 @@ export default function StyleQuizScreen() {
         ) : null}
 
         {step === 2 ? (
-          <View className="mt-8">
-            <Text className="text-3xl font-bold text-ink">
-              What&apos;s your style?
-            </Text>
-            <Text className="mt-2 text-base text-muted">
+          <View className="mt-3xl">
+            <Text className="text-h1 font-bold text-text-primary">What&apos;s your style?</Text>
+            <Text className="mt-sm text-body text-text-muted">
               Pick as many as you like. You can always refine this later.
             </Text>
-            <View className="mt-8 flex-row flex-wrap gap-2.5">
+            {/* Spec screen 4: two pills per row. */}
+            <View className="mt-3xl flex-row flex-wrap gap-md">
               {STYLE_OPTIONS.map((style) => (
                 <Chip
                   key={style}
                   label={style}
                   selected={styles.includes(style)}
                   onPress={() => toggleStyle(style)}
+                  className="w-[48%]"
                 />
               ))}
             </View>
@@ -143,15 +136,13 @@ export default function StyleQuizScreen() {
         ) : null}
 
         {step === 3 ? (
-          <View className="mt-8">
-            <Text className="text-3xl font-bold text-ink">
-              What&apos;s your size?
-            </Text>
-            <Text className="mt-2 text-base text-muted">
+          <View className="mt-3xl">
+            <Text className="text-h1 font-bold text-text-primary">What&apos;s your size?</Text>
+            <Text className="mt-sm text-body text-text-muted">
               We&apos;ll use this to recommend fits that actually work for you.
             </Text>
 
-            <View className="mt-8 gap-6">
+            <View className="mt-3xl gap-2xl">
               <SizeGroup label="Top" options={TOP_SIZES} value={topSize} onChange={setTopSize} />
               <SizeGroup
                 label="Bottom (waist)"
@@ -165,16 +156,18 @@ export default function StyleQuizScreen() {
         ) : null}
 
         {step === 4 ? (
-          <View className="mt-8 flex-1 items-center">
-            <IconWell size="2xl"><PartyPopper size={32} color={color.primary} /></IconWell>
-            <Text className="mt-6 text-center text-3xl font-bold text-ink">
+          <View className="mt-3xl flex-1 items-center">
+            <IconWell size="2xl" round>
+              <PartyPopper size={32} color={color.primary500} />
+            </IconWell>
+            <Text className="mt-2xl text-center text-h1 font-bold text-text-primary">
               You&apos;re all set!
             </Text>
-            <Text className="mt-2 text-center text-base text-muted">
+            <Text className="mt-sm text-center text-body text-text-muted">
               Here&apos;s what we&apos;ll use to style you.
             </Text>
 
-            <View className="mt-8 w-full gap-3 rounded-2xl border border-line bg-surface p-5">
+            <View className="mt-3xl w-full gap-lg rounded-xl border border-border bg-surface p-xl">
               <SummaryRow icon={Shirt} label="Styling for" value={genderLabel ?? "—"} />
               <SummaryRow icon={Shirt} label="Style" value={styles.join(", ") || "—"} />
               <SummaryRow
@@ -191,7 +184,7 @@ export default function StyleQuizScreen() {
         label={step === TOTAL_STEPS ? "Enter CheckoutFitt" : "Next"}
         onPress={handleNext}
         disabled={!canProceed}
-        className="mt-10"
+        className="mt-4xl"
       />
     </ScreenContainer>
   );
@@ -210,9 +203,9 @@ function SizeGroup({
 }) {
   return (
     <View>
-      <Text className="mb-3 text-sm font-medium text-ink">{label}</Text>
+      <Text className="mb-md text-caption font-medium text-text-secondary">{label}</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        <View className="flex-row gap-2.5">
+        <View className="flex-row gap-sm">
           {options.map((option) => (
             <Chip key={option} label={option} selected={value === option} onPress={() => onChange(option)} />
           ))}
@@ -232,11 +225,11 @@ function SummaryRow({
   value: string;
 }) {
   return (
-    <View className="flex-row items-start gap-3">
-      <Icon size={18} color={color.muted} />
+    <View className="flex-row items-start gap-md">
+      <Icon size={20} color={color.textMuted} />
       <View className="flex-1">
-        <Text className="text-micro font-medium uppercase text-muted">{label}</Text>
-        <Text className="mt-0.5 text-base font-medium text-ink">{value}</Text>
+        <Text className="text-eyebrow font-semibold uppercase text-text-muted">{label}</Text>
+        <Text className="mt-0.5 text-body font-medium text-text-primary">{value}</Text>
       </View>
     </View>
   );

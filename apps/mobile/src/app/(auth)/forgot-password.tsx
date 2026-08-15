@@ -1,9 +1,10 @@
 import { router } from "expo-router";
-import { ArrowLeft, MailCheck } from "lucide-react-native";
+import { MailCheck } from "lucide-react-native";
 import { useState } from "react";
-import { Pressable, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
 import { Button } from "@/components/ui/button";
+import { Header } from "@/components/ui/header";
 import { Input } from "@/components/ui/input";
 import { ScreenContainer } from "@/components/ui/screen-container";
 
@@ -38,40 +39,36 @@ export default function ForgotPasswordScreen() {
 
   return (
     <ScreenContainer scroll keyboardAware>
-      <View className="flex-1 pt-6">
-        <Pressable
-          onPress={() => router.back()}
-          hitSlop={8}
-          className="h-10 w-10 items-center justify-center rounded-full active:bg-surface-sunken"
-        >
-          <ArrowLeft size={22} color={color.ink} />
-        </Pressable>
+      <View className="flex-1 pt-2xl">
+        <Header showBack />
 
         {sent ? (
-          <View className="flex-1 items-center justify-center px-4">
-            <IconWell size="2xl"><MailCheck size={32} color={color.primary} /></IconWell>
-            <Text className="mt-6 text-center text-2xl font-bold text-ink">
+          <View className="flex-1 items-center justify-center">
+            <IconWell size="2xl" round>
+              <MailCheck size={32} color={color.primary500} />
+            </IconWell>
+            <Text className="mt-2xl text-center text-h1 font-bold text-text-primary">
               Check your email
             </Text>
-            <Text className="mt-2 text-center text-base leading-6 text-muted">
+            <Text className="mt-sm text-center text-body text-text-muted">
               We sent a password reset link to{"\n"}
-              <Text className="font-semibold text-ink">{email}</Text>
+              <Text className="font-semibold text-text-primary">{email}</Text>
             </Text>
             <Button
               label="Back to Log In"
-              variant="outline"
+              variant="secondary"
               onPress={() => router.replace("/login")}
-              className="mt-10 w-full"
+              className="mt-4xl w-full"
             />
           </View>
         ) : (
-          <View className="mt-4">
-            <Text className="text-3xl font-bold text-ink">Forgot password?</Text>
-            <Text className="mt-2 text-base text-muted">
+          <View className="mt-lg">
+            <Text className="text-h1 font-bold text-text-primary">Forgot password?</Text>
+            <Text className="mt-sm text-body text-text-muted">
               Enter the email linked to your account and we&apos;ll send you a reset link.
             </Text>
 
-            <View className="mt-10">
+            <View className="mt-3xl">
               <Input
                 label="Email"
                 placeholder="you@example.com"
@@ -89,7 +86,7 @@ export default function ForgotPasswordScreen() {
               label="Send Reset Link"
               onPress={handleSend}
               loading={loading}
-              className="mt-8"
+              className="mt-3xl"
             />
           </View>
         )}

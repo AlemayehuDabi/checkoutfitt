@@ -22,7 +22,7 @@ import { PressableScale } from "@/components/ui/pressable-scale";
 import { ScreenContainer } from "@/components/ui/screen-container";
 import { SectionHeader } from "@/components/ui/section-header";
 import { useWeather } from "@/context/weather-context";
-import { color } from "@/design";
+import { color, motion } from "@/design";
 
 const MOCK_ACCOUNT = { name: "Alex Morgan", email: "alex@checkoutfitt.com" };
 
@@ -32,88 +32,96 @@ export default function ProfileScreen() {
 
   return (
     <ScreenContainer scroll edges={["top", "left", "right"]}>
-      <Text className="pb-2 pt-6 text-h1 font-bold text-ink">Profile</Text>
+      <Text className="pb-lg pt-2xl text-h1 font-bold text-text-primary">Profile</Text>
 
-      <Card raise="sm" className="flex-row items-center gap-4 p-5">
-        <View className="h-14 w-14 items-center justify-center rounded-full bg-ink">
-          <Text className="text-body-lg font-bold text-canvas">AM</Text>
+      {/* Spec §6.10: a 64px circular avatar with a 2px hairline ring. */}
+      <View className="flex-row items-center gap-lg">
+        <View className="h-16 w-16 items-center justify-center rounded-full border-2 border-border bg-primary-100">
+          <Text className="text-h2 font-bold text-primary-700">AM</Text>
         </View>
         <View className="flex-1">
-          <Text className="text-body-lg font-semibold text-ink">{MOCK_ACCOUNT.name}</Text>
-          <Text className="mt-0.5 text-body-sm text-muted">{MOCK_ACCOUNT.email}</Text>
+          <Text className="text-h2 font-bold text-text-primary">{MOCK_ACCOUNT.name}</Text>
+          <Text className="mt-0.5 text-caption text-text-muted">{MOCK_ACCOUNT.email}</Text>
+          <Text className="mt-1.5 text-caption font-semibold text-text-accent">Edit Profile</Text>
         </View>
-      </Card>
+      </View>
 
-      <Card
-        tone="inverse"
-        raise="lg"
+      {/* Spec §6.16 Pro banner: primary-100 fill, primary-200 hairline, crown. */}
+      <PressableScale
         onPress={() => router.push("/profile/subscription")}
-        className="mt-4 flex-row items-center gap-4 p-5"
+        pressScale={motion.pressScale.md}
+        pressOpacity={1}
+        accessibilityRole="button"
+        className="mt-2xl flex-row items-center gap-lg rounded-lg border border-primary-200 bg-primary-100 p-lg"
       >
-        <IconWell size="md" tone="translucent" className="h-12 w-12">
-          <Crown size={20} color={color.canvas} strokeWidth={1.75} />
-        </IconWell>
-        <View className="flex-1">
-          <Text className="text-body-lg font-semibold text-canvas">Upgrade to Pro</Text>
-          <Text className="mt-0.5 text-caption text-faint">Unlimited styling, closet & chat</Text>
+        <View className="h-12 w-12 items-center justify-center rounded-md bg-surface">
+          <Crown size={22} color={color.primary500} strokeWidth={1.75} />
         </View>
-        <ChevronRight size={18} color={color.faint} />
-      </Card>
+        <View className="flex-1">
+          <Text className="text-h3 font-semibold text-primary-700">
+            Upgrade to CheckoutFitt Pro
+          </Text>
+          <Text className="mt-0.5 text-caption text-primary-600">
+            Unlimited styling, closet & chat
+          </Text>
+        </View>
+        <ChevronRight size={16} color={color.primary500} />
+      </PressableScale>
 
-      <SectionHeader title="Styling tools" className="mt-8" />
-      <Card className="px-4">
+      <SectionHeader title="Styling tools" className="mt-3xl" />
+      <Card className="px-lg">
         <SettingsRow
-          icon={<Wand2 size={17} color={color.primary} strokeWidth={1.75} />}
+          icon={<Wand2 size={17} color={color.primary500} strokeWidth={1.75} />}
           label="The Studio"
           value="All tools"
           onPress={() => router.push("/studio")}
         />
         <RowDivider />
         <SettingsRow
-          icon={<Sparkles size={17} color={color.primary} strokeWidth={1.75} />}
+          icon={<Sparkles size={17} color={color.primary500} strokeWidth={1.75} />}
           label="Style Coach"
           onPress={() => router.push("/coach")}
         />
         <RowDivider />
         <SettingsRow
-          icon={<Palette size={17} color={color.primary} strokeWidth={1.75} />}
+          icon={<Palette size={17} color={color.primary500} strokeWidth={1.75} />}
           label="Colour Analysis"
           onPress={() => router.push("/color")}
         />
       </Card>
 
-      <SectionHeader title="Preferences" className="mt-7" />
-      <Card className="px-4">
+      <SectionHeader title="Preferences" className="mt-3xl" />
+      <Card className="px-lg">
         <SettingsRow
-          icon={<Bell size={17} color={color.ink} strokeWidth={1.75} />}
+          icon={<Bell size={17} color={color.textSecondary} strokeWidth={1.75} />}
           label="Notifications"
           onPress={() => router.push("/profile/notifications")}
         />
         <RowDivider />
         <SettingsRow
-          icon={<MapPin size={17} color={color.ink} strokeWidth={1.75} />}
+          icon={<MapPin size={17} color={color.textSecondary} strokeWidth={1.75} />}
           label="Location"
           value={locationName ?? "Not set"}
           onPress={() => router.push("/location")}
         />
       </Card>
 
-      <SectionHeader title="Support" className="mt-7" />
-      <Card className="px-4">
+      <SectionHeader title="Support" className="mt-3xl" />
+      <Card className="px-lg">
         <SettingsRow
-          icon={<Lock size={17} color={color.ink} strokeWidth={1.75} />}
+          icon={<Lock size={17} color={color.textSecondary} strokeWidth={1.75} />}
           label="Privacy & Security"
           onPress={() => {}}
         />
         <RowDivider />
         <SettingsRow
-          icon={<LifeBuoy size={17} color={color.ink} strokeWidth={1.75} />}
+          icon={<LifeBuoy size={17} color={color.textSecondary} strokeWidth={1.75} />}
           label="Help & Support"
           onPress={() => {}}
         />
         <RowDivider />
         <SettingsRow
-          icon={<Info size={17} color={color.ink} strokeWidth={1.75} />}
+          icon={<Info size={17} color={color.textSecondary} strokeWidth={1.75} />}
           label="About CheckoutFitt"
           onPress={() => {}}
         />
@@ -122,11 +130,16 @@ export default function ProfileScreen() {
       <PressableScale
         onPress={() => setLogoutVisible(true)}
         pressScale={0.98}
-        className="mb-4 mt-6 flex-row items-center justify-center gap-2 rounded-2xl bg-danger-soft py-4"
+        accessibilityRole="button"
+        className="mt-2xl h-[52px] flex-row items-center justify-center gap-sm rounded-lg bg-danger-light"
       >
-        <LogOut size={17} color={color.danger} strokeWidth={2} />
+        <LogOut size={18} color={color.danger} strokeWidth={2} />
         <Text className="text-body font-semibold text-danger">Log Out</Text>
       </PressableScale>
+
+      <Text className="mb-lg mt-2xl text-center text-caption text-text-muted">
+        About CheckoutFitt · Version 1.2.0
+      </Text>
 
       <ConfirmSheet
         visible={logoutVisible}
@@ -157,19 +170,20 @@ function SettingsRow({
       onPress={onPress}
       pressScale={0.99}
       pressOpacity={0.75}
-      className="flex-row items-center gap-3 py-3.5"
+      className="h-14 flex-row items-center gap-md"
     >
-      <IconWell size="sm" tone="sunken">
+      {/* Spec §6.7: the glyph sits in a 40px rounded tile on the leading edge. */}
+      <IconWell size="md" tone="sunken">
         {icon}
       </IconWell>
-      <Text className="flex-1 text-body text-ink">{label}</Text>
-      {value ? <Text className="text-caption text-muted">{value}</Text> : null}
-      <ChevronRight size={16} color={color.faint} />
+      <Text className="flex-1 text-body font-medium text-text-primary">{label}</Text>
+      {value ? <Text className="text-caption text-text-muted">{value}</Text> : null}
+      <ChevronRight size={16} color={color.textMuted} />
     </PressableScale>
   );
 }
 
 function RowDivider() {
   // Indented past the icon well so the rule reads as grouping, not division.
-  return <View className="ml-12 h-px bg-line" />;
+  return <View className="ml-[52px] h-px bg-border" />;
 }

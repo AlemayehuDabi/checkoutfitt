@@ -17,7 +17,8 @@ const require = createRequire(import.meta.url);
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
 const {
-  palette,
+  colorAliases,
+  overlay,
   typography,
   fontWeight,
   radius,
@@ -25,8 +26,10 @@ const {
   shadow,
   glow,
   shadowColor,
+  motion,
   hexToChannels,
   flattenPalette,
+  resolveAliases,
 } = require(resolve(root, "src/design/tokens.js"));
 
 const BEGIN = "  /* === BEGIN GENERATED TOKENS — edit src/design/tokens.js === */";
@@ -40,12 +43,29 @@ for (const [name, hex] of Object.entries(flattenPalette())) {
   lines.push(`  --color-${name}: ${hexToChannels(hex)}; /* ${hex} */`);
 }
 
+section("Color aliases — the spec's token names, same values");
+const aliasHexes = resolveAliases();
+for (const [alias, target] of Object.entries(colorAliases)) {
+  const hex = aliasHexes[alias];
+  lines.push(`  --color-${alias}: ${hexToChannels(hex)}; /* ${hex} — alias of --color-${target} */`);
+}
+
+section("Overlay — carries its own alpha, so not a channel triplet");
+lines.push(`  --color-overlay: ${overlay.DEFAULT};`);
+lines.push(`  --color-overlay-light: ${overlay.light};`);
+
 section("Typography — size / line-height / letter-spacing");
 for (const [name, step] of Object.entries(typography)) {
   const kebab = name.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`);
   lines.push(`  --font-size-${kebab}: ${step.size}px;`);
   lines.push(`  --line-height-${kebab}: ${step.lineHeight}px;`);
   lines.push(`  --tracking-${kebab}: ${step.tracking}px;`);
+}
+
+section("Typography aliases — the spec's `--text-*` role names");
+for (const name of Object.keys(typography)) {
+  const kebab = name.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`);
+  lines.push(`  --text-${kebab}: var(--font-size-${kebab});`);
 }
 
 section("Font weight");
@@ -58,8 +78,9 @@ for (const [name, value] of Object.entries(radius)) {
   lines.push(`  --radius-${name}: ${value}px;`);
 }
 
-section("Spacing — named layout rhythm");
+section("Spacing");
 for (const [name, value] of Object.entries(spacing)) {
+  lines.push(`  --space-${name}: ${value}px;`);
   lines.push(`  --spacing-${name}: ${value}px;`);
 }
 
@@ -75,6 +96,14 @@ for (const [name, step] of Object.entries(glow)) {
   lines.push(
     `  --glow-${name}: 0px ${step.y}px ${step.blur}px rgb(var(--color-${name}) / ${step.opacity});`
   );
+}
+
+section("Interaction — press feedback is driven from these at runtime");
+for (const [name, value] of Object.entries(motion.duration)) {
+  lines.push(`  --transition-${name}: ${value}ms ease-out;`);
+}
+for (const [name, value] of Object.entries(motion.pressScale)) {
+  lines.push(`  --press-scale-${name}: ${value};`);
 }
 
 const cssPath = resolve(root, "src/global.css");

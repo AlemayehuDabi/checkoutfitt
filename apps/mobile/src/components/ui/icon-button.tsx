@@ -13,7 +13,7 @@ type IconButtonProps = {
 const surfaces = {
   ghost: "",
   solid: "bg-surface",
-  sunken: "bg-surface-sunken",
+  sunken: "bg-surface-secondary",
   inverse: "bg-white/15",
 } as const;
 

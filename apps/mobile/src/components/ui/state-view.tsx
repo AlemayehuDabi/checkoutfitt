@@ -34,17 +34,17 @@ export function StateView({
   const isError = tone === "error";
 
   return (
-    <View className={`items-center justify-center ${inline ? "py-10" : "flex-1 px-gutter"}`}>
+    <View className={`items-center justify-center ${inline ? "py-4xl" : "flex-1 px-gutter"}`}>
       <IconWell size="xl" tone={isError ? "danger" : "sunken"}>
         <Icon
           size={ICON_SIZE.xl}
-          color={isError ? color.danger : color.muted}
+          color={isError ? color.danger : color.textMuted}
           strokeWidth={1.5}
         />
       </IconWell>
-      <Text className="mt-5 text-center text-h3 font-bold text-ink">{title}</Text>
+      <Text className="mt-xl text-center text-h2 font-bold text-text-primary">{title}</Text>
       {description ? (
-        <Text className="mt-2 max-w-xs text-center text-body leading-6 text-muted">
+        <Text className="mt-sm max-w-xs text-center text-body text-text-muted">
           {description}
         </Text>
       ) : null}
@@ -52,12 +52,12 @@ export function StateView({
         <Button
           label={actionLabel}
           onPress={onAction}
-          variant={isError ? "outline" : "primary"}
-          className="mt-7 w-full"
+          variant={isError ? "secondary" : "primary"}
+          className="mt-3xl w-full"
         />
       ) : null}
       {secondaryLabel && onSecondary ? (
-        <Button label={secondaryLabel} onPress={onSecondary} variant="ghost" className="mt-2 w-full" />
+        <Button label={secondaryLabel} onPress={onSecondary} variant="ghost" className="mt-sm w-full" />
       ) : null}
     </View>
   );

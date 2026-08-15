@@ -1,4 +1,5 @@
 import Animated, {
+  interpolate,
   interpolateColor,
   useAnimatedStyle,
   useDerivedValue,
@@ -6,7 +7,7 @@ import Animated, {
 } from "react-native-reanimated";
 
 import { PressableScale } from "@/components/ui/pressable-scale";
-import { color } from "@/design";
+import { color, motion } from "@/design";
 
 type ChipProps = {
   label: string;
@@ -17,26 +18,35 @@ type ChipProps = {
   className?: string;
 };
 
-const TRANSITION = { duration: 190 };
+const TRANSITION = { duration: motion.duration.normal };
 
 /**
- * Selection animates rather than snapping.
+ * Spec §6.3 selectable chip: 36px tall pill, 16px of horizontal padding.
+ * Unselected is a bare hairline outline; selected fills with primary-50 behind
+ * a 1.5px brand border and brand-coloured label.
  *
- * The old version toggled Tailwind classes, so a chip changed state in a single
- * frame and also shifted layout as a check icon appeared. Interpolating fill,
- * border and label colour on the UI thread keeps the row stable and makes
- * filtering feel considered instead of abrupt.
+ * Selection animates rather than snapping. The old version toggled Tailwind
+ * classes, so a chip changed state in a single frame and shifted layout as a
+ * check icon appeared. Interpolating fill, border and label colour on the UI
+ * thread keeps the row stable and makes filtering feel considered.
+ *
+ * The unselected fill is primary-50 at zero alpha rather than `transparent`
+ * (which is rgba(0,0,0,0)) so the interpolation never passes through a muddy
+ * translucent grey on its way to the tint.
  */
+const FILL_EMPTY = "rgba(255, 245, 240, 0)";
+
 export function Chip({ label, selected, onPress, className = "" }: ChipProps) {
   const progress = useDerivedValue(() => withTiming(selected ? 1 : 0, TRANSITION), [selected]);
 
   const containerStyle = useAnimatedStyle(() => ({
-    backgroundColor: interpolateColor(progress.value, [0, 1], [color.surface, color.ink]),
-    borderColor: interpolateColor(progress.value, [0, 1], [color.line, color.ink]),
+    backgroundColor: interpolateColor(progress.value, [0, 1], [FILL_EMPTY, color.primary50]),
+    borderColor: interpolateColor(progress.value, [0, 1], [color.border, color.primary500]),
+    borderWidth: interpolate(progress.value, [0, 1], [1, 1.5]),
   }));
 
   const labelStyle = useAnimatedStyle(() => ({
-    color: interpolateColor(progress.value, [0, 1], [color.inkSoft, color.canvas]),
+    color: interpolateColor(progress.value, [0, 1], [color.textPrimary, color.primary500]),
   }));
 
   return (
@@ -47,9 +57,9 @@ export function Chip({ label, selected, onPress, className = "" }: ChipProps) {
       accessibilityRole="button"
       accessibilityState={{ selected }}
       style={containerStyle}
-      className={`rounded-full border px-4 py-2.5 ${className}`}
+      className={`h-9 items-center justify-center rounded-full px-lg ${className}`}
     >
-      <Animated.Text style={labelStyle} className="text-body-sm font-semibold">
+      <Animated.Text style={labelStyle} className="text-tag font-medium">
         {label}
       </Animated.Text>
     </PressableScale>

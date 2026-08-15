@@ -21,22 +21,22 @@ export default function OutfitTodayScreen() {
 
       <WeatherStrip weather={weather} />
 
-      <View className="mt-6">
+      <View className="mt-2xl">
         <OutfitGallery items={todayOutfit.items} />
       </View>
 
-      <Text className="mt-6 text-h2 font-bold text-ink">{todayOutfit.title}</Text>
+      <Text className="mt-2xl text-h1 font-bold text-text-primary">{todayOutfit.title}</Text>
 
-      <InsightCallout body={todayOutfit.reason} className="mt-4" />
+      <InsightCallout title="Why this outfit" body={todayOutfit.reason} className="mt-lg" />
 
-      <SectionHeader title="The Breakdown" index="01" className="mt-8" />
+      <SectionHeader title="Pieces" index="01" className="mt-3xl" />
       <OutfitBreakdown items={todayOutfit.items} />
 
       <Button
         label={saved ? "Saved to Outfits" : "Save This Outfit"}
-        variant={saved ? "outline" : "primary"}
+        variant={saved ? "secondary" : "primary"}
         onPress={() => toggleSave(todayOutfit)}
-        className="mb-2 mt-8"
+        className="mb-sm mt-3xl"
       />
     </ScreenContainer>
   );

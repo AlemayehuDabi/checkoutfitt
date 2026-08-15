@@ -32,13 +32,13 @@ export function ScreenContainer({
   contentClassName = "",
   edges = ["top", "bottom", "left", "right"],
 }: ScreenContainerProps) {
-  const background = dark ? "bg-surface-inverse" : "bg-canvas";
+  const background = dark ? "bg-surface-inverse" : "bg-bg";
   const gutter = bleed ? "" : "px-gutter";
 
   const content = scroll ? (
     <ScrollView
       className={`flex-1 ${background} ${className}`}
-      contentContainerClassName={`flex-grow ${gutter} pb-10 ${contentClassName}`}
+      contentContainerClassName={`flex-grow ${gutter} pb-4xl ${contentClassName}`}
       keyboardShouldPersistTaps="handled"
       // Dismissing on drag replaces the TouchableWithoutFeedback that used to
       // wrap this ScrollView. That wrapper sat in the touch path of every

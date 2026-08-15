@@ -35,17 +35,17 @@ export default function CapsuleResultScreen() {
     <ScreenContainer scroll>
       <Header title="Your Capsule" />
 
-      <View className="items-center pt-2">
-        <Text className="text-micro font-bold uppercase text-primary">Your capsule</Text>
-        <Text className="mt-2 text-display-lg font-bold text-ink">{capsule.combinations}</Text>
-        <Text className="mt-1 text-body-lg font-medium text-muted">distinct outfits</Text>
-        <Text className="mt-3 px-4 text-center text-body leading-6 text-muted">
+      <View className="items-center pt-sm">
+        <Text className="text-eyebrow font-semibold uppercase text-text-muted">Your capsule</Text>
+        <Text className="mt-sm text-display font-bold text-primary-500">{capsule.combinations}</Text>
+        <Text className="mt-1 text-body font-medium text-text-muted">distinct outfits</Text>
+        <Text className="mt-md px-lg text-center text-body text-text-muted">
           From {capsule.itemCount} pieces — that&apos;s{" "}
           {Math.round(capsule.combinations / capsule.itemCount)} outfits per item you own.
         </Text>
       </View>
 
-      <View className="mt-7 flex-row gap-3">
+      <View className="mt-2xl flex-row gap-md">
         <StatTile label="Pieces" value={`${capsule.itemCount}`} className="flex-1" />
         <StatTile
           label="Combinations"
@@ -55,14 +55,14 @@ export default function CapsuleResultScreen() {
         />
       </View>
 
-      <View className="mt-3 flex-row flex-wrap gap-2">
+      <View className="mt-md flex-row flex-wrap gap-sm">
         {capsule.occasions.map((occasion) => (
           <Tag key={occasion} label={occasion} />
         ))}
       </View>
 
-      <SectionHeader title="Coverage" index="01" className="mt-9" />
-      <Card className="gap-5 p-5">
+      <SectionHeader title="Coverage" index="01" className="mt-3xl" />
+      <Card className="gap-xl p-xl">
         {capsule.coverage.map((entry) => (
           <Meter
             key={entry.label}
@@ -77,9 +77,9 @@ export default function CapsuleResultScreen() {
         title="The set"
         index="02"
         subtitle="Every piece earns its place by pairing with most of the others."
-        className="mt-9"
+        className="mt-3xl"
       />
-      <View className="flex-row flex-wrap gap-x-[4%] gap-y-4">
+      <View className="flex-row flex-wrap gap-x-[4%] gap-y-lg">
         {capsule.items.map((item) => {
           const categoryLabel = CLOSET_CATEGORIES.find((c) => c.key === item.category)?.label;
           return (
@@ -87,13 +87,13 @@ export default function CapsuleResultScreen() {
               <GarmentSwatch
                 category={item.category}
                 colorHex={item.colorHex}
-                className="aspect-square w-full overflow-hidden rounded-2xl"
+                className="aspect-square w-full overflow-hidden rounded-md"
                 iconSize={22}
               />
-              <Text className="mt-2 text-caption font-medium text-ink" numberOfLines={2}>
+              <Text className="mt-sm text-caption font-medium text-text-primary" numberOfLines={2}>
                 {item.label}
               </Text>
-              <Text className="text-micro uppercase text-faint">{categoryLabel}</Text>
+              <Text className="text-eyebrow uppercase text-faint">{categoryLabel}</Text>
             </View>
           );
         })}
@@ -103,20 +103,20 @@ export default function CapsuleResultScreen() {
         title="How to use it"
         body="Live out of this set for a fortnight. Anything you reach past three times is a gap; anything you never touch is a candidate to sell."
         icon={Sparkles}
-        className="mt-8"
+        className="mt-3xl"
       />
 
       <Button
         label="Plan These Into Your Week"
         icon={<CalendarDays size={17} color={color.white} />}
         onPress={() => router.push("/calendar")}
-        className="mt-8"
+        className="mt-3xl"
       />
       <Button
         label="Adjust the Constraints"
         variant="outline"
         onPress={() => router.back()}
-        className="mb-2 mt-2"
+        className="mb-sm mt-sm"
       />
     </ScreenContainer>
   );

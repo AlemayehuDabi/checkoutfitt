@@ -25,20 +25,20 @@ export function SectionHeader({
   className = "",
 }: SectionHeaderProps) {
   return (
-    <View className={`mb-3 ${className}`}>
+    <View className={`mb-md ${className}`}>
       <View className="flex-row items-center justify-between">
-        <View className="flex-1 flex-row items-center gap-2">
+        <View className="flex-1 flex-row items-center gap-sm">
           {index ? (
-            <Text className="text-micro font-bold uppercase text-primary">{index}</Text>
+            <Text className="text-eyebrow font-semibold uppercase text-primary-500">{index}</Text>
           ) : null}
-          <Text className="text-micro font-semibold uppercase text-muted" numberOfLines={1}>
+          <Text className="text-eyebrow font-semibold uppercase text-text-muted" numberOfLines={1}>
             {title}
           </Text>
-          <View className="h-px flex-1 bg-line" />
+          <View className="h-px flex-1 bg-border" />
         </View>
-        {action ? <View className="ml-3">{action}</View> : null}
+        {action ? <View className="ml-md">{action}</View> : null}
       </View>
-      {subtitle ? <Text className="mt-2 text-body-sm text-muted">{subtitle}</Text> : null}
+      {subtitle ? <Text className="mt-sm text-caption text-text-muted">{subtitle}</Text> : null}
     </View>
   );
 }

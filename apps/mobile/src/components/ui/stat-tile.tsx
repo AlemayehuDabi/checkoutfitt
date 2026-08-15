@@ -11,19 +11,19 @@ type StatTileProps = {
 };
 
 const surfaces = {
-  default: "bg-surface border border-line",
-  primary: "bg-primary-50 border border-primary-100",
+  default: "bg-surface border border-border",
+  primary: "bg-primary-50 border border-primary-200",
   inverse: "bg-surface-inverse border border-transparent",
 } as const;
 
 const values = {
-  default: "text-ink",
+  default: "text-text-primary",
   primary: "text-primary-700",
   inverse: "text-canvas",
 } as const;
 
 const labels = {
-  default: "text-muted",
+  default: "text-text-muted",
   primary: "text-primary-600",
   inverse: "text-faint",
 } as const;
@@ -41,16 +41,16 @@ export function StatTile({
   className = "",
 }: StatTileProps) {
   return (
-    <View className={`rounded-2xl p-4 ${surfaces[tone]} ${className}`}>
+    <View className={`rounded-xl p-lg ${surfaces[tone]} ${className}`}>
       <View className="flex-row items-center gap-1.5">
         {icon}
-        <Text className={`text-micro font-semibold uppercase ${labels[tone]}`} numberOfLines={1}>
+        <Text className={`text-eyebrow font-semibold uppercase ${labels[tone]}`} numberOfLines={1}>
           {label}
         </Text>
       </View>
-      <Text className={`mt-2 text-h2 font-bold ${values[tone]}`}>{value}</Text>
+      <Text className={`mt-sm text-stat font-bold ${values[tone]}`}>{value}</Text>
       {hint ? (
-        <Text className={`mt-0.5 text-caption ${tone === "inverse" ? "text-faint" : "text-muted"}`}>
+        <Text className={`mt-0.5 text-caption ${tone === "inverse" ? "text-faint" : "text-text-muted"}`}>
           {hint}
         </Text>
       ) : null}

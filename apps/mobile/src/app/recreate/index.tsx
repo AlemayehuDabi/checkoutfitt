@@ -46,8 +46,8 @@ export default function RecreateInputScreen() {
         subtitle="Drop in an image you've saved and we'll match each piece against what you own."
       />
 
-      <SectionHeader title="Where's it from" index="01" className="mt-8" />
-      <View className="flex-row flex-wrap gap-2">
+      <SectionHeader title="Where's it from" index="01" className="mt-3xl" />
+      <View className="flex-row flex-wrap gap-sm">
         {INSPO_SOURCES.map((entry) => (
           <Chip
             key={entry}
@@ -58,11 +58,11 @@ export default function RecreateInputScreen() {
         ))}
       </View>
 
-      <SectionHeader title="The reference" index="02" className="mt-8" />
+      <SectionHeader title="The reference" index="02" className="mt-3xl" />
 
       {imageUri ? (
         <View>
-          <View className="h-80 w-full overflow-hidden rounded-3xl border border-line">
+          <View className="h-80 w-full overflow-hidden rounded-xl border border-border">
             <AppImage source={{ uri: imageUri }} className="h-full w-full" contentFit="cover" />
           </View>
           <Pressable
@@ -75,21 +75,21 @@ export default function RecreateInputScreen() {
           </Pressable>
         </View>
       ) : (
-        <Card onPress={pickImage} tone="sunken" className="items-center gap-3 py-10">
-          <View className="h-14 w-14 items-center justify-center rounded-3xl bg-surface">
-            <Images size={22} color={color.primary} strokeWidth={1.5} />
+        <Card onPress={pickImage} tone="sunken" className="items-center gap-md py-4xl">
+          <View className="h-14 w-14 items-center justify-center rounded-lg bg-surface">
+            <Images size={22} color={color.primary500} strokeWidth={1.5} />
           </View>
-          <Text className="text-body font-semibold text-ink">Upload an image</Text>
-          <Text className="px-8 text-center text-caption text-muted">
+          <Text className="text-body font-semibold text-text-primary">Upload an image</Text>
+          <Text className="px-3xl text-center text-caption text-text-muted">
             A screenshot or saved pin works fine
           </Text>
         </Card>
       )}
 
-      <View className="mt-5 flex-row items-center gap-3">
-        <View className="h-px flex-1 bg-line" />
-        <Text className="text-micro font-semibold uppercase text-muted">or paste a link</Text>
-        <View className="h-px flex-1 bg-line" />
+      <View className="mt-xl flex-row items-center gap-md">
+        <View className="h-px flex-1 bg-border" />
+        <Text className="text-eyebrow font-semibold uppercase text-text-muted">or paste a link</Text>
+        <View className="h-px flex-1 bg-border" />
       </View>
 
       <Input
@@ -98,8 +98,8 @@ export default function RecreateInputScreen() {
         value={link}
         onChangeText={setLink}
         keyboardType="url"
-        icon={<Link2 size={17} color={color.faint} />}
-        containerClassName="mt-5"
+        icon={<Link2 size={17} color={color.textMuted} />}
+        containerClassName="mt-xl"
       />
 
       <Button
@@ -111,7 +111,7 @@ export default function RecreateInputScreen() {
             params: { uri: imageUri ?? "", source },
           })
         }
-        className="mb-2 mt-9"
+        className="mb-sm mt-3xl"
       />
     </ScreenContainer>
   );

@@ -12,27 +12,27 @@ import { color } from "@/design";
 export default function AddItemScreen() {
   return (
     <ScreenContainer edges={["top", "bottom", "left", "right"]}>
-      <View className="flex-row items-center justify-between pt-6">
+      <View className="h-14 flex-row items-center justify-between">
         <View />
-        <IconButton onPress={() => router.back()}>
-          <X size={22} color={color.ink} />
+        <IconButton accessibilityLabel="Close" onPress={() => router.back()}>
+          <X size={24} color={color.textPrimary} />
         </IconButton>
       </View>
 
-      <View className="flex-1 justify-center gap-4 pb-16">
-        <Text className="text-3xl font-bold text-ink">Add an item</Text>
-        <Text className="mb-4 text-base text-muted">
+      <View className="flex-1 justify-center gap-lg pb-16">
+        <Text className="text-h1 font-bold text-text-primary">Add an item</Text>
+        <Text className="mb-lg text-body text-text-muted">
           Snap a photo or import from your library — your AI stylist will handle the rest.
         </Text>
 
         <AddOption
-          icon={<Camera size={24} color={color.primary} />}
+          icon={<Camera size={24} color={color.primary500} />}
           title="Take a Photo"
           description="Capture a single item with your camera"
           onPress={() => router.push("/closet/capture")}
         />
         <AddOption
-          icon={<Images size={24} color={color.primary} />}
+          icon={<Images size={24} color={color.primary500} />}
           title="Choose from Library"
           description="Import one or more photos at once"
           onPress={() => router.push("/closet/upload")}
@@ -54,12 +54,12 @@ function AddOption({
   onPress: () => void;
 }) {
   return (
-    <Card onPress={onPress} className="p-5">
-      <View className="flex-row items-center gap-4">
-        <View className="h-14 w-14 items-center justify-center rounded-2xl bg-primary-50">{icon}</View>
+    <Card onPress={onPress} className="p-lg">
+      <View className="flex-row items-center gap-lg">
+        <View className="h-14 w-14 items-center justify-center rounded-lg bg-primary-100">{icon}</View>
         <View className="flex-1">
-          <Text className="text-base font-semibold text-ink">{title}</Text>
-          <Text className="mt-0.5 text-sm text-muted">{description}</Text>
+          <Text className="text-h3 font-semibold text-text-primary">{title}</Text>
+          <Text className="mt-0.5 text-caption text-text-muted">{description}</Text>
         </View>
       </View>
     </Card>

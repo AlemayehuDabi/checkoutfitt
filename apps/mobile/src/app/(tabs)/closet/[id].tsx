@@ -46,7 +46,11 @@ export default function ItemDetailScreen() {
         title="Item Details"
         right={
           <IconButton onPress={() => toggleFavorite(item.id)}>
-            <Heart size={20} color={item.favorite ? color.primary : color.ink} fill={item.favorite ? color.primary : "transparent"} />
+            <Heart
+              size={24}
+              color={item.favorite ? color.primary500 : color.textPrimary}
+              fill={item.favorite ? color.primary500 : "transparent"}
+            />
           </IconButton>
         }
       />
@@ -55,22 +59,22 @@ export default function ItemDetailScreen() {
         category={item.category}
         colorHex={item.colorHex}
         imageUri={item.imageUri}
-        className="h-96 w-full overflow-hidden rounded-3xl"
+        className="aspect-[3/4] w-full overflow-hidden rounded-xl"
         iconSize={56}
       />
 
-      <Text className="mt-6 text-3xl font-bold text-ink">{item.type}</Text>
-      <View className="mt-3 flex-row flex-wrap gap-2">
+      <Text className="mt-2xl text-h1 font-bold text-text-primary">{item.type}</Text>
+      <View className="mt-md flex-row flex-wrap gap-sm">
         <Tag label={categoryLabel} />
         <Tag label={item.color} dotColor={item.colorHex} />
         {item.archived ? <Tag label="Archived" tone="primary" /> : null}
       </View>
 
-      <View className="mt-8 gap-3">
+      <View className="mt-3xl gap-md">
         <Button
           label="Edit Item"
-          variant="outline"
-          icon={<Pencil size={18} color={color.ink} />}
+          variant="secondary"
+          icon={<Pencil size={18} color={color.primary500} />}
           onPress={() => router.push(`/closet/edit/${item.id}`)}
         />
         <Button
@@ -78,9 +82,9 @@ export default function ItemDetailScreen() {
           variant="outline"
           icon={
             item.archived ? (
-              <ArchiveRestore size={18} color={color.ink} />
+              <ArchiveRestore size={18} color={color.textPrimary} />
             ) : (
-              <Archive size={18} color={color.ink} />
+              <Archive size={18} color={color.textPrimary} />
             )
           }
           onPress={() => toggleArchive(item.id)}
@@ -88,7 +92,7 @@ export default function ItemDetailScreen() {
         <Button
           label="Delete Item"
           variant="danger"
-          icon={<Trash2 size={18} color={color.white} />}
+          icon={<Trash2 size={18} color={color.danger} />}
           onPress={() => setConfirmVisible(true)}
         />
       </View>

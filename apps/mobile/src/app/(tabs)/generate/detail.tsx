@@ -40,10 +40,10 @@ export default function OutfitDetailScreen() {
 
       <OutfitGallery items={outfit.items} />
 
-      <View className="mt-6 flex-row items-start justify-between gap-3">
+      <View className="mt-2xl flex-row items-start justify-between gap-md">
         <View className="flex-1">
           <Tag label={outfit.context} tone="primary" />
-          <Text className="mt-2 text-h2 font-bold text-ink">{outfit.title}</Text>
+          <Text className="mt-sm text-h1 font-bold text-text-primary">{outfit.title}</Text>
         </View>
         <IconButton
           onPress={() => toggleSave(outfit)}
@@ -51,23 +51,23 @@ export default function OutfitDetailScreen() {
           accessibilityLabel={saved ? "Remove from saved" : "Save outfit"}
         >
           <Heart
-            size={20}
-            color={saved ? color.primary : color.ink}
-            fill={saved ? color.primary : "transparent"}
+            size={24}
+            color={saved ? color.primary500 : color.textPrimary}
+            fill={saved ? color.primary500 : "transparent"}
           />
         </IconButton>
       </View>
 
-      <InsightCallout body={outfit.reason} className="mt-6" />
+      <InsightCallout title="Why this outfit" body={outfit.reason} className="mt-2xl" />
 
-      <SectionHeader title="The Breakdown" index="01" className="mt-8" />
+      <SectionHeader title="Pieces" index="01" className="mt-3xl" />
       <OutfitBreakdown items={outfit.items} />
 
       <Button
         label={saved ? "Saved to Outfits" : "Save This Outfit"}
-        variant={saved ? "outline" : "primary"}
+        variant={saved ? "secondary" : "primary"}
         onPress={() => toggleSave(outfit)}
-        className="mb-2 mt-8"
+        className="mb-sm mt-3xl"
       />
     </ScreenContainer>
   );

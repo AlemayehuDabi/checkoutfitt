@@ -57,8 +57,8 @@ export default function AssignOutfitScreen() {
     <ScreenContainer scroll>
       <Header title={shortDate(date)} />
 
-      <Text className="text-h2 font-bold text-ink">Plan this day</Text>
-      <Text className="mt-2 text-body text-muted">
+      <Text className="text-h2 font-bold text-text-primary">Plan this day</Text>
+      <Text className="mt-sm text-body text-text-muted">
         Choose a saved look, or generate one for the occasion.
       </Text>
 
@@ -68,11 +68,11 @@ export default function AssignOutfitScreen() {
         value={note}
         onChangeText={setNote}
         autoCapitalize="sentences"
-        containerClassName="mt-6"
+        containerClassName="mt-2xl"
       />
 
-      <SectionHeader title="Generate for an occasion" index="01" className="mt-8" />
-      <View className="flex-row flex-wrap gap-2">
+      <SectionHeader title="Generate for an occasion" index="01" className="mt-3xl" />
+      <View className="flex-row flex-wrap gap-sm">
         {OUTFIT_CONTEXTS.map((entry) => (
           <Chip
             key={entry.key}
@@ -84,37 +84,37 @@ export default function AssignOutfitScreen() {
         ))}
       </View>
 
-      <Card className="mt-4 p-4">
-        <View className="flex-row items-start justify-between gap-3">
+      <Card className="mt-lg p-lg">
+        <View className="flex-row items-start justify-between gap-md">
           <View className="flex-1">
             <Tag label={suggestion.context} tone="primary" />
-            <Text className="mt-2 text-h3 font-bold text-ink">{suggestion.title}</Text>
+            <Text className="mt-sm text-h3 font-bold text-text-primary">{suggestion.title}</Text>
           </View>
-          <Sparkles size={18} color={color.primary} />
+          <Sparkles size={18} color={color.primary500} />
         </View>
-        <View className="mt-4 flex-row gap-2">
+        <View className="mt-lg flex-row gap-sm">
           {suggestion.items.slice(0, 4).map((item) => (
             <GarmentSwatch
               key={item.id}
               category={item.category}
               colorHex={item.colorHex}
-              className="aspect-square flex-1 overflow-hidden rounded-xl"
+              className="aspect-square flex-1 overflow-hidden rounded-sm"
               iconSize={18}
             />
           ))}
         </View>
-        <Button label="Assign This Look" className="mt-4" onPress={() => handleAssign(suggestion)} />
+        <Button label="Assign This Look" className="mt-lg" onPress={() => handleAssign(suggestion)} />
       </Card>
 
-      <SectionHeader title="From your saved outfits" index="02" className="mt-9" />
+      <SectionHeader title="From your saved outfits" index="02" className="mt-3xl" />
       {savedOutfits.length ? (
-        <View className="gap-2.5">
+        <View className="gap-sm">
           {savedOutfits.map((outfit) => (
-            <Card key={outfit.id} onPress={() => handleAssign(outfit)} className="p-4">
-              <View className="flex-row items-center gap-3">
+            <Card key={outfit.id} onPress={() => handleAssign(outfit)} className="p-lg">
+              <View className="flex-row items-center gap-md">
                 <View className="flex-1">
                   <Tag label={outfit.context} />
-                  <Text className="mt-2 text-body font-semibold text-ink">{outfit.title}</Text>
+                  <Text className="mt-sm text-body font-semibold text-text-primary">{outfit.title}</Text>
                 </View>
                 <View className="flex-row gap-1.5">
                   {outfit.items.slice(0, 3).map((item) => (
@@ -132,8 +132,8 @@ export default function AssignOutfitScreen() {
           ))}
         </View>
       ) : (
-        <Card tone="sunken" className="p-5">
-          <Text className="text-body-sm leading-5 text-muted">
+        <Card tone="sunken" className="p-xl">
+          <Text className="text-body-sm text-text-muted">
             You haven&apos;t saved any outfits yet. Generate one above, or save looks from the
             Generate tab to plan them here later.
           </Text>

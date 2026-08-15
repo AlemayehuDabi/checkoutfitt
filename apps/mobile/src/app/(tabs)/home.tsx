@@ -12,6 +12,7 @@ import { Pressable, ScrollView, Text, View } from "react-native";
 
 import { GarmentSwatch } from "@/components/closet/garment-swatch";
 import { Card } from "@/components/ui/card";
+import { PressableScale } from "@/components/ui/pressable-scale";
 import { ScreenContainer } from "@/components/ui/screen-container";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Tag } from "@/components/ui/tag";
@@ -19,7 +20,7 @@ import { WeatherStrip } from "@/components/weather/weather-strip";
 import { COACH_TIPS } from "@/constants/mock-style";
 import { usePlanner } from "@/context/planner-context";
 import { useWeather } from "@/context/weather-context";
-import { color } from "@/design";
+import { color, elevation, motion } from "@/design";
 import { shortDate } from "@/lib/date";
 import { IconWell } from "@/components/ui/icon-well";
 
@@ -37,41 +38,47 @@ export default function HomeScreen() {
 
   return (
     <ScreenContainer scroll edges={["top", "left", "right"]}>
-      <View className="pt-6">
-        <Text className="text-micro font-semibold uppercase text-muted">{getGreeting()}</Text>
-        <Text className="mt-1.5 text-h1 font-bold text-ink">Welcome back</Text>
+      <View className="pt-2xl">
+        {/* Spec screen 13: the greeting is the h2 that opens the screen. */}
+        <Text className="text-h2 font-bold text-text-primary">{getGreeting()}</Text>
+        <Text className="mt-1 text-caption text-text-muted">Welcome back</Text>
       </View>
 
-      <View className="mt-6">
+      <View className="mt-2xl">
         {locationName ? (
           <WeatherStrip weather={weather} />
         ) : (
-          <Card onPress={() => router.push("/location")} className="flex-row items-center gap-4 p-5">
-            <IconWell size="md" className="h-12 w-12"><MapPin size={20} color={color.primary} /></IconWell>
+          <Card onPress={() => router.push("/location")} className="flex-row items-center gap-lg p-lg">
+            <IconWell size="lg">
+              <MapPin size={20} color={color.primary500} />
+            </IconWell>
             <View className="flex-1">
-              <Text className="text-body font-semibold text-ink">Set your location</Text>
-              <Text className="mt-0.5 text-caption text-muted">
+              <Text className="text-h3 font-semibold text-text-primary">Set your location</Text>
+              <Text className="mt-0.5 text-caption text-text-muted">
                 Get outfit suggestions based on today&apos;s weather
               </Text>
             </View>
-            <ChevronRight size={18} color={color.faint} />
+            <ChevronRight size={18} color={color.textMuted} />
           </Card>
         )}
       </View>
 
-      <Card hero raise="md" onPress={() => router.push("/outfit-today")} className="mt-6 p-5">
+      {/* Today's Outfit reads as one large tappable hero card. */}
+      <Card hero onPress={() => router.push("/outfit-today")} className="mt-2xl p-lg">
         <View className="flex-row items-center justify-between">
-          <Text className="text-micro font-bold uppercase text-primary">Today&apos;s Outfit</Text>
-          <ChevronRight size={18} color={color.faint} />
+          <Text className="text-eyebrow font-semibold uppercase text-primary-500">
+            Today&apos;s Outfit
+          </Text>
+          <ChevronRight size={18} color={color.textMuted} />
         </View>
-        <Text className="mt-1.5 text-h2 font-bold text-ink">{todayOutfit.title}</Text>
-        <View className="mt-4 flex-row gap-2 rounded-2xl bg-surface-sunken p-2">
+        <Text className="mt-1.5 text-h2 font-bold text-text-primary">{todayOutfit.title}</Text>
+        <View className="mt-lg flex-row gap-sm overflow-hidden rounded-lg bg-surface-secondary p-sm">
           {todayOutfit.items.slice(0, 4).map((item) => (
             <GarmentSwatch
               key={item.id}
               category={item.category}
               colorHex={item.colorHex}
-              className="aspect-square flex-1 overflow-hidden rounded-xl"
+              className="aspect-square flex-1 overflow-hidden rounded-sm"
               iconSize={18}
             />
           ))}
@@ -82,38 +89,38 @@ export default function HomeScreen() {
         <>
           <SectionHeader
             title="Planned ahead"
-            className="mt-9"
+            className="mt-3xl"
             action={
               <Pressable onPress={() => router.push("/calendar")} hitSlop={8}>
-                <Text className="text-caption font-semibold text-primary">Calendar</Text>
+                <Text className="text-caption font-semibold text-text-accent">Calendar</Text>
               </Pressable>
             }
           />
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
-            contentContainerClassName="gap-2.5 pr-gutter"
+            contentContainerClassName="gap-md pr-gutter"
             className="-mx-gutter px-gutter"
           >
             {upcoming.slice(0, 4).map((plan) => (
               <Card
                 key={plan.date}
                 onPress={() => router.push("/calendar")}
-                className="w-44 p-3.5"
+                className="w-44 p-lg"
               >
-                <Text className="text-micro font-semibold uppercase text-muted">
+                <Text className="text-eyebrow font-semibold uppercase text-text-muted">
                   {shortDate(plan.date)}
                 </Text>
-                <Text className="mt-1.5 text-body font-semibold text-ink" numberOfLines={1}>
+                <Text className="mt-1.5 text-body font-semibold text-text-primary" numberOfLines={1}>
                   {plan.outfit.title}
                 </Text>
-                <View className="mt-3 flex-row gap-1.5">
+                <View className="mt-md flex-row gap-1.5">
                   {plan.outfit.items.slice(0, 4).map((item) => (
                     <GarmentSwatch
                       key={item.id}
                       category={item.category}
                       colorHex={item.colorHex}
-                      className="aspect-square flex-1 overflow-hidden rounded-lg"
+                      className="aspect-square flex-1 overflow-hidden rounded-sm"
                       iconSize={13}
                     />
                   ))}
@@ -128,61 +135,68 @@ export default function HomeScreen() {
         <Card
           tone="primary"
           onPress={() => router.push("/coach")}
-          className="mt-9 p-5"
+          className="mt-3xl p-lg"
         >
-          <View className="flex-row items-center gap-2">
-            <Sparkles size={15} color={color.primary} />
-            <Text className="text-micro font-bold uppercase text-primary">From your coach</Text>
+          <View className="flex-row items-center gap-sm">
+            <Sparkles size={16} color={color.primary500} />
+            <Text className="text-eyebrow font-semibold uppercase text-primary-500">
+              From your coach
+            </Text>
           </View>
-          <Text className="mt-2.5 text-body-lg font-semibold text-ink">{featuredTip.title}</Text>
-          <Text className="mt-1.5 text-body-sm leading-5 text-ink-soft" numberOfLines={2}>
+          <Text className="mt-sm text-h3 font-semibold text-text-primary">{featuredTip.title}</Text>
+          <Text className="mt-1.5 text-body text-text-secondary" numberOfLines={2}>
             {featuredTip.body}
           </Text>
-          <View className="mt-3.5 flex-row items-center gap-1">
+          <View className="mt-lg flex-row items-center gap-1">
             <Text className="text-caption font-semibold text-primary-700">See your style profile</Text>
-            <ChevronRight size={14} color={color.primary} />
+            <ChevronRight size={14} color={color.primary500} />
           </View>
         </Card>
       ) : null}
 
-      <SectionHeader title="Shortcuts" className="mt-9" />
-      <View className="gap-2.5 pb-8">
+      <SectionHeader title="Quick Actions" className="mt-3xl" />
+      <View className="gap-md pb-3xl">
         <Card
           tone="inverse"
           onPress={() => router.push("/studio")}
           raise="md"
-          className="flex-row items-center gap-4 p-5"
+          className="flex-row items-center gap-lg p-lg"
         >
-          <IconWell size="md" tone="translucent" className="h-12 w-12"><Wand2 size={20} color={color.canvas} strokeWidth={1.75} /></IconWell>
+          <IconWell size="lg" tone="translucent" round>
+            <Wand2 size={22} color={color.canvas} strokeWidth={1.75} />
+          </IconWell>
           <View className="flex-1">
-            <Text className="text-body-lg font-semibold text-canvas">The Studio</Text>
+            <Text className="text-h3 font-semibold text-canvas">The Studio</Text>
             <Text className="mt-0.5 text-caption text-faint">
               Coaching, colour, gaps, planning & rating
             </Text>
           </View>
-          <ChevronRight size={18} color={color.faint} />
+          <ChevronRight size={18} color={color.textMuted} />
         </Card>
 
-        <View className="flex-row gap-2.5">
+        {/* Spec screen 13: two side-by-side cards, with Generate carried in
+            the brand fill so the primary action is unmissable. */}
+        <View className="flex-row gap-md">
           <QuickAction
-            icon={<Shirt size={19} color={color.ink} />}
-            label="Browse Closet"
+            icon={<Shirt size={20} color={color.primary500} />}
+            label="My Closet"
             onPress={() => router.push("/closet")}
           />
           <QuickAction
-            icon={<Sparkles size={19} color={color.ink} />}
-            label="Generate a Look"
+            icon={<Sparkles size={20} color={color.textOnPrimary} />}
+            label="Generate"
+            accent
             onPress={() => router.push("/generate")}
           />
         </View>
-        <View className="flex-row gap-2.5">
+        <View className="flex-row gap-md">
           <QuickAction
-            icon={<CalendarDays size={19} color={color.ink} />}
+            icon={<CalendarDays size={20} color={color.primary500} />}
             label="Plan the Week"
             onPress={() => router.push("/calendar")}
           />
           <QuickAction
-            icon={<Wand2 size={19} color={color.ink} />}
+            icon={<Wand2 size={20} color={color.primary500} />}
             label="Style Coach"
             onPress={() => router.push("/coach")}
           />
@@ -195,18 +209,40 @@ export default function HomeScreen() {
 function QuickAction({
   icon,
   label,
+  accent = false,
   onPress,
 }: {
   icon: ReactNode;
   label: string;
+  /** Fills the card with the brand colour — reserved for Generate. */
+  accent?: boolean;
   onPress: () => void;
 }) {
+  // Built on `PressableScale` rather than `Card` so the accent fill isn't
+  // competing with the card tone's own background rule.
   return (
-    <Card onPress={onPress} className="flex-1 items-start gap-3 p-4">
-      <View className="h-10 w-10 items-center justify-center rounded-xl bg-surface-sunken">
+    <PressableScale
+      onPress={onPress}
+      pressScale={motion.pressScale.md}
+      pressOpacity={1}
+      accessibilityRole="button"
+      style={elevation.md}
+      className={`flex-1 items-start gap-md rounded-xl border p-lg ${
+        accent ? "border-primary-500 bg-primary-500" : "border-border bg-surface"
+      }`}
+    >
+      <View
+        className={`h-10 w-10 items-center justify-center rounded-md ${
+          accent ? "bg-white/20" : "bg-primary-50"
+        }`}
+      >
         {icon}
       </View>
-      <Text className="text-body-sm font-semibold text-ink">{label}</Text>
-    </Card>
+      <Text
+        className={`text-body font-semibold ${accent ? "text-text-on-primary" : "text-text-primary"}`}
+      >
+        {label}
+      </Text>
+    </PressableScale>
   );
 }

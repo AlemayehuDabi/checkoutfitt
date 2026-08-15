@@ -53,18 +53,20 @@ export default function LocationScreen() {
 
   return (
     <ScreenContainer>
-      <View className="flex-1 items-center justify-center px-4">
-        <IconWell size="2xl"><MapPin size={28} color={color.primary} /></IconWell>
-        <Text className="mt-6 text-center text-2xl font-bold text-ink">
+      <View className="flex-1 items-center justify-center">
+        <IconWell size="2xl" round>
+          <MapPin size={30} color={color.primary500} />
+        </IconWell>
+        <Text className="mt-2xl text-center text-h1 font-bold text-text-primary">
           Set your location
         </Text>
-        <Text className="mt-2 text-center text-base leading-6 text-muted">
+        <Text className="mt-sm text-center text-body text-text-muted">
           CheckoutFitt uses your location to check today&apos;s weather and recommend an outfit
           that actually fits the forecast.
         </Text>
       </View>
 
-      <View className="gap-3 pb-4">
+      <View className="gap-md pb-lg">
         <Button label="Allow Location Access" onPress={handleAllow} loading={requesting} />
         <Button label="Use Demo Location" variant="ghost" onPress={handleUseDemo} />
       </View>

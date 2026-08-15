@@ -24,7 +24,7 @@ export default function SavedOutfitsScreen() {
         <FlatList
           data={savedOutfits}
           keyExtractor={(outfit) => outfit.id}
-          contentContainerClassName="gap-4 pb-8"
+          contentContainerClassName="gap-lg pb-4xl"
           showsVerticalScrollIndicator={false}
           // Each card mounts up to four image tiles, so keeping the render
           // window tight matters more here than on a plain text list.

@@ -1,8 +1,9 @@
 import { router } from "expo-router";
 import { Sparkles } from "lucide-react-native";
 import { useEffect, useState } from "react";
-import { ActivityIndicator, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
+import { ProgressBar } from "@/components/ui/progress-bar";
 import { ScreenContainer } from "@/components/ui/screen-container";
 import { usePendingImages } from "@/context/closet-context";
 
@@ -32,17 +33,22 @@ export default function ProcessingScreen() {
 
   return (
     <ScreenContainer>
-      <View className="flex-1 items-center justify-center px-4">
-        <IconWell size="2xl"><Sparkles size={36} color={color.primary} strokeWidth={1.5} /></IconWell>
-        <ActivityIndicator className="mt-8" color={color.primary} />
-        <Text className="mt-6 text-center text-xl font-bold text-ink">
+      <View className="flex-1 items-center justify-center">
+        {/* Spec screen 7: an 80px tinted disc over a segmented progress bar. */}
+        <IconWell size="2xl" round>
+          <Sparkles size={36} color={color.primary500} strokeWidth={1.5} />
+        </IconWell>
+        <Text className="mt-3xl text-center text-h2 font-bold text-text-primary">
           {STEPS[stepIndex]}
         </Text>
-        <Text className="mt-2 text-center text-sm text-muted">
+        <Text className="mt-sm text-center text-body text-text-muted">
           {pendingImages.length > 1
             ? `Analyzing ${pendingImages.length} items with AI`
             : "Analyzing your item with AI"}
         </Text>
+        <View className="mt-3xl w-48">
+          <ProgressBar step={stepIndex + 1} total={STEPS.length} />
+        </View>
       </View>
     </ScreenContainer>
   );

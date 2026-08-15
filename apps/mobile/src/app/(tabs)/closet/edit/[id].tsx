@@ -25,7 +25,7 @@ export default function EditItemScreen() {
   const [category, setCategory] = useState<ClosetCategory>(item?.category ?? "top");
   const [type, setType] = useState(item?.type ?? "");
   const [color, setColor] = useState(item?.color ?? "");
-  const [colorHex, setColorHex] = useState(item?.colorHex ?? token.ink);
+  const [colorHex, setColorHex] = useState(item?.colorHex ?? token.textPrimary);
 
   if (!item) {
     return (
@@ -55,13 +55,13 @@ export default function EditItemScreen() {
         category={category}
         colorHex={colorHex}
         imageUri={item.imageUri}
-        className="h-64 w-full overflow-hidden rounded-3xl"
+        className="h-64 w-full overflow-hidden rounded-xl"
       />
 
-      <View className="mt-6 gap-5">
+      <View className="mt-2xl gap-xl">
         <View>
-          <Text className="mb-2 text-sm font-medium text-ink">Category</Text>
-          <View className="flex-row flex-wrap gap-2">
+          <Text className="mb-sm text-caption font-medium text-text-secondary">Category</Text>
+          <View className="flex-row flex-wrap gap-sm">
             {CLOSET_CATEGORIES.map((option) => (
               <Chip
                 key={option.key}
@@ -76,8 +76,8 @@ export default function EditItemScreen() {
         <Input label="Type" value={type} onChangeText={setType} placeholder="e.g. Sweater" />
 
         <View>
-          <Text className="mb-2 text-sm font-medium text-ink">Color</Text>
-          <View className="flex-row flex-wrap gap-2">
+          <Text className="mb-sm text-caption font-medium text-text-secondary">Color</Text>
+          <View className="flex-row flex-wrap gap-sm">
             {CLOSET_COLORS.map((option) => (
               <Chip
                 key={option.name}
@@ -93,7 +93,7 @@ export default function EditItemScreen() {
         </View>
       </View>
 
-      <Button label="Save Changes" onPress={handleSave} disabled={!type.trim()} className="mb-2 mt-10" />
+      <Button label="Save Changes" onPress={handleSave} disabled={!type.trim()} className="mb-sm mt-4xl" />
     </ScreenContainer>
   );
 }

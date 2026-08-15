@@ -12,6 +12,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { OutfitCard } from "@/components/outfit/outfit-card";
+import { Button } from "@/components/ui/button";
 import { IconButton } from "@/components/ui/icon-button";
 import { PaginationDots } from "@/components/ui/pagination-dots";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -61,30 +62,32 @@ export default function ResultScreen() {
   };
 
   return (
-    <SafeAreaView edges={["top", "bottom", "left", "right"]} className="flex-1 bg-canvas">
-      <View className="flex-row items-center justify-between px-6 pb-2 pt-2">
-        <IconButton onPress={() => router.back()}>
-          <ArrowLeft size={22} color={color.ink} />
+    <SafeAreaView edges={["top", "bottom", "left", "right"]} className="flex-1 bg-bg">
+      <View className="h-14 flex-row items-center justify-between px-gutter">
+        <IconButton accessibilityLabel="Go back" onPress={() => router.back()}>
+          <ArrowLeft size={24} color={color.textPrimary} />
         </IconButton>
-        <Text className="text-base font-semibold text-ink">{context}</Text>
-        <IconButton onPress={runGenerate}>
-          <Shuffle size={20} color={color.ink} />
+        <Text className="text-h3 font-semibold text-text-primary">{context}</Text>
+        <IconButton accessibilityLabel="Regenerate" onPress={runGenerate}>
+          <Shuffle size={20} color={color.textPrimary} />
         </IconButton>
       </View>
 
       {loading ? (
-        <View className="flex-1 items-center justify-center px-6">
-          <View className="w-full gap-3 rounded-3xl border border-line bg-surface p-5">
+        <View className="flex-1 items-center justify-center px-gutter">
+          <View className="w-full gap-md rounded-xl border border-border bg-surface p-lg">
             <Skeleton width="35%" height={18} />
             <Skeleton width="65%" height={26} />
-            <View className="mt-2 flex-row gap-2">
+            <View className="mt-sm flex-row gap-sm">
               {[0, 1, 2, 3].map((key) => (
-                <Skeleton key={key} className="aspect-square flex-1 rounded-xl" />
+                <Skeleton key={key} className="aspect-square flex-1 rounded-md" />
               ))}
             </View>
-            <Skeleton height={48} className="mt-3" />
+            <Skeleton height={52} className="mt-md rounded-lg" />
           </View>
-          <Text className="mt-6 text-sm text-muted">Styling your {context.toLowerCase()} look…</Text>
+          <Text className="mt-2xl text-body text-text-muted">
+            Styling your {context.toLowerCase()} look…
+          </Text>
         </View>
       ) : failed ? (
         <StateView
@@ -106,13 +109,30 @@ export default function ResultScreen() {
             scrollEventThrottle={16}
           >
             {outfits.map((outfit) => (
-              <View key={outfit.id} style={{ width: SCREEN_WIDTH }} className="px-6 py-2">
+              <View key={outfit.id} style={{ width: SCREEN_WIDTH }} className="px-gutter py-sm">
                 <OutfitCard outfit={outfit} saved={isSaved(outfit.id)} onToggleSave={() => toggleSave(outfit)} />
               </View>
             ))}
           </ScrollView>
-          <View className="items-center pb-4 pt-2">
+          <View className="items-center pb-md pt-sm">
             <PaginationDots count={outfits.length} activeIndex={activeIndex} />
+          </View>
+          {/* Spec screen 11: Regenerate left, Save Outfit right. */}
+          <View className="flex-row gap-md px-gutter pb-lg">
+            <Button
+              label="Regenerate"
+              variant="secondary"
+              onPress={runGenerate}
+              className="flex-1"
+            />
+            <Button
+              label={isSaved(outfits[activeIndex]?.id) ? "Saved" : "Save Outfit"}
+              onPress={() => {
+                const current = outfits[activeIndex];
+                if (current) toggleSave(current);
+              }}
+              className="flex-1"
+            />
           </View>
         </>
       )}

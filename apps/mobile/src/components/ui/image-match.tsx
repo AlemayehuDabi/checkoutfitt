@@ -41,53 +41,53 @@ export function ImageMatch({
   return (
     <Wrapper
       onPress={onPress}
-      style={elevation.sm}
-      className={`rounded-2xl bg-surface p-4 ${
-        ""
-      } ${className}`}
+      style={elevation.md}
+      className={`rounded-xl border border-border bg-surface p-lg ${className}`}
     >
-      <View className="flex-row items-center gap-3">
+      <View className="flex-row items-center gap-md">
         <View className="flex-1 items-center">
-          <View className="aspect-square w-full overflow-hidden rounded-xl bg-surface-sunken">
+          <View className="aspect-square w-full overflow-hidden rounded-md border border-border bg-surface-secondary">
             {sourceUri ? (
               <AppImage source={{ uri: sourceUri }} className="h-full w-full" contentFit="cover" />
             ) : (
               <View className="h-full w-full items-center justify-center">
-                <ImageOff size={22} color={color.faint} strokeWidth={1.5} />
+                <ImageOff size={22} color={color.textMuted} strokeWidth={1.5} />
               </View>
             )}
           </View>
-          <Text className="mt-2 text-micro font-semibold uppercase text-muted" numberOfLines={1}>
+          <Text className="mt-sm text-eyebrow font-semibold uppercase text-text-muted" numberOfLines={1}>
             {sourceLabel}
           </Text>
         </View>
 
         <View className="items-center">
-          <IconWell size="sm"><ArrowLeftRight size={15} color={color.primary} /></IconWell>
+          <IconWell size="sm" round>
+            <ArrowLeftRight size={15} color={color.primary500} />
+          </IconWell>
         </View>
 
         <View className="flex-1 items-center">
-          <View className="aspect-square w-full overflow-hidden rounded-xl bg-surface-sunken">
+          <View className="aspect-square w-full overflow-hidden rounded-md border border-border bg-surface-secondary">
             {target}
           </View>
-          <Text className="mt-2 text-micro font-semibold uppercase text-muted" numberOfLines={1}>
+          <Text className="mt-sm text-eyebrow font-semibold uppercase text-text-muted" numberOfLines={1}>
             In your closet
           </Text>
         </View>
       </View>
 
-      <View className="mt-4">
-        <Text className="text-body font-semibold text-ink" numberOfLines={1}>
+      <View className="mt-lg">
+        <Text className="text-h3 font-semibold text-text-primary" numberOfLines={1}>
           {targetLabel}
         </Text>
         {targetMeta ? (
-          <Text className="mt-0.5 text-caption text-muted" numberOfLines={1}>
+          <Text className="mt-0.5 text-caption text-text-muted" numberOfLines={1}>
             {targetMeta}
           </Text>
         ) : null}
       </View>
 
-      <Meter label="Match" value={match} valueLabel={`${Math.round(match)}%`} className="mt-3" />
+      <Meter label="Match" value={match} valueLabel={`${Math.round(match)}%`} className="mt-md" />
     </Wrapper>
   );
 }

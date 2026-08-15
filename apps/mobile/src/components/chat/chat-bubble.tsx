@@ -5,8 +5,26 @@ import { OutfitCard } from "@/components/outfit/outfit-card";
 import { useOutfits } from "@/context/outfits-context";
 import type { ChatMessage } from "@/types";
 
-import { color } from "@/design";
+import { color, radius } from "@/design";
 import { AppImage } from "@/components/ui/app-image";
+
+/**
+ * Spec §6.13. Both bubbles round at 16px on three corners and tuck to 4px on
+ * the corner nearest their speaker, so the tail reads without drawing one.
+ */
+const USER_RADIUS = {
+  borderTopLeftRadius: radius.lg,
+  borderTopRightRadius: radius.lg,
+  borderBottomRightRadius: 4,
+  borderBottomLeftRadius: radius.lg,
+};
+
+const AI_RADIUS = {
+  borderTopLeftRadius: radius.lg,
+  borderTopRightRadius: radius.lg,
+  borderBottomRightRadius: radius.lg,
+  borderBottomLeftRadius: 4,
+};
 
 export function ChatBubble({ message }: { message: ChatMessage }) {
   const { toggleSave, isSaved } = useOutfits();
@@ -14,18 +32,19 @@ export function ChatBubble({ message }: { message: ChatMessage }) {
 
   if (isUser) {
     return (
-      <View className="flex-row justify-end px-4">
-        <View className="max-w-[80%] gap-2">
+      <View className="flex-row justify-end px-lg">
+        <View className="max-w-[75%] gap-sm">
           {message.imageUri ? (
             <AppImage
               source={{ uri: message.imageUri }}
-              className="h-40 w-40 self-end rounded-2xl rounded-br-md bg-surface-sunken"
+              style={USER_RADIUS}
+              className="h-40 w-40 self-end bg-surface-secondary"
               contentFit="cover"
             />
           ) : null}
           {message.text ? (
-            <View className="rounded-2xl rounded-br-md bg-ink px-4 py-3">
-              <Text className="text-base text-white">{message.text}</Text>
+            <View style={USER_RADIUS} className="bg-primary-500 px-lg py-md">
+              <Text className="text-body text-text-on-primary">{message.text}</Text>
             </View>
           ) : null}
         </View>
@@ -34,16 +53,18 @@ export function ChatBubble({ message }: { message: ChatMessage }) {
   }
 
   return (
-    <View className="flex-row items-end gap-2 px-4">
-      <View className="h-8 w-8 items-center justify-center rounded-full bg-primary-50">
-        <Sparkles size={14} color={color.primary} />
+    <View className="flex-row items-end gap-sm px-lg">
+      {/* Spec §6.10: 36px circular avatar with a 2px hairline ring. */}
+      <View className="h-9 w-9 items-center justify-center rounded-full border-2 border-border bg-primary-50">
+        <Sparkles size={16} color={color.primary500} />
       </View>
-      <View className="max-w-[82%] gap-3">
+      <View className="max-w-[82%] gap-md">
         {message.text ? (
-          <View className="rounded-2xl rounded-bl-md border border-line bg-surface px-4 py-3">
-            <Text className="text-base text-ink">{message.text}</Text>
+          <View style={AI_RADIUS} className="border border-border bg-surface px-lg py-md">
+            <Text className="text-body text-text-primary">{message.text}</Text>
           </View>
         ) : null}
+        {/* An assistant bubble can carry a full nested outfit card. */}
         {message.outfit ? (
           <OutfitCard
             outfit={message.outfit}
