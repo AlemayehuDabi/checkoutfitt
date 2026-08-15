@@ -42,7 +42,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "lint": "expo lint",
-    "tokens": "node scripts/generate-tokens.mjs",
+    "tokens": "node scripts/verify-tokens.mjs",
     "typecheck": "tsc --noEmit"
   },
   "private": true

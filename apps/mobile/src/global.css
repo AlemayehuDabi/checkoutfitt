@@ -3,194 +3,28 @@
 @tailwind utilities;
 
 /**
- * CheckoutFitt design system — CSS custom properties.
+ * CheckoutFitt global stylesheet.
  *
- * DO NOT hand-edit the generated block below. It is produced from
- * `src/design/tokens.js` by `npm run tokens`, which keeps these variables,
- * `tailwind.config.js`, and the runtime values in `src/design/` in lockstep.
+ * There are deliberately **no design tokens here.** They live as raw literal
+ * values in `src/design/tokens.js`, which feeds `tailwind.config.js` (utility
+ * classes) and `src/design/index.ts` (runtime values for icon colours and
+ * React Native shadow styles).
  *
- * Colors are stored as space-separated RGB channels so NativeWind can compose
- * opacity modifiers (`bg-primary/10`) via `rgb(var(--color-primary) / <alpha>)`.
+ * This file used to carry a generated `:root { --color-*, --space-*, ... }`
+ * block that `tailwind.config.js` referenced via
+ * `rgb(var(--color-...) / <alpha-value>)`. Browsers resolve `var()` themselves,
+ * so the web build looked correct — but NativeWind compiles a var-backed colour
+ * into a deferred runtime lookup rather than a value:
+ *
+ *   "bg-primary-100": [{}, "rgb", [[{}, "var", ["--color-primary-100"], 1], 1]]
+ *
+ * On native that lookup does not reliably resolve, so every colour came out
+ * empty and components rendered unstyled while web stayed fine. Literals
+ * compile to a real value on both platforms:
+ *
+ *   "bg-overlay": "#1a191766"
+ *
+ * So keep it that way: add tokens to `src/design/tokens.js`, never as custom
+ * properties here. `npm run tokens` audits the pipeline and fails if a `var()`
+ * creeps back into the compiled theme.
  */
-:root {
-  /* === BEGIN GENERATED TOKENS — edit src/design/tokens.js === */
-
-  /* Color — channel triplets so NativeWind can apply opacity modifiers */
-  --color-primary-50: 255 245 240; /* #FFF5F0 */
-  --color-primary-100: 251 238 230; /* #FBEEE6 */
-  --color-primary-200: 246 219 199; /* #F6DBC7 */
-  --color-primary-300: 232 168 120; /* #E8A878 */
-  --color-primary-400: 212 120 60; /* #D4783C */
-  --color-primary-500: 193 98 45; /* #C1622D */
-  --color-primary-600: 166 79 33; /* #A64F21 */
-  --color-primary-700: 138 65 25; /* #8A4119 */
-  --color-primary-800: 110 52 20; /* #6E3414 */
-  --color-primary-900: 82 39 15; /* #52270F */
-  --color-primary-950: 46 22 8; /* #2E1608 */
-  --color-primary: 193 98 45; /* #C1622D */
-  --color-ink: 26 25 23; /* #1A1917 */
-  --color-ink-soft: 58 56 53; /* #3A3835 */
-  --color-muted: 138 133 128; /* #8A8580 */
-  --color-faint: 168 163 157; /* #A8A39D */
-  --color-canvas: 250 248 245; /* #FAF8F5 */
-  --color-surface: 255 255 255; /* #FFFFFF */
-  --color-surface-sunken: 245 241 234; /* #F5F1EA */
-  --color-surface-muted: 237 231 221; /* #EDE7DD */
-  --color-surface-inverse: 26 25 23; /* #1A1917 */
-  --color-line: 231 226 217; /* #E7E2D9 */
-  --color-line-strong: 213 207 197; /* #D5CFC5 */
-  --color-success: 74 158 107; /* #4A9E6B */
-  --color-success-soft: 237 247 240; /* #EDF7F0 */
-  --color-warning: 212 160 60; /* #D4A03C */
-  --color-warning-soft: 250 242 226; /* #FAF2E2 */
-  --color-danger: 193 67 45; /* #C1432D */
-  --color-danger-soft: 253 237 234; /* #FDEDEA */
-  --color-info: 91 143 199; /* #5B8FC7 */
-  --color-info-soft: 237 243 250; /* #EDF3FA */
-  --color-white: 255 255 255; /* #FFFFFF */
-
-  /* Color aliases — the spec's token names, same values */
-  --color-bg: 250 248 245; /* #FAF8F5 — alias of --color-canvas */
-  --color-surface-secondary: 245 241 234; /* #F5F1EA — alias of --color-surface-sunken */
-  --color-surface-tertiary: 237 231 221; /* #EDE7DD — alias of --color-surface-muted */
-  --color-border: 231 226 217; /* #E7E2D9 — alias of --color-line */
-  --color-border-strong: 213 207 197; /* #D5CFC5 — alias of --color-line-strong */
-  --color-text-primary: 26 25 23; /* #1A1917 — alias of --color-ink */
-  --color-text-secondary: 58 56 53; /* #3A3835 — alias of --color-ink-soft */
-  --color-text-muted: 138 133 128; /* #8A8580 — alias of --color-muted */
-  --color-text-on-primary: 255 255 255; /* #FFFFFF — alias of --color-white */
-  --color-text-accent: 193 98 45; /* #C1622D — alias of --color-primary-500 */
-  --color-success-light: 237 247 240; /* #EDF7F0 — alias of --color-success-soft */
-  --color-warning-light: 250 242 226; /* #FAF2E2 — alias of --color-warning-soft */
-  --color-danger-light: 253 237 234; /* #FDEDEA — alias of --color-danger-soft */
-  --color-info-light: 237 243 250; /* #EDF3FA — alias of --color-info-soft */
-
-  /* Overlay — carries its own alpha, so not a channel triplet */
-  --color-overlay: rgba(26, 25, 23, 0.4);
-  --color-overlay-light: rgba(26, 25, 23, 0.08);
-
-  /* Typography — size / line-height / letter-spacing */
-  --font-size-eyebrow: 11px;
-  --line-height-eyebrow: 14px;
-  --tracking-eyebrow: 1px;
-  --font-size-micro: 11px;
-  --line-height-micro: 14px;
-  --tracking-micro: 1px;
-  --font-size-tag: 12px;
-  --line-height-tag: 16px;
-  --tracking-tag: 0.2px;
-  --font-size-caption: 13px;
-  --line-height-caption: 18px;
-  --tracking-caption: 0px;
-  --font-size-body-sm: 14px;
-  --line-height-body-sm: 20px;
-  --tracking-body-sm: 0px;
-  --font-size-body: 15px;
-  --line-height-body: 22px;
-  --tracking-body: 0px;
-  --font-size-body-lg: 17px;
-  --line-height-body-lg: 24px;
-  --tracking-body-lg: -0.1px;
-  --font-size-h3: 18px;
-  --line-height-h3: 24px;
-  --tracking-h3: -0.2px;
-  --font-size-h2: 22px;
-  --line-height-h2: 28px;
-  --tracking-h2: -0.3px;
-  --font-size-h1: 28px;
-  --line-height-h1: 34px;
-  --tracking-h1: -0.5px;
-  --font-size-display: 32px;
-  --line-height-display: 38px;
-  --tracking-display: -0.5px;
-  --font-size-display-lg: 40px;
-  --line-height-display-lg: 44px;
-  --tracking-display-lg: -0.8px;
-  --font-size-score: 24px;
-  --line-height-score: 28px;
-  --tracking-score: -0.3px;
-  --font-size-stat: 28px;
-  --line-height-stat: 32px;
-  --tracking-stat: -0.3px;
-
-  /* Typography aliases — the spec's `--text-*` role names */
-  --text-eyebrow: var(--font-size-eyebrow);
-  --text-micro: var(--font-size-micro);
-  --text-tag: var(--font-size-tag);
-  --text-caption: var(--font-size-caption);
-  --text-body-sm: var(--font-size-body-sm);
-  --text-body: var(--font-size-body);
-  --text-body-lg: var(--font-size-body-lg);
-  --text-h3: var(--font-size-h3);
-  --text-h2: var(--font-size-h2);
-  --text-h1: var(--font-size-h1);
-  --text-display: var(--font-size-display);
-  --text-display-lg: var(--font-size-display-lg);
-  --text-score: var(--font-size-score);
-  --text-stat: var(--font-size-stat);
-
-  /* Font weight */
-  --font-weight-regular: 400;
-  --font-weight-medium: 500;
-  --font-weight-semibold: 600;
-  --font-weight-bold: 700;
-
-  /* Radius */
-  --radius-none: 0px;
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 20px;
-  --radius-2xl: 24px;
-  --radius-3xl: 32px;
-  --radius-4xl: 40px;
-  --radius-full: 9999px;
-
-  /* Spacing */
-  --space-xs: 4px;
-  --spacing-xs: 4px;
-  --space-sm: 8px;
-  --spacing-sm: 8px;
-  --space-md: 12px;
-  --spacing-md: 12px;
-  --space-lg: 16px;
-  --spacing-lg: 16px;
-  --space-xl: 20px;
-  --spacing-xl: 20px;
-  --space-2xl: 24px;
-  --spacing-2xl: 24px;
-  --space-3xl: 32px;
-  --spacing-3xl: 32px;
-  --space-4xl: 40px;
-  --spacing-4xl: 40px;
-  --space-gutter: 20px;
-  --spacing-gutter: 20px;
-  --space-section: 32px;
-  --spacing-section: 32px;
-  --space-block: 20px;
-  --spacing-block: 20px;
-
-  /* Elevation — consumed at runtime via src/design/index.ts */
-  --shadow-color: 26 25 23; /* #1A1917 */
-  --shadow-none: 0px 0px 0px rgb(var(--shadow-color) / 0);
-  --elevation-none: 0;
-  --shadow-sm: 0px 1px 3px rgb(var(--shadow-color) / 0.06);
-  --elevation-sm: 1;
-  --shadow-md: 0px 2px 8px rgb(var(--shadow-color) / 0.08);
-  --elevation-md: 3;
-  --shadow-lg: 0px 4px 16px rgb(var(--shadow-color) / 0.1);
-  --elevation-lg: 6;
-  --shadow-xl: 0px 8px 24px rgb(var(--shadow-color) / 0.12);
-  --elevation-xl: 12;
-  --glow-primary: 0px 2px 8px rgb(var(--color-primary) / 0.24);
-
-  /* Interaction — press feedback is driven from these at runtime */
-  --transition-fast: 120ms ease-out;
-  --transition-normal: 200ms ease-out;
-  --transition-slow: 300ms ease-out;
-  --press-scale-sm: 0.97;
-  --press-scale-md: 0.98;
-  --press-scale-lg: 0.92;
-
-  /* === END GENERATED TOKENS === */
-}

@@ -5,8 +5,10 @@
  * commonly `lucide-react-native` icon `color` props, which need a literal hex,
  * and React Native shadow styles.
  *
- * Values come from `src/design/tokens.js`, the same source that generates the
- * CSS custom properties in `global.css` and feeds `tailwind.config.js`.
+ * Values come from `src/design/tokens.js` — the same literals that feed
+ * `tailwind.config.js` — so a colour used here and the matching utility class
+ * can never disagree. Nothing in this module resolves through a CSS custom
+ * property; `var()` references do not survive NativeWind's native compile.
  */
 import {
   glow,

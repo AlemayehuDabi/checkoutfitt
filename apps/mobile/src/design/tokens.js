@@ -1,12 +1,18 @@
 /**
  * CheckoutFitt design tokens — the single source of truth.
  *
- * This file is CommonJS on purpose: `tailwind.config.js` requires it directly,
- * `scripts/generate-tokens.mjs` reads it to emit the `:root` custom properties
- * in `src/global.css`, and runtime code imports it through `src/design/index.ts`.
- * Nothing else in the app should ever declare a raw hex, font size, or radius.
+ * This file is CommonJS on purpose: `tailwind.config.js` requires it directly
+ * and runtime code imports it through `src/design/index.ts`. Nothing else in
+ * the app should ever declare a raw hex, font size, or radius.
  *
- * After editing this file run `npm run tokens` to regenerate global.css.
+ * Every value here is a **literal** — a hex string, a number of pixels — and it
+ * has to stay that way. Expressing colours as `rgb(var(--token) / <alpha>)` and
+ * emitting the variables into `global.css` works in a browser but not on
+ * native: NativeWind compiles a var-backed colour into a deferred runtime
+ * lookup instead of a value, and that lookup does not reliably resolve, so
+ * every colour renders empty on device while web looks correct.
+ *
+ * `npm run tokens` audits the compiled theme and fails if a `var()` reappears.
  *
  * ── Design language ───────────────────────────────────────────────────────
  * Values here are transcribed from `docs/design-system.md`, which was extracted
@@ -42,34 +48,34 @@ const palette = {
   },
 
   // ── Text ─────────────────────────────────────────────────────────────────
-  /** `--color-text-primary`. Deep warm charcoal, never pure black. */
+  /** `text-primary` in the spec. Deep warm charcoal, never pure black. */
   ink: {
     DEFAULT: "#1A1917",
-    /** `--color-text-secondary`. */
+    /** `text-secondary` in the spec. */
     soft: "#3A3835",
   },
-  /** `--color-text-muted` — placeholders, timestamps, inactive tab labels. */
+  /** `text-muted` in the spec — placeholders, timestamps, inactive tab labels. */
   muted: "#8A8580",
   /** Quietest step. Chevrons, metadata on inverse surfaces. */
   faint: "#A8A39D",
 
   // ── Surfaces ─────────────────────────────────────────────────────────────
-  /** `--color-bg`. Every screen sits on this warm off-white. */
+  /** `bg` in the spec. Every screen sits on this warm off-white. */
   canvas: "#FAF8F5",
   surface: {
     DEFAULT: "#FFFFFF",
-    /** `--color-surface-secondary` — weather strip, tags, grouped sections. */
+    /** `surface-secondary` in the spec — weather strip, tags, grouped sections. */
     sunken: "#F5F1EA",
-    /** `--color-surface-tertiary` — skeletons, disabled surfaces. */
+    /** `surface-tertiary` in the spec — skeletons, disabled surfaces. */
     muted: "#EDE7DD",
     inverse: "#1A1917",
   },
 
   // ── Lines ────────────────────────────────────────────────────────────────
   line: {
-    /** `--color-border`. */
+    /** `border` in the spec. */
     DEFAULT: "#E7E2D9",
-    /** `--color-border-strong` — sheet drag handle, focused input before focus. */
+    /** `border-strong` in the spec — sheet drag handle, focused input before focus. */
     strong: "#D5CFC5",
   },
 
@@ -97,11 +103,9 @@ const palette = {
 /**
  * Spec token name → canonical token name.
  *
- * `generate-tokens.mjs` emits one custom property per entry, resolved to the
- * same channel triplet as its target, so `--color-bg` and `--color-canvas` are
- * interchangeable in `global.css`. Aliases are emitted as literal channels
- * rather than `var()` indirection so NativeWind's runtime never has to chase a
- * variable through a second lookup.
+ * `tailwind.config.js` resolves each entry to the same literal as its target,
+ * so `bg-bg` and `bg-canvas` are interchangeable utilities that can never
+ * drift apart.
  */
 const colorAliases = {
   bg: "canvas",
@@ -211,8 +215,7 @@ const spacing = {
 
 /**
  * Elevation. React Native needs real style objects rather than CSS shadows, so
- * these are consumed through `src/design/index.ts`. Values are also emitted as
- * custom properties for documentation parity.
+ * these are consumed through `src/design/index.ts`.
  *
  * The ramp is deliberately restrained: on a warm paper canvas a card reads as
  * lifted from very little, and the spec pairs each shadow with a hairline
@@ -266,18 +269,9 @@ const motion = {
   },
 };
 
-/** `#C1622D` → `193 98 45` (the channel form NativeWind needs for `bg-x/50`). */
-function hexToChannels(hex) {
-  const value = hex.replace("#", "");
-  const r = parseInt(value.slice(0, 2), 16);
-  const g = parseInt(value.slice(2, 4), 16);
-  const b = parseInt(value.slice(4, 6), 16);
-  return `${r} ${g} ${b}`;
-}
-
 /**
- * Flattens the nested palette into CSS-variable names.
- * `primary.600` → `--color-primary-600`, `ink.DEFAULT` → `--color-ink`.
+ * Flattens the nested palette into dashed token names.
+ * `primary.600` → `primary-600`, `ink.DEFAULT` → `ink`.
  */
 function flattenPalette(source = palette, prefix = "") {
   const out = {};
@@ -312,7 +306,6 @@ module.exports = {
   glow,
   shadowColor,
   motion,
-  hexToChannels,
   flattenPalette,
   resolveAliases,
 };

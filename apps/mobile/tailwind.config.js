@@ -6,41 +6,45 @@ const {
   fontWeight,
   radius,
   spacing,
+  flattenPalette,
+  resolveAliases,
 } = require("./src/design/tokens.js");
 
 /**
- * Mirrors the nested palette shape, but every leaf resolves to the CSS custom
- * property emitted into `src/global.css`. Using the `rgb(... / <alpha-value>)`
- * form is what lets NativeWind compose opacity modifiers like `bg-primary/10`.
+ * Mirrors the nested palette shape with **literal** values.
  *
- * `primary.DEFAULT` → `var(--color-primary)`, `primary.600` → `var(--color-primary-600)`.
+ * These used to resolve to `rgb(var(--color-…) / <alpha-value>)`, with the
+ * variables emitted into a `:root` block in `global.css`. Browsers resolve
+ * `var()` themselves so the web build was fine, but NativeWind compiles a
+ * var-backed colour into a deferred runtime lookup rather than a value:
+ *
+ *   "bg-primary-100": [{}, "rgb", [[{}, "var", ["--color-primary-100"], 1], 1]]
+ *
+ * On native that lookup does not reliably resolve, so every colour silently
+ * came out empty and components rendered unstyled. Literals compile to a real
+ * value on both platforms:
+ *
+ *   "bg-overlay": "#1a191766"
+ *
+ * Tailwind still composes opacity modifiers (`bg-primary/10`, `bg-white/15`)
+ * against a hex value on its own — the `<alpha-value>` placeholder is only
+ * needed for function-style colours, which is exactly what we've removed.
  */
-function toCssVars(source, prefix = "") {
+function toLiterals(source) {
   const out = {};
   for (const [key, value] of Object.entries(source)) {
-    if (typeof value === "string") {
-      const name = key === "DEFAULT" ? prefix : prefix ? `${prefix}-${key}` : key;
-      out[key] = `rgb(var(--color-${name}) / <alpha-value>)`;
-    } else {
-      out[key] = toCssVars(value, prefix ? `${prefix}-${key}` : key);
-    }
+    out[key] = typeof value === "string" ? value : toLiterals(value);
   }
   return out;
 }
 
 /**
  * The spec's token names as first-class utilities — `bg-bg`, `border-border`,
- * `text-text-muted`, `bg-surface-secondary`. Each points at the alias custom
- * property generated alongside its canonical twin, so both spellings resolve to
- * one value and neither can drift.
+ * `text-text-muted`, `bg-surface-secondary` — each resolving to the same
+ * literal as its canonical twin so the two spellings can never drift.
  */
 function aliasColors() {
-  return Object.fromEntries(
-    Object.keys(colorAliases).map((alias) => [
-      alias,
-      `rgb(var(--color-${alias}) / <alpha-value>)`,
-    ])
-  );
+  return resolveAliases();
 }
 
 /** `{ size, lineHeight, tracking }` → Tailwind's `[size, { … }]` tuple. */
@@ -58,7 +62,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        ...toCssVars(palette),
+        ...toLiterals(palette),
         ...aliasColors(),
         overlay: {
           DEFAULT: overlay.DEFAULT,
@@ -70,7 +74,8 @@ module.exports = {
        * The numeric ramp is retuned onto the spec's scale so existing
        * `text-base` / `text-sm` usage inherits the new system, and the spec's
        * role names (`text-eyebrow`, `text-tag`, `text-score`, `text-stat`…)
-       * are added alongside. Both point at the same tokens.
+       * are added alongside. Both point at the same tokens. Sizes have always
+       * been literal px — only colours went through `var()`.
        */
       fontSize: {
         xs: step(typography.eyebrow),
@@ -113,3 +118,6 @@ module.exports = {
   },
   plugins: [],
 };
+
+/** Exported for `scripts/verify-tokens.mjs`, which guards against `var()` regressions. */
+module.exports.__tokenAudit = { flattenPalette, colorAliases };

@@ -1,4 +1,11 @@
-/** Type surface for the CommonJS token source in `tokens.js`. */
+/**
+ * Type surface for the CommonJS token source in `tokens.js`.
+ *
+ * Every value is a literal — hex strings for colours, numbers for sizes. They
+ * must never become `var()` references: NativeWind compiles those into runtime
+ * lookups that do not resolve on native, which silently blanks the whole
+ * palette on device while leaving the web build correct.
+ */
 
 export type TypeStep = { size: number; lineHeight: number; tracking: number };
 export type ShadowStep = { y: number; blur: number; opacity: number; android: number };
@@ -83,7 +90,6 @@ export declare const motion: {
   pressScale: Record<"sm" | "md" | "lg", number>;
 };
 
-export declare function hexToChannels(hex: string): string;
 export declare function flattenPalette(
   source?: unknown,
   prefix?: string
