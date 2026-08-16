@@ -1,9 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  Logger,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { createHash } from 'node:crypto';
 import { PrismaService } from '../prisma/prisma.service';
 import { CacheService } from '../cache/cache.service';
@@ -11,7 +6,7 @@ import { LLMService } from '../ai/llm/llm.service';
 import { VisionService } from '../ai/vision/vision.service';
 import { ClosetService } from '../closet/closet.service';
 import { ClosetItem } from '../../prisma/generated/prisma';
-import { assertPublicImageUrl } from '../common/image-url.util';
+import { resolveImageSource } from '../common/image-source.util';
 import { EvaluateProductDto } from './dto/evaluate-product.dto';
 import {
   MAX_ITEMS_IN_SHOPPING_PROMPT,
@@ -69,43 +64,16 @@ export class ShoppingService {
     private readonly closetService: ClosetService,
   ) {}
 
-  /** Resolves the request to a single image URL, whichever source was used. */
-  private async resolveImageUrl(
-    userId: string,
-    dto: EvaluateProductDto,
-  ): Promise<string> {
-    if (dto.attachmentId && dto.productImageUrl) {
-      throw new BadRequestException(
-        'Provide either attachmentId or productImageUrl, not both',
-      );
-    }
-
-    if (dto.attachmentId) {
-      const attachment = await this.prisma.attachment.findUnique({
-        where: { id: dto.attachmentId },
-      });
-      if (!attachment || attachment.ownerId !== userId) {
-        throw new NotFoundException('Attachment not found');
-      }
-      return attachment.secureUrl;
-    }
-
-    if (dto.productImageUrl) {
-      // Validates the host is public and actually serving an image, and
-      // returns the post-redirect URL so we use the target we checked.
-      return assertPublicImageUrl(dto.productImageUrl);
-    }
-
-    throw new BadRequestException(
-      'Provide either attachmentId or productImageUrl',
-    );
-  }
-
   async evaluate(
     userId: string,
     dto: EvaluateProductDto,
   ): Promise<ShoppingEvaluationResult> {
-    const imageUrl = await this.resolveImageUrl(userId, dto);
+    const imageUrl = await resolveImageSource(
+      this.prisma,
+      userId,
+      { attachmentId: dto.attachmentId, imageUrl: dto.productImageUrl },
+      'productImageUrl',
+    );
 
     const cacheKey = `shopping-eval:${userId}:${createHash('sha256')
       .update(imageUrl)

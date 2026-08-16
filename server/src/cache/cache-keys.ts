@@ -22,5 +22,9 @@ export function closetDerivedCacheKeys(userId: string): string[] {
  * only be cleared by glob. Both are user-scoped, keeping each sweep small.
  */
 export function closetDerivedCachePatterns(userId: string): string[] {
-  return [`capsule:${userId}:*`, `shopping-eval:${userId}:*`];
+  return [
+    `capsule:${userId}:*`,
+    `shopping-eval:${userId}:*`,
+    `inspiration:${userId}:*`,
+  ];
 }

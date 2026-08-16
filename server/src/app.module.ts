@@ -22,6 +22,7 @@ import { ColorAnalysisModule } from './color-analysis/color-analysis.module';
 import { ShoppingModule } from './shopping/shopping.module';
 import { CapsuleModule } from './capsule/capsule.module';
 import { TravelModule } from './travel/travel.module';
+import { InspirationModule } from './inspiration/inspiration.module';
 
 @Module({
   imports: [
@@ -53,6 +54,7 @@ import { TravelModule } from './travel/travel.module';
     ShoppingModule,
     CapsuleModule,
     TravelModule,
+    InspirationModule,
   ],
   controllers: [AppController],
   providers: [AppService],
