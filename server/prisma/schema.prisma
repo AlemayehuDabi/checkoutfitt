@@ -29,6 +29,7 @@ model User {
   chatMessages  ChatMessage[]
   outfitSchedules OutfitSchedule[]
   outfitRatings OutfitRating[]
+  colorAnalysis ColorAnalysis?
 
   @@unique([email])
   @@map("user")
@@ -138,11 +139,38 @@ model Attachment {
   purpose   AttachmentPurpose @default(OTHER)
   createdAt DateTime          @default(now())
 
-  closetItems   ClosetItem[]
-  outfitRatings OutfitRating[]
+  closetItems     ClosetItem[]
+  outfitRatings   OutfitRating[]
+  colorAnalyses   ColorAnalysis[]
 
   @@index([ownerId])
   @@map("attachment")
+}
+
+/// Seasonal colour analysis derived from a photo of the user's face.
+/// `ownerId` is unique — a re-analysis upserts over the previous result
+/// rather than accumulating history, same "one per user" shape as the style
+/// archetype on Profile.
+model ColorAnalysis {
+  id                String     @id @default(cuid())
+  ownerId           String     @unique
+  owner             User       @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  imageAttachmentId String
+  imageAttachment   Attachment @relation(fields: [imageAttachmentId], references: [id], onDelete: Cascade)
+  /// One of the twelve seasonal types, e.g. "Soft Autumn".
+  season            String
+  /// Array of short descriptors, e.g. ["Warm", "Muted", "Rich"].
+  seasonTraits      Json
+  /// Arrays of #RRGGBB hex strings.
+  bestColors        Json
+  worstColors       Json
+  undertone         String
+  contrast          String
+  proTip            String
+  createdAt         DateTime   @default(now())
+
+  @@index([imageAttachmentId])
+  @@map("color_analysis")
 }
 
 /// A scored critique of a full outfit the user photographed themselves in.
