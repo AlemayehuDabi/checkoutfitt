@@ -691,6 +691,168 @@ export function buildMockSchedules(): MockSchedule[] {
 }
 
 // ---------------------------------------------------------------------------
+// Wardrobe gap analysis
+// ---------------------------------------------------------------------------
+
+/** GET /closet/gap-analysis */
+export interface MockMissingItem {
+  name: string;
+  type: ClosetItemType;
+  category: string;
+  reason: string;
+  estimatedNewOutfits: number;
+}
+
+export interface MockGapAnalysis {
+  completionPercentage: number;
+  missingItems: MockMissingItem[];
+  summary: string;
+  itemCount: number;
+  analyzed: boolean;
+  generatedAt: string;
+}
+
+export const mockGapAnalysis: MockGapAnalysis = {
+  completionPercentage: 78,
+  summary:
+    "Your wardrobe covers office and casual well, with a tonal palette that makes almost everything combine. The gaps are at the edges: nothing genuinely dressy, and only one warm layer.",
+  missingItems: [
+    {
+      name: "Tailored blazer in charcoal",
+      type: "OUTERWEAR",
+      category: "Blazer",
+      reason:
+        "You own one navy blazer doing all the work. A second in charcoal would pair with the pieces navy fights.",
+      estimatedNewOutfits: 18,
+    },
+    {
+      name: "White leather sneakers",
+      type: "FOOTWEAR",
+      category: "Sneakers",
+      reason:
+        "Your only casual shoe is showing wear. A clean white pair works with every bottom you own.",
+      estimatedNewOutfits: 14,
+    },
+    {
+      name: "Silk midi skirt",
+      type: "BOTTOM",
+      category: "Skirt",
+      reason:
+        "You have no bottom that reads dressy. This bridges your existing tops into evening.",
+      estimatedNewOutfits: 11,
+    },
+    {
+      name: "Fine-knit turtleneck",
+      type: "TOP",
+      category: "Turtleneck",
+      reason:
+        "Layers under the blazers and the wool coat, extending three outfits into winter.",
+      estimatedNewOutfits: 9,
+    },
+    {
+      name: "Leather crossbody bag",
+      type: "BAG",
+      category: "Crossbody",
+      reason:
+        "Both your bags are large. A smaller one suits evenings and travel days.",
+      estimatedNewOutfits: 7,
+    },
+  ],
+  itemCount: 20,
+  analyzed: true,
+  generatedAt: "2026-08-16T06:40:00.000Z",
+};
+
+// ---------------------------------------------------------------------------
+// Closet value
+// ---------------------------------------------------------------------------
+
+export interface MockValuedItem {
+  closetItemId: string;
+  name: string;
+  type: string;
+  category: string;
+  estimatedValue: number;
+  imageUrl: string;
+}
+
+export interface MockCategoryValue {
+  name: string;
+  itemCount: number;
+  totalValue: number;
+}
+
+/** GET /closet/value */
+export interface MockClosetValue {
+  totalValue: number;
+  currency: string;
+  totalItems: number;
+  valuedItems: number;
+  categoryCount: number;
+  categories: MockCategoryValue[];
+  topItems: MockValuedItem[];
+  generatedAt: string;
+}
+
+/** Per-item resale estimates, keyed by closet item id. */
+const ITEM_VALUES: Record<string, number> = {
+  ci_01: 65, ci_02: 180, ci_03: 320, ci_04: 35,
+  ci_05: 210, ci_06: 95, ci_07: 140, ci_08: 55,
+  ci_09: 680, ci_10: 395, ci_11: 120, ci_12: 260,
+  ci_13: 110, ci_14: 240, ci_15: 175, ci_16: 430,
+  ci_17: 150, ci_18: 85, ci_19: 190, ci_20: 240,
+};
+
+/**
+ * Aggregated the way the API does — totals derived from the per-item values
+ * rather than hardcoded, so the hero figure, the category rows and the top
+ * items can never disagree.
+ *
+ * One deliberate difference: the server groups by `category`, but every mock
+ * item has a unique category, which would yield 20 groups of one. Grouping by
+ * garment type gives a breakdown that actually reads. The response shape is
+ * identical either way.
+ */
+export function buildMockClosetValue(): MockClosetValue {
+  const active = mockClosetItems.filter((item) => !item.archived);
+
+  const categories = new Map<string, MockCategoryValue>();
+  for (const item of active) {
+    const name = CLOSET_TYPE_LABELS[item.type ?? "OTHER"];
+    const value = ITEM_VALUES[item.id] ?? 0;
+    const bucket = categories.get(name) ?? { name, itemCount: 0, totalValue: 0 };
+    bucket.itemCount += 1;
+    bucket.totalValue += value;
+    categories.set(name, bucket);
+  }
+
+  const topItems: MockValuedItem[] = [...active]
+    .sort((a, b) => (ITEM_VALUES[b.id] ?? 0) - (ITEM_VALUES[a.id] ?? 0))
+    .slice(0, 6)
+    .map((item) => ({
+      closetItemId: item.id,
+      name: item.category ?? "Untitled piece",
+      type: (item.type ?? "other").toLowerCase(),
+      category: item.category ?? "unknown",
+      estimatedValue: ITEM_VALUES[item.id] ?? 0,
+      imageUrl: item.imageUrl,
+    }));
+
+  return {
+    totalValue: active.reduce((sum, item) => sum + (ITEM_VALUES[item.id] ?? 0), 0),
+    currency: "USD",
+    totalItems: active.length,
+    valuedItems: active.length,
+    categoryCount: categories.size,
+    categories: [...categories.values()].sort(
+      (a, b) => b.totalValue - a.totalValue,
+    ),
+    topItems,
+    generatedAt: "2026-08-16T06:40:00.000Z",
+  };
+}
+
+// ---------------------------------------------------------------------------
 // Derived helpers
 // ---------------------------------------------------------------------------
 
