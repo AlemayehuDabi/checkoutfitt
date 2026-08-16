@@ -101,6 +101,13 @@ model Profile {
   latitude            Float?
   longitude           Float?
   city                String?
+  // AI Style Coach (Phase 5). One archetype per user — a re-analysis
+  // overwrites these rather than appending, so there's no history table.
+  // Null `styleAnalyzedAt` is the "never analyzed" signal.
+  styleArchetype      String?
+  styleTraits         Json?
+  styleDescription    String?
+  styleAnalyzedAt     DateTime?
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
 

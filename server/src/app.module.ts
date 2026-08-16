@@ -17,6 +17,7 @@ import { ChatModule } from './chat/chat.module';
 import { CalendarModule } from './calendar/calendar.module';
 import { InsightsModule } from './insights/insights.module';
 import { OutfitRatingModule } from './outfit-rating/outfit-rating.module';
+import { StyleCoachModule } from './style-coach/style-coach.module';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { OutfitRatingModule } from './outfit-rating/outfit-rating.module';
     CalendarModule,
     InsightsModule,
     OutfitRatingModule,
+    StyleCoachModule,
   ],
   controllers: [AppController],
   providers: [AppService],

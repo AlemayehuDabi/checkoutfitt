@@ -10,7 +10,9 @@ export const gapAnalysisKey = (userId: string) => `gap-analysis:${userId}`;
 
 export const closetValueKey = (userId: string) => `closet-value:${userId}`;
 
+export const styleTipsKey = (userId: string) => `style-tips:${userId}`;
+
 /** Every cached analysis invalidated by any change to the closet. */
 export function closetDerivedCacheKeys(userId: string): string[] {
-  return [gapAnalysisKey(userId), closetValueKey(userId)];
+  return [gapAnalysisKey(userId), closetValueKey(userId), styleTipsKey(userId)];
 }
