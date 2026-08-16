@@ -35,7 +35,7 @@ export default function ProfilePage() {
   }).format(new Date(mockMemberSince));
 
   return (
-    <div className="mx-auto max-w-[900px] py-2xl">
+    <div className="mx-auto max-w-[1200px] py-2xl">
       {/* Identity */}
       <div className="flex flex-col gap-2xl sm:flex-row sm:items-center">
         <AvatarEditor name={mockUser.name} />
@@ -77,7 +77,7 @@ export default function ProfilePage() {
       </div>
 
       {/* Style summaries */}
-      <section className="mt-4xl">
+      <section className="mt-3xl">
         <SectionHeader
           eyebrow="What we know about you"
           title="Your style profile"

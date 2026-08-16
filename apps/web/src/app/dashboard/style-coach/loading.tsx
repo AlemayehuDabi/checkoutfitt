@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function StyleCoachLoading() {
   return (
-    <div className="mx-auto max-w-[640px] py-4xl">
+    <div className="mx-auto max-w-[900px] py-4xl">
       <div className="rounded-xl border border-border bg-surface p-2xl shadow-lg">
         <Skeleton className="size-12 rounded-md" />
         <Skeleton className="mt-xl h-9 w-4/5 rounded-md" />

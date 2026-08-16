@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function OutfitRatingLoading() {
   return (
-    <div className="mx-auto max-w-[900px] py-2xl">
+    <div className="mx-auto max-w-[1200px] py-2xl">
       <Skeleton className="h-9 w-2/3 rounded-md" />
       <Skeleton className="mt-md h-5 w-full max-w-[520px] rounded-sm" />
       <Skeleton className="mt-3xl h-[280px] w-full rounded-xl" />

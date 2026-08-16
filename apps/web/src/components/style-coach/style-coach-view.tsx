@@ -42,7 +42,7 @@ export function StyleCoachView() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -8 }}
           transition={{ duration: 0.25 }}
-          className="mx-auto max-w-[640px] py-4xl"
+          className="mx-auto max-w-[900px] py-4xl"
         >
           <div className="rounded-xl border border-border bg-surface p-2xl shadow-lg">
             <span className="inline-flex size-12 items-center justify-center rounded-md bg-primary-50 text-primary-500">
@@ -70,7 +70,6 @@ export function StyleCoachView() {
 
             <div className="mt-2xl">
               <Button
-                size="lg"
                 onClick={analyze}
                 iconLeft={<Sparkles className="size-4" />}
               >

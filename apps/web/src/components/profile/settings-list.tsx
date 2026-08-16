@@ -152,7 +152,7 @@ export function SettingsList() {
   const [logoutOpen, setLogoutOpen] = React.useState(false);
 
   return (
-    <div className="mx-auto max-w-[720px] py-2xl">
+    <div className="mx-auto max-w-[900px] py-2xl">
       <SectionHeader
         eyebrow="Your account"
         title="Settings"

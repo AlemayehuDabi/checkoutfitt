@@ -140,9 +140,9 @@ export function ClosetBrowser({ items }: { items: MockClosetItem[] }) {
           </div>
         </div>
 
-        {/* Horizontally scrollable on narrow viewports rather than wrapping. */}
-        <div className="no-scrollbar -mx-lg overflow-x-auto px-lg sm:mx-0 sm:px-0">
-          <div className="flex w-max items-center gap-sm">
+        {/* Scrolls sideways on touch-sized viewports; wraps once there is room. */}
+        <div className="no-scrollbar -mx-lg overflow-x-auto px-lg sm:mx-0 sm:overflow-x-visible sm:px-0">
+          <div className="flex w-max items-center gap-sm sm:w-auto sm:flex-wrap">
             {TYPE_FILTERS.map((filter) => (
               <Chip
                 key={filter.value}

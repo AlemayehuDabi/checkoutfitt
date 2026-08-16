@@ -14,7 +14,8 @@ export function QuickActions({ itemCount }: { itemCount: number }) {
   const reduce = useReducedMotion();
 
   return (
-    <div className="grid gap-lg sm:grid-cols-2">
+    // Stacks in the dashboard rail; side by side when the rail collapses.
+    <div className="grid gap-lg sm:grid-cols-2 xl:grid-cols-1">
       <motion.div
         whileHover={reduce ? undefined : { y: -3, boxShadow: SHADOW_LG }}
         transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}

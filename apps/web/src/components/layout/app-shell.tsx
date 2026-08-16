@@ -4,6 +4,7 @@ import * as React from "react";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { pageTransition } from "@/lib/motion";
 import { SidebarContent } from "./sidebar";
 import { TopBar } from "./top-bar";
 
@@ -104,13 +105,15 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <TopBar onOpenMenu={() => setDrawerOpen(true)} />
         <main className="flex-1 px-lg pb-6xl sm:px-3xl">
           <div className="mx-auto w-full max-w-[1200px]">
-            {/* Keyed on route so each page fades in on navigation. */}
+            {/* Keyed on route so each page fades in on navigation. `mode="wait"`
+                needs the exit variant, or the outgoing page just vanishes. */}
             <AnimatePresence mode="wait">
               <motion.div
                 key={pathname}
-                initial={reduce ? false : { opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
+                initial={reduce ? false : pageTransition.initial}
+                animate={pageTransition.animate}
+                exit={reduce ? { opacity: 0 } : pageTransition.exit}
+                transition={pageTransition.transition}
               >
                 {children}
               </motion.div>

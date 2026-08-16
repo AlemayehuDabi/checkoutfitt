@@ -105,11 +105,13 @@ export function ChatView({ initialMessages }: { initialMessages: MockChatMessage
 
   return (
     // Fills the viewport below the 64px top bar; the negative margin cancels
-    // the shell's bottom padding so the input bar sits flush.
-    <div className="-mb-6xl flex h-[calc(100dvh-4rem)] flex-col">
+    // the shell's bottom padding so the input bar sits flush. The darker ground
+    // pushes the margins back so the reading column reads as the conversation
+    // rather than a stack of bubbles floating in the middle of a wide page.
+    <div className="-mx-lg -mb-6xl flex h-[calc(100dvh-4rem)] flex-col bg-surface-secondary sm:-mx-3xl">
       {/* Thread */}
-      <div className="flex-1 overflow-y-auto py-2xl">
-        <ul className="mx-auto flex w-full max-w-[800px] flex-col gap-lg">
+      <div className="flex-1 overflow-y-auto">
+        <ul className="mx-auto flex min-h-full w-full max-w-[800px] flex-col gap-lg border-border bg-bg px-lg py-2xl sm:border-x sm:px-2xl">
           <AnimatePresence initial={false}>
             {messages.map((message) => (
               <MessageBubble key={message.id} message={message} />
@@ -122,10 +124,10 @@ export function ChatView({ initialMessages }: { initialMessages: MockChatMessage
 
       {/* Composer */}
       <div className="shrink-0 border-t border-border bg-surface">
-        <div className="mx-auto w-full max-w-[800px] px-lg py-lg sm:px-2xl">
+        <div className="mx-auto w-full max-w-[800px] border-border px-lg py-lg sm:border-x sm:px-2xl">
           {/* Suggestions */}
-          <div className="no-scrollbar -mx-lg mb-md overflow-x-auto px-lg sm:mx-0 sm:px-0">
-            <div className="flex w-max items-center gap-sm">
+          <div className="no-scrollbar -mx-lg mb-md overflow-x-auto px-lg sm:mx-0 sm:overflow-x-visible sm:px-0">
+            <div className="flex w-max items-center gap-sm sm:w-auto sm:flex-wrap">
               {CHAT_SUGGESTIONS.map((suggestion) => (
                 <button
                   key={suggestion.label}

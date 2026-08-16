@@ -128,7 +128,7 @@ export function GenerateFlow({
   }
 
   return (
-    <div className="mx-auto max-w-[900px] py-2xl">
+    <div className="mx-auto max-w-[1200px] py-2xl">
       <AnimatePresence mode="wait">
         {stage !== "result" ? (
           <motion.div
@@ -171,7 +171,6 @@ export function GenerateFlow({
               ) : (
                 <div className="flex flex-wrap items-center gap-md">
                   <Button
-                    size="lg"
                     disabled={!selected}
                     onClick={() => selected && generate(selected)}
                     iconLeft={<Sparkles className="size-4" />}
@@ -285,7 +284,7 @@ export function GenerateFlow({
               </CalloutCard>
 
               {/* Alternatives */}
-              <section className="mt-4xl">
+              <section className="mt-3xl">
                 <h3 className="text-h3 text-text-primary">Other options</h3>
                 <p className="mt-1 text-body text-text-secondary">
                   Same occasion, different combinations from your closet.

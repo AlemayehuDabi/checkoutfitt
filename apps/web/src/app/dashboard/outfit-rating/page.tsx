@@ -18,7 +18,7 @@ export default function OutfitRatingPage() {
       <RateFlow />
 
       {recent.length > 0 && (
-        <section className="mx-auto max-w-[900px] pb-2xl">
+        <section className="mx-auto max-w-[1200px] pb-2xl">
           <SectionHeader
             eyebrow="Previously"
             title="Recent ratings"

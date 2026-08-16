@@ -1,17 +1,12 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
-import { ChevronRight, DollarSign, Layers, Shirt } from "lucide-react";
-import { staggerContainer, listItem } from "@/lib/motion";
+import { DollarSign, Layers, Shirt } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
-import {
-  closetItemById,
-  type MockClosetValue,
-} from "@/lib/mock-data";
+import type { MockClosetValue } from "@/lib/mock-data";
 import { AnimatedNumber } from "@/components/animated-number";
-import { GarmentImage } from "@/components/garment-image";
+import { ValueTable } from "./value-table";
 import { SectionHeader } from "@/components/ui/section-header";
 import { StatCard } from "@/components/ui/stat-card";
 import { StateView } from "@/components/ui/state-view";
@@ -32,8 +27,9 @@ export function ClosetValueView({ value }: { value: MockClosetValue }) {
   const largest = Math.max(...value.categories.map((c) => c.totalValue));
 
   return (
-    <div className="mx-auto max-w-[820px] py-2xl">
-      {/* Hero */}
+    <div className="mx-auto max-w-[1200px] py-2xl">
+      {/* Hero and stats share a row so the figure isn't alone on a wide page. */}
+      <div className="grid items-start gap-2xl lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] lg:gap-4xl">
       <motion.div
         initial={reduce ? false : { opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
@@ -54,7 +50,7 @@ export function ClosetValueView({ value }: { value: MockClosetValue }) {
       </motion.div>
 
       {/* Stats */}
-      <div className="mt-2xl grid gap-lg sm:grid-cols-2">
+      <div className="mt-2xl grid gap-lg sm:grid-cols-2 lg:mt-0 lg:grid-cols-1 lg:content-start">
         <StatCard
           value={value.totalItems}
           label="Items valued"
@@ -67,8 +63,10 @@ export function ClosetValueView({ value }: { value: MockClosetValue }) {
         />
       </div>
 
+      </div>
+
       {/* Breakdown */}
-      <section className="mt-4xl">
+      <section className="mt-3xl">
         <SectionHeader
           eyebrow="Where the value sits"
           title="By category"
@@ -108,53 +106,14 @@ export function ClosetValueView({ value }: { value: MockClosetValue }) {
       </section>
 
       {/* Top items */}
-      <section className="mt-4xl">
+      <section className="mt-3xl">
         <SectionHeader
           eyebrow="Most valuable"
           title="Top items by value"
+          description="Sort by any column. Click a row to open the piece."
           as="h3"
         />
-        <motion.ul
-          variants={staggerContainer}
-          initial="initial"
-          animate="animate"
-          className="flex flex-col gap-sm"
-        >
-          {value.topItems.map((item) => {
-            const closetItem = closetItemById(item.closetItemId);
-            return (
-              <motion.li key={item.closetItemId} variants={listItem}>
-                <Link
-                  href={`/dashboard/closet/${item.closetItemId}`}
-                  className="group flex items-center gap-lg rounded-md border border-border bg-surface p-md transition-colors duration-200 hover:bg-[color:var(--color-overlay-light)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
-                >
-                  {closetItem && (
-                    <GarmentImage
-                      item={closetItem}
-                      size="sm"
-                      className="size-14 shrink-0 rounded-sm border border-border"
-                    />
-                  )}
-                  <span className="min-w-0 flex-1">
-                    <span className="block truncate text-body-medium text-text-primary">
-                      {item.name}
-                    </span>
-                    <span className="block truncate text-caption text-text-muted capitalize">
-                      {item.type}
-                    </span>
-                  </span>
-                  <span className="shrink-0 text-body-semibold text-text-primary tabular-nums">
-                    {formatCurrency(item.estimatedValue, value.currency)}
-                  </span>
-                  <ChevronRight
-                    aria-hidden
-                    className="size-4 shrink-0 text-text-muted transition-transform duration-200 group-hover:translate-x-0.5"
-                  />
-                </Link>
-              </motion.li>
-            );
-          })}
-        </motion.ul>
+        <ValueTable items={value.topItems} currency={value.currency} />
       </section>
 
       <p className="mt-3xl text-caption text-text-muted">

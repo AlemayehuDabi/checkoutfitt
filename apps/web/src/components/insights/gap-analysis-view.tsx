@@ -98,7 +98,7 @@ export function GapAnalysisView({ analysis }: { analysis: MockGapAnalysis }) {
   }
 
   return (
-    <div className="mx-auto max-w-[820px] py-2xl">
+    <div className="mx-auto max-w-[1200px] py-2xl">
       {/* Completion banner */}
       <motion.div
         initial={reduce ? false : { opacity: 0, y: 12 }}
@@ -141,7 +141,7 @@ export function GapAnalysisView({ analysis }: { analysis: MockGapAnalysis }) {
       </motion.div>
 
       {/* Missing essentials */}
-      <section className="mt-4xl">
+      <section className="mt-3xl">
         <SectionHeader
           eyebrow="Biggest wins first"
           title="Missing essentials"
@@ -161,7 +161,7 @@ export function GapAnalysisView({ analysis }: { analysis: MockGapAnalysis }) {
       </section>
 
       <div className="mt-3xl flex flex-wrap items-center gap-lg">
-        <ButtonLink href="/dashboard/shopping" size="lg" iconLeft={<Sparkles className="size-4" />}>
+        <ButtonLink href="/dashboard/shopping" iconLeft={<Sparkles className="size-4" />}>
             See all recommendations
           </ButtonLink>
         <p className="text-caption text-text-muted tabular-nums">

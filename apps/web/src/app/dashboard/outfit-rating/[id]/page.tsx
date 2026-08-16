@@ -38,7 +38,7 @@ export default async function RatingDetailPage(
   }).format(new Date(rating.createdAt));
 
   return (
-    <div className="mx-auto max-w-[900px] py-2xl">
+    <div className="mx-auto max-w-[1200px] py-2xl">
       <nav aria-label="Breadcrumb" className="mb-xl">
         <ol className="flex items-center gap-1.5 text-sm text-text-muted">
           <li>

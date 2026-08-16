@@ -65,7 +65,7 @@ export function ColorAnalysisView() {
   }
 
   return (
-    <div className="mx-auto max-w-[820px] py-2xl">
+    <div className="mx-auto max-w-[1200px] py-2xl">
       <AnimatePresence mode="wait">
         {stage !== "result" ? (
           <motion.div
@@ -74,6 +74,7 @@ export function ColorAnalysisView() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.25 }}
+            className="mx-auto max-w-[680px]"
           >
             <h2 className="text-h1 text-text-primary text-balance">
               Which colours actually suit you?
@@ -119,7 +120,6 @@ export function ColorAnalysisView() {
             ) : (
               <div className="mt-3xl flex flex-wrap items-center gap-md">
                 <Button
-                  size="lg"
                   disabled={!photo}
                   onClick={analyze}
                   iconLeft={<Sparkles className="size-4" />}
@@ -194,25 +194,27 @@ export function ColorAnalysisView() {
                 </dl>
               </Reveal>
 
-              <Reveal delay={0.16} className="mt-4xl">
-                <SectionHeader
-                  eyebrow="Wear these"
-                  title="Best colours for you"
-                  description="Muted and warm — these sit with your colouring rather than against it."
-                  as="h3"
-                />
-                <SwatchRow colors={analysis.bestColors} />
-              </Reveal>
+              <div className="mt-3xl grid gap-3xl xl:grid-cols-2">
+                <Reveal delay={0.16}>
+                  <SectionHeader
+                    eyebrow="Wear these"
+                    title="Best colours for you"
+                    description="Muted and warm — these sit with your colouring rather than against it."
+                    as="h3"
+                  />
+                  <SwatchRow colors={analysis.bestColors} />
+                </Reveal>
 
-              <Reveal delay={0.24} className="mt-4xl">
-                <SectionHeader
-                  eyebrow="Handle with care"
-                  title="Colours to avoid"
-                  description="These pull attention away from your face or drain it."
-                  as="h3"
-                />
-                <SwatchRow colors={analysis.worstColors} />
-              </Reveal>
+                <Reveal delay={0.24}>
+                  <SectionHeader
+                    eyebrow="Handle with care"
+                    title="Colours to avoid"
+                    description="These pull attention away from your face or drain it."
+                    as="h3"
+                  />
+                  <SwatchRow colors={analysis.worstColors} />
+                </Reveal>
+              </div>
 
               <Reveal delay={0.32}>
                 <div className="mt-2xl flex flex-wrap gap-lg">
@@ -231,7 +233,7 @@ export function ColorAnalysisView() {
                 <CalloutCard
                   icon={<Sparkles />}
                   title="Pro tip"
-                  className="mt-4xl"
+                  className="mt-3xl max-w-[80ch]"
                   emphasis="strong"
                 >
                   {analysis.proTip}
@@ -239,7 +241,7 @@ export function ColorAnalysisView() {
               </Reveal>
 
               <Reveal delay={0.48}>
-                <div className="mt-4xl">
+                <div className="mt-3xl">
                   <Button
                     variant="secondary"
                     onClick={reset}

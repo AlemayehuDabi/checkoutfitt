@@ -129,7 +129,7 @@ export default async function ClosetItemPage(props: PageProps<"/dashboard/closet
             <ItemActions item={item} />
           </div>
 
-          <section className="mt-4xl">
+          <section className="mt-3xl">
             <SectionHeader
               eyebrow="Worn in"
               title="Outfits with this piece"

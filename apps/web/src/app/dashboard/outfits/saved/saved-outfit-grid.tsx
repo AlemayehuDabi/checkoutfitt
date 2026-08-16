@@ -11,7 +11,7 @@ export function SavedOutfitGrid({ outfits }: { outfits: MockOutfit[] }) {
       variants={staggerContainer}
       initial="initial"
       animate="animate"
-      className="grid grid-cols-1 gap-lg sm:grid-cols-2 sm:gap-2xl lg:grid-cols-3"
+      className="grid grid-cols-1 gap-lg sm:grid-cols-2 sm:gap-2xl lg:grid-cols-3 xl:grid-cols-4"
     >
       {outfits.map((outfit) => (
         <OutfitGridCard key={outfit.id} outfit={outfit} />

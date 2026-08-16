@@ -75,7 +75,7 @@ export function RateFlow() {
   }
 
   return (
-    <div className="mx-auto max-w-[900px] py-2xl">
+    <div className="mx-auto max-w-[1200px] py-2xl">
       <AnimatePresence mode="wait">
         {stage !== "result" ? (
           <motion.div
@@ -111,8 +111,8 @@ export function RateFlow() {
               <p className="mb-md text-eyebrow uppercase text-text-muted">
                 Occasion <span className="normal-case">(optional)</span>
               </p>
-              <div className="no-scrollbar -mx-lg overflow-x-auto px-lg sm:mx-0 sm:px-0">
-                <div className="flex w-max items-center gap-sm">
+              <div className="no-scrollbar -mx-lg overflow-x-auto px-lg sm:mx-0 sm:overflow-x-visible sm:px-0">
+                <div className="flex w-max items-center gap-sm sm:w-auto sm:flex-wrap">
                   {OUTFIT_CONTEXTS.map((context) => (
                     <Chip
                       key={context}
@@ -160,7 +160,6 @@ export function RateFlow() {
             ) : (
               <div className="mt-3xl flex flex-wrap items-center gap-md">
                 <Button
-                  size="lg"
                   disabled={!photo}
                   onClick={rate}
                   iconLeft={<Star className="size-4" />}
