@@ -853,6 +853,78 @@ export function buildMockClosetValue(): MockClosetValue {
 }
 
 // ---------------------------------------------------------------------------
+// Shopping assistant
+// ---------------------------------------------------------------------------
+
+export type ShoppingVerdict = "worth_it" | "maybe" | "skip";
+
+export interface MockProductDescriptor {
+  type: ClosetItemType;
+  category: string;
+  color: string;
+  style: string;
+}
+
+export interface MockSuggestedOutfit {
+  name: string;
+  items: { closetItemId: string; type: string; category: string; imageUrl: string }[];
+}
+
+/** POST /shopping/evaluate */
+export interface MockShoppingEvaluation {
+  product: MockProductDescriptor;
+  verdict: ShoppingVerdict;
+  verdictReason: string;
+  newOutfitCount: number;
+  duplicateRisk: boolean;
+  gapFill: boolean;
+  suggestedOutfits: MockSuggestedOutfit[];
+  generatedAt: string;
+}
+
+function suggested(name: string, ids: string[]): MockSuggestedOutfit {
+  return {
+    name,
+    items: ids.map((id) => {
+      const item = byId(id);
+      return {
+        closetItemId: item.id,
+        type: (item.type ?? "other").toLowerCase(),
+        category: item.category ?? "unknown",
+        imageUrl: item.imageUrl,
+      };
+    }),
+  };
+}
+
+export const mockShoppingEvaluation: MockShoppingEvaluation = {
+  product: {
+    type: "OUTERWEAR",
+    category: "Trench coat",
+    color: "Camel",
+    style: "classic, belted, water-resistant",
+  },
+  verdict: "worth_it",
+  verdictReason:
+    "You own one warm layer and one light jacket, with nothing in between — this fills exactly that gap. Camel sits inside the palette you already wear, so it pairs with almost everything rather than needing outfits built around it.",
+  newOutfitCount: 12,
+  duplicateRisk: false,
+  gapFill: true,
+  suggestedOutfits: [
+    suggested("Over the office look", ["ci_02", "ci_05", "ci_12"]),
+    suggested("Weekend layers", ["ci_03", "ci_06", "ci_13"]),
+    suggested("Evening out", ["ci_15", "ci_14", "ci_17"]),
+  ],
+  generatedAt: "2026-08-16T07:10:00.000Z",
+};
+
+export const VERDICT_LABELS: Record<ShoppingVerdict, string> = {
+  worth_it: "Worth it",
+  maybe: "Maybe",
+  skip: "Skip it",
+};
+
+// ---------------------------------------------------------------------------
 // Derived helpers
 // ---------------------------------------------------------------------------
 

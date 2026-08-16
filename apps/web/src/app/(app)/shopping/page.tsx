@@ -1,15 +1,11 @@
 import type { Metadata } from "next";
-import { ShoppingBag } from "lucide-react";
-import { StateView } from "@/components/ui/state-view";
+import { ShoppingView } from "@/components/shopping/shopping-view";
 
-export const metadata: Metadata = { title: "Shopping Assistant" };
+export const metadata: Metadata = {
+  title: "Shopping Assistant",
+  description: "Check whether a piece earns its place before you buy it.",
+};
 
-export default function Page() {
-  return (
-    <StateView
-      icon={<ShoppingBag />}
-      title="Shopping Assistant is coming soon"
-      description="Check whether a piece is worth buying before you spend anything."
-    />
-  );
+export default function ShoppingPage() {
+  return <ShoppingView />;
 }
