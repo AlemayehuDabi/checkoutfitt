@@ -16,6 +16,7 @@ import { WeatherModule } from './weather/weather.module';
 import { ChatModule } from './chat/chat.module';
 import { CalendarModule } from './calendar/calendar.module';
 import { InsightsModule } from './insights/insights.module';
+import { OutfitRatingModule } from './outfit-rating/outfit-rating.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { InsightsModule } from './insights/insights.module';
     ChatModule,
     CalendarModule,
     InsightsModule,
+    OutfitRatingModule,
   ],
   controllers: [AppController],
   providers: [AppService],

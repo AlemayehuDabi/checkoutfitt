@@ -28,6 +28,7 @@ model User {
   outfits       Outfit[]
   chatMessages  ChatMessage[]
   outfitSchedules OutfitSchedule[]
+  outfitRatings OutfitRating[]
 
   @@unique([email])
   @@map("user")
@@ -130,10 +131,37 @@ model Attachment {
   purpose   AttachmentPurpose @default(OTHER)
   createdAt DateTime          @default(now())
 
-  closetItems ClosetItem[]
+  closetItems   ClosetItem[]
+  outfitRatings OutfitRating[]
 
   @@index([ownerId])
   @@map("attachment")
+}
+
+/// A scored critique of a full outfit the user photographed themselves in.
+/// Scores are 0-10 floats; `overallScore` is their mean, computed server-side
+/// rather than asked of the model so it can never disagree with its parts.
+model OutfitRating {
+  id                 String     @id @default(cuid())
+  ownerId            String
+  owner              User       @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  imageAttachmentId  String
+  // Cascade rather than SetNull: a rating is a critique *of* this photo, so
+  // it means nothing once the photo is gone (unlike a closet item, which
+  // keeps its identity if its attachment is removed).
+  imageAttachment    Attachment @relation(fields: [imageAttachmentId], references: [id], onDelete: Cascade)
+  colorHarmonyScore  Float
+  fitScore           Float
+  occasionMatchScore Float
+  overallScore       Float
+  occasion           String?
+  /// Array of short actionable improvement strings.
+  suggestions        Json
+  createdAt          DateTime   @default(now())
+
+  @@index([ownerId, createdAt])
+  @@index([imageAttachmentId])
+  @@map("outfit_rating")
 }
 
 enum ClosetItemStatus {
