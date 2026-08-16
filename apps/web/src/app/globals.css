@@ -59,6 +59,14 @@
      (no Google CDN request) and exposes it as --font-inter. */
   --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
 
+  /* Marketing-only step above --text-display. The app's largest type is 36px,
+     which reads undersized as a landing hero; this scales with the viewport
+     so it never wraps awkwardly on a phone. */
+  --text-hero: clamp(38px, 6.4vw, 68px);
+  --text-hero--line-height: 1.05;
+  --text-hero--letter-spacing: -1.6px;
+  --text-hero--font-weight: 700;
+
   --text-display: 36px;
   --text-display--line-height: 1.15;
   --text-display--letter-spacing: -0.75px;

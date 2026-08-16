@@ -68,22 +68,38 @@ function FeatureRow({
   );
 }
 
-export function PlanPicker() {
+export interface PlanPickerProps {
+  eyebrow?: string;
+  heading?: string;
+  description?: string;
+  /** Marketing overrides the in-app CTAs with sign-up links. */
+  freeAction?: React.ReactNode;
+  proAction?: React.ReactNode;
+  className?: string;
+}
+
+export function PlanPicker({
+  eyebrow = "Subscription",
+  heading = "Choose your plan",
+  description = "Everything you need to dress well from what you own is free. Pro adds the planning tools.",
+  freeAction,
+  proAction,
+  className,
+}: PlanPickerProps = {}) {
   const { toast } = useToast();
   const reduce = useReducedMotion();
   const [cycle, setCycle] = React.useState<Cycle>("yearly");
   const price = PRICES[cycle];
 
   return (
-    <div className="mx-auto max-w-[900px] py-2xl">
+    <div className={cn("mx-auto max-w-[900px] py-2xl", className)}>
       <div className="text-center">
-        <p className="text-eyebrow uppercase text-text-muted">Subscription</p>
+        <p className="text-eyebrow uppercase text-text-muted">{eyebrow}</p>
         <h2 className="mt-sm text-display text-text-primary text-balance">
-          Choose your plan
+          {heading}
         </h2>
         <p className="mx-auto mt-md max-w-[52ch] text-body-lg text-text-secondary">
-          Everything you need to dress well from what you own is free. Pro adds
-          the planning tools.
+          {description}
         </p>
       </div>
 
@@ -159,9 +175,13 @@ export function PlanPicker() {
             ))}
           </ul>
 
-          <Button variant="secondary" fullWidth className="mt-2xl" disabled>
-            Current plan
-          </Button>
+          <div className="mt-2xl">
+            {freeAction ?? (
+              <Button variant="secondary" fullWidth disabled>
+                Current plan
+              </Button>
+            )}
+          </div>
         </div>
 
         <motion.div
@@ -190,21 +210,24 @@ export function PlanPicker() {
             ))}
           </ul>
 
-          <Button
-            fullWidth
-            size="lg"
-            className="mt-2xl"
-            iconLeft={<Sparkles className="size-4" />}
-            onClick={() =>
-              toast({
-                kind: "info",
-                title: "Checkout isn't wired up yet",
-                description: "Billing arrives with the payments integration.",
-              })
-            }
-          >
-            Start 7-day free trial
-          </Button>
+          <div className="mt-2xl">
+            {proAction ?? (
+              <Button
+                fullWidth
+                size="lg"
+                iconLeft={<Sparkles className="size-4" />}
+                onClick={() =>
+                  toast({
+                    kind: "info",
+                    title: "Checkout isn't wired up yet",
+                    description: "Billing arrives with the payments integration.",
+                  })
+                }
+              >
+                Start 7-day free trial
+              </Button>
+            )}
+          </div>
         </motion.div>
       </div>
 
