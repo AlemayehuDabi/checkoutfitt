@@ -1,15 +1,11 @@
 import type { Metadata } from "next";
-import { Palette } from "lucide-react";
-import { StateView } from "@/components/ui/state-view";
+import { StyleCoachView } from "@/components/style-coach/style-coach-view";
 
-export const metadata: Metadata = { title: "Style Coach" };
+export const metadata: Metadata = {
+  title: "Style Coach",
+  description: "Find the archetype your wardrobe expresses, and how to lean into it.",
+};
 
-export default function Page() {
-  return (
-    <StateView
-      icon={<Palette />}
-      title="Style Coach is coming soon"
-      description="Have your whole wardrobe read as a collection and get your style archetype."
-    />
-  );
+export default function StyleCoachPage() {
+  return <StyleCoachView />;
 }

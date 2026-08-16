@@ -496,6 +496,70 @@ export function ratingById(id: string): MockOutfitRating | undefined {
 }
 
 // ---------------------------------------------------------------------------
+// Style coach
+// ---------------------------------------------------------------------------
+
+/** POST /style-coach/analyze — archetype, traits, description and tips. */
+export interface MockStyleAnalysis {
+  archetype: string;
+  /** Display name for the archetype enum value. */
+  archetypeLabel: string;
+  traits: string[];
+  description: string;
+  tips: string[];
+  itemCount: number;
+  analyzed: boolean;
+  analyzedAt: string;
+}
+
+export const mockStyleAnalysis: MockStyleAnalysis = {
+  archetype: "old_money",
+  archetypeLabel: "Old Money",
+  traits: [
+    "Neutral palette",
+    "Structured tailoring",
+    "Luxurious fabrics",
+    "Understated elegance",
+    "Timeless silhouettes",
+  ],
+  description:
+    "Your wardrobe reads quietly expensive. You gravitate to natural fibres — wool, cashmere, silk, cotton — in a palette that stays within camel, ivory, charcoal and navy. Nothing shouts. The tailoring does the talking, and because almost everything sits in the same tonal family, near enough any two pieces you own will go together. It's a wardrobe built to be worn, not photographed.",
+  tips: [
+    "Keep leaning on natural fibres. They hold their shape longer and are the single biggest reason this look reads as considered.",
+    "One piece of classic jewellery — a slim gold watch or pearl studs — would finish most of these outfits without disturbing the restraint.",
+    "Layer textures within your neutrals: silk under cashmere, wool over cotton. It adds depth without adding colour.",
+    "A subtle pattern — a fine pinstripe or a muted check — would introduce interest while staying true to the palette.",
+    "You're thin on genuinely dressy options. One elevated evening piece would extend this wardrobe further than three more basics.",
+  ],
+  itemCount: 20,
+  analyzed: true,
+  analyzedAt: "2026-08-14T09:12:00.000Z",
+};
+
+/** Archetype names the loading state cycles through while "analyzing". */
+export const STYLE_ARCHETYPE_LABELS = [
+  "Minimalist",
+  "Streetwear",
+  "Old Money",
+  "Classic",
+  "Bohemian",
+  "Edgy",
+  "Romantic",
+  "Sporty",
+  "Eclectic",
+];
+
+/** The pieces the collage uses to illustrate the archetype. */
+export const STYLE_EXEMPLAR_IDS = [
+  "ci_09",
+  "ci_02",
+  "ci_05",
+  "ci_03",
+  "ci_12",
+  "ci_10",
+];
+
+// ---------------------------------------------------------------------------
 // Derived helpers
 // ---------------------------------------------------------------------------
 
