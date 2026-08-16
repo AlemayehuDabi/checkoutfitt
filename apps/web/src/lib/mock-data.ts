@@ -560,6 +560,79 @@ export const STYLE_EXEMPLAR_IDS = [
 ];
 
 // ---------------------------------------------------------------------------
+// Color analysis
+// ---------------------------------------------------------------------------
+
+/**
+ * GET /color-analysis — one row per user (ownerId is unique, re-analysis
+ * upserts). `bestColors`/`worstColors` are Json arrays of hex strings, so the
+ * shape here is string[] and names are display-only lookups.
+ */
+export interface MockColorAnalysis {
+  id: string;
+  ownerId: string;
+  imageAttachmentId: string;
+  season: string;
+  seasonTraits: string[];
+  bestColors: string[];
+  worstColors: string[];
+  undertone: string;
+  contrast: string;
+  proTip: string;
+  createdAt: string;
+}
+
+export const mockColorAnalysis: MockColorAnalysis = {
+  id: "ca_01",
+  ownerId: mockUser.id,
+  imageAttachmentId: "att_ca_01",
+  season: "Soft Autumn",
+  seasonTraits: ["Warm", "Muted", "Rich"],
+  bestColors: [
+    "#c1622d", "#a9532c", "#c9a476", "#d4a03c", "#8a7b4f", "#6b6b45",
+    "#7d8a6a", "#5f7a6e", "#4f6b6b", "#8a5a37", "#b08968", "#c9b8a0",
+    "#9c6b52", "#7a5c48", "#a8836b", "#6e5a49",
+  ],
+  worstColors: [
+    "#000000", "#ffffff", "#ff2d95", "#00b3ff", "#7b2fff", "#00e5b0",
+    "#e6e6fa", "#c0c0c0",
+  ],
+  undertone: "Warm",
+  contrast: "Low to medium",
+  proTip:
+    "Your colouring is gently warm rather than golden, so the trick is muted over saturated. If a colour looks slightly dusty next to a pure primary, it's yours. Keep pure black away from your face — swap it for chocolate or deep olive and you'll look rested rather than washed out.",
+  createdAt: "2026-08-12T14:20:00.000Z",
+};
+
+/** Display names for swatch tooltips; the API stores hex only. */
+export const COLOR_NAMES: Record<string, string> = {
+  "#c1622d": "Terracotta",
+  "#a9532c": "Burnt sienna",
+  "#c9a476": "Camel",
+  "#d4a03c": "Ochre",
+  "#8a7b4f": "Moss gold",
+  "#6b6b45": "Olive",
+  "#7d8a6a": "Sage",
+  "#5f7a6e": "Soft pine",
+  "#4f6b6b": "Muted teal",
+  "#8a5a37": "Chestnut",
+  "#b08968": "Warm tan",
+  "#c9b8a0": "Oat",
+  "#9c6b52": "Clay",
+  "#7a5c48": "Cocoa",
+  "#a8836b": "Praline",
+  "#6e5a49": "Bark",
+  "#000000": "Pure black",
+  "#ffffff": "Optic white",
+  "#ff2d95": "Hot pink",
+  "#00b3ff": "Electric blue",
+  "#7b2fff": "Violet",
+  "#00e5b0": "Neon mint",
+  "#e6e6fa": "Icy lavender",
+  "#c0c0c0": "Cool silver",
+};
+
+// ---------------------------------------------------------------------------
 // Derived helpers
 // ---------------------------------------------------------------------------
 

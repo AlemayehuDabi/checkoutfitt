@@ -1,15 +1,11 @@
 import type { Metadata } from "next";
-import { Droplet } from "lucide-react";
-import { StateView } from "@/components/ui/state-view";
+import { ColorAnalysisView } from "@/components/color-analysis/color-analysis-view";
 
-export const metadata: Metadata = { title: "Color Analysis" };
+export const metadata: Metadata = {
+  title: "Color Analysis",
+  description: "Find the seasonal palette that suits your colouring.",
+};
 
-export default function Page() {
-  return (
-    <StateView
-      icon={<Droplet />}
-      title="Color Analysis is coming soon"
-      description="Upload a photo and find the seasonal palette that suits your colouring."
-    />
-  );
+export default function ColorAnalysisPage() {
+  return <ColorAnalysisView />;
 }
