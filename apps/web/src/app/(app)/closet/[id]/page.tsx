@@ -30,6 +30,14 @@ export function generateStaticParams() {
   return mockClosetItems.map((item) => ({ id: item.id }));
 }
 
+/**
+ * The mock set is finite, so anything outside it is a genuine 404 rather than
+ * a page to render on demand. Without this, an unknown id renders the
+ * not-found body but still answers HTTP 200 — a soft 404. Flip to `true` once
+ * ids come from the API.
+ */
+export const dynamicParams = false;
+
 function MetaRow({ label, value }: { label: string; value: React.ReactNode }) {
   return (
     <div className="flex items-start justify-between gap-lg py-md">

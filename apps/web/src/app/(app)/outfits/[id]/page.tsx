@@ -29,6 +29,9 @@ export function generateStaticParams() {
   return mockOutfits.map((outfit) => ({ id: outfit.id }));
 }
 
+/** See closet/[id]: finite mock set, so unknown ids are a real 404. */
+export const dynamicParams = false;
+
 export default async function OutfitDetailPage(
   props: PageProps<"/outfits/[id]">,
 ) {
