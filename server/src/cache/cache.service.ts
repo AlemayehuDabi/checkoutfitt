@@ -37,6 +37,32 @@ export class CacheService implements OnModuleDestroy {
     await this.client.del(...keys);
   }
 
+  /**
+   * Deletes every key matching a glob, for caches whose key embeds request
+   * parameters (capsule constraints, evaluated product hash) and so can't be
+   * named exactly at invalidation time.
+   *
+   * Uses SCAN rather than KEYS so it never blocks Redis on a large keyspace.
+   * Patterns are always user-scoped by their caller, which keeps each sweep
+   * small.
+   */
+  async delByPattern(pattern: string): Promise<void> {
+    let cursor = '0';
+    do {
+      const [next, keys] = await this.client.scan(
+        cursor,
+        'MATCH',
+        pattern,
+        'COUNT',
+        100,
+      );
+      cursor = next;
+      if (keys.length > 0) {
+        await this.client.del(...keys);
+      }
+    } while (cursor !== '0');
+  }
+
   async onModuleDestroy() {
     await this.client.quit();
   }

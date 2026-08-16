@@ -3,7 +3,10 @@ import { InjectQueue } from '@nestjs/bullmq';
 import { Queue } from 'bullmq';
 import { PrismaService } from '../prisma/prisma.service';
 import { CacheService } from '../cache/cache.service';
-import { closetDerivedCacheKeys } from '../cache/cache-keys';
+import {
+  closetDerivedCacheKeys,
+  closetDerivedCachePatterns,
+} from '../cache/cache-keys';
 import { CLOSET_DETECTION_QUEUE, toClosetItemType } from './constants';
 import { IngestClosetItemDto } from './dto/ingest-closet-item.dto';
 import { BulkIngestClosetItemsDto } from './dto/bulk-ingest-closet-items.dto';
@@ -27,6 +30,11 @@ export class ClosetService {
    */
   async invalidateDerivedAnalyses(userId: string): Promise<void> {
     await this.cache.del(...closetDerivedCacheKeys(userId));
+    await Promise.all(
+      closetDerivedCachePatterns(userId).map((pattern) =>
+        this.cache.delByPattern(pattern),
+      ),
+    );
   }
 
   private async resolveOwnedAttachment(userId: string, attachmentId: string) {

@@ -16,3 +16,11 @@ export const styleTipsKey = (userId: string) => `style-tips:${userId}`;
 export function closetDerivedCacheKeys(userId: string): string[] {
   return [gapAnalysisKey(userId), closetValueKey(userId), styleTipsKey(userId)];
 }
+
+/**
+ * Closet-derived caches whose key embeds request parameters, so they can
+ * only be cleared by glob. Both are user-scoped, keeping each sweep small.
+ */
+export function closetDerivedCachePatterns(userId: string): string[] {
+  return [`capsule:${userId}:*`, `shopping-eval:${userId}:*`];
+}

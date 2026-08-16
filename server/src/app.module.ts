@@ -20,6 +20,7 @@ import { OutfitRatingModule } from './outfit-rating/outfit-rating.module';
 import { StyleCoachModule } from './style-coach/style-coach.module';
 import { ColorAnalysisModule } from './color-analysis/color-analysis.module';
 import { ShoppingModule } from './shopping/shopping.module';
+import { CapsuleModule } from './capsule/capsule.module';
 
 @Module({
   imports: [
@@ -49,6 +50,7 @@ import { ShoppingModule } from './shopping/shopping.module';
     StyleCoachModule,
     ColorAnalysisModule,
     ShoppingModule,
+    CapsuleModule,
   ],
   controllers: [AppController],
   providers: [AppService],
