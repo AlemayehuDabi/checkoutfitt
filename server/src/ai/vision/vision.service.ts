@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AiProvider } from '../constants';
+import { toProviderHttpException } from '../provider-error.util';
 import { DetectedGarment, VisionProvider } from './vision-provider.interface';
 import { AnthropicVisionProvider } from './providers/anthropic-vision.provider';
 import { OpenAiVisionProvider } from './providers/openai-vision.provider';
@@ -13,6 +14,7 @@ import { GeminiVisionProvider } from './providers/gemini-vision.provider';
  */
 @Injectable()
 export class VisionService {
+  private readonly logger = new Logger(VisionService.name);
   private readonly provider: VisionProvider;
 
   constructor(
@@ -31,7 +33,17 @@ export class VisionService {
     this.provider = providers[selected];
   }
 
-  detectGarment(imageUrl: string): Promise<DetectedGarment> {
-    return this.provider.detectGarment(imageUrl);
+  /**
+   * Vendor failures become 429/503 rather than escaping as an unhandled 500,
+   * matching LLMService. The detection worker catches its own errors and
+   * records them on the closet item, so this only changes what request-time
+   * callers (e.g. shopping evaluation) surface.
+   */
+  async detectGarment(imageUrl: string): Promise<DetectedGarment> {
+    try {
+      return await this.provider.detectGarment(imageUrl);
+    } catch (error) {
+      throw toProviderHttpException(error, 'Garment detection', this.logger);
+    }
   }
 }

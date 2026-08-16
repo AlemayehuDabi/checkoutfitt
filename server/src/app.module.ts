@@ -19,6 +19,7 @@ import { InsightsModule } from './insights/insights.module';
 import { OutfitRatingModule } from './outfit-rating/outfit-rating.module';
 import { StyleCoachModule } from './style-coach/style-coach.module';
 import { ColorAnalysisModule } from './color-analysis/color-analysis.module';
+import { ShoppingModule } from './shopping/shopping.module';
 
 @Module({
   imports: [
@@ -47,6 +48,7 @@ import { ColorAnalysisModule } from './color-analysis/color-analysis.module';
     OutfitRatingModule,
     StyleCoachModule,
     ColorAnalysisModule,
+    ShoppingModule,
   ],
   controllers: [AppController],
   providers: [AppService],

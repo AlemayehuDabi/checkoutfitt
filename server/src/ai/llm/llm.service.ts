@@ -1,10 +1,4 @@
-import {
-  HttpException,
-  HttpStatus,
-  Injectable,
-  Logger,
-  ServiceUnavailableException,
-} from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AiProvider } from '../constants';
 import {
@@ -21,37 +15,7 @@ import { StructuredParams } from './structured-output.interface';
 import { AnthropicLlmProvider } from './providers/anthropic-llm.provider';
 import { OpenAiLlmProvider } from './providers/openai-llm.provider';
 import { GeminiLlmProvider } from './providers/gemini-llm.provider';
-
-/**
- * Digs an HTTP status out of a vendor SDK error. The three SDKs don't agree
- * on where it lives — some expose a numeric `status`, and Gemini reports it
- * only inside the JSON body of the error message.
- */
-function extractStatus(error: unknown): number | undefined {
-  if (typeof error === 'object' && error !== null) {
-    const candidate = error as {
-      status?: unknown;
-      code?: unknown;
-      response?: { status?: unknown };
-    };
-    for (const value of [
-      candidate.status,
-      candidate.code,
-      candidate.response?.status,
-    ]) {
-      if (typeof value === 'number') {
-        return value;
-      }
-      if (typeof value === 'string' && /^\d+$/.test(value)) {
-        return Number(value);
-      }
-    }
-  }
-  if (error instanceof Error && /"code"\s*:\s*(\d{3})/.test(error.message)) {
-    return Number(/"code"\s*:\s*(\d{3})/.exec(error.message)?.[1]);
-  }
-  return undefined;
-}
+import { toProviderHttpException } from '../provider-error.util';
 
 /**
  * Thin facade other modules depend on instead of a concrete AI vendor SDK.
@@ -108,19 +72,10 @@ export class LLMService {
     try {
       return await this.provider.generateStructured<T>(params);
     } catch (error) {
-      const message = error instanceof Error ? error.message : String(error);
-      this.logger.error(
-        `Structured generation "${params.schemaName}" failed: ${message}`,
-      );
-
-      if (extractStatus(error) === HttpStatus.TOO_MANY_REQUESTS) {
-        throw new HttpException(
-          'The AI provider is rate limited right now. Please try again shortly.',
-          HttpStatus.TOO_MANY_REQUESTS,
-        );
-      }
-      throw new ServiceUnavailableException(
-        'The AI provider is currently unavailable. Please try again shortly.',
+      throw toProviderHttpException(
+        error,
+        `Structured generation "${params.schemaName}"`,
+        this.logger,
       );
     }
   }
