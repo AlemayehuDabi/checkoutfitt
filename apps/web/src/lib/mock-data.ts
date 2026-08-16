@@ -1265,6 +1265,97 @@ export const mockInspirationMatch: MockInspirationMatch = {
 };
 
 // ---------------------------------------------------------------------------
+// Account
+// ---------------------------------------------------------------------------
+
+/** `user.createdAt` — shown as "Member since" on the profile. */
+export const mockMemberSince = "2026-02-11T10:00:00.000Z";
+
+export type NotificationKind =
+  | "outfit"
+  | "closet"
+  | "insight"
+  | "system";
+
+export interface MockNotification {
+  id: string;
+  kind: NotificationKind;
+  title: string;
+  description: string;
+  createdAt: string;
+  read: boolean;
+  href: string | null;
+}
+
+function notification(
+  id: string,
+  kind: NotificationKind,
+  title: string,
+  description: string,
+  hoursAgo: number,
+  read: boolean,
+  href: string | null,
+): MockNotification {
+  return {
+    id,
+    kind,
+    title,
+    description,
+    createdAt: new Date(Date.now() - hoursAgo * 3_600_000).toISOString(),
+    read,
+    href,
+  };
+}
+
+export const mockNotifications: MockNotification[] = [
+  notification(
+    "nt_01",
+    "outfit",
+    "Today's outfit is ready",
+    "Picked for 21° and partly cloudy in Lisbon.",
+    2,
+    false,
+    "/today",
+  ),
+  notification(
+    "nt_02",
+    "closet",
+    "3 items finished processing",
+    "Your silk blouse, wool coat and loafers are ready to style.",
+    9,
+    false,
+    "/closet",
+  ),
+  notification(
+    "nt_03",
+    "insight",
+    "Your wardrobe is 78% complete",
+    "A charcoal blazer would unlock 18 more outfits.",
+    30,
+    true,
+    "/wardrobe-gaps",
+  ),
+  notification(
+    "nt_04",
+    "insight",
+    "Style analysis updated",
+    "You're reading as Old Money Minimalist after your recent additions.",
+    54,
+    true,
+    "/style-coach",
+  ),
+  notification(
+    "nt_05",
+    "system",
+    "Welcome to CheckoutFitt",
+    "Add a few pieces and we'll start building outfits from what you own.",
+    120,
+    true,
+    "/closet/new",
+  ),
+];
+
+// ---------------------------------------------------------------------------
 // Derived helpers
 // ---------------------------------------------------------------------------
 
