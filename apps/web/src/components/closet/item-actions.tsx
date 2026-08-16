@@ -26,14 +26,14 @@ export function ItemActions({ item }: { item: MockClosetItem }) {
         title: "Item deleted",
         description: `${item.category} was removed from your closet.`,
       });
-      router.push("/closet");
+      router.push("/dashboard/closet");
     }, 600);
   }
 
   return (
     <>
       <div className="flex flex-wrap gap-md">
-        <Link href={`/closet/${item.id}/edit`}>
+        <Link href={`/dashboard/closet/${item.id}/edit`}>
           <Button variant="secondary" iconLeft={<Pencil className="size-4" />}>
             Edit
           </Button>

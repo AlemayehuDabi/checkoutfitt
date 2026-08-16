@@ -7,7 +7,7 @@ import { GarmentImage } from "@/components/garment-image";
 import { EditItemForm } from "./edit-item-form";
 
 export async function generateMetadata(
-  props: PageProps<"/closet/[id]/edit">,
+  props: PageProps<"/dashboard/closet/[id]/edit">,
 ): Promise<Metadata> {
   const { id } = await props.params;
   const item = closetItemById(id);
@@ -22,7 +22,7 @@ export function generateStaticParams() {
 export const dynamicParams = false;
 
 export default async function EditItemPage(
-  props: PageProps<"/closet/[id]/edit">,
+  props: PageProps<"/dashboard/closet/[id]/edit">,
 ) {
   const { id } = await props.params;
   const item = closetItemById(id);
@@ -31,7 +31,7 @@ export default async function EditItemPage(
   return (
     <div className="mx-auto max-w-[720px] py-2xl">
       <Link
-        href={`/closet/${item.id}`}
+        href={`/dashboard/closet/${item.id}`}
         className="mb-xl inline-flex items-center gap-sm rounded-sm text-sm text-text-muted transition-colors hover:text-text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
       >
         <ArrowLeft aria-hidden className="size-4" />

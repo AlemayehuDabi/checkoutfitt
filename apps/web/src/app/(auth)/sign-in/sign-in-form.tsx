@@ -17,7 +17,7 @@ export function SignInForm() {
   function onSubmit(event: React.FormEvent) {
     event.preventDefault();
     setSubmitting(true);
-    window.setTimeout(() => router.push("/"), 700);
+    window.setTimeout(() => router.push("/dashboard"), 700);
   }
 
   return (

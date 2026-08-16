@@ -88,7 +88,7 @@ export function SidebarContent({
         )}
       >
         <Link
-          href="/"
+          href="/dashboard"
           onClick={onNavigate}
           className="rounded-sm text-body-semibold tracking-[-0.2px] text-primary-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
         >

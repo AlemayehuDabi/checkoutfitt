@@ -25,7 +25,7 @@ export default function SavedOutfitsPage() {
             </span>
           </h2>
         </div>
-        <ButtonLink href="/generate" iconLeft={<Sparkles className="size-4" />}>
+        <ButtonLink href="/dashboard/generate" iconLeft={<Sparkles className="size-4" />}>
             Generate an outfit
           </ButtonLink>
       </div>
@@ -36,7 +36,7 @@ export default function SavedOutfitsPage() {
           title="No saved outfits yet"
           description="When you generate a look you like, save it and it'll live here for next time."
           action={
-            <ButtonLink href="/generate" iconLeft={<Sparkles className="size-4" />}>
+            <ButtonLink href="/dashboard/generate" iconLeft={<Sparkles className="size-4" />}>
                 Generate your first outfit
               </ButtonLink>
           }

@@ -231,7 +231,7 @@ export function GenerateFlow({
                       {result.primary.items.map((item) => (
                         <li key={item.id}>
                           <Link
-                            href={`/closet/${item.id}`}
+                            href={`/dashboard/closet/${item.id}`}
                             className="group flex items-center gap-md rounded-sm p-1.5 transition-colors hover:bg-[color:var(--color-overlay-light)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                           >
                             <GarmentImage
@@ -265,7 +265,7 @@ export function GenerateFlow({
                         </Button>
                       </div>
                       <Link
-                        href={`/outfits/${result.primary.id}`}
+                        href={`/dashboard/outfits/${result.primary.id}`}
                         className="mt-lg inline-flex items-center gap-1.5 rounded-sm text-body-semibold text-primary-500 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                       >
                         See full detail

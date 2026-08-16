@@ -63,7 +63,7 @@ export function TopBar({ onOpenMenu }: { onOpenMenu: () => void }) {
 
       <div className="relative">
         <Link
-          href="/notifications"
+          href="/dashboard/notifications"
           aria-label="Notifications"
           className="inline-flex size-10 cursor-pointer items-center justify-center rounded-full text-text-secondary transition-colors duration-150 hover:bg-surface-secondary hover:text-text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
         >
@@ -89,10 +89,10 @@ export function TopBar({ onOpenMenu }: { onOpenMenu: () => void }) {
           </p>
         </div>
         <DropdownSeparator />
-        <Link href="/profile">
+        <Link href="/dashboard/profile">
           <DropdownItem icon={<User />}>Profile</DropdownItem>
         </Link>
-        <Link href="/settings">
+        <Link href="/dashboard/settings">
           <DropdownItem icon={<Settings />}>Settings</DropdownItem>
         </Link>
         <DropdownSeparator />

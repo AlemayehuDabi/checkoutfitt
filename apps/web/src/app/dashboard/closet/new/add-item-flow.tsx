@@ -69,14 +69,14 @@ export function AddItemFlow() {
         title: "Added to your closet",
         description: `${values.category} is ready to wear.`,
       });
-      router.push("/closet");
+      router.push("/dashboard/closet");
     }, 700);
   }
 
   return (
     <div className="mx-auto max-w-[720px] py-2xl">
       <Link
-        href="/closet"
+        href="/dashboard/closet"
         className="mb-xl inline-flex items-center gap-sm rounded-sm text-sm text-text-muted transition-colors hover:text-text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
       >
         <ArrowLeft aria-hidden className="size-4" />

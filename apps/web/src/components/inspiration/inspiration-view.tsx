@@ -232,7 +232,7 @@ export function InspirationView() {
                     return (
                       <motion.li key={piece.matchedItem.closetItemId} variants={listItem}>
                         <Link
-                          href={`/closet/${piece.matchedItem.closetItemId}`}
+                          href={`/dashboard/closet/${piece.matchedItem.closetItemId}`}
                           className="group flex items-center gap-lg rounded-md border border-border bg-surface p-md transition-colors duration-200 hover:bg-[color:var(--color-overlay-light)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                         >
                           {item && (
@@ -324,10 +324,10 @@ export function InspirationView() {
                   </ul>
 
                   <div className="mt-lg flex flex-wrap gap-md">
-                    <ButtonLink href="/shopping" variant="outline" size="sm">
+                    <ButtonLink href="/dashboard/shopping" variant="outline" size="sm">
                         Evaluate a purchase
                       </ButtonLink>
-                    <ButtonLink href="/wardrobe-gaps" variant="outline" size="sm">
+                    <ButtonLink href="/dashboard/wardrobe-gaps" variant="outline" size="sm">
                         See wardrobe gaps
                       </ButtonLink>
                   </div>

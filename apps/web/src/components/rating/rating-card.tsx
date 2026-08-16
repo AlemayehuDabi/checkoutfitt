@@ -23,7 +23,7 @@ export function RatingCard({ rating }: { rating: MockOutfitRating }) {
         className="h-full overflow-hidden rounded-xl border border-border bg-surface shadow-md transition-colors duration-200 hover:border-border-strong"
       >
         <Link
-          href={`/outfit-rating/${rating.id}`}
+          href={`/dashboard/outfit-rating/${rating.id}`}
           className="group block h-full rounded-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
         >
           <div className="relative overflow-hidden">

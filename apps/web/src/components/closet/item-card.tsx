@@ -40,7 +40,7 @@ export function ClosetItemCard({ item }: { item: MockClosetItem }) {
         className="h-full overflow-hidden rounded-xl border border-border bg-surface shadow-md transition-colors duration-200 hover:border-border-strong"
       >
         <Link
-          href={`/closet/${item.id}`}
+          href={`/dashboard/closet/${item.id}`}
           className="group block h-full rounded-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
         >
           <div className="relative overflow-hidden">
@@ -72,7 +72,7 @@ export function ClosetItemRow({ item }: { item: MockClosetItem }) {
   return (
     <motion.li variants={listItem}>
       <Link
-        href={`/closet/${item.id}`}
+        href={`/dashboard/closet/${item.id}`}
         className={cn(
           "group flex items-center gap-lg rounded-md border border-border bg-surface p-md transition-colors duration-200",
           "hover:bg-[color:var(--color-overlay-light)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500",

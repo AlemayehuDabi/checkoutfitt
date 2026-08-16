@@ -1315,7 +1315,7 @@ export const mockNotifications: MockNotification[] = [
     "Picked for 21° and partly cloudy in Lisbon.",
     2,
     false,
-    "/today",
+    "/dashboard/today",
   ),
   notification(
     "nt_02",
@@ -1324,7 +1324,7 @@ export const mockNotifications: MockNotification[] = [
     "Your silk blouse, wool coat and loafers are ready to style.",
     9,
     false,
-    "/closet",
+    "/dashboard/closet",
   ),
   notification(
     "nt_03",
@@ -1333,7 +1333,7 @@ export const mockNotifications: MockNotification[] = [
     "A charcoal blazer would unlock 18 more outfits.",
     30,
     true,
-    "/wardrobe-gaps",
+    "/dashboard/wardrobe-gaps",
   ),
   notification(
     "nt_04",
@@ -1342,7 +1342,7 @@ export const mockNotifications: MockNotification[] = [
     "You're reading as Old Money Minimalist after your recent additions.",
     54,
     true,
-    "/style-coach",
+    "/dashboard/style-coach",
   ),
   notification(
     "nt_05",
@@ -1351,7 +1351,7 @@ export const mockNotifications: MockNotification[] = [
     "Add a few pieces and we'll start building outfits from what you own.",
     120,
     true,
-    "/closet/new",
+    "/dashboard/closet/new",
   ),
 ];
 

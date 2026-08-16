@@ -21,7 +21,7 @@ export function QuickActions({ itemCount }: { itemCount: number }) {
         className="rounded-xl border border-border bg-surface shadow-md transition-colors duration-200 hover:border-border-strong"
       >
         <Link
-          href="/closet"
+          href="/dashboard/closet"
           className="group flex h-full items-center gap-lg rounded-xl p-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
         >
           <span className="inline-flex size-12 shrink-0 items-center justify-center rounded-md bg-primary-50 text-primary-500">
@@ -48,7 +48,7 @@ export function QuickActions({ itemCount }: { itemCount: number }) {
         className="rounded-xl bg-primary-500 shadow-primary"
       >
         <Link
-          href="/generate"
+          href="/dashboard/generate"
           className="group flex h-full items-center gap-lg rounded-xl p-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
         >
           <span className="inline-flex size-12 shrink-0 items-center justify-center rounded-md bg-white/15 text-white">

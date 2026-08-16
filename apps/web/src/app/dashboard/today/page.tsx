@@ -24,7 +24,7 @@ export default function TodayPage() {
   return (
     <div className="py-2xl">
       <Link
-        href="/"
+        href="/dashboard"
         className="mb-xl inline-flex items-center gap-sm rounded-sm text-sm text-text-muted transition-colors hover:text-text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
       >
         <ArrowLeft aria-hidden className="size-4" />
@@ -74,7 +74,7 @@ export default function TodayPage() {
               {outfit.items.map((item) => (
                 <li key={item.id}>
                   <Link
-                    href={`/closet/${item.id}`}
+                    href={`/dashboard/closet/${item.id}`}
                     className="group flex items-center gap-lg rounded-md border border-border bg-surface p-md transition-colors duration-200 hover:bg-[color:var(--color-overlay-light)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                   >
                     <GarmentImage
@@ -103,7 +103,7 @@ export default function TodayPage() {
             <Button iconLeft={<Bookmark className="size-4" />}>
               {outfit.saved ? "Saved" : "Save this outfit"}
             </Button>
-            <ButtonLink href="/generate" variant="secondary" iconLeft={<RefreshCw className="size-4" />}>
+            <ButtonLink href="/dashboard/generate" variant="secondary" iconLeft={<RefreshCw className="size-4" />}>
                 Try another
               </ButtonLink>
           </div>

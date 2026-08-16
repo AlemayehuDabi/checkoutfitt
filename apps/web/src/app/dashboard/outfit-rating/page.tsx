@@ -24,7 +24,7 @@ export default function OutfitRatingPage() {
             title="Recent ratings"
             action={
               <Link
-                href="/outfit-rating/history"
+                href="/dashboard/outfit-rating/history"
                 className="rounded-sm text-body-medium text-text-accent hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
               >
                 View all

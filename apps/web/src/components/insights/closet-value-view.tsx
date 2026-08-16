@@ -125,7 +125,7 @@ export function ClosetValueView({ value }: { value: MockClosetValue }) {
             return (
               <motion.li key={item.closetItemId} variants={listItem}>
                 <Link
-                  href={`/closet/${item.closetItemId}`}
+                  href={`/dashboard/closet/${item.closetItemId}`}
                   className="group flex items-center gap-lg rounded-md border border-border bg-surface p-md transition-colors duration-200 hover:bg-[color:var(--color-overlay-light)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                 >
                   {closetItem && (

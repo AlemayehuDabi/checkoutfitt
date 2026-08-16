@@ -12,7 +12,7 @@ import { OutfitImage } from "@/components/outfit-image";
 export function ChatOutfitCard({ outfit }: { outfit: MockOutfit }) {
   return (
     <Link
-      href={`/outfits/${outfit.id}`}
+      href={`/dashboard/outfits/${outfit.id}`}
       className="group mt-md block overflow-hidden rounded-md border border-border bg-bg transition-colors duration-200 hover:border-border-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
     >
       <div className="overflow-hidden">

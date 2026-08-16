@@ -80,7 +80,7 @@ export function OnboardingWizard() {
       return;
     }
     setFinishing(true);
-    window.setTimeout(() => router.push("/"), 800);
+    window.setTimeout(() => router.push("/dashboard"), 800);
   }
 
   return (

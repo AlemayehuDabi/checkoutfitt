@@ -18,7 +18,7 @@ import { StateView } from "@/components/ui/state-view";
 import { ItemActions } from "@/components/closet/item-actions";
 
 export async function generateMetadata(
-  props: PageProps<"/closet/[id]">,
+  props: PageProps<"/dashboard/closet/[id]">,
 ): Promise<Metadata> {
   const { id } = await props.params;
   const item = closetItemById(id);
@@ -47,7 +47,7 @@ function MetaRow({ label, value }: { label: string; value: React.ReactNode }) {
   );
 }
 
-export default async function ClosetItemPage(props: PageProps<"/closet/[id]">) {
+export default async function ClosetItemPage(props: PageProps<"/dashboard/closet/[id]">) {
   const { id } = await props.params;
   const item = closetItemById(id);
   if (!item) notFound();
@@ -66,7 +66,7 @@ export default async function ClosetItemPage(props: PageProps<"/closet/[id]">) {
         <ol className="flex items-center gap-1.5 text-sm text-text-muted">
           <li>
             <Link
-              href="/closet"
+              href="/dashboard/closet"
               className="inline-flex items-center gap-sm rounded-sm transition-colors hover:text-text-primary hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
             >
               <ArrowLeft aria-hidden className="size-4" />
@@ -147,7 +147,7 @@ export default async function ClosetItemPage(props: PageProps<"/closet/[id]">) {
                 {relatedOutfits.map((outfit) => (
                   <li key={outfit.id}>
                     <Link
-                      href={`/outfits/${outfit.id}`}
+                      href={`/dashboard/outfits/${outfit.id}`}
                       className="group flex items-center gap-lg rounded-md border border-border bg-surface p-md transition-colors duration-200 hover:bg-[color:var(--color-overlay-light)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                     >
                       <OutfitImage

@@ -17,7 +17,7 @@ export default function RatingHistoryPage() {
   return (
     <div className="py-2xl">
       <Link
-        href="/outfit-rating"
+        href="/dashboard/outfit-rating"
         className="mb-xl inline-flex items-center gap-sm rounded-sm text-sm text-text-muted transition-colors hover:text-text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
       >
         <ArrowLeft aria-hidden className="size-4" />
@@ -42,7 +42,7 @@ export default function RatingHistoryPage() {
           title="No ratings yet"
           description="Upload a photo of an outfit and we'll score it on colour, fit and occasion match."
           action={
-            <ButtonLink href="/outfit-rating" iconLeft={<Star className="size-4" />}>
+            <ButtonLink href="/dashboard/outfit-rating" iconLeft={<Star className="size-4" />}>
                 Rate your first outfit
               </ButtonLink>
           }

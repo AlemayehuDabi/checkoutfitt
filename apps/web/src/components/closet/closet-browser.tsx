@@ -108,7 +108,7 @@ export function ClosetBrowser({ items }: { items: MockClosetItem[] }) {
             ))}
           </div>
 
-          <ButtonLink href="/closet/new" iconLeft={<Plus className="size-4" />}>Add items</ButtonLink>
+          <ButtonLink href="/dashboard/closet/new" iconLeft={<Plus className="size-4" />}>Add items</ButtonLink>
         </div>
       </div>
 
@@ -184,7 +184,7 @@ export function ClosetBrowser({ items }: { items: MockClosetItem[] }) {
             title="Your closet is empty"
             description="Add a few pieces and we'll identify each one automatically, then start building outfits from them."
             action={
-              <ButtonLink href="/closet/new" iconLeft={<Plus className="size-4" />}>
+              <ButtonLink href="/dashboard/closet/new" iconLeft={<Plus className="size-4" />}>
                   Add your first item
                 </ButtonLink>
             }

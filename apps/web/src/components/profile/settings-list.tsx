@@ -108,14 +108,14 @@ const ROWS: Row[] = [
     icon: CreditCard,
     title: "Subscription",
     description: "You're on the Free plan",
-    href: "/subscription",
+    href: "/dashboard/subscription",
   },
   {
     id: "notifications",
     icon: Bell,
     title: "Notifications",
     description: "What we tell you about, and when",
-    href: "/notifications",
+    href: "/dashboard/notifications",
   },
   {
     id: "privacy",

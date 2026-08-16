@@ -27,7 +27,7 @@ export function EditItemForm({ item }: { item: MockClosetItem }) {
         title: "Changes saved",
         description: `${values.category} has been updated.`,
       });
-      router.push(`/closet/${item.id}`);
+      router.push(`/dashboard/closet/${item.id}`);
     }, 700);
   }
 
@@ -37,7 +37,7 @@ export function EditItemForm({ item }: { item: MockClosetItem }) {
       submitLabel="Save changes"
       submitting={saving}
       onSubmit={save}
-      onCancel={() => router.push(`/closet/${item.id}`)}
+      onCancel={() => router.push(`/dashboard/closet/${item.id}`)}
     />
   );
 }

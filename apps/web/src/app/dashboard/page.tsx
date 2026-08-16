@@ -47,7 +47,7 @@ export default function HomePage() {
             title="No outfit for today yet"
             description="Set your location and add a few pieces, and we'll have a look ready each morning."
             action={
-              <ButtonLink href="/generate" iconLeft={<Sparkles className="size-4" />}>
+              <ButtonLink href="/dashboard/generate" iconLeft={<Sparkles className="size-4" />}>
                   Generate one now
                 </ButtonLink>
             }
@@ -63,7 +63,7 @@ export default function HomePage() {
           title="Recent outfits"
           action={
             <Link
-              href="/outfits/saved"
+              href="/dashboard/outfits/saved"
               className="rounded-sm text-body-medium text-text-accent hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
             >
               View saved
@@ -84,7 +84,7 @@ export default function HomePage() {
             {recent.map((outfit) => (
               <li key={outfit.id}>
                 <Link
-                  href={`/outfits/${outfit.id}`}
+                  href={`/dashboard/outfits/${outfit.id}`}
                   className="group block overflow-hidden rounded-xl border border-border bg-surface shadow-md transition-all duration-200 hover:-translate-y-[3px] hover:border-border-strong hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                 >
                   <div className="overflow-hidden">

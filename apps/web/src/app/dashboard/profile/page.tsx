@@ -51,10 +51,10 @@ export default function ProfilePage() {
           </p>
 
           <div className="mt-lg flex flex-wrap gap-md">
-            <ButtonLink href="/settings" variant="secondary" size="sm">
+            <ButtonLink href="/dashboard/settings" variant="secondary" size="sm">
                 Edit profile
               </ButtonLink>
-            <ButtonLink href="/settings" variant="outline" size="sm" iconLeft={<Settings className="size-4" />}>
+            <ButtonLink href="/dashboard/settings" variant="outline" size="sm" iconLeft={<Settings className="size-4" />}>
                 Settings
               </ButtonLink>
           </div>
@@ -86,7 +86,7 @@ export default function ProfilePage() {
 
         <div className="grid gap-lg sm:grid-cols-2">
           <Link
-            href="/style-coach"
+            href="/dashboard/style-coach"
             className="group rounded-xl border border-border bg-surface p-xl shadow-md transition-all duration-200 hover:-translate-y-[3px] hover:border-border-strong hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
           >
             <span className="inline-flex size-11 items-center justify-center rounded-md bg-primary-50 text-primary-500">
@@ -115,7 +115,7 @@ export default function ProfilePage() {
           </Link>
 
           <Link
-            href="/color-analysis"
+            href="/dashboard/color-analysis"
             className="group rounded-xl border border-border bg-surface p-xl shadow-md transition-all duration-200 hover:-translate-y-[3px] hover:border-border-strong hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
           >
             <span className="inline-flex size-11 items-center justify-center rounded-md bg-primary-50 text-primary-500">

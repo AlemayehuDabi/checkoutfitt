@@ -8,7 +8,7 @@ import { PersonPhoto } from "@/components/rating/person-photo";
 import { ScorePanel } from "@/components/rating/score-panel";
 
 export async function generateMetadata(
-  props: PageProps<"/outfit-rating/[id]">,
+  props: PageProps<"/dashboard/outfit-rating/[id]">,
 ): Promise<Metadata> {
   const { id } = await props.params;
   const rating = ratingById(id);
@@ -25,7 +25,7 @@ export function generateStaticParams() {
 export const dynamicParams = false;
 
 export default async function RatingDetailPage(
-  props: PageProps<"/outfit-rating/[id]">,
+  props: PageProps<"/dashboard/outfit-rating/[id]">,
 ) {
   const { id } = await props.params;
   const rating = ratingById(id);
@@ -43,7 +43,7 @@ export default async function RatingDetailPage(
         <ol className="flex items-center gap-1.5 text-sm text-text-muted">
           <li>
             <Link
-              href="/outfit-rating/history"
+              href="/dashboard/outfit-rating/history"
               className="inline-flex items-center gap-sm rounded-sm transition-colors hover:text-text-primary hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
             >
               <ArrowLeft aria-hidden className="size-4" />
@@ -77,7 +77,7 @@ export default async function RatingDetailPage(
           <ScorePanel rating={rating} />
 
           <div className="mt-3xl">
-            <ButtonLink href="/outfit-rating" variant="secondary" iconLeft={<Star className="size-4" />}>
+            <ButtonLink href="/dashboard/outfit-rating" variant="secondary" iconLeft={<Star className="size-4" />}>
                 Rate another outfit
               </ButtonLink>
           </div>

@@ -22,7 +22,7 @@ export function TodaysOutfitCard({ outfit }: { outfit: MockOutfit }) {
       className="overflow-hidden rounded-xl border border-border bg-surface shadow-lg transition-colors duration-200 hover:border-border-strong"
     >
       <Link
-        href="/today"
+        href="/dashboard/today"
         className="group grid rounded-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 sm:grid-cols-[minmax(0,1fr)_1.1fr]"
       >
         <div className="overflow-hidden">

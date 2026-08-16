@@ -201,7 +201,7 @@ export function CapsuleView() {
                       }}
                     >
                       <Link
-                        href={`/closet/${item.closetItemId}`}
+                        href={`/dashboard/closet/${item.closetItemId}`}
                         className="group block overflow-hidden rounded-md border border-border transition-colors hover:border-border-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                       >
                         <GarmentImage
@@ -280,7 +280,7 @@ export function CapsuleView() {
               </section>
 
               <div className="mt-3xl flex flex-wrap gap-md">
-                <ButtonLink href="/outfits/saved" iconLeft={<Sparkles className="size-4" />}>
+                <ButtonLink href="/dashboard/outfits/saved" iconLeft={<Sparkles className="size-4" />}>
                     View all outfits
                   </ButtonLink>
                 <Button variant="secondary" onClick={() => setStage("input")}>

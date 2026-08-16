@@ -259,7 +259,7 @@ export function ShoppingView() {
                           return (
                             <li key={item.closetItemId}>
                               <Link
-                                href={`/closet/${item.closetItemId}`}
+                                href={`/dashboard/closet/${item.closetItemId}`}
                                 className="group flex items-center gap-md rounded-sm p-1 transition-colors hover:bg-[color:var(--color-overlay-light)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                               >
                                 {closetItem && (

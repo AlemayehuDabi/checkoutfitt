@@ -91,7 +91,7 @@ export function GapAnalysisView({ analysis }: { analysis: MockGapAnalysis }) {
         title="Not enough to analyze yet"
         description="Add at least three pieces to your closet and we'll work out what's missing."
         action={
-          <ButtonLink href="/closet/new">Add items</ButtonLink>
+          <ButtonLink href="/dashboard/closet/new">Add items</ButtonLink>
         }
       />
     );
@@ -161,7 +161,7 @@ export function GapAnalysisView({ analysis }: { analysis: MockGapAnalysis }) {
       </section>
 
       <div className="mt-3xl flex flex-wrap items-center gap-lg">
-        <ButtonLink href="/shopping" size="lg" iconLeft={<Sparkles className="size-4" />}>
+        <ButtonLink href="/dashboard/shopping" size="lg" iconLeft={<Sparkles className="size-4" />}>
             See all recommendations
           </ButtonLink>
         <p className="text-caption text-text-muted tabular-nums">

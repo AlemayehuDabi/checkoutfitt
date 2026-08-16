@@ -83,7 +83,7 @@ export function DayPanel({
               {schedule ? (
                 <>
                   <Link
-                    href={`/outfits/${schedule.outfit.id}`}
+                    href={`/dashboard/outfits/${schedule.outfit.id}`}
                     className="group block overflow-hidden rounded-xl border border-border bg-surface shadow-md transition-colors hover:border-border-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                   >
                     <div className="overflow-hidden">

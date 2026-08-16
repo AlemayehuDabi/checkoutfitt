@@ -16,7 +16,7 @@ import { GarmentImage } from "@/components/garment-image";
 import { SaveToggle } from "@/components/outfit/save-toggle";
 
 export async function generateMetadata(
-  props: PageProps<"/outfits/[id]">,
+  props: PageProps<"/dashboard/outfits/[id]">,
 ): Promise<Metadata> {
   const { id } = await props.params;
   const outfit = outfitById(id);
@@ -33,7 +33,7 @@ export function generateStaticParams() {
 export const dynamicParams = false;
 
 export default async function OutfitDetailPage(
-  props: PageProps<"/outfits/[id]">,
+  props: PageProps<"/dashboard/outfits/[id]">,
 ) {
   const { id } = await props.params;
   const outfit = outfitById(id);
@@ -48,7 +48,7 @@ export default async function OutfitDetailPage(
         <ol className="flex items-center gap-1.5 text-sm text-text-muted">
           <li>
             <Link
-              href="/outfits/saved"
+              href="/dashboard/outfits/saved"
               className="inline-flex items-center gap-sm rounded-sm transition-colors hover:text-text-primary hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
             >
               <ArrowLeft aria-hidden className="size-4" />
@@ -99,7 +99,7 @@ export default async function OutfitDetailPage(
               {outfit.items.map((item) => (
                 <li key={item.id}>
                   <Link
-                    href={`/closet/${item.id}`}
+                    href={`/dashboard/closet/${item.id}`}
                     className="group flex items-center gap-lg rounded-md border border-border bg-surface p-md transition-colors duration-200 hover:bg-[color:var(--color-overlay-light)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                   >
                     <GarmentImage
@@ -133,7 +133,7 @@ export default async function OutfitDetailPage(
               initialSaved={outfit.saved}
               label={`This ${CONTEXT_LABELS[outfit.context].toLowerCase()} outfit`}
             />
-            <ButtonLink href="/generate"
+            <ButtonLink href="/dashboard/generate"
                 variant="secondary"
                 iconLeft={<RefreshCw className="size-4" />}
               >
