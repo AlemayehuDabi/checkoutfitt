@@ -8,7 +8,7 @@ import {
   outfitById,
 } from "@/lib/mock-data";
 import { OCCASIONS } from "@/lib/occasions";
-import { Button } from "@/components/ui/button";
+import { ButtonLink } from "@/components/ui/button";
 import { CalloutCard } from "@/components/ui/callout-card";
 import { Tag } from "@/components/ui/chip";
 import { OutfitImage } from "@/components/outfit-image";
@@ -133,14 +133,12 @@ export default async function OutfitDetailPage(
               initialSaved={outfit.saved}
               label={`This ${CONTEXT_LABELS[outfit.context].toLowerCase()} outfit`}
             />
-            <Link href="/generate">
-              <Button
+            <ButtonLink href="/generate"
                 variant="secondary"
                 iconLeft={<RefreshCw className="size-4" />}
               >
                 Generate another
-              </Button>
-            </Link>
+              </ButtonLink>
           </div>
         </div>
       </div>

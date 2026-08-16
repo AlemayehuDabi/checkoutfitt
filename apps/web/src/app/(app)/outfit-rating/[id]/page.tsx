@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ChevronRight, Star } from "lucide-react";
 import { CONTEXT_LABELS, mockRatings, ratingById } from "@/lib/mock-data";
-import { Button } from "@/components/ui/button";
+import { ButtonLink } from "@/components/ui/button";
 import { PersonPhoto } from "@/components/rating/person-photo";
 import { ScorePanel } from "@/components/rating/score-panel";
 
@@ -77,11 +77,9 @@ export default async function RatingDetailPage(
           <ScorePanel rating={rating} />
 
           <div className="mt-3xl">
-            <Link href="/outfit-rating">
-              <Button variant="secondary" iconLeft={<Star className="size-4" />}>
+            <ButtonLink href="/outfit-rating" variant="secondary" iconLeft={<Star className="size-4" />}>
                 Rate another outfit
-              </Button>
-            </Link>
+              </ButtonLink>
           </div>
         </div>
       </div>

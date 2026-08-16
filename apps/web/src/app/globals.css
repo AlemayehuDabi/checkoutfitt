@@ -43,6 +43,10 @@
   --color-danger-light: #fdedea;
   --color-warning: #d4a03c;
   --color-warning-light: #fff8e6;
+  /* Added, not a change to the spec's palette: --color-warning on
+     --color-warning-light falls short of WCAG AA for body text, so warning
+     *text* needs a darker step. Fill/icon uses stay on --color-warning. */
+  --color-warning-strong: #8a6516;
   --color-info: #5b8fc7;
   --color-info-light: #ebf3fa;
 

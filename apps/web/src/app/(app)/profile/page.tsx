@@ -17,7 +17,7 @@ import {
   mockStyleAnalysis,
   mockUser,
 } from "@/lib/mock-data";
-import { Button } from "@/components/ui/button";
+import { ButtonLink } from "@/components/ui/button";
 import { Tag } from "@/components/ui/chip";
 import { SectionHeader } from "@/components/ui/section-header";
 import { StatCard } from "@/components/ui/stat-card";
@@ -51,16 +51,12 @@ export default function ProfilePage() {
           </p>
 
           <div className="mt-lg flex flex-wrap gap-md">
-            <Link href="/settings">
-              <Button variant="secondary" size="sm">
+            <ButtonLink href="/settings" variant="secondary" size="sm">
                 Edit profile
-              </Button>
-            </Link>
-            <Link href="/settings">
-              <Button variant="outline" size="sm" iconLeft={<Settings className="size-4" />}>
+              </ButtonLink>
+            <ButtonLink href="/settings" variant="outline" size="sm" iconLeft={<Settings className="size-4" />}>
                 Settings
-              </Button>
-            </Link>
+              </ButtonLink>
           </div>
         </div>
       </div>

@@ -2,8 +2,7 @@
 
 import * as React from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { RefreshCw, Sparkles, Star, UploadCloud, X } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { RefreshCw, Sparkles, Star } from "lucide-react";
 import {
   CONTEXT_LABELS,
   OUTFIT_CONTEXTS,
@@ -12,6 +11,7 @@ import {
   type MockOutfitRating,
   type OutfitContext,
 } from "@/lib/mock-data";
+import { DropPrompt, PhotoDropzone } from "@/components/photo-dropzone";
 import { Button } from "@/components/ui/button";
 import { Chip } from "@/components/ui/chip";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -39,21 +39,13 @@ export function RateFlow() {
     null,
   );
   const [occasion, setOccasion] = React.useState<OutfitContext | null>(null);
-  const [dragging, setDragging] = React.useState(false);
   const [result, setResult] = React.useState<MockOutfitRating | null>(null);
-  const inputRef = React.useRef<HTMLInputElement>(null);
 
   React.useEffect(() => {
     return () => {
       if (photo) URL.revokeObjectURL(photo.preview);
     };
   }, [photo]);
-
-  function accept(files: FileList | null) {
-    const file = files?.[0];
-    if (!file) return;
-    setPhoto({ name: file.name, preview: URL.createObjectURL(file) });
-  }
 
   function rate() {
     setStage("rating");
@@ -103,78 +95,15 @@ export function RateFlow() {
 
             {/* Photo */}
             <div className="mt-3xl">
-              {photo ? (
-                <div className="relative w-fit">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={photo.preview}
-                    alt={photo.name}
-                    className="aspect-[3/4] w-64 rounded-xl border border-border object-cover shadow-md"
-                  />
-                  <button
-                    type="button"
-                    onClick={retake}
-                    aria-label="Remove photo"
-                    className="absolute -top-2 -right-2 inline-flex size-7 cursor-pointer items-center justify-center rounded-full border border-border bg-surface text-text-secondary shadow-sm transition-colors hover:bg-danger-light hover:text-danger focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
-                  >
-                    <X aria-hidden className="size-4" />
-                  </button>
-                </div>
-              ) : (
-                <motion.div
-                  animate={{ scale: dragging ? 1.01 : 1 }}
-                  transition={{ duration: 0.2 }}
-                  onDragOver={(e) => {
-                    e.preventDefault();
-                    setDragging(true);
-                  }}
-                  onDragLeave={() => setDragging(false)}
-                  onDrop={(e) => {
-                    e.preventDefault();
-                    setDragging(false);
-                    accept(e.dataTransfer.files);
-                  }}
-                  className={cn(
-                    "rounded-xl border-2 border-dashed transition-colors duration-200",
-                    dragging
-                      ? "border-primary-500 bg-primary-100"
-                      : "border-border bg-surface hover:border-primary-300 hover:bg-primary-50",
-                  )}
-                >
-                  <button
-                    type="button"
-                    onClick={() => inputRef.current?.click()}
-                    className="flex w-full cursor-pointer flex-col items-center gap-md rounded-xl px-lg py-6xl text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
-                  >
-                    <UploadCloud
-                      aria-hidden
-                      className={cn(
-                        "size-12 stroke-[1.25] transition-colors",
-                        dragging ? "text-primary-500" : "text-text-muted",
-                      )}
-                    />
-                    <span className="text-body text-text-secondary">
-                      <span className="font-[600] text-primary-500">
-                        Click to browse
-                      </span>{" "}
-                      or drag a full-length photo here
-                    </span>
-                    <span className="text-caption text-text-muted">
-                      One photo · JPG, PNG, WEBP or HEIC
-                    </span>
-                  </button>
-                  <input
-                    ref={inputRef}
-                    type="file"
-                    accept="image/jpeg,image/png,image/webp,image/heic"
-                    className="sr-only"
-                    onChange={(e) => {
-                      accept(e.target.files);
-                      e.target.value = "";
-                    }}
-                  />
-                </motion.div>
-              )}
+              <PhotoDropzone
+                photo={photo}
+                onPick={(file) =>
+                  setPhoto({ name: file.name, preview: URL.createObjectURL(file) })
+                }
+                onClear={retake}
+                prompt={<DropPrompt what="a full-length photo" />}
+                hint="One photo · JPG, PNG, WEBP or HEIC"
+              />
             </div>
 
             {/* Occasion */}

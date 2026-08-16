@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
 import { motion, useReducedMotion, type HTMLMotionProps } from "framer-motion";
 import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -27,6 +28,25 @@ const SIZES: Record<Size, string> = {
   md: "h-11 px-6 text-body-semibold gap-2",
   lg: "h-13 px-8 text-body-semibold gap-2",
 };
+
+/** Shared by Button and ButtonLink so both render identically. */
+function buttonStyles(
+  variant: Variant,
+  size: Size,
+  fullWidth: boolean,
+  className?: string,
+) {
+  return cn(
+    "inline-flex cursor-pointer items-center justify-center rounded-lg font-[600] whitespace-nowrap",
+    "transition-colors duration-150 ease-[cubic-bezier(0.4,0,0.2,1)]",
+    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500",
+    "disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none",
+    VARIANTS[variant],
+    SIZES[size],
+    fullWidth && "w-full",
+    className,
+  );
+}
 
 export interface ButtonProps
   extends Omit<HTMLMotionProps<"button">, "children"> {
@@ -70,16 +90,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         }
         whileTap={reduce || isDisabled ? undefined : { scale: 0.97 }}
         transition={{ duration: 0.15, ease: [0.4, 0, 0.2, 1] }}
-        className={cn(
-          "inline-flex cursor-pointer items-center justify-center rounded-lg font-[600] whitespace-nowrap",
-          "transition-colors duration-150 ease-[cubic-bezier(0.4,0,0.2,1)]",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500",
-          "disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none",
-          VARIANTS[variant],
-          SIZES[size],
-          fullWidth && "w-full",
-          className,
-        )}
+        className={buttonStyles(variant, size, fullWidth, className)}
         {...props}
       >
         {loading ? (
@@ -90,6 +101,56 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {children}
         {!loading && iconRight}
       </motion.button>
+    );
+  },
+);
+
+/**
+ * A link that looks like a button.
+ *
+ * Wrapping <Button> in a <Link> renders <a><button>, which is invalid HTML
+ * (interactive content inside an anchor) and gives the same control two tab
+ * stops. This renders a single anchor with the button's styling instead. The
+ * hover lift is CSS rather than Framer, since there's no motion element here.
+ */
+export interface ButtonLinkProps
+  extends React.ComponentPropsWithoutRef<typeof Link> {
+  variant?: Variant;
+  size?: Size;
+  fullWidth?: boolean;
+  iconLeft?: React.ReactNode;
+  iconRight?: React.ReactNode;
+}
+
+export const ButtonLink = React.forwardRef<HTMLAnchorElement, ButtonLinkProps>(
+  function ButtonLink(
+    {
+      variant = "primary",
+      size = "md",
+      fullWidth = false,
+      iconLeft,
+      iconRight,
+      className,
+      children,
+      ...props
+    },
+    ref,
+  ) {
+    return (
+      <Link
+        ref={ref}
+        className={cn(
+          buttonStyles(variant, size, fullWidth, className),
+          variant === "primary" &&
+            "hover:-translate-y-px hover:shadow-[0_4px_14px_rgba(193,98,45,0.25)]",
+          "active:translate-y-0",
+        )}
+        {...props}
+      >
+        {iconLeft}
+        {children}
+        {iconRight}
+      </Link>
     );
   },
 );

@@ -6,7 +6,7 @@ import {
   mockTodaysOutfit,
   mockWeather,
 } from "@/lib/mock-data";
-import { Button } from "@/components/ui/button";
+import { Button, ButtonLink } from "@/components/ui/button";
 import { CalloutCard } from "@/components/ui/callout-card";
 import { Tag } from "@/components/ui/chip";
 import { OutfitImage } from "@/components/outfit-image";
@@ -103,11 +103,9 @@ export default function TodayPage() {
             <Button iconLeft={<Bookmark className="size-4" />}>
               {outfit.saved ? "Saved" : "Save this outfit"}
             </Button>
-            <Link href="/generate">
-              <Button variant="secondary" iconLeft={<RefreshCw className="size-4" />}>
+            <ButtonLink href="/generate" variant="secondary" iconLeft={<RefreshCw className="size-4" />}>
                 Try another
-              </Button>
-            </Link>
+              </ButtonLink>
           </div>
         </div>
       </div>

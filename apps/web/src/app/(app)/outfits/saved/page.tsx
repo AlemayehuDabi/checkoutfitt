@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Bookmark, Sparkles } from "lucide-react";
 import { mockSavedOutfits } from "@/lib/mock-data";
-import { Button } from "@/components/ui/button";
+import { ButtonLink } from "@/components/ui/button";
 import { StateView } from "@/components/ui/state-view";
 import { SavedOutfitGrid } from "./saved-outfit-grid";
 
@@ -26,11 +25,9 @@ export default function SavedOutfitsPage() {
             </span>
           </h2>
         </div>
-        <Link href="/generate">
-          <Button iconLeft={<Sparkles className="size-4" />}>
+        <ButtonLink href="/generate" iconLeft={<Sparkles className="size-4" />}>
             Generate an outfit
-          </Button>
-        </Link>
+          </ButtonLink>
       </div>
 
       {outfits.length === 0 ? (
@@ -39,11 +36,9 @@ export default function SavedOutfitsPage() {
           title="No saved outfits yet"
           description="When you generate a look you like, save it and it'll live here for next time."
           action={
-            <Link href="/generate">
-              <Button iconLeft={<Sparkles className="size-4" />}>
+            <ButtonLink href="/generate" iconLeft={<Sparkles className="size-4" />}>
                 Generate your first outfit
-              </Button>
-            </Link>
+              </ButtonLink>
           }
         />
       ) : (

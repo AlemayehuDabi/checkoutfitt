@@ -1,12 +1,11 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowLeft, ArrowRight, Check, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { Button, ButtonLink } from "@/components/ui/button";
 import { Chip } from "@/components/ui/chip";
 import {
   BOTTOM_SIZES,
@@ -311,11 +310,9 @@ export function OnboardingWizard() {
               Back
             </Button>
           ) : (
-            <Link href="/sign-up">
-              <Button variant="ghost" iconLeft={<ArrowLeft className="size-4" />}>
+            <ButtonLink href="/sign-up" variant="ghost" iconLeft={<ArrowLeft className="size-4" />}>
                 Back
-              </Button>
-            </Link>
+              </ButtonLink>
           )}
 
           <div className="flex items-center gap-md">

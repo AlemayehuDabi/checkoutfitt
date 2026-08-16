@@ -23,7 +23,7 @@ import { AnimatedNumber } from "@/components/animated-number";
 import { GarmentImage } from "@/components/garment-image";
 import { OutfitImage } from "@/components/outfit-image";
 import { DropPrompt, PhotoDropzone, type PickedPhoto } from "@/components/photo-dropzone";
-import { Button } from "@/components/ui/button";
+import { Button, ButtonLink } from "@/components/ui/button";
 import { CalloutCard } from "@/components/ui/callout-card";
 import { Divider } from "@/components/ui/divider";
 import { Input } from "@/components/ui/input";
@@ -324,16 +324,12 @@ export function InspirationView() {
                   </ul>
 
                   <div className="mt-lg flex flex-wrap gap-md">
-                    <Link href="/shopping">
-                      <Button variant="outline" size="sm">
+                    <ButtonLink href="/shopping" variant="outline" size="sm">
                         Evaluate a purchase
-                      </Button>
-                    </Link>
-                    <Link href="/wardrobe-gaps">
-                      <Button variant="outline" size="sm">
+                      </ButtonLink>
+                    <ButtonLink href="/wardrobe-gaps" variant="outline" size="sm">
                         See wardrobe gaps
-                      </Button>
-                    </Link>
+                      </ButtonLink>
                   </div>
                 </section>
               )}

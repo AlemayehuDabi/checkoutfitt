@@ -9,7 +9,7 @@ import {
   mockUser,
   mockWeather,
 } from "@/lib/mock-data";
-import { Button } from "@/components/ui/button";
+import { ButtonLink } from "@/components/ui/button";
 import { CalloutCard } from "@/components/ui/callout-card";
 import { Card } from "@/components/ui/card";
 import { SectionHeader } from "@/components/ui/section-header";
@@ -47,11 +47,9 @@ export default function HomePage() {
             title="No outfit for today yet"
             description="Set your location and add a few pieces, and we'll have a look ready each morning."
             action={
-              <Link href="/generate">
-                <Button iconLeft={<Sparkles className="size-4" />}>
+              <ButtonLink href="/generate" iconLeft={<Sparkles className="size-4" />}>
                   Generate one now
-                </Button>
-              </Link>
+                </ButtonLink>
             }
           />
         </Card>

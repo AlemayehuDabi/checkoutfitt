@@ -18,7 +18,7 @@ const VERDICT_STYLE: Record<
   },
   maybe: {
     text: "text-warning",
-    chip: "bg-warning-light text-[#8a6516]",
+    chip: "bg-warning-light text-warning-strong",
     icon: AlertTriangle,
   },
   skip: {

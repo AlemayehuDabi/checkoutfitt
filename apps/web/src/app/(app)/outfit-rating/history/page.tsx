@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, Star } from "lucide-react";
 import { mockRatings } from "@/lib/mock-data";
-import { Button } from "@/components/ui/button";
+import { ButtonLink } from "@/components/ui/button";
 import { StateView } from "@/components/ui/state-view";
 import { RatingHistoryGrid } from "@/components/rating/rating-history-grid";
 
@@ -42,11 +42,9 @@ export default function RatingHistoryPage() {
           title="No ratings yet"
           description="Upload a photo of an outfit and we'll score it on colour, fit and occasion match."
           action={
-            <Link href="/outfit-rating">
-              <Button iconLeft={<Star className="size-4" />}>
+            <ButtonLink href="/outfit-rating" iconLeft={<Star className="size-4" />}>
                 Rate your first outfit
-              </Button>
-            </Link>
+              </ButtonLink>
           }
         />
       ) : (

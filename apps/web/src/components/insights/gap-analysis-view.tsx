@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import {
   BarChart3,
@@ -18,7 +17,7 @@ import {
   type MockMissingItem,
 } from "@/lib/mock-data";
 import { AnimatedNumber } from "@/components/animated-number";
-import { Button } from "@/components/ui/button";
+import { ButtonLink } from "@/components/ui/button";
 import { SectionHeader } from "@/components/ui/section-header";
 import { StateView } from "@/components/ui/state-view";
 import { useToast } from "@/components/ui/toast";
@@ -92,9 +91,7 @@ export function GapAnalysisView({ analysis }: { analysis: MockGapAnalysis }) {
         title="Not enough to analyze yet"
         description="Add at least three pieces to your closet and we'll work out what's missing."
         action={
-          <Link href="/closet/new">
-            <Button>Add items</Button>
-          </Link>
+          <ButtonLink href="/closet/new">Add items</ButtonLink>
         }
       />
     );
@@ -164,11 +161,9 @@ export function GapAnalysisView({ analysis }: { analysis: MockGapAnalysis }) {
       </section>
 
       <div className="mt-3xl flex flex-wrap items-center gap-lg">
-        <Link href="/shopping">
-          <Button size="lg" iconLeft={<Sparkles className="size-4" />}>
+        <ButtonLink href="/shopping" size="lg" iconLeft={<Sparkles className="size-4" />}>
             See all recommendations
-          </Button>
-        </Link>
+          </ButtonLink>
         <p className="text-caption text-text-muted tabular-nums">
           Based on {analysis.itemCount} pieces in your closet
         </p>

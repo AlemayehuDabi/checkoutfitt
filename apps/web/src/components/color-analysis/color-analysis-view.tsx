@@ -2,17 +2,9 @@
 
 import * as React from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import {
-  Check,
-  Droplet,
-  RefreshCw,
-  Sparkles,
-  UploadCloud,
-  X,
-  XCircle,
-} from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Check, Droplet, RefreshCw, Sparkles, XCircle } from "lucide-react";
 import { mockColorAnalysis, type MockColorAnalysis } from "@/lib/mock-data";
+import { DropPrompt, PhotoDropzone } from "@/components/photo-dropzone";
 import { Button } from "@/components/ui/button";
 import { CalloutCard } from "@/components/ui/callout-card";
 import { SectionHeader } from "@/components/ui/section-header";
@@ -49,21 +41,13 @@ export function ColorAnalysisView() {
   const [photo, setPhoto] = React.useState<{ name: string; preview: string } | null>(
     null,
   );
-  const [dragging, setDragging] = React.useState(false);
   const [analysis, setAnalysis] = React.useState<MockColorAnalysis | null>(null);
-  const inputRef = React.useRef<HTMLInputElement>(null);
 
   React.useEffect(() => {
     return () => {
       if (photo) URL.revokeObjectURL(photo.preview);
     };
   }, [photo]);
-
-  function accept(files: FileList | null) {
-    const file = files?.[0];
-    if (!file) return;
-    setPhoto({ name: file.name, preview: URL.createObjectURL(file) });
-  }
 
   function analyze() {
     setStage("analyzing");
@@ -101,78 +85,16 @@ export function ColorAnalysisView() {
             </p>
 
             <div className="mt-3xl">
-              {photo ? (
-                <div className="relative w-fit">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={photo.preview}
-                    alt={photo.name}
-                    className="size-48 rounded-full border-2 border-border object-cover shadow-md"
-                  />
-                  <button
-                    type="button"
-                    onClick={reset}
-                    aria-label="Remove photo"
-                    className="absolute top-1 right-1 inline-flex size-7 cursor-pointer items-center justify-center rounded-full border border-border bg-surface text-text-secondary shadow-sm transition-colors hover:bg-danger-light hover:text-danger focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
-                  >
-                    <X aria-hidden className="size-4" />
-                  </button>
-                </div>
-              ) : (
-                <motion.div
-                  animate={{ scale: dragging ? 1.01 : 1 }}
-                  transition={{ duration: 0.2 }}
-                  onDragOver={(e) => {
-                    e.preventDefault();
-                    setDragging(true);
-                  }}
-                  onDragLeave={() => setDragging(false)}
-                  onDrop={(e) => {
-                    e.preventDefault();
-                    setDragging(false);
-                    accept(e.dataTransfer.files);
-                  }}
-                  className={cn(
-                    "rounded-xl border-2 border-dashed transition-colors duration-200",
-                    dragging
-                      ? "border-primary-500 bg-primary-100"
-                      : "border-border bg-surface hover:border-primary-300 hover:bg-primary-50",
-                  )}
-                >
-                  <button
-                    type="button"
-                    onClick={() => inputRef.current?.click()}
-                    className="flex w-full cursor-pointer flex-col items-center gap-md rounded-xl px-lg py-6xl text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
-                  >
-                    <UploadCloud
-                      aria-hidden
-                      className={cn(
-                        "size-12 stroke-[1.25] transition-colors",
-                        dragging ? "text-primary-500" : "text-text-muted",
-                      )}
-                    />
-                    <span className="text-body text-text-secondary">
-                      <span className="font-[600] text-primary-500">
-                        Click to browse
-                      </span>{" "}
-                      or drag a face photo here
-                    </span>
-                    <span className="text-caption text-text-muted">
-                      Natural light, no filter, hair back if you can
-                    </span>
-                  </button>
-                  <input
-                    ref={inputRef}
-                    type="file"
-                    accept="image/jpeg,image/png,image/webp,image/heic"
-                    className="sr-only"
-                    onChange={(e) => {
-                      accept(e.target.files);
-                      e.target.value = "";
-                    }}
-                  />
-                </motion.div>
-              )}
+              <PhotoDropzone
+                photo={photo}
+                onPick={(file) =>
+                  setPhoto({ name: file.name, preview: URL.createObjectURL(file) })
+                }
+                onClear={reset}
+                prompt={<DropPrompt what="a face photo" />}
+                hint="Natural light, no filter, hair back if you can"
+                previewClassName="size-48 rounded-full"
+              />
             </div>
 
             {stage === "analyzing" ? (

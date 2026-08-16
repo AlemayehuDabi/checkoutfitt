@@ -18,7 +18,7 @@ import {
 } from "@/lib/mock-data";
 import { AnimatedNumber } from "@/components/animated-number";
 import { GarmentImage } from "@/components/garment-image";
-import { Button } from "@/components/ui/button";
+import { Button, ButtonLink } from "@/components/ui/button";
 import { Chip } from "@/components/ui/chip";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -280,11 +280,9 @@ export function CapsuleView() {
               </section>
 
               <div className="mt-3xl flex flex-wrap gap-md">
-                <Link href="/outfits/saved">
-                  <Button iconLeft={<Sparkles className="size-4" />}>
+                <ButtonLink href="/outfits/saved" iconLeft={<Sparkles className="size-4" />}>
                     View all outfits
-                  </Button>
-                </Link>
+                  </ButtonLink>
                 <Button variant="secondary" onClick={() => setStage("input")}>
                   Change constraints
                 </Button>

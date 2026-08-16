@@ -62,9 +62,13 @@ export function TopBar({ onOpenMenu }: { onOpenMenu: () => void }) {
       </label>
 
       <div className="relative">
-        <IconButton label="Notifications">
+        <Link
+          href="/notifications"
+          aria-label="Notifications"
+          className="inline-flex size-10 cursor-pointer items-center justify-center rounded-full text-text-secondary transition-colors duration-150 hover:bg-surface-secondary hover:text-text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+        >
           <Bell aria-hidden className="size-5" />
-        </IconButton>
+        </Link>
         <span
           aria-hidden
           className="pointer-events-none absolute top-1.5 right-1.5 size-2 rounded-full bg-primary-500 ring-2 ring-bg"
@@ -88,7 +92,7 @@ export function TopBar({ onOpenMenu }: { onOpenMenu: () => void }) {
         <Link href="/profile">
           <DropdownItem icon={<User />}>Profile</DropdownItem>
         </Link>
-        <Link href="/profile">
+        <Link href="/settings">
           <DropdownItem icon={<Settings />}>Settings</DropdownItem>
         </Link>
         <DropdownSeparator />

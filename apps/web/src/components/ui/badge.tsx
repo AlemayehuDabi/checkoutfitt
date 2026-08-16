@@ -14,7 +14,7 @@ const TONES: Record<BadgeTone, string> = {
   primary: "bg-primary-50 text-primary-500",
   success: "bg-success-light text-success",
   danger: "bg-danger-light text-danger",
-  warning: "bg-warning-light text-[#8a6516]",
+  warning: "bg-warning-light text-warning-strong",
   info: "bg-info-light text-info",
 };
 

@@ -4,7 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft, Mail, MailCheck } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button, ButtonLink } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 export function ForgotPasswordForm() {
@@ -47,11 +47,9 @@ export function ForgotPasswordForm() {
             <Button variant="outline" size="lg" fullWidth onClick={() => setSent(false)}>
               Use a different email
             </Button>
-            <Link href="/sign-in" className="w-full">
-              <Button variant="ghost" size="lg" fullWidth iconLeft={<ArrowLeft className="size-4" />}>
+            <ButtonLink href="/sign-in" variant="ghost" size="lg" fullWidth iconLeft={<ArrowLeft className="size-4" />}>
                 Back to sign in
-              </Button>
-            </Link>
+              </ButtonLink>
           </div>
         </motion.div>
       ) : (

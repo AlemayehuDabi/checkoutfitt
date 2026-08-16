@@ -115,7 +115,7 @@ export function ScoreBadge({
       ? "bg-success-light text-success"
       : score >= 6
         ? "bg-primary-50 text-primary-500"
-        : "bg-warning-light text-[#8a6516]";
+        : "bg-warning-light text-warning-strong";
 
   return (
     <span

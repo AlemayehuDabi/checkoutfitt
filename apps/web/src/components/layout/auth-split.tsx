@@ -70,7 +70,7 @@ export function AuthSplit({
           <p className="text-eyebrow uppercase text-white/70">
             Dress well, effortlessly
           </p>
-          <p className="mt-lg max-w-[18ch] text-[44px] leading-[1.1] font-[700] tracking-[-1px] text-white text-balance">
+          <p className="mt-lg max-w-[18ch] text-display text-white text-balance">
             {tagline}
           </p>
           <p className="mt-lg max-w-[42ch] text-body-lg text-white/80">

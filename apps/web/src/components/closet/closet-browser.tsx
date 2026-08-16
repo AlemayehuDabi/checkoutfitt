@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { LayoutGrid, List, Plus, Search, Shirt, SlidersHorizontal } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -11,7 +10,7 @@ import {
   type ClosetItemType,
   type MockClosetItem,
 } from "@/lib/mock-data";
-import { Button } from "@/components/ui/button";
+import { Button, ButtonLink } from "@/components/ui/button";
 import { Chip } from "@/components/ui/chip";
 import { Select } from "@/components/ui/select";
 import { StateView } from "@/components/ui/state-view";
@@ -109,9 +108,7 @@ export function ClosetBrowser({ items }: { items: MockClosetItem[] }) {
             ))}
           </div>
 
-          <Link href="/closet/new">
-            <Button iconLeft={<Plus className="size-4" />}>Add items</Button>
-          </Link>
+          <ButtonLink href="/closet/new" iconLeft={<Plus className="size-4" />}>Add items</ButtonLink>
         </div>
       </div>
 
@@ -187,11 +184,9 @@ export function ClosetBrowser({ items }: { items: MockClosetItem[] }) {
             title="Your closet is empty"
             description="Add a few pieces and we'll identify each one automatically, then start building outfits from them."
             action={
-              <Link href="/closet/new">
-                <Button iconLeft={<Plus className="size-4" />}>
+              <ButtonLink href="/closet/new" iconLeft={<Plus className="size-4" />}>
                   Add your first item
-                </Button>
-              </Link>
+                </ButtonLink>
             }
           />
         )
