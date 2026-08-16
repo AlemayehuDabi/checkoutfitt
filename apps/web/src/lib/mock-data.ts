@@ -389,6 +389,113 @@ export const CHAT_SUGGESTIONS = [
 ];
 
 // ---------------------------------------------------------------------------
+// Outfit rating
+// ---------------------------------------------------------------------------
+
+/**
+ * POST /outfit-rating — scores are 0-10 floats and `overallScore` is their
+ * mean, computed server-side (never returned by the model), so it can't
+ * disagree with its parts. `suggestions` is a Json string[].
+ */
+export interface MockOutfitRating {
+  id: string;
+  ownerId: string;
+  imageAttachmentId: string;
+  colorHarmonyScore: number;
+  fitScore: number;
+  occasionMatchScore: number;
+  overallScore: number;
+  occasion: OutfitContext | null;
+  suggestions: string[];
+  createdAt: string;
+}
+
+/** Mirrors the server's rounding: mean of the three, one decimal. */
+export function meanScore(color: number, fit: number, occasion: number): number {
+  return Math.round(((color + fit + occasion) / 3) * 10) / 10;
+}
+
+function rating(
+  id: string,
+  color: number,
+  fit: number,
+  occasionMatch: number,
+  occasion: OutfitContext | null,
+  suggestions: string[],
+  daysAgo: number,
+): MockOutfitRating {
+  return {
+    id,
+    ownerId: mockUser.id,
+    imageAttachmentId: `att_${id}`,
+    colorHarmonyScore: color,
+    fitScore: fit,
+    occasionMatchScore: occasionMatch,
+    overallScore: meanScore(color, fit, occasionMatch),
+    occasion,
+    suggestions,
+    createdAt: new Date(
+      Date.UTC(2026, 7, 16) - daysAgo * 86_400_000,
+    ).toISOString(),
+  };
+}
+
+export const mockRatings: MockOutfitRating[] = [
+  rating(
+    "or_01",
+    8.5,
+    7.5,
+    9.0,
+    "interview",
+    [
+      "Swap the longer earrings for small studs — for an interview you want nothing competing with your face.",
+      "The blazer sleeve is sitting slightly long; a half-inch shorter would show a cleaner line at the wrist.",
+      "Consider a solid blouse instead of the layered tops to keep the silhouette simple.",
+    ],
+    1,
+  ),
+  rating(
+    "or_02",
+    9.0,
+    8.0,
+    8.5,
+    "office",
+    [
+      "The camel-and-charcoal pairing is doing a lot of work here — keep it.",
+      "Try tucking the shirt more loosely so the waist reads softer.",
+    ],
+    4,
+  ),
+  rating(
+    "or_03",
+    7.0,
+    8.5,
+    6.5,
+    "date_night",
+    [
+      "Lovely fit, but the palette is a touch flat for evening — one richer tone would lift it.",
+      "Swap the sneakers for the ankle boots to match the occasion.",
+    ],
+    9,
+  ),
+  rating(
+    "or_04",
+    8.0,
+    7.0,
+    8.0,
+    "casual",
+    [
+      "Relaxed and easy. Rolling the cuffs once would sharpen the proportions.",
+    ],
+    16,
+  ),
+];
+
+export function ratingById(id: string): MockOutfitRating | undefined {
+  return mockRatings.find((r) => r.id === id);
+}
+
+// ---------------------------------------------------------------------------
 // Derived helpers
 // ---------------------------------------------------------------------------
 

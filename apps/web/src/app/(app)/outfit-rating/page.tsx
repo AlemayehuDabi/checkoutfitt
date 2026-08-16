@@ -1,15 +1,39 @@
 import type { Metadata } from "next";
-import { Star } from "lucide-react";
-import { StateView } from "@/components/ui/state-view";
+import Link from "next/link";
+import { mockRatings } from "@/lib/mock-data";
+import { SectionHeader } from "@/components/ui/section-header";
+import { RateFlow } from "@/components/rating/rate-flow";
+import { RatingHistoryGrid } from "@/components/rating/rating-history-grid";
 
-export const metadata: Metadata = { title: "Outfit Rating" };
+export const metadata: Metadata = {
+  title: "Outfit Rating",
+  description: "Score a look on colour harmony, fit, and occasion match.",
+};
 
-export default function Page() {
+export default function OutfitRatingPage() {
+  const recent = mockRatings.slice(0, 4);
+
   return (
-    <StateView
-      icon={<Star />}
-      title="Outfit Rating is coming soon"
-      description="Score a look on colour harmony, fit, and how well it suits the occasion."
-    />
+    <>
+      <RateFlow />
+
+      {recent.length > 0 && (
+        <section className="mx-auto max-w-[900px] pb-2xl">
+          <SectionHeader
+            eyebrow="Previously"
+            title="Recent ratings"
+            action={
+              <Link
+                href="/outfit-rating/history"
+                className="rounded-sm text-body-medium text-text-accent hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+              >
+                View all
+              </Link>
+            }
+          />
+          <RatingHistoryGrid ratings={recent} />
+        </section>
+      )}
+    </>
   );
 }
