@@ -633,6 +633,64 @@ export const COLOR_NAMES: Record<string, string> = {
 };
 
 // ---------------------------------------------------------------------------
+// Outfit calendar
+// ---------------------------------------------------------------------------
+
+/**
+ * GET /calendar?month=YYYY-MM — `{ month, entries }` where each entry has its
+ * outfit expanded with items. `date` is a date-only DATE column, so it's
+ * carried as a plain YYYY-MM-DD string rather than a timestamp.
+ */
+export interface MockSchedule {
+  id: string;
+  ownerId: string;
+  outfitId: string;
+  date: string;
+  notes: string | null;
+  createdAt: string;
+  outfit: MockOutfit;
+}
+
+/**
+ * Seeded relative to the real current date so the calendar always opens on a
+ * month with something in it, whenever this runs. Offsets are in days.
+ */
+const SCHEDULE_SEED: { offset: number; outfitId: string; notes: string | null }[] = [
+  { offset: 0, outfitId: "ot_01", notes: "Client meeting at 2pm" },
+  { offset: 1, outfitId: "ot_02", notes: null },
+  { offset: 3, outfitId: "ot_05", notes: "Quarterly review" },
+  { offset: 6, outfitId: "ot_03", notes: "Dinner, book the table" },
+  { offset: -2, outfitId: "ot_04", notes: null },
+  { offset: -5, outfitId: "ot_02", notes: null },
+  { offset: 9, outfitId: "ot_06", notes: "Interview — press the blazer" },
+];
+
+function scheduleDateKey(offset: number): string {
+  const now = new Date();
+  const base = new Date(
+    Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()),
+  );
+  base.setUTCDate(base.getUTCDate() + offset);
+  return base.toISOString().slice(0, 10);
+}
+
+export function buildMockSchedules(): MockSchedule[] {
+  return SCHEDULE_SEED.map((seed, index) => {
+    const outfit = mockOutfits.find((o) => o.id === seed.outfitId)!;
+    const date = scheduleDateKey(seed.offset);
+    return {
+      id: `os_${index + 1}`,
+      ownerId: mockUser.id,
+      outfitId: outfit.id,
+      date,
+      notes: seed.notes,
+      createdAt: new Date().toISOString(),
+      outfit,
+    };
+  });
+}
+
+// ---------------------------------------------------------------------------
 // Derived helpers
 // ---------------------------------------------------------------------------
 
