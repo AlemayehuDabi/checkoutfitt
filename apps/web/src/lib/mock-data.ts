@@ -925,6 +925,104 @@ export const VERDICT_LABELS: Record<ShoppingVerdict, string> = {
 };
 
 // ---------------------------------------------------------------------------
+// Capsule wardrobe
+// ---------------------------------------------------------------------------
+
+export const CAPSULE_SEASONS = ["spring", "summer", "fall", "winter"] as const;
+export type CapsuleSeason = (typeof CAPSULE_SEASONS)[number];
+
+export const SEASON_LABELS: Record<CapsuleSeason, string> = {
+  spring: "Spring",
+  summer: "Summer",
+  fall: "Fall",
+  winter: "Winter",
+};
+
+export const MIN_CAPSULE_SIZE = 5;
+export const MAX_CAPSULE_SIZE = 20;
+export const DEFAULT_CAPSULE_SIZE = 10;
+
+export interface MockCapsuleItem {
+  closetItemId: string;
+  type: string;
+  category: string;
+  imageUrl: string;
+}
+
+export interface MockCapsuleSampleOutfit {
+  name: string;
+  items: MockCapsuleItem[];
+}
+
+/** POST /capsule/generate */
+export interface MockCapsule {
+  title: string;
+  items: MockCapsuleItem[];
+  totalOutfits: number;
+  sampleOutfits: MockCapsuleSampleOutfit[];
+  requestedSize: number;
+  occasions: OutfitContext[];
+  season: CapsuleSeason | null;
+  generatedAt: string;
+}
+
+function capsuleItem(id: string): MockCapsuleItem {
+  const item = byId(id);
+  return {
+    closetItemId: item.id,
+    type: (item.type ?? "other").toLowerCase(),
+    category: item.category ?? "unknown",
+    imageUrl: item.imageUrl,
+  };
+}
+
+/**
+ * Picks a plausible capsule of `size` pieces. Ordered so the most versatile
+ * items are chosen first and the set still covers tops, bottoms, outerwear
+ * and shoes at the smallest size — the same coverage rule the prompt gives
+ * the model server-side.
+ */
+const CAPSULE_PRIORITY = [
+  "ci_01", "ci_05", "ci_12", "ci_10", "ci_06",
+  "ci_02", "ci_03", "ci_13", "ci_09", "ci_16",
+  "ci_04", "ci_07", "ci_14", "ci_18", "ci_11",
+  "ci_15", "ci_19", "ci_20", "ci_08", "ci_17",
+];
+
+export function buildMockCapsule(
+  size: number,
+  occasions: OutfitContext[],
+  season: CapsuleSeason | null,
+): MockCapsule {
+  const items = CAPSULE_PRIORITY.slice(0, size).map(capsuleItem);
+  const seasonLabel = season ? SEASON_LABELS[season] : "Everyday";
+
+  const samples: MockCapsuleSampleOutfit[] = [
+    { name: "Monday meeting", ids: ["ci_02", "ci_05", "ci_12"] },
+    { name: "Casual Friday", ids: ["ci_01", "ci_06", "ci_13"] },
+    { name: "Weekend errands", ids: ["ci_03", "ci_06", "ci_13"] },
+    { name: "Dinner out", ids: ["ci_02", "ci_07", "ci_14"] },
+    { name: "Cold morning", ids: ["ci_03", "ci_05", "ci_09"] },
+  ]
+    // A sample can only use pieces the capsule actually contains.
+    .filter((sample) => sample.ids.every((id) => items.some((i) => i.closetItemId === id)))
+    .slice(0, 5)
+    .map((sample) => ({ name: sample.name, items: sample.ids.map(capsuleItem) }));
+
+  return {
+    title: `Your ${seasonLabel} Capsule`,
+    items,
+    // Roughly what a well-chosen set of this size supports.
+    totalOutfits: Math.round(size * 4.8),
+    sampleOutfits: samples,
+    requestedSize: size,
+    occasions,
+    season,
+    generatedAt: new Date().toISOString(),
+  };
+}
+
+// ---------------------------------------------------------------------------
 // Derived helpers
 // ---------------------------------------------------------------------------
 

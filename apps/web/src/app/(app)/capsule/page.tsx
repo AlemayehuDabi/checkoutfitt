@@ -1,15 +1,11 @@
 import type { Metadata } from "next";
-import { Layers } from "lucide-react";
-import { StateView } from "@/components/ui/state-view";
+import { CapsuleView } from "@/components/capsule/capsule-view";
 
-export const metadata: Metadata = { title: "Capsule Builder" };
+export const metadata: Metadata = {
+  title: "Capsule Builder",
+  description: "Curate a small set of pieces that mix into as many outfits as possible.",
+};
 
-export default function Page() {
-  return (
-    <StateView
-      icon={<Layers />}
-      title="Capsule Builder is coming soon"
-      description="Curate a small set of pieces that mix into as many outfits as possible."
-    />
-  );
+export default function CapsulePage() {
+  return <CapsuleView />;
 }
