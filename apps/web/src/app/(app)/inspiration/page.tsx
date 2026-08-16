@@ -1,15 +1,11 @@
 import type { Metadata } from "next";
-import { Image as ImageIcon } from "lucide-react";
-import { StateView } from "@/components/ui/state-view";
+import { InspirationView } from "@/components/inspiration/inspiration-view";
 
-export const metadata: Metadata = { title: "Inspiration Match" };
+export const metadata: Metadata = {
+  title: "Inspiration Match",
+  description: "Recreate a saved look using clothes you already own.",
+};
 
-export default function Page() {
-  return (
-    <StateView
-      icon={<ImageIcon />}
-      title="Inspiration Match is coming soon"
-      description="Match an inspiration photo to the pieces already in your closet."
-    />
-  );
+export default function InspirationPage() {
+  return <InspirationView />;
 }

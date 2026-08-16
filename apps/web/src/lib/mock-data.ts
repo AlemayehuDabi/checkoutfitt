@@ -1187,6 +1187,84 @@ export function buildMockTravelPlan(
 }
 
 // ---------------------------------------------------------------------------
+// Inspiration match
+// ---------------------------------------------------------------------------
+
+export interface MockMatchedPiece {
+  inspoPiece: { type: ClosetItemType; color: string; style: string };
+  matchedItem: { closetItemId: string; imageUrl: string; type: string };
+  matchScore: number;
+}
+
+export interface MockMissingPiece {
+  type: ClosetItemType;
+  color: string;
+  style: string;
+  suggestion: string;
+}
+
+/** POST /inspiration/match */
+export interface MockInspirationMatch {
+  overallMatchPercentage: number;
+  matchedPieces: MockMatchedPiece[];
+  missingPieces: MockMissingPiece[];
+  matchReasons: string[];
+  generatedAt: string;
+}
+
+function matched(
+  id: string,
+  type: ClosetItemType,
+  color: string,
+  style: string,
+  score: number,
+): MockMatchedPiece {
+  const item = byId(id);
+  return {
+    inspoPiece: { type, color, style },
+    matchedItem: {
+      closetItemId: item.id,
+      imageUrl: item.imageUrl,
+      type: (item.type ?? "other").toLowerCase(),
+    },
+    matchScore: score,
+  };
+}
+
+export const mockInspirationMatch: MockInspirationMatch = {
+  overallMatchPercentage: 87,
+  matchedPieces: [
+    matched("ci_02", "TOP", "Cream", "silk, relaxed collar", 92),
+    matched("ci_05", "BOTTOM", "Charcoal", "wide-leg tailored", 88),
+    matched("ci_12", "FOOTWEAR", "Brown", "leather loafer", 84),
+    matched("ci_09", "OUTERWEAR", "Camel", "longline wool coat", 84),
+  ],
+  missingPieces: [
+    {
+      type: "ACCESSORY",
+      color: "Gold",
+      style: "slim chain necklace",
+      suggestion:
+        "A fine gold chain would finish the neckline the way the reference does.",
+    },
+    {
+      type: "BAG",
+      color: "Chocolate",
+      style: "structured top-handle",
+      suggestion:
+        "Your tan tote is close in shape but reads lighter — a darker top-handle would match more exactly.",
+    },
+  ],
+  matchReasons: [
+    "Similar warm-neutral colour palette",
+    "Matching relaxed-over-tailored silhouette",
+    "Same fabric weight — silk over wool",
+    "Four of six pieces already in your closet",
+  ],
+  generatedAt: "2026-08-16T07:25:00.000Z",
+};
+
+// ---------------------------------------------------------------------------
 // Derived helpers
 // ---------------------------------------------------------------------------
 
