@@ -129,6 +129,23 @@ export interface Paginated<T> {
   limit: number;
 }
 
+export type ChatRole = "USER" | "ASSISTANT";
+
+/**
+ * GET /chat/messages — ChatMessage rows with `outfitCard` hydrated
+ * (server/src/chat/chat.service.ts includes `outfitCard: { include: { items } }`).
+ */
+export interface MockChatMessage {
+  id: string;
+  ownerId: string;
+  role: ChatRole;
+  content: string;
+  attachedImageUrl: string | null;
+  outfitCardId: string | null;
+  outfitCard: MockOutfit | null;
+  createdAt: string;
+}
+
 // ---------------------------------------------------------------------------
 // Data
 // ---------------------------------------------------------------------------
@@ -314,6 +331,62 @@ export const mockOutfits: MockOutfit[] = [
 export const mockTodaysOutfit = mockOutfits[0];
 
 export const mockSavedOutfits = mockOutfits.filter((o) => o.saved);
+
+// ---------------------------------------------------------------------------
+// Chat
+// ---------------------------------------------------------------------------
+
+function chatMessage(
+  id: string,
+  role: ChatRole,
+  content: string,
+  minutesAgo: number,
+  outfitCard: MockOutfit | null = null,
+): MockChatMessage {
+  return {
+    id,
+    ownerId: mockUser.id,
+    role,
+    content,
+    attachedImageUrl: null,
+    outfitCardId: outfitCard?.id ?? null,
+    outfitCard,
+    createdAt: new Date(
+      Date.UTC(2026, 7, 16, 9, 0) - minutesAgo * 60_000,
+    ).toISOString(),
+  };
+}
+
+/** Seed conversation, oldest first — the order the API returns. */
+export const mockChatMessages: MockChatMessage[] = [
+  chatMessage(
+    "cm_01",
+    "USER",
+    "I've got a client meeting on Thursday. What should I wear?",
+    24,
+  ),
+  chatMessage(
+    "cm_02",
+    "ASSISTANT",
+    "Something structured but not stiff — you want to look considered without seeming like you tried too hard. Here's what I'd pull from your closet:",
+    23,
+    mockOutfits[4],
+  ),
+  chatMessage("cm_03", "USER", "Is the belt necessary?", 21),
+  chatMessage(
+    "cm_04",
+    "ASSISTANT",
+    "Not strictly, but it's the detail that makes the outfit look deliberate. Your chestnut belt picks up the loafers, and that repetition reads as intentional rather than accidental. If you skip it, tuck the shirt loosely so the waist still has some definition.",
+    20,
+  ),
+];
+
+export const CHAT_SUGGESTIONS = [
+  { label: "Style me for a meeting", pro: false },
+  { label: "What should I wear today?", pro: false },
+  { label: "Analyze my closet", pro: false },
+  { label: "Plan a week of outfits", pro: true },
+];
 
 // ---------------------------------------------------------------------------
 // Derived helpers

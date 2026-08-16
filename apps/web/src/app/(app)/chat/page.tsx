@@ -1,15 +1,12 @@
 import type { Metadata } from "next";
-import { MessageCircle } from "lucide-react";
-import { StateView } from "@/components/ui/state-view";
+import { mockChatMessages } from "@/lib/mock-data";
+import { ChatView } from "@/components/chat/chat-view";
 
-export const metadata: Metadata = { title: "AI Stylist" };
+export const metadata: Metadata = {
+  title: "AI Stylist",
+  description: "Ask your stylist what to wear and get outfits from your own closet.",
+};
 
-export default function Page() {
-  return (
-    <StateView
-      icon={<MessageCircle />}
-      title="AI Stylist is coming soon"
-      description="Chat with your stylist about what to wear, and get outfit cards back."
-    />
-  );
+export default function ChatPage() {
+  return <ChatView initialMessages={mockChatMessages} />;
 }
