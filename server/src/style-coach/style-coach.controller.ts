@@ -1,5 +1,6 @@
 import { Controller, Get, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import { AiRateLimit } from '../common/throttling';
 import { StyleCoachService } from './style-coach.service';
 
 @Controller('style-coach')
@@ -9,6 +10,7 @@ export class StyleCoachController {
   // POST rather than GET: it runs an analysis and overwrites stored state.
   // 200 rather than 201 — it replaces the user's single style profile
   // instead of creating a new resource each time.
+  @AiRateLimit()
   @Post('analyze')
   @HttpCode(HttpStatus.OK)
   analyze(@CurrentUser() user: CurrentUser) {
@@ -20,6 +22,7 @@ export class StyleCoachController {
     return this.styleCoachService.getProfile(user.id);
   }
 
+  @AiRateLimit()
   @Post('tips')
   @HttpCode(HttpStatus.OK)
   tips(@CurrentUser() user: CurrentUser) {

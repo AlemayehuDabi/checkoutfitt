@@ -8,6 +8,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import { AiRateLimit } from '../common/throttling';
 import { ColorAnalysisService } from './color-analysis.service';
 import { CreateColorAnalysisDto } from './dto/create-color-analysis.dto';
 
@@ -17,6 +18,7 @@ export class ColorAnalysisController {
 
   // 200 rather than 201: there is exactly one analysis per user, so a re-run
   // replaces the existing one instead of creating another resource.
+  @AiRateLimit()
   @Post()
   @HttpCode(HttpStatus.OK)
   analyze(

@@ -1,18 +1,22 @@
 import { Controller, Get, Param, Post, Body, Query } from '@nestjs/common';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import { AiRateLimit } from '../common/throttling';
 import { OutfitService } from './outfit.service';
 import { GenerateOutfitDto } from './dto/generate-outfit.dto';
 import { ListSavedOutfitsQueryDto } from './dto/list-saved-outfits-query.dto';
+import { TodaysOutfitQueryDto } from './dto/todays-outfit-query.dto';
 
 @Controller('outfits')
 export class OutfitController {
   constructor(private readonly outfitService: OutfitService) {}
 
+  @AiRateLimit()
   @Post('generate')
   generate(@CurrentUser() user: CurrentUser, @Body() dto: GenerateOutfitDto) {
     return this.outfitService.generate(user.id, dto);
   }
 
+  @AiRateLimit()
   @Post(':id/shuffle')
   shuffle(@CurrentUser() user: CurrentUser, @Param('id') id: string) {
     return this.outfitService.shuffle(user.id, id);
@@ -37,9 +41,13 @@ export class OutfitController {
     return this.outfitService.listSaved(user.id, query);
   }
 
+  @AiRateLimit()
   @Get('today')
-  getTodaysOutfit(@CurrentUser() user: CurrentUser) {
-    return this.outfitService.getTodaysOutfit(user.id);
+  getTodaysOutfit(
+    @CurrentUser() user: CurrentUser,
+    @Query() query: TodaysOutfitQueryDto,
+  ) {
+    return this.outfitService.getTodaysOutfit(user.id, query.timezone);
   }
 
   @Get(':id')

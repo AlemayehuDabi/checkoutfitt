@@ -40,6 +40,60 @@ async function generateAppleClientSecret() {
     .sign(key);
 }
 
+/**
+ * Sends the password-reset link through Resend.
+ *
+ * Called via a plain fetch rather than the SDK — it's one POST, and the
+ * dependency would buy nothing. With no RESEND_API_KEY configured it falls
+ * back to logging the link, so the reset flow stays testable locally without
+ * anyone needing an email account.
+ *
+ * A send failure is logged rather than thrown: the caller
+ * (POST /auth/forgot-password) deliberately returns the same response
+ * whether or not the address exists, and surfacing an error here would leak
+ * that distinction.
+ */
+async function sendResetPasswordEmail(
+  email: string,
+  url: string,
+): Promise<void> {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    console.log(`[auth] password reset link for ${email}: ${url}`);
+    return;
+  }
+
+  const from = process.env.FROM_EMAIL ?? 'CheckoutFitt <onboarding@resend.dev>';
+  try {
+    const response = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from,
+        to: [email],
+        subject: 'Reset your CheckoutFitt password',
+        html: `<p>We received a request to reset your CheckoutFitt password.</p>
+<p><a href="${url}">Reset your password</a></p>
+<p>This link expires in one hour. If you didn't ask for it, you can ignore this email.</p>`,
+        text: `Reset your CheckoutFitt password: ${url}\n\nThis link expires in one hour. If you didn't ask for it, you can ignore this email.`,
+      }),
+    });
+
+    if (!response.ok) {
+      console.error(
+        `[auth] Resend rejected the reset email (${response.status}): ${await response.text()}`,
+      );
+    }
+  } catch (error) {
+    console.error(
+      `[auth] Failed to send reset email: ${error instanceof Error ? error.message : error}`,
+    );
+  }
+}
+
 export const auth = betterAuth({
   baseURL: process.env.BETTER_AUTH_URL,
   secret: process.env.BETTER_AUTH_SECRET,
@@ -64,12 +118,8 @@ export const auth = betterAuth({
     requireEmailVerification: false,
     revokeSessionsOnPasswordReset: true,
     resetPasswordTokenExpiresIn: 60 * 60, // 1 hour
-    sendResetPassword: ({ user, url }) => {
-      // TODO: wire up a transactional email provider (Resend, SES, etc).
-      // Logged for local development so the reset flow is testable end to end.
-      console.log(`[auth] password reset link for ${user.email}: ${url}`);
-      return Promise.resolve();
-    },
+    sendResetPassword: ({ user, url }) =>
+      sendResetPasswordEmail(user.email, url),
   },
 
   socialProviders: {

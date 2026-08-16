@@ -1,5 +1,6 @@
 import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import { AiRateLimit } from '../common/throttling';
 import { TravelService } from './travel.service';
 import { PackTripDto } from './dto/pack-trip.dto';
 
@@ -8,6 +9,7 @@ export class TravelController {
   constructor(private readonly travelService: TravelService) {}
 
   // 200: generated on demand, nothing is persisted.
+  @AiRateLimit()
   @Post('pack')
   @HttpCode(HttpStatus.OK)
   pack(@CurrentUser() user: CurrentUser, @Body() dto: PackTripDto) {

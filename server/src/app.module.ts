@@ -1,6 +1,10 @@
 import { Module } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { BullModule } from '@nestjs/bullmq';
+import { ThrottlerModule } from '@nestjs/throttler';
+import { UserThrottlerGuard } from './common/guards/user-throttler.guard';
+import { DEFAULT_RATE_LIMIT, RATE_LIMIT_WINDOW_MS } from './common/throttling';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import configuration from './config/configuration';
@@ -23,6 +27,7 @@ import { ShoppingModule } from './shopping/shopping.module';
 import { CapsuleModule } from './capsule/capsule.module';
 import { TravelModule } from './travel/travel.module';
 import { InspirationModule } from './inspiration/inspiration.module';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -31,6 +36,13 @@ import { InspirationModule } from './inspiration/inspiration.module';
       load: [configuration],
       validate: validateEnv,
     }),
+    // One global budget for ordinary CRUD; AI endpoints tighten it per-route
+    // with @AiRateLimit(). Storage is in-process, which is correct for a
+    // single instance — running several would need a shared (Redis) store so
+    // the limit isn't multiplied by the instance count.
+    ThrottlerModule.forRoot([
+      { ttl: RATE_LIMIT_WINDOW_MS, limit: DEFAULT_RATE_LIMIT },
+    ]),
     BullModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
@@ -55,8 +67,9 @@ import { InspirationModule } from './inspiration/inspiration.module';
     CapsuleModule,
     TravelModule,
     InspirationModule,
+    HealthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, { provide: APP_GUARD, useClass: UserThrottlerGuard }],
 })
 export class AppModule {}

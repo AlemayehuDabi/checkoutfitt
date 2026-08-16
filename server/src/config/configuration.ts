@@ -31,4 +31,17 @@ export default () => ({
   weather: {
     apiKey: process.env.OPENWEATHER_API_KEY,
   },
+  email: {
+    resendApiKey: process.env.RESEND_API_KEY,
+    from: process.env.FROM_EMAIL ?? 'CheckoutFitt <onboarding@resend.dev>',
+  },
+  cors: {
+    // Comma-separated list of allowed browser origins. Native mobile builds
+    // send no Origin header and are unaffected either way; this exists for
+    // the web client and Expo's dev server.
+    origins: (process.env.CORS_ORIGINS ?? '')
+      .split(',')
+      .map((origin) => origin.trim())
+      .filter(Boolean),
+  },
 });

@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { BullModule } from '@nestjs/bullmq';
 import { VisionModule } from '../ai/vision/vision.module';
+import { UploadModule } from '../upload/upload.module';
 import { ClosetController } from './closet.controller';
 import { ClosetService } from './closet.service';
 import { ClosetDetectionProcessor } from './closet.processor';
@@ -10,6 +11,7 @@ import { CLOSET_DETECTION_QUEUE } from './constants';
   imports: [
     BullModule.registerQueue({ name: CLOSET_DETECTION_QUEUE }),
     VisionModule,
+    UploadModule,
   ],
   controllers: [ClosetController],
   providers: [ClosetService, ClosetDetectionProcessor],

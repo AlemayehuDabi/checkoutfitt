@@ -1,5 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import { AiRateLimit } from '../common/throttling';
 import { GapAnalysisService } from './gap-analysis.service';
 import { ClosetValueService } from './closet-value.service';
 
@@ -15,11 +16,13 @@ export class InsightsController {
     private readonly closetValueService: ClosetValueService,
   ) {}
 
+  @AiRateLimit()
   @Get('gap-analysis')
   gapAnalysis(@CurrentUser() user: CurrentUser) {
     return this.gapAnalysisService.analyze(user.id);
   }
 
+  @AiRateLimit()
   @Get('value')
   closetValue(@CurrentUser() user: CurrentUser) {
     return this.closetValueService.calculate(user.id);

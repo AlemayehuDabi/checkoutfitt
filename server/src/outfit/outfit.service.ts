@@ -18,6 +18,7 @@ import {
   DEFAULT_DAILY_OUTFIT_CONTEXT,
 } from './constants';
 import { getOccasionGuidance } from './occasion-guidance';
+import { todayInTimeZone } from '../calendar/date.util';
 
 /** Occasion guidance is always applied; caller-supplied instructions (e.g.
  * Phase 5's weather guidance) are layered on top rather than replacing it. */
@@ -176,8 +177,10 @@ export class OutfitService {
    * itself is durable, so a Redis flush just means the next request
    * regenerates instead of losing data.
    */
-  async getTodaysOutfit(userId: string) {
-    const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD, UTC
+  async getTodaysOutfit(userId: string, timezone?: string) {
+    // Rolls over at the user's local midnight when a zone is supplied,
+    // otherwise UTC as before.
+    const today = todayInTimeZone(timezone);
     const cacheKey = `daily-outfit:${userId}:${today}`;
 
     const cachedOutfitId = await this.cache.get<string>(cacheKey);

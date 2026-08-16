@@ -1,5 +1,6 @@
 import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import { AiRateLimit } from '../common/throttling';
 import { ShoppingService } from './shopping.service';
 import { EvaluateProductDto } from './dto/evaluate-product.dto';
 
@@ -8,6 +9,7 @@ export class ShoppingController {
   constructor(private readonly shoppingService: ShoppingService) {}
 
   // 200: a one-shot evaluation, nothing is persisted.
+  @AiRateLimit()
   @Post('evaluate')
   @HttpCode(HttpStatus.OK)
   evaluate(@CurrentUser() user: CurrentUser, @Body() dto: EvaluateProductDto) {

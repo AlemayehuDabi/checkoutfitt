@@ -10,6 +10,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import { AiRateLimit } from '../common/throttling';
 import { OutfitRatingService } from './outfit-rating.service';
 import { CreateOutfitRatingDto } from './dto/create-outfit-rating.dto';
 import { ListOutfitRatingsQueryDto } from './dto/list-outfit-ratings-query.dto';
@@ -18,6 +19,7 @@ import { ListOutfitRatingsQueryDto } from './dto/list-outfit-ratings-query.dto';
 export class OutfitRatingController {
   constructor(private readonly outfitRatingService: OutfitRatingService) {}
 
+  @AiRateLimit()
   @Post()
   create(@CurrentUser() user: CurrentUser, @Body() dto: CreateOutfitRatingDto) {
     return this.outfitRatingService.create(user.id, dto);

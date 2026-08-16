@@ -68,6 +68,21 @@ class EnvironmentVariables {
   @IsOptional()
   @IsString()
   OPENWEATHER_API_KEY?: string;
+
+  // Password-reset email. Without a key the reset link is logged to the
+  // console instead, so local development still works end to end.
+  @IsOptional()
+  @IsString()
+  RESEND_API_KEY?: string;
+
+  @IsOptional()
+  @IsString()
+  FROM_EMAIL?: string;
+
+  // Comma-separated browser origins allowed by CORS.
+  @IsOptional()
+  @IsString()
+  CORS_ORIGINS?: string;
 }
 
 export function validateEnv(config: Record<string, unknown>) {

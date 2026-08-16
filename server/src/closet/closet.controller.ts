@@ -3,6 +3,8 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
   Patch,
   Post,
@@ -37,7 +39,13 @@ export class ClosetController {
     @CurrentUser() user: CurrentUser,
     @Query() query: ListClosetItemsQueryDto,
   ) {
-    return this.closetService.list(user.id, query);
+    return this.closetService.listPage(user.id, query);
+  }
+
+  @Post(':id/retry')
+  @HttpCode(HttpStatus.OK)
+  retry(@CurrentUser() user: CurrentUser, @Param('id') id: string) {
+    return this.closetService.retryDetection(user.id, id);
   }
 
   @Get(':id')

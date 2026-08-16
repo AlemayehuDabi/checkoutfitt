@@ -72,3 +72,30 @@ export function parseMonthRange(value: string): { start: Date; end: Date } {
 export function currentMonth(): string {
   return new Date().toISOString().slice(0, 7);
 }
+
+/**
+ * Today's `YYYY-MM-DD` in an IANA time zone, falling back to UTC.
+ *
+ * "Today's outfit" should roll over at the user's midnight, not UTC's — for
+ * anyone west of Greenwich, a UTC day boundary changes their outfit partway
+ * through the evening. `en-CA` is used purely because it formats as
+ * YYYY-MM-DD.
+ */
+export function todayInTimeZone(timeZone?: string): string {
+  if (!timeZone) {
+    return new Date().toISOString().slice(0, 10);
+  }
+  try {
+    return new Intl.DateTimeFormat('en-CA', {
+      timeZone,
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    }).format(new Date());
+  } catch {
+    // Intl throws RangeError on an unknown zone.
+    throw new BadRequestException(
+      `Invalid timezone "${timeZone}" — expected an IANA name such as "Europe/Lisbon"`,
+    );
+  }
+}

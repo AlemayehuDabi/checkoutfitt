@@ -73,6 +73,14 @@ export class UploadService {
     };
   }
 
+  /**
+   * Deletes an asset from Cloudinary. Used when the record that owned it is
+   * removed, so deleted garments don't leave paid-for blobs behind.
+   */
+  async destroy(publicId: string): Promise<void> {
+    await cloudinary.uploader.destroy(publicId, { resource_type: 'image' });
+  }
+
   async confirm(userId: string, dto: ConfirmUploadDto) {
     const existing = await this.prisma.attachment.findUnique({
       where: { publicId: dto.publicId },

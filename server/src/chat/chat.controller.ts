@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import type { Response } from 'express';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import { AiRateLimit } from '../common/throttling';
 import { ChatService } from './chat.service';
 import { SendChatMessageDto } from './dto/send-chat-message.dto';
 import { ListChatMessagesQueryDto } from './dto/list-chat-messages-query.dto';
@@ -36,6 +37,7 @@ export class ChatController {
    * natural-language answer is streamed, since decision-time tool routing
    * and token streaming don't compose cleanly across providers.
    */
+  @AiRateLimit()
   @Post('messages')
   @HttpCode(HttpStatus.CREATED)
   async sendMessage(
