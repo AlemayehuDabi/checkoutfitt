@@ -1023,6 +1023,170 @@ export function buildMockCapsule(
 }
 
 // ---------------------------------------------------------------------------
+// Travel packing
+// ---------------------------------------------------------------------------
+
+/** TRAVEL_OCCASIONS from server/src/travel/constants.ts */
+export const TRAVEL_OCCASIONS = [
+  "sightseeing",
+  "business_meeting",
+  "dinner",
+  "beach",
+  "hiking",
+  "nightlife",
+  "shopping",
+  "relaxing",
+] as const;
+export type TravelOccasion = (typeof TRAVEL_OCCASIONS)[number];
+
+export const TRAVEL_OCCASION_LABELS: Record<TravelOccasion, string> = {
+  sightseeing: "Sightseeing",
+  business_meeting: "Business meeting",
+  dinner: "Dinner",
+  beach: "Beach",
+  hiking: "Hiking",
+  nightlife: "Nightlife",
+  shopping: "Shopping",
+  relaxing: "Relaxing",
+};
+
+export const MAX_TRIP_DAYS = 14;
+
+export interface MockPackingItem {
+  closetItemId: string;
+  type: string;
+  name: string;
+  imageUrl: string;
+  essential: boolean;
+}
+
+export interface MockDailyOutfit {
+  date: string;
+  occasion: string;
+  items: { closetItemId: string; type: string; category: string; imageUrl: string }[];
+  /** Display-only: the forecast condition for that day. */
+  condition: string;
+  tempCelsius: number;
+}
+
+/** POST /travel/pack */
+export interface MockTravelPlan {
+  destination: string;
+  dates: { start: string; end: string };
+  weather: {
+    tempRange: { minCelsius: number; maxCelsius: number };
+    conditions: string[];
+    partial: boolean;
+    daysForecast: number;
+    totalDays: number;
+  };
+  advice: string;
+  packingList: MockPackingItem[];
+  dailyOutfits: MockDailyOutfit[];
+  generatedAt: string;
+}
+
+const PACKING_SEED: { id: string; essential: boolean }[] = [
+  { id: "ci_01", essential: true },
+  { id: "ci_04", essential: true },
+  { id: "ci_02", essential: false },
+  { id: "ci_06", essential: true },
+  { id: "ci_05", essential: true },
+  { id: "ci_08", essential: false },
+  { id: "ci_10", essential: true },
+  { id: "ci_11", essential: false },
+  { id: "ci_13", essential: true },
+  { id: "ci_12", essential: false },
+  { id: "ci_16", essential: true },
+  { id: "ci_19", essential: false },
+];
+
+const DAY_PLAN: { occasion: string; ids: string[]; condition: string; temp: number }[] = [
+  { occasion: "Travel day", ids: ["ci_04", "ci_06", "ci_13"], condition: "Clouds", temp: 19 },
+  { occasion: "Sightseeing", ids: ["ci_01", "ci_06", "ci_13"], condition: "Clear", temp: 24 },
+  { occasion: "Business meeting", ids: ["ci_02", "ci_05", "ci_12"], condition: "Clear", temp: 25 },
+  { occasion: "Dinner", ids: ["ci_02", "ci_05", "ci_12"], condition: "Clouds", temp: 21 },
+  { occasion: "Sightseeing", ids: ["ci_01", "ci_08", "ci_13"], condition: "Rain", temp: 18 },
+  { occasion: "Travel home", ids: ["ci_04", "ci_06", "ci_13"], condition: "Clouds", temp: 20 },
+];
+
+export function buildMockTravelPlan(
+  destination: string,
+  startDate: string,
+  endDate: string,
+  occasions: TravelOccasion[],
+): MockTravelPlan {
+  const start = new Date(`${startDate}T00:00:00Z`);
+  const end = new Date(`${endDate}T00:00:00Z`);
+  const totalDays =
+    Math.round((end.getTime() - start.getTime()) / 86_400_000) + 1;
+
+  // Chosen activities fill the middle of the trip; the first and last days
+  // are always travel days regardless of what was selected.
+  const chosen = occasions.map((o) => TRAVEL_OCCASION_LABELS[o]);
+
+  const dailyOutfits: MockDailyOutfit[] = Array.from(
+    { length: totalDays },
+    (_, i) => {
+      const plan = DAY_PLAN[i % DAY_PLAN.length];
+      const date = new Date(start);
+      date.setUTCDate(date.getUTCDate() + i);
+
+      const isTravelDay = i === 0 || i === totalDays - 1;
+      const occasion =
+        isTravelDay || chosen.length === 0
+          ? plan.occasion
+          : chosen[(i - 1) % chosen.length];
+
+      return {
+        date: date.toISOString().slice(0, 10),
+        occasion,
+        condition: plan.condition,
+        tempCelsius: plan.temp,
+        items: plan.ids.map((id) => {
+          const item = byId(id);
+          return {
+            closetItemId: item.id,
+            type: (item.type ?? "other").toLowerCase(),
+            category: item.category ?? "unknown",
+            imageUrl: item.imageUrl,
+          };
+        }),
+      };
+    },
+  );
+
+  // OpenWeather only forecasts ~8 days, so longer trips are partly uncovered.
+  const daysForecast = Math.min(totalDays, 8);
+
+  return {
+    destination,
+    dates: { start: startDate, end: endDate },
+    weather: {
+      tempRange: { minCelsius: 17, maxCelsius: 26 },
+      conditions: ["Clear", "Clouds", "Rain"],
+      partial: totalDays > daysForecast,
+      daysForecast,
+      totalDays,
+    },
+    advice:
+      "Mild but changeable — warm afternoons and cooler evenings, with one wet day mid-trip. Pack layers you can add and drop rather than anything heavy, and bring one water-resistant outer.",
+    packingList: PACKING_SEED.map((seed) => {
+      const item = byId(seed.id);
+      return {
+        closetItemId: item.id,
+        type: (item.type ?? "other").toLowerCase(),
+        name: item.category ?? "Untitled piece",
+        imageUrl: item.imageUrl,
+        essential: seed.essential,
+      };
+    }),
+    dailyOutfits,
+    generatedAt: new Date().toISOString(),
+  };
+}
+
+// ---------------------------------------------------------------------------
 // Derived helpers
 // ---------------------------------------------------------------------------
 
