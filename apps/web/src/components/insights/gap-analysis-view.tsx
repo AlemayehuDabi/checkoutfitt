@@ -98,7 +98,7 @@ export function GapAnalysisView({ analysis }: { analysis: MockGapAnalysis }) {
   }
 
   return (
-    <div className="mx-auto max-w-[1200px] py-2xl">
+    <div className="mx-auto max-w-[1200px] py-4xl">
       {/* Completion banner */}
       <motion.div
         initial={reduce ? false : { opacity: 0, y: 12 }}

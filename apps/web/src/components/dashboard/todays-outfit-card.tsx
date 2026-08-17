@@ -4,7 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
-import { SHADOW_LG } from "@/lib/motion";
+import { SHADOW_XL } from "@/lib/motion";
 import { CONTEXT_LABELS, type MockOutfit } from "@/lib/mock-data";
 import { OutfitImage } from "@/components/outfit-image";
 
@@ -17,7 +17,7 @@ export function TodaysOutfitCard({ outfit }: { outfit: MockOutfit }) {
 
   return (
     <motion.div
-      whileHover={reduce ? undefined : { y: -3, boxShadow: SHADOW_LG }}
+      whileHover={reduce ? undefined : { y: -6, boxShadow: SHADOW_XL }}
       transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
       className="overflow-hidden rounded-xl border border-border bg-surface shadow-lg transition-colors duration-200 hover:border-border-strong"
     >
@@ -29,21 +29,21 @@ export function TodaysOutfitCard({ outfit }: { outfit: MockOutfit }) {
           <OutfitImage
             items={outfit.items}
             variant="hero"
-            className="h-56 w-full transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:scale-[1.03] sm:h-full sm:min-h-[300px]"
+            className="h-64 w-full transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:scale-[1.04] sm:h-full sm:min-h-[360px]"
           />
         </div>
 
-        <div className="flex flex-col justify-center p-2xl">
+        <div className="flex flex-col justify-center p-3xl">
           <p className="flex items-center gap-sm text-eyebrow uppercase text-primary-500">
             <Sparkles aria-hidden className="size-3.5" />
             Today&apos;s outfit
           </p>
 
-          <h3 className="mt-md text-h2 text-text-primary text-balance">
+          <h3 className="mt-md text-h1 text-text-primary text-balance">
             Made for {CONTEXT_LABELS[outfit.context].toLowerCase()}
           </h3>
 
-          <p className="mt-md line-clamp-3 text-body text-text-secondary">
+          <p className="mt-lg line-clamp-3 text-body-lg text-text-secondary">
             {outfit.explanation}
           </p>
 
@@ -62,7 +62,7 @@ export function TodaysOutfitCard({ outfit }: { outfit: MockOutfit }) {
             See the full look
             <ArrowRight
               aria-hidden
-              className="size-4 transition-transform duration-200 group-hover:translate-x-0.5"
+              className="size-4 transition-transform duration-200 group-hover:translate-x-1"
             />
           </span>
         </div>

@@ -57,11 +57,26 @@ export const SHADOW_MD =
   "0 2px 8px rgba(26, 25, 23, 0.08), 0 1px 3px rgba(26, 25, 23, 0.04)";
 export const SHADOW_LG =
   "0 4px 16px rgba(26, 25, 23, 0.10), 0 2px 4px rgba(26, 25, 23, 0.04)";
+export const SHADOW_XL =
+  "0 8px 24px rgba(26, 25, 23, 0.12), 0 4px 8px rgba(26, 25, 23, 0.04)";
 export const SHADOW_PRIMARY = "0 4px 14px rgba(193, 98, 45, 0.25)";
 
-/** Interactive card: lifts 3px and deepens its shadow on hover. */
+/**
+ * Interactive card hover.
+ *
+ * The spec's -3px is the floor for a dense row; content cards that carry an
+ * image want a lift you actually register, so they go further and land on
+ * --shadow-xl. Both are exported so callers pick by weight rather than
+ * hand-rolling numbers.
+ */
 export const cardHover = {
   whileHover: { y: -3, boxShadow: SHADOW_LG },
+  transition: standard,
+};
+
+/** Editorial content cards — outfits, closet items, results. */
+export const cardHoverLift = {
+  whileHover: { y: -6, boxShadow: SHADOW_XL },
   transition: standard,
 };
 

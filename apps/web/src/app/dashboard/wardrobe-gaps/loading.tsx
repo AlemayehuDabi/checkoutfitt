@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function WardrobeGapsLoading() {
   return (
-    <div className="mx-auto max-w-[1200px] py-2xl">
+    <div className="mx-auto max-w-[1200px] py-4xl">
       <div className="rounded-xl border border-border bg-surface p-2xl shadow-lg">
         <div className="flex gap-lg">
           <Skeleton className="size-12 shrink-0 rounded-md" />

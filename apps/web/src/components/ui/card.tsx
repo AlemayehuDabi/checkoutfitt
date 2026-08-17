@@ -3,15 +3,20 @@
 import * as React from "react";
 import { motion, useReducedMotion, type HTMLMotionProps } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { SHADOW_LG } from "@/lib/motion";
+import { SHADOW_XL } from "@/lib/motion";
 
 type CardVariant = "standard" | "hero" | "flat";
 
+/*
+ * Padding runs one step above the spec's 20px/24px. At the widths this app
+ * actually renders at, 20px reads as a mobile card that was dropped onto a
+ * page; 24px is the floor where a card starts to feel like a web surface.
+ */
 const VARIANTS: Record<CardVariant, string> = {
-  standard: "bg-surface border border-border rounded-xl p-xl shadow-md",
-  hero: "bg-surface border border-border rounded-xl p-2xl shadow-lg",
+  standard: "bg-surface border border-border rounded-xl p-2xl shadow-md",
+  hero: "bg-surface border border-border rounded-xl p-3xl shadow-lg",
   // Embedded inside another card or section: no border, no shadow.
-  flat: "bg-surface-secondary rounded-md p-lg",
+  flat: "bg-surface-secondary rounded-lg p-xl",
 };
 
 export interface CardProps extends HTMLMotionProps<"div"> {
@@ -30,7 +35,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(
     <motion.div
       ref={ref}
       whileHover={
-        interactive && !reduce ? { y: -3, boxShadow: SHADOW_LG } : undefined
+        interactive && !reduce ? { y: -6, boxShadow: SHADOW_XL } : undefined
       }
       transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
       className={cn(

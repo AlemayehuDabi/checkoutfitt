@@ -39,7 +39,7 @@ export function Testimonials() {
           </h2>
         </Reveal>
 
-        <ul className="mt-5xl grid gap-lg md:grid-cols-3 md:gap-2xl">
+        <ul className="mt-5xl grid gap-2xl md:grid-cols-3">
           {TESTIMONIALS.map((testimonial, index) => (
             <Reveal key={testimonial.name} delay={index * 0.12}>
               <li className="flex h-full flex-col rounded-xl border border-border bg-surface p-xl shadow-md">

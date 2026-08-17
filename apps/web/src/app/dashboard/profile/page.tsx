@@ -35,7 +35,7 @@ export default function ProfilePage() {
   }).format(new Date(mockMemberSince));
 
   return (
-    <div className="mx-auto max-w-[1200px] py-2xl">
+    <div className="mx-auto max-w-[1200px] py-4xl">
       {/* Identity */}
       <div className="flex flex-col gap-2xl sm:flex-row sm:items-center">
         <AvatarEditor name={mockUser.name} />
@@ -62,7 +62,7 @@ export default function ProfilePage() {
       </div>
 
       {/* Stats */}
-      <div className="mt-3xl grid gap-lg sm:grid-cols-3">
+      <div className="mt-3xl grid gap-2xl sm:grid-cols-3">
         <StatCard
           value={mockClosetItems.filter((i) => !i.archived).length}
           label="Items in closet"
@@ -84,7 +84,7 @@ export default function ProfilePage() {
           as="h3"
         />
 
-        <div className="grid gap-lg sm:grid-cols-2">
+        <div className="grid gap-2xl sm:grid-cols-2">
           <Link
             href="/dashboard/style-coach"
             className="group rounded-xl border border-border bg-surface p-xl shadow-md transition-all duration-200 hover:-translate-y-[3px] hover:border-border-strong hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"

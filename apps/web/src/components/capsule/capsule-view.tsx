@@ -241,7 +241,7 @@ export function CapsuleView() {
               description="Every piece here comes from the capsule above."
               as="h3"
             />
-            <ul className="grid gap-lg sm:grid-cols-2 xl:grid-cols-3">
+            <ul className="grid gap-2xl sm:grid-cols-2 xl:grid-cols-3">
               {capsule.sampleOutfits.map((outfit, index) => (
                 <motion.li
                   key={outfit.name}

@@ -23,13 +23,13 @@ export function StatCard({
     <div
       className={cn(
         variant === "standard"
-          ? "rounded-xl border border-border bg-surface p-xl shadow-md"
+          ? "rounded-xl border border-border bg-surface p-2xl shadow-md"
           : "rounded-md bg-surface-secondary p-lg",
         className,
       )}
     >
       {icon && (
-        <span aria-hidden className="mb-md inline-flex text-primary-500 [&>svg]:size-5">
+        <span aria-hidden className="mb-lg inline-flex text-primary-500 [&>svg]:size-6">
           {icon}
         </span>
       )}

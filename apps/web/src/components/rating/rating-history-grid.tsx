@@ -154,7 +154,7 @@ export function RatingHistoryGrid({
         variants={staggerContainer}
         initial="initial"
         animate="animate"
-        className="grid grid-cols-2 gap-lg md:hidden"
+        className="grid grid-cols-2 gap-2xl md:hidden"
       >
         {sorted.map((rating) => (
           <RatingCard key={rating.id} rating={rating} />

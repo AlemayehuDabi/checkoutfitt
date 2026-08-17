@@ -169,7 +169,7 @@ export function InspirationView() {
               Reading the look and searching your closet…
             </p>
           </div>
-          <div className="grid gap-lg sm:grid-cols-2">
+          <div className="grid gap-2xl sm:grid-cols-2">
             <Skeleton className="aspect-[3/4] w-full rounded-xl" />
             <Skeleton className="aspect-[3/4] w-full rounded-xl" />
           </div>
@@ -179,7 +179,7 @@ export function InspirationView() {
       {stage === "result" && result && (
         <WorkbenchResult>
           {/* Side-by-side comparison */}
-          <div className="grid gap-lg sm:grid-cols-2">
+          <div className="grid gap-2xl sm:grid-cols-2">
             <div>
               <p className="mb-md text-eyebrow uppercase text-text-muted">
                 Inspiration

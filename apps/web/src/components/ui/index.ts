@@ -19,4 +19,19 @@ export { StatCard } from "./stat-card";
 export { SectionHeader } from "./section-header";
 export { CalloutCard } from "./callout-card";
 export { Divider } from "./divider";
+export { Switch } from "./switch";
+export {
+  SegmentedControl,
+  type SegmentOption,
+} from "./segmented-control";
+export { Popover } from "./popover";
+export {
+  Table,
+  THead,
+  TBody,
+  TH,
+  TR,
+  TD,
+  type SortDirection,
+} from "./table";
 export { ToastProvider, useToast } from "./toast";

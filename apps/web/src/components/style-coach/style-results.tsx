@@ -56,7 +56,7 @@ export function StyleResults({
   return (
     /* The detail-page shape: moodboard sticky on the left, everything you read
        on the right at a sane measure. Stacks below lg, collage first. */
-    <div className="mx-auto max-w-[1200px] py-2xl">
+    <div className="mx-auto max-w-[1200px] py-4xl">
       <div className="grid items-start gap-2xl lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1fr)] lg:gap-4xl">
         {/* Collage — deliberately uneven so it reads as a moodboard, not a grid */}
         <Reveal delay={0.24} className="lg:sticky lg:top-24">

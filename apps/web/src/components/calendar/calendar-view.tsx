@@ -120,7 +120,7 @@ export function CalendarView() {
 
   if (!isClient) {
     return (
-      <div className="py-2xl">
+      <div className="py-4xl">
         <CalendarSkeleton />
       </div>
     );
@@ -175,7 +175,7 @@ export function CalendarView() {
   }
 
   return (
-    <div className="py-2xl">
+    <div className="py-4xl">
       <div className="rounded-xl border border-border bg-surface p-lg shadow-md sm:p-2xl">
         {/* Header */}
         <div className="mb-xl flex flex-wrap items-center justify-between gap-lg">

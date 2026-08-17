@@ -2,7 +2,7 @@ import { Skeleton, SkeletonText } from "@/components/ui/skeleton";
 
 export default function TodayLoading() {
   return (
-    <div className="py-2xl">
+    <div className="py-4xl">
       <Skeleton className="mb-xl h-4 w-32 rounded-sm" />
       <div className="grid gap-3xl lg:grid-cols-[45%_1fr] lg:items-start">
         <Skeleton className="aspect-[4/5] w-full rounded-xl" />

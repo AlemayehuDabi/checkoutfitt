@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function InspirationLoading() {
   return (
-    <div className="mx-auto max-w-[900px] py-2xl">
+    <div className="mx-auto max-w-[900px] py-4xl">
       <Skeleton className="h-9 w-3/4 rounded-md" />
       <Skeleton className="mt-md h-5 w-full max-w-[560px] rounded-sm" />
       <Skeleton className="mt-3xl h-[260px] w-full rounded-xl" />

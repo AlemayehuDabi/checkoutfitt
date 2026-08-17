@@ -40,19 +40,24 @@ export function SkeletonText({
   );
 }
 
-/** Square garment tile + caption lines, matching the closet grid card. */
+/**
+ * Portrait tile + caption block, matching the closet and outfit grid cards.
+ * The image runs edge to edge like the real card, so nothing shifts when the
+ * content lands.
+ */
 export function SkeletonCard({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "overflow-hidden rounded-xl border border-border bg-surface p-md",
+        "overflow-hidden rounded-xl border border-border bg-surface shadow-md",
         className,
       )}
     >
-      <Skeleton className="aspect-square w-full rounded-md" />
-      <div className="mt-md flex flex-col gap-2">
-        <Skeleton className="h-3.5 w-3/4 rounded-sm" />
-        <Skeleton className="h-3 w-1/3 rounded-sm" />
+      <Skeleton className="aspect-[4/5] w-full rounded-none" />
+      <div className="flex flex-col gap-md p-xl">
+        <Skeleton className="h-4 w-3/4 rounded-sm" />
+        <Skeleton className="h-3.5 w-1/3 rounded-sm" />
+        <Skeleton className="mt-1 h-7 w-20 rounded-sm" />
       </div>
     </div>
   );

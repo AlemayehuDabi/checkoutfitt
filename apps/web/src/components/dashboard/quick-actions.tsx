@@ -4,7 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Shirt, Sparkles } from "lucide-react";
-import { SHADOW_LG, SHADOW_PRIMARY } from "@/lib/motion";
+import { SHADOW_PRIMARY, SHADOW_XL } from "@/lib/motion";
 
 /**
  * Two shortcuts, deliberately unequal: Generate is filled in primary so the
@@ -15,15 +15,15 @@ export function QuickActions({ itemCount }: { itemCount: number }) {
 
   return (
     // Stacks in the dashboard rail; side by side when the rail collapses.
-    <div className="grid gap-lg sm:grid-cols-2 xl:grid-cols-1">
+    <div className="grid gap-2xl sm:grid-cols-2 xl:grid-cols-1">
       <motion.div
-        whileHover={reduce ? undefined : { y: -3, boxShadow: SHADOW_LG }}
+        whileHover={reduce ? undefined : { y: -4, boxShadow: SHADOW_XL }}
         transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
         className="rounded-xl border border-border bg-surface shadow-md transition-colors duration-200 hover:border-border-strong"
       >
         <Link
           href="/dashboard/closet"
-          className="group flex h-full items-center gap-lg rounded-xl p-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+          className="group flex h-full items-center gap-lg rounded-xl p-2xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
         >
           <span className="inline-flex size-12 shrink-0 items-center justify-center rounded-md bg-primary-50 text-primary-500">
             <Shirt aria-hidden className="size-6" />
@@ -44,13 +44,13 @@ export function QuickActions({ itemCount }: { itemCount: number }) {
       </motion.div>
 
       <motion.div
-        whileHover={reduce ? undefined : { y: -3, boxShadow: SHADOW_PRIMARY }}
+        whileHover={reduce ? undefined : { y: -4, boxShadow: SHADOW_PRIMARY }}
         transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
         className="rounded-xl bg-primary-500 shadow-primary"
       >
         <Link
           href="/dashboard/generate"
-          className="group flex h-full items-center gap-lg rounded-xl p-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+          className="group flex h-full items-center gap-lg rounded-xl p-2xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
         >
           <span className="inline-flex size-12 shrink-0 items-center justify-center rounded-md bg-white/15 text-white">
             <Sparkles aria-hidden className="size-6" />

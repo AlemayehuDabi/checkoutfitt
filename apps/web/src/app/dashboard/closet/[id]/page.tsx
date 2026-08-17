@@ -60,7 +60,7 @@ export default async function ClosetItemPage(props: PageProps<"/dashboard/closet
   }).format(new Date(item.createdAt));
 
   return (
-    <div className="py-2xl">
+    <div className="py-4xl">
       {/* Breadcrumb */}
       <nav aria-label="Breadcrumb" className="mb-xl">
         <ol className="flex items-center gap-1.5 text-sm text-text-muted">

@@ -128,7 +128,7 @@ export function GenerateFlow({
   }
 
   return (
-    <div className="mx-auto max-w-[1200px] py-2xl">
+    <div className="mx-auto max-w-[1200px] py-4xl">
       <AnimatePresence mode="wait">
         {stage !== "result" ? (
           <motion.div
@@ -149,8 +149,8 @@ export function GenerateFlow({
               animate="animate"
               className={
                 rich
-                  ? "mt-3xl grid grid-cols-2 gap-lg md:grid-cols-3 lg:grid-cols-4"
-                  : "mt-3xl grid grid-cols-2 gap-lg sm:grid-cols-3"
+                  ? "mt-3xl grid grid-cols-2 gap-2xl md:grid-cols-3 lg:grid-cols-4"
+                  : "mt-3xl grid grid-cols-2 gap-2xl sm:grid-cols-3"
               }
             >
               {contexts.map((value) => (
@@ -293,7 +293,7 @@ export function GenerateFlow({
                   variants={staggerContainer}
                   initial="initial"
                   animate="animate"
-                  className="mt-xl grid gap-lg sm:grid-cols-3"
+                  className="mt-xl grid gap-2xl sm:grid-cols-3"
                 >
                   {result.alternatives.map((outfit) => (
                     <OutfitGridCard key={outfit.id} outfit={outfit} />

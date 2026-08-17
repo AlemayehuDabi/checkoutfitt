@@ -51,7 +51,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       {/* Desktop / tablet rail */}
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-30 hidden border-r border-border transition-[width] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] md:block",
+          "fixed inset-y-0 left-0 z-30 hidden border-r border-border shadow-[1px_0_3px_rgba(26,25,23,0.04)] transition-[width] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] md:block",
           collapsed ? "lg:w-[72px]" : "lg:w-[260px]",
           "w-[72px]",
         )}
@@ -104,7 +104,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       >
         <TopBar onOpenMenu={() => setDrawerOpen(true)} />
         <main className="flex-1 px-lg pb-6xl sm:px-3xl">
-          <div className="mx-auto w-full max-w-[1200px]">
+          <div className="mx-auto w-full max-w-[90rem]">
             {/* Keyed on route so each page fades in on navigation. `mode="wait"`
                 needs the exit variant, or the outgoing page just vanishes. */}
             <AnimatePresence mode="wait">

@@ -31,7 +31,7 @@ export default function HomePage() {
   const itemCount = mockClosetItems.filter((i) => !i.archived).length;
 
   return (
-    <div className="mx-auto max-w-[1200px] py-2xl">
+    <div className="mx-auto max-w-[1200px] py-4xl">
       <Greeting name={mockUser.name} />
 
       {/* Primary column carries the hero; the rail holds shortcuts and
@@ -84,24 +84,24 @@ export default function HomePage() {
                 />
               </Card>
             ) : (
-              <ul className="grid grid-cols-2 gap-lg sm:grid-cols-4">
+              <ul className="grid grid-cols-2 gap-2xl sm:grid-cols-4">
                 {recent.map((outfit) => (
                   <li key={outfit.id}>
                     <Link
                       href={`/dashboard/outfits/${outfit.id}`}
-                      className="group block h-full overflow-hidden rounded-xl border border-border bg-surface shadow-md transition-all duration-200 hover:-translate-y-[3px] hover:border-border-strong hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                      className="group block h-full overflow-hidden rounded-xl border border-border bg-surface shadow-md transition-all duration-200 hover:-translate-y-[6px] hover:border-border-strong hover:shadow-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                     >
                       <div className="overflow-hidden">
                         <OutfitImage
                           items={outfit.items}
-                          className="aspect-[4/3] w-full transition-transform duration-300 group-hover:scale-[1.03]"
+                          className="aspect-[4/5] w-full transition-transform duration-300 group-hover:scale-[1.04]"
                         />
                       </div>
-                      <div className="p-lg">
+                      <div className="p-xl">
                         <p className="truncate text-body-semibold text-text-primary">
                           {CONTEXT_LABELS[outfit.context]}
                         </p>
-                        <p className="mt-0.5 text-caption text-text-muted tabular-nums">
+                        <p className="mt-1 text-sm text-text-muted tabular-nums">
                           {outfit.items.length} pieces
                         </p>
                       </div>

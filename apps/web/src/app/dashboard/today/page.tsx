@@ -22,7 +22,7 @@ export default function TodayPage() {
   const outfit = mockTodaysOutfit;
 
   return (
-    <div className="py-2xl">
+    <div className="py-4xl">
       <Link
         href="/dashboard"
         className="mb-xl inline-flex items-center gap-sm rounded-sm text-sm text-text-muted transition-colors hover:text-text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"

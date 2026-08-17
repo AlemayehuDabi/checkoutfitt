@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function CapsuleLoading() {
   return (
-    <div className="mx-auto max-w-[900px] py-2xl">
+    <div className="mx-auto max-w-[900px] py-4xl">
       <Skeleton className="h-9 w-3/4 rounded-md" />
       <Skeleton className="mt-md h-5 w-full max-w-[520px] rounded-sm" />
       <div className="mt-3xl flex flex-col gap-3xl">

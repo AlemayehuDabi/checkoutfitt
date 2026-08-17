@@ -89,18 +89,16 @@ export function TopBar({ onOpenMenu }: { onOpenMenu: () => void }) {
           </p>
         </div>
         <DropdownSeparator />
-        <Link href="/dashboard/profile">
-          <DropdownItem icon={<User />}>Profile</DropdownItem>
-        </Link>
-        <Link href="/dashboard/settings">
-          <DropdownItem icon={<Settings />}>Settings</DropdownItem>
-        </Link>
+        <DropdownItem href="/dashboard/profile" icon={<User />}>
+          Profile
+        </DropdownItem>
+        <DropdownItem href="/dashboard/settings" icon={<Settings />}>
+          Settings
+        </DropdownItem>
         <DropdownSeparator />
-        <Link href="/sign-in">
-          <DropdownItem icon={<LogOut />} danger>
-            Log out
-          </DropdownItem>
-        </Link>
+        <DropdownItem href="/sign-in" icon={<LogOut />} danger>
+          Log out
+        </DropdownItem>
       </Dropdown>
     </header>
   );

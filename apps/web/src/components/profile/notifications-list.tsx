@@ -122,7 +122,7 @@ export function NotificationsList() {
   }
 
   return (
-    <div className="mx-auto max-w-[900px] py-2xl">
+    <div className="mx-auto max-w-[900px] py-4xl">
       <SectionHeader
         eyebrow="Recent"
         title="Notifications"

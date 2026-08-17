@@ -43,7 +43,7 @@ export default async function OutfitDetailPage(
   const Icon = meta.icon;
 
   return (
-    <div className="py-2xl">
+    <div className="py-4xl">
       <nav aria-label="Breadcrumb" className="mb-xl">
         <ol className="flex items-center gap-1.5 text-sm text-text-muted">
           <li>

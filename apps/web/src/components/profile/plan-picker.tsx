@@ -5,6 +5,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { Check, Minus, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { SegmentedControl } from "@/components/ui/segmented-control";
 import { PromoBadge } from "@/components/ui/badge";
 import { useToast } from "@/components/ui/toast";
 
@@ -92,7 +93,7 @@ export function PlanPicker({
   const price = PRICES[cycle];
 
   return (
-    <div className={cn("mx-auto max-w-[900px] py-2xl", className)}>
+    <div className={cn("mx-auto max-w-[900px] py-4xl", className)}>
       <div className="text-center">
         <p className="text-eyebrow uppercase text-text-muted">{eyebrow}</p>
         <h2 className="mt-sm text-display text-text-primary text-balance">
@@ -103,57 +104,32 @@ export function PlanPicker({
         </p>
       </div>
 
-      {/* Billing cycle */}
+      {/* Billing cycle — the shared segmented control rather than a
+          one-off pill row, so it behaves like every other 2-option choice. */}
       <div className="mt-2xl flex justify-center">
-        <div
-          role="group"
-          aria-label="Billing cycle"
-          className="relative flex items-center gap-1 rounded-full border border-border bg-surface p-1"
-        >
-          {(["monthly", "yearly"] as Cycle[]).map((value) => {
-            const active = cycle === value;
-            return (
-              <button
-                key={value}
-                type="button"
-                aria-pressed={active}
-                onClick={() => setCycle(value)}
-                className={cn(
-                  "relative cursor-pointer rounded-full px-lg py-2 text-body-medium capitalize transition-colors duration-200",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500",
-                  active ? "text-text-on-primary" : "text-text-secondary hover:text-text-primary",
-                )}
-              >
-                {active && (
-                  <motion.span
-                    layoutId="cycle-pill"
-                    transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
-                    className="absolute inset-0 rounded-full bg-primary-500"
-                  />
-                )}
-                <span className="relative flex items-center gap-sm">
-                  {value}
-                  {value === "yearly" && (
-                    <span
-                      className={cn(
-                        "rounded-sm px-1.5 py-0.5 text-[10px] font-[700] tracking-[0.06em] uppercase",
-                        active
-                          ? "bg-white/20 text-white"
-                          : "bg-success-light text-success",
-                      )}
-                    >
-                      Save 20%
-                    </span>
-                  )}
+        <SegmentedControl
+          label="Billing cycle"
+          value={cycle}
+          onChange={setCycle}
+          options={[
+            { value: "monthly", label: "Monthly" },
+            {
+              value: "yearly",
+              label: (
+                <span className="flex items-center gap-sm">
+                  Yearly
+                  <span className="rounded-sm bg-success-light px-1.5 py-0.5 text-[10px] font-[700] tracking-[0.06em] text-success uppercase">
+                    Save 20%
+                  </span>
                 </span>
-              </button>
-            );
-          })}
-        </div>
+              ),
+            },
+          ]}
+        />
       </div>
 
       {/* Plans — Pro is intentionally taller and heavier so it reads first. */}
-      <div className="mt-3xl grid items-start gap-lg sm:grid-cols-2 lg:gap-2xl">
+      <div className="mt-3xl grid items-start gap-2xl sm:grid-cols-2">
         <div className="rounded-xl border border-border bg-surface p-2xl shadow-md">
           <p className="text-h3 text-text-primary">Free</p>
           <p className="mt-sm flex items-baseline gap-1">

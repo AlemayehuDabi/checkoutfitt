@@ -25,7 +25,7 @@ export function WeatherStrip({ weather }: { weather: MockWeather }) {
   const Icon = CONDITION_ICON[weather.condition] ?? Cloud;
 
   return (
-    <div className="flex flex-wrap items-center gap-lg rounded-md bg-surface-secondary px-xl py-lg">
+    <div className="flex flex-wrap items-center gap-xl rounded-lg border border-border bg-surface-secondary px-2xl py-xl">
       <Icon aria-hidden className="size-8 shrink-0 stroke-[1.5] text-primary-500" />
 
       <div className="min-w-0 flex-1">

@@ -14,7 +14,7 @@ export default function SavedOutfitsPage() {
   const outfits = mockSavedOutfits;
 
   return (
-    <div className="py-2xl">
+    <div className="py-4xl">
       <div className="mb-2xl flex flex-wrap items-end justify-between gap-lg">
         <div>
           <p className="text-eyebrow uppercase text-text-muted">Your lookbook</p>

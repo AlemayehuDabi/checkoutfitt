@@ -4,7 +4,15 @@ import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
-import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
+import {
+  ChevronsUpDown,
+  LogOut,
+  PanelLeftClose,
+  PanelLeftOpen,
+  Settings,
+  Sparkles,
+  User,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   NAV_GROUPS,
@@ -13,6 +21,12 @@ import {
   type NavItem,
 } from "@/lib/navigation";
 import { Avatar } from "@/components/ui/avatar";
+import {
+  Dropdown,
+  DropdownItem,
+  DropdownLabel,
+  DropdownSeparator,
+} from "@/components/ui/dropdown";
 import { mockUser } from "@/lib/mock-data";
 
 function NavLink({
@@ -36,7 +50,8 @@ function NavLink({
       // Collapsed rail relies on the native tooltip for labels.
       title={collapsed ? item.label : undefined}
       className={cn(
-        "group relative mx-md flex h-[42px] items-center gap-md rounded-md px-lg text-sm transition-colors duration-200",
+        "group relative mx-md flex h-11 items-center gap-md rounded-lg px-md text-sm",
+        "transition-colors duration-200 ease-[cubic-bezier(0.4,0,0.2,1)]",
         "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500",
         collapsed && "justify-center px-0",
         active
@@ -44,18 +59,19 @@ function NavLink({
           : "text-text-secondary hover:bg-surface-secondary hover:text-text-primary",
       )}
     >
-      {/* Active rail marker — reads at a glance in the collapsed state. */}
+      {/* Filled pill plus a left accent bar — the accent is what makes the
+          active row legible in the collapsed rail, where the label is gone. */}
       {active && (
         <motion.span
           layoutId="sidebar-active"
-          className="absolute inset-y-1 left-0 w-[3px] rounded-full bg-primary-500"
+          className="absolute inset-y-2 -left-md w-[3px] rounded-r-full bg-primary-500"
           transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
         />
       )}
       <Icon
         aria-hidden
         className={cn(
-          "size-5 shrink-0 transition-colors",
+          "size-[18px] shrink-0 transition-colors",
           active
             ? "text-primary-500"
             : "text-text-muted group-hover:text-text-secondary",
@@ -80,7 +96,7 @@ export function SidebarContent({
 }: SidebarProps) {
   return (
     <div className="flex h-full flex-col bg-surface">
-      {/* Wordmark */}
+      {/* Brand */}
       <div
         className={cn(
           "flex h-16 shrink-0 items-center border-b border-border",
@@ -90,39 +106,48 @@ export function SidebarContent({
         <Link
           href="/dashboard"
           onClick={onNavigate}
-          className="rounded-sm text-body-semibold tracking-[-0.2px] text-primary-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+          aria-label="CheckoutFitt home"
+          className="flex items-center gap-md rounded-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
         >
-          {collapsed ? "CF" : "CheckoutFitt"}
+          {/* A mark, not just a word — the collapsed rail needs something that
+              still reads as the brand at 32px. */}
+          <span
+            aria-hidden
+            className="inline-flex size-8 shrink-0 items-center justify-center rounded-md bg-primary-500 text-text-on-primary shadow-primary"
+          >
+            <Sparkles className="size-[18px]" />
+          </span>
+          {!collapsed && (
+            <span className="text-body-semibold tracking-[-0.2px] text-text-primary">
+              CheckoutFitt
+            </span>
+          )}
         </Link>
         {!collapsed && (
           <button
             type="button"
             onClick={onToggleCollapsed}
             aria-label="Collapse sidebar"
-            className="hidden cursor-pointer rounded-full p-1.5 text-text-muted transition-colors hover:bg-surface-secondary hover:text-text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 lg:inline-flex"
+            className="hidden cursor-pointer rounded-md p-1.5 text-text-muted transition-colors hover:bg-surface-secondary hover:text-text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 lg:inline-flex"
           >
             <PanelLeftClose aria-hidden className="size-[18px]" />
           </button>
         )}
       </div>
 
-      {/* Groups */}
-      <nav
-        aria-label="Main"
-        className="no-scrollbar flex-1 overflow-y-auto py-md"
-      >
+      {/* Groups — separated by whitespace rather than rules, so the rail reads
+          as one surface instead of a stack of boxes. */}
+      <nav aria-label="Main" className="no-scrollbar flex-1 overflow-y-auto py-lg">
         {NAV_GROUPS.map((group, index) => (
-          <div
-            key={group.label}
-            className={cn(
-              "py-md",
-              index > 0 && "border-t border-border",
-            )}
-          >
-            {!collapsed && (
-              <p className="mb-1 px-xl text-eyebrow uppercase text-text-muted">
+          <div key={group.label} className={index > 0 ? "mt-2xl" : undefined}>
+            {!collapsed ? (
+              <p className="mb-sm px-2xl text-eyebrow uppercase text-text-muted">
                 {group.label}
               </p>
+            ) : (
+              index > 0 && (
+                <div aria-hidden className="mx-auto mb-lg h-px w-8 bg-border" />
+              )
             )}
             <div className="flex flex-col gap-0.5">
               {group.items.map((item) => (
@@ -138,38 +163,64 @@ export function SidebarContent({
         ))}
       </nav>
 
-      {/* User footer */}
+      {/* Account */}
       <div className="shrink-0 border-t border-border p-md">
-        <Link
-          href={PROFILE_NAV.href}
-          onClick={onNavigate}
-          title={collapsed ? mockUser.name : undefined}
-          className={cn(
-            "flex items-center gap-md rounded-md p-2 transition-colors hover:bg-surface-secondary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500",
-            collapsed && "justify-center",
-          )}
-        >
-          <Avatar name={mockUser.name} size="sm" />
-          {!collapsed && (
-            <span className="min-w-0 flex-1">
-              <span className="block truncate text-sm font-[500] text-text-primary">
-                {mockUser.name}
+        {collapsed ? (
+          <>
+            <Link
+              href={PROFILE_NAV.href}
+              onClick={onNavigate}
+              title={mockUser.name}
+              className="flex justify-center rounded-lg p-2 transition-colors hover:bg-surface-secondary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+            >
+              <Avatar name={mockUser.name} size="sm" />
+            </Link>
+            <button
+              type="button"
+              onClick={onToggleCollapsed}
+              aria-label="Expand sidebar"
+              className="mt-1 hidden w-full cursor-pointer items-center justify-center rounded-lg p-2 text-text-muted transition-colors hover:bg-surface-secondary hover:text-text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 lg:flex"
+            >
+              <PanelLeftOpen aria-hidden className="size-[18px]" />
+            </button>
+          </>
+        ) : (
+          <Dropdown
+            label="Account menu"
+            align="start"
+            triggerClassName="w-full rounded-lg"
+            className="top-auto bottom-[calc(100%+8px)] left-0 min-w-[224px]"
+            trigger={
+              <span className="flex w-full items-center gap-md rounded-lg p-2 transition-colors duration-200 hover:bg-surface-secondary">
+                <Avatar name={mockUser.name} size="sm" />
+                <span className="min-w-0 flex-1 text-left">
+                  <span className="block truncate text-sm font-[500] text-text-primary">
+                    {mockUser.name}
+                  </span>
+                  <span className="block truncate text-caption text-text-muted">
+                    {mockUser.email}
+                  </span>
+                </span>
+                <ChevronsUpDown
+                  aria-hidden
+                  className="size-4 shrink-0 text-text-muted"
+                />
               </span>
-              <span className="block truncate text-caption text-text-muted">
-                {mockUser.email}
-              </span>
-            </span>
-          )}
-        </Link>
-        {collapsed && (
-          <button
-            type="button"
-            onClick={onToggleCollapsed}
-            aria-label="Expand sidebar"
-            className="mt-1 hidden w-full cursor-pointer items-center justify-center rounded-md p-2 text-text-muted transition-colors hover:bg-surface-secondary hover:text-text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 lg:flex"
+            }
           >
-            <PanelLeftOpen aria-hidden className="size-[18px]" />
-          </button>
+            <DropdownLabel>{mockUser.email}</DropdownLabel>
+            <DropdownSeparator />
+            <DropdownItem href={PROFILE_NAV.href} icon={<User />} onSelect={onNavigate}>
+              Profile
+            </DropdownItem>
+            <DropdownItem href="/dashboard/settings" icon={<Settings />} onSelect={onNavigate}>
+              Settings
+            </DropdownItem>
+            <DropdownSeparator />
+            <DropdownItem href="/sign-in" icon={<LogOut />} onSelect={onNavigate}>
+              Log out
+            </DropdownItem>
+          </Dropdown>
         )}
       </div>
     </div>

@@ -255,7 +255,7 @@ export function ShoppingView() {
               variants={staggerContainer}
               initial="initial"
               animate="animate"
-              className="grid gap-lg sm:grid-cols-2 xl:grid-cols-3"
+              className="grid gap-2xl sm:grid-cols-2 xl:grid-cols-3"
             >
               {result.suggestedOutfits.map((outfit) => (
                 <motion.li

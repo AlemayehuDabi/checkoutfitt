@@ -23,10 +23,10 @@ export function Workbench({
   panelClassName?: string;
 }) {
   return (
-    <div className="mx-auto grid max-w-[1200px] items-start gap-2xl py-2xl lg:grid-cols-[380px_minmax(0,1fr)] lg:gap-4xl">
+    <div className="mx-auto grid max-w-[1200px] items-start gap-2xl py-4xl lg:grid-cols-[380px_minmax(0,1fr)] lg:gap-4xl">
       <aside
         className={cn(
-          "rounded-xl border border-border bg-surface p-xl shadow-md lg:sticky lg:top-24",
+          "rounded-xl border border-border bg-surface p-2xl shadow-md lg:sticky lg:top-24",
           panelClassName,
         )}
       >

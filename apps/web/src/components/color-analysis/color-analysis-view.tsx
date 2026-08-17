@@ -65,7 +65,7 @@ export function ColorAnalysisView() {
   }
 
   return (
-    <div className="mx-auto max-w-[1200px] py-2xl">
+    <div className="mx-auto max-w-[1200px] py-4xl">
       <AnimatePresence mode="wait">
         {stage !== "result" ? (
           <motion.div

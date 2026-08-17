@@ -27,7 +27,7 @@ export function ClosetValueView({ value }: { value: MockClosetValue }) {
   const largest = Math.max(...value.categories.map((c) => c.totalValue));
 
   return (
-    <div className="mx-auto max-w-[1200px] py-2xl">
+    <div className="mx-auto max-w-[1200px] py-4xl">
       {/* Hero and stats share a row so the figure isn't alone on a wide page. */}
       <div className="grid items-start gap-2xl lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] lg:gap-4xl">
       <motion.div
@@ -50,7 +50,7 @@ export function ClosetValueView({ value }: { value: MockClosetValue }) {
       </motion.div>
 
       {/* Stats */}
-      <div className="mt-2xl grid gap-lg sm:grid-cols-2 lg:mt-0 lg:grid-cols-1 lg:content-start">
+      <div className="mt-2xl grid gap-2xl sm:grid-cols-2 lg:mt-0 lg:grid-cols-1 lg:content-start">
         <StatCard
           value={value.totalItems}
           label="Items valued"

@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -11,6 +12,7 @@ export interface DropdownProps {
   className?: string;
   /** Accessible name for the trigger wrapper. */
   label: string;
+  triggerClassName?: string;
 }
 
 /**
@@ -23,6 +25,7 @@ export function Dropdown({
   align = "end",
   className,
   label,
+  triggerClassName,
 }: DropdownProps) {
   const [open, setOpen] = React.useState(false);
   const rootRef = React.useRef<HTMLDivElement>(null);
@@ -51,7 +54,10 @@ export function Dropdown({
         aria-expanded={open}
         aria-label={label}
         onClick={() => setOpen((v) => !v)}
-        className="flex cursor-pointer items-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+        className={cn(
+          "flex cursor-pointer items-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500",
+          triggerClassName,
+        )}
       >
         {trigger}
       </button>
@@ -80,33 +86,58 @@ export function Dropdown({
   );
 }
 
+type DropdownItemProps = {
+  icon?: React.ReactNode;
+  danger?: boolean;
+  className?: string;
+  children: React.ReactNode;
+  /** Renders an anchor instead of a button. */
+  href?: string;
+  onSelect?: () => void;
+};
+
+/**
+ * A menu row. Pass `href` for navigation and it renders a real link — callers
+ * must not wrap this in their own `<Link>`, since an anchor around a button is
+ * invalid HTML and breaks keyboard activation.
+ */
 export function DropdownItem({
   icon,
   danger = false,
   className,
   children,
-  ...props
-}: React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  icon?: React.ReactNode;
-  danger?: boolean;
-}) {
-  return (
-    <button
-      type="button"
-      role="menuitem"
-      className={cn(
-        "flex h-10 w-full cursor-pointer items-center gap-md rounded-sm px-md text-left text-body transition-colors",
-        danger
-          ? "text-danger hover:bg-danger-light"
-          : "text-text-primary hover:bg-surface-secondary",
-        className,
-      )}
-      {...props}
-    >
+  href,
+  onSelect,
+}: DropdownItemProps) {
+  const classes = cn(
+    "flex h-10 w-full cursor-pointer items-center gap-md rounded-sm px-md text-left text-body transition-colors duration-150",
+    "focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-primary-500",
+    danger
+      ? "text-danger hover:bg-danger-light"
+      : "text-text-primary hover:bg-surface-secondary",
+    className,
+  );
+
+  const inner = (
+    <>
       {icon && (
         <span aria-hidden className="shrink-0 [&>svg]:size-[18px]">{icon}</span>
       )}
       {children}
+    </>
+  );
+
+  if (href) {
+    return (
+      <Link href={href} role="menuitem" onClick={onSelect} className={classes}>
+        {inner}
+      </Link>
+    );
+  }
+
+  return (
+    <button type="button" role="menuitem" onClick={onSelect} className={classes}>
+      {inner}
     </button>
   );
 }

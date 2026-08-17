@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function CalendarLoading() {
   return (
-    <div className="py-2xl">
+    <div className="py-4xl">
       <div className="rounded-xl border border-border bg-surface p-lg shadow-md sm:p-2xl">
         <div className="mb-xl flex items-center justify-between">
           <div className="flex flex-col gap-2">

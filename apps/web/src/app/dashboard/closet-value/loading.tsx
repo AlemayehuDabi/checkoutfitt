@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function ClosetValueLoading() {
   return (
-    <div className="mx-auto max-w-[1200px] py-2xl">
+    <div className="mx-auto max-w-[1200px] py-4xl">
       <Skeleton className="h-3 w-48 rounded-sm" />
       <Skeleton className="mt-sm h-11 w-56 rounded-md" />
       <Skeleton className="mt-sm h-4 w-64 rounded-sm" />
