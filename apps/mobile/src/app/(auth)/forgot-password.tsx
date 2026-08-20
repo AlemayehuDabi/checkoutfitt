@@ -5,21 +5,22 @@ import { Text, View } from "react-native";
 
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/ui/header";
+import { IconWell } from "@/components/ui/icon-well";
 import { Input } from "@/components/ui/input";
 import { ScreenContainer } from "@/components/ui/screen-container";
-
+import { useAuth } from "@/context/auth-context";
 import { color } from "@/design";
-import { IconWell } from "@/components/ui/icon-well";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function ForgotPasswordScreen() {
+  const { forgotPassword, clearError } = useAuth();
   const [email, setEmail] = useState("");
   const [error, setError] = useState<string>();
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (!email.trim()) {
       setError("Email is required");
       return;
@@ -30,11 +31,17 @@ export default function ForgotPasswordScreen() {
     }
 
     setError(undefined);
+    clearError();
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      await forgotPassword(email.trim());
       setSent(true);
-    }, 1200);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Failed to send reset email";
+      setError(msg);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -79,6 +86,7 @@ export default function ForgotPasswordScreen() {
                 }}
                 error={error}
                 keyboardType="email-address"
+                autoCapitalize="none"
               />
             </View>
 

@@ -5,26 +5,69 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScreenContainer } from "@/components/ui/screen-container";
 import { SocialButton } from "@/components/ui/social-button";
+import { useAuth } from "@/context/auth-context";
+
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function LoginScreen() {
+  const { signIn, socialSignIn, isLoading, error: authError, clearError } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [formError, setFormError] = useState<string | null>(null);
+
+  const validate = () => {
+    if (!email.trim()) {
+      setFormError("Email address is required");
+      return false;
+    }
+    if (!EMAIL_REGEX.test(email.trim())) {
+      setFormError("Please enter a valid email address");
+      return false;
+    }
+    if (!password) {
+      setFormError("Password is required");
+      return false;
+    }
+    setFormError(null);
+    return true;
+  };
+
+  const handleSignIn = async () => {
+    if (!validate()) return;
+    try {
+      clearError();
+      await signIn({ email: email.trim(), password });
+      router.replace("/home");
+    } catch {
+      // Auth error is captured in context
+    }
+  };
+
+  const handleSocialSignIn = async (provider: "apple" | "google") => {
+    try {
+      clearError();
+      setFormError(null);
+      await socialSignIn(provider, {});
+      router.replace("/home");
+    } catch {
+      // Auth error is captured in context
+    }
+  };
+
+  const errorMessage = formError || authError;
 
   return (
     <ScreenContainer scroll keyboardAware className="bg-[#F9F8F6]">
       <View className="grow px-2 pt-10">
-        {/* Branding - matching the small uppercase style */}
+        {/* Branding */}
         <Text className="text-center text-[12px] font-bold uppercase tracking-[2px] text-[#1A1A1A]">
           CheckoutFitt
         </Text>
 
-        {/* Headline - Using Serif style for the "Old Money" look */}
+        {/* Headline */}
         <View className="mt-12 items-center">
           <Text
-            // In production, use a Serif font like Playfair Display.
-            // `leading-*` is set here rather than as a utility: an arbitrary
-            // ratio compiles to an `em()` the native runtime leaves unresolved.
-            style={{ fontFamily: 'System', lineHeight: 40 }}
+            style={{ fontFamily: "System", lineHeight: 40 }}
             className="text-center text-[34px] text-[#1A1A1A]"
           >
             Welcome back
@@ -34,21 +77,43 @@ export default function LoginScreen() {
           </Text>
         </View>
 
+        {/* Error Banner */}
+        {errorMessage ? (
+          <View className="mt-6 rounded-xl bg-red-50 p-4 border border-red-200">
+            <Text className="text-center text-[14px] text-red-600 font-medium">
+              {errorMessage}
+            </Text>
+          </View>
+        ) : null}
+
         {/* Form */}
-        <View className="mt-10 gap-y-5">
+        <View className="mt-8 gap-y-5">
           <Input
             label="Email address"
             placeholder="email@example.com"
             value={email}
-            onChangeText={setEmail}
+            onChangeText={(val) => {
+              setEmail(val);
+              if (formError || authError) {
+                setFormError(null);
+                clearError();
+              }
+            }}
             autoCapitalize="none"
+            keyboardType="email-address"
           />
           <View>
             <Input
               label="Password"
               placeholder="••••••••"
               value={password}
-              onChangeText={setPassword}
+              onChangeText={(val) => {
+                setPassword(val);
+                if (formError || authError) {
+                  setFormError(null);
+                  clearError();
+                }
+              }}
               secureToggle
             />
             <Link href="/forgot-password" asChild>
@@ -61,8 +126,13 @@ export default function LoginScreen() {
 
         {/* CTAs */}
         <View className="mt-10">
-          <Button label="Sign In" onPress={() => router.push("/home")} variant="primary"/>
-          
+          <Button
+            label="Sign In"
+            onPress={handleSignIn}
+            loading={isLoading}
+            variant="primary"
+          />
+
           <View className="my-8 flex-row items-center">
             <View className="h-[1px] flex-1 bg-[#E5E5E5]" />
             <Text className="px-4 text-[13px] text-[#999999]">or continue with</Text>
@@ -70,8 +140,8 @@ export default function LoginScreen() {
           </View>
 
           <View className="gap-y-3">
-            <SocialButton provider="apple" />
-            <SocialButton provider="google" />
+            <SocialButton provider="apple" onPress={() => handleSocialSignIn("apple")} />
+            <SocialButton provider="google" onPress={() => handleSocialSignIn("google")} />
           </View>
         </View>
 
