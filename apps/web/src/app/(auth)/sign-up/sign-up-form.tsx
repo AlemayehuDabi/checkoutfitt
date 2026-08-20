@@ -3,12 +3,13 @@
 import * as React from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { Check, Mail, User } from "lucide-react";
+import { AlertCircle, Check, Mail, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Divider } from "@/components/ui/divider";
 import { SocialButtons } from "@/components/auth/social-buttons";
+import { useAuth } from "@/lib/auth-context";
 
 /** Mirrors the server's SignUpDto: 8–128 chars. The rest is guidance. */
 const RULES = [
@@ -46,21 +47,45 @@ function RuleRow({ label, met }: { label: string; met: boolean }) {
 
 export function SignUpForm() {
   const router = useRouter();
+  const { signUp } = useAuth();
+  const [name, setName] = React.useState("");
+  const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [submitting, setSubmitting] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
 
   const allMet = RULES.every((rule) => rule.test(password));
 
-  function onSubmit(event: React.FormEvent) {
+  async function onSubmit(event: React.FormEvent) {
     event.preventDefault();
+    setError(null);
     setSubmitting(true);
-    // New accounts land in the style quiz.
-    window.setTimeout(() => router.push("/onboarding"), 700);
+
+    try {
+      await signUp({ name, email, password });
+      // New accounts land in the style quiz.
+      router.push("/onboarding");
+    } catch (err: unknown) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Failed to create account. Please try again.",
+      );
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
     <>
       <form onSubmit={onSubmit} className="mt-3xl flex flex-col gap-lg">
+        {error && (
+          <div className="flex items-center gap-md rounded-md bg-danger-light p-md text-caption text-danger">
+            <AlertCircle className="size-4 shrink-0" />
+            <span>{error}</span>
+          </div>
+        )}
+
         <Input
           label="Name"
           name="name"
@@ -69,6 +94,8 @@ export function SignUpForm() {
           placeholder="Sarah Chen"
           icon={<User />}
           maxLength={100}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
           required
         />
         <Input
@@ -79,6 +106,8 @@ export function SignUpForm() {
           inputSize="lg"
           placeholder="you@example.com"
           icon={<Mail />}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           required
         />
         <div>

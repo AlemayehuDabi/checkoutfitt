@@ -47,18 +47,24 @@ function aliasColors() {
   return resolveAliases();
 }
 
-/** `{ size, lineHeight, tracking }` → Tailwind's `[size, { … }]` tuple. */
+/**
+ * `{ size, lineHeight, tracking }` → Tailwind's `[size, { … }]` tuple.
+ *
+ * The spec states line heights in px, but they are emitted as a **unit-less
+ * ratio**. NativeWind resolves a numeric `line-height` as if it carried the
+ * `em` unit — `line-height: 28` on a 22px step becomes 28 × 22 = 616px on
+ * device, while the browser reads the same declaration as 28px. Ratios agree
+ * on both: web multiplies `1.2727` by the 22px font size, and so does native.
+ */
 const step = ({ size, lineHeight, tracking }) => [
   `${size}px`,
-  { lineHeight: `${lineHeight}px`, letterSpacing: `${tracking}px` },
+  { lineHeight: `${lineHeight / size}`, letterSpacing: `${tracking}px` },
 ];
 
 const px = (scale) =>
   Object.fromEntries(Object.entries(scale).map(([k, v]) => [k, `${v}px`]));
 
 module.exports = {
-  content: ["./src/app/**/*.{js,jsx,ts,tsx}", "./src/components/**/*.{js,jsx,ts,tsx}"],
-  presets: [require("nativewind/preset")],
   theme: {
     extend: {
       colors: {

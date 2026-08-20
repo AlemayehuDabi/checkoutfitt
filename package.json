@@ -9,6 +9,11 @@
     "mobile:android": "pnpm --filter mobile android",
     "mobile:ios": "pnpm --filter mobile ios",
     "server": "pnpm --filter server start:dev",
-    "server:build": "pnpm --filter server build"
+    "server:build": "pnpm --filter server build",
+    "web:build": "pnpm --filter web build",
+    "web:dev": "pnpm --filter web dev"
+  },
+  "overrides": {
+    "lightningcss": "1.30.1"
   }
 }

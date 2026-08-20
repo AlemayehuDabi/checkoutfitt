@@ -3,9 +3,9 @@ import * as ImagePicker from "expo-image-picker";
 import { Crown, Image as ImageIcon, Send, X } from "lucide-react-native";
 import { useEffect, useRef, useState } from "react";
 import { FlatList, KeyboardAvoidingView, Platform, Pressable, Text, TextInput, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 import { ChatBubble } from "@/components/chat/chat-bubble";
+import { SafeAreaView } from "@/components/ui/safe-area-view";
 import { TypingIndicator } from "@/components/chat/typing-indicator";
 import { IconButton } from "@/components/ui/icon-button";
 import { generateOutfit } from "@/constants/mock-outfits";
@@ -13,7 +13,17 @@ import { imageAcknowledgement, INITIAL_MESSAGES, matchOutfitContext, pickGeneric
 import { useOutfits } from "@/context/outfits-context";
 import type { ChatMessage } from "@/types";
 
-import { color } from "@/design";
+import { color, typography } from "@/design";
+
+const composerTextStyle = {
+  flex: 1,
+  paddingVertical: 0,
+  margin: 0,
+  fontSize: typography.body.size,
+  lineHeight: typography.body.lineHeight,
+  color: color.textPrimary,
+  includeFontPadding: false,
+} as const;
 import { AppImage } from "@/components/ui/app-image";
 import { PressableScale } from "@/components/ui/pressable-scale";
 
@@ -189,16 +199,19 @@ export default function ChatScreen() {
           <IconButton accessibilityLabel="Attach a photo" onPress={handleAttach}>
             <ImageIcon size={20} color={color.textMuted} />
           </IconButton>
-          <TextInput
-            value={inputText}
-            onChangeText={setInputText}
-            placeholder="Ask your stylist anything…"
-            placeholderTextColor={color.textMuted}
-            className="h-11 flex-1 rounded-full border border-border bg-surface-secondary px-lg text-body text-text-primary"
-            multiline={false}
-            onSubmitEditing={() => handleSend()}
-            returnKeyType="send"
-          />
+          <View className="h-11 flex-1 flex-row items-center rounded-full border border-border bg-surface-secondary px-lg">
+            <TextInput
+              value={inputText}
+              onChangeText={setInputText}
+              placeholder="Ask your stylist anything…"
+              placeholderTextColor={color.textMuted}
+              style={composerTextStyle}
+              underlineColorAndroid="transparent"
+              multiline={false}
+              onSubmitEditing={() => handleSend()}
+              returnKeyType="send"
+            />
+          </View>
           <PressableScale
             onPress={() => handleSend()}
             disabled={!canSend}

@@ -20,9 +20,12 @@ export default function LoginScreen() {
 
         {/* Headline - Using Serif style for the "Old Money" look */}
         <View className="mt-12 items-center">
-          <Text 
-            style={{ fontFamily: 'System' }} // In production, use a Serif font like Playfair Display
-            className="text-center text-[34px] leading-[40px] text-[#1A1A1A]"
+          <Text
+            // In production, use a Serif font like Playfair Display.
+            // `leading-*` is set here rather than as a utility: an arbitrary
+            // ratio compiles to an `em()` the native runtime leaves unresolved.
+            style={{ fontFamily: 'System', lineHeight: 40 }}
+            className="text-center text-[34px] text-[#1A1A1A]"
           >
             Welcome back
           </Text>

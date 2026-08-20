@@ -22,6 +22,7 @@ import { Button } from "@/components/ui/button";
 import { Modal } from "@/components/ui/modal";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Tag } from "@/components/ui/chip";
+import { useAuth } from "@/lib/auth-context";
 
 interface Row {
   id: string;
@@ -34,18 +35,22 @@ interface Row {
 }
 
 function PreferencesDetail() {
+  const { profile } = useAuth();
+  const gender = profile?.genderPresentation ?? mockProfile.genderPresentation ?? "—";
+  const styles = profile?.stylePreferences?.join(", ") || mockProfile.stylePreferences.join(", ") || "—";
+  const sizeTop = profile?.sizeTop || mockProfile.sizeTop;
+  const sizeBottom = profile?.sizeBottom || mockProfile.sizeBottom;
+  const sizeShoe = profile?.sizeShoe || mockProfile.sizeShoe;
+  const sizes = [sizeTop, sizeBottom, sizeShoe].filter(Boolean).join(" · ") || "Not set";
+  const city = profile?.city || mockProfile.city || "Not set";
+
   return (
     <dl className="flex flex-col divide-y divide-border">
       {[
-        ["Dresses", mockProfile.genderPresentation ?? "—"],
-        ["Style preferences", mockProfile.stylePreferences.join(", ") || "—"],
-        [
-          "Sizes",
-          [mockProfile.sizeTop, mockProfile.sizeBottom, mockProfile.sizeShoe]
-            .filter(Boolean)
-            .join(" · ") || "Not set",
-        ],
-        ["Location", mockProfile.city ?? "Not set"],
+        ["Style", gender],
+        ["Preferences", styles],
+        ["Sizes", sizes],
+        ["Location", city],
       ].map(([label, value]) => (
         <div key={label} className="flex items-start justify-between gap-lg py-md">
           <dt className="text-sm text-text-muted">{label}</dt>
@@ -78,11 +83,14 @@ function PrivacyDetail() {
 }
 
 function AboutDetail() {
+  const { user } = useAuth();
+  const displayEmail = user?.email || mockUser.email;
+
   return (
     <dl className="flex flex-col divide-y divide-border">
       {[
         ["Version", "1.0.0 (web)"],
-        ["Signed in as", mockUser.email],
+        ["Signed in as", displayEmail],
         ["Terms", "checkoutfitt.com/terms"],
         ["Privacy policy", "checkoutfitt.com/privacy"],
       ].map(([label, value]) => (
@@ -148,8 +156,17 @@ const ROWS: Row[] = [
 
 export function SettingsList() {
   const router = useRouter();
+  const { signOut } = useAuth();
   const [expanded, setExpanded] = React.useState<string | null>(null);
   const [logoutOpen, setLogoutOpen] = React.useState(false);
+  const [loggingOut, setLoggingOut] = React.useState(false);
+
+  const handleLogout = async () => {
+    setLoggingOut(true);
+    await signOut();
+    setLogoutOpen(false);
+    router.push("/sign-in");
+  };
 
   return (
     <div className="mx-auto max-w-[900px] py-4xl">
@@ -259,7 +276,7 @@ export function SettingsList() {
             <Button variant="outline" onClick={() => setLogoutOpen(false)}>
               Stay signed in
             </Button>
-            <Button variant="danger" onClick={() => router.push("/sign-in")}>
+            <Button variant="danger" loading={loggingOut} onClick={handleLogout}>
               Log out
             </Button>
           </>

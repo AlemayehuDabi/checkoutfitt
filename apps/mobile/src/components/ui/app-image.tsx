@@ -1,11 +1,11 @@
 import { Image as ExpoImage, type ImageProps } from "expo-image";
-import { cssInterop } from "nativewind";
+import { styled } from "nativewind";
 
 /**
  * NativeWind doesn't style third-party native components out of the box, so the
  * `className` prop has to be mapped onto `style` explicitly.
  */
-cssInterop(ExpoImage, { className: "style" });
+const StyledExpoImage = styled(ExpoImage, { className: "style" });
 
 type AppImageProps = ImageProps & { className?: string };
 
@@ -28,7 +28,7 @@ export function AppImage({
   ...rest
 }: AppImageProps) {
   return (
-    <ExpoImage
+    <StyledExpoImage
       transition={transition}
       cachePolicy={cachePolicy}
       contentFit={contentFit}

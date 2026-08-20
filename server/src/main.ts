@@ -3,7 +3,11 @@
 // before NestJS — and @nestjs/config's dotenv loading — ever starts up.
 // Without this, process.env.DATABASE_URL is still undefined when that
 // client is constructed.
-import 'dotenv/config';
+import dotenv from 'dotenv';
+import path from 'path';
+// This line loads your .env file before any other imports, solving the "undefined" problem.
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
+
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -35,6 +39,7 @@ async function bootstrap() {
     credentials: true,
     // set-auth-token is how the bearer plugin hands the session token back.
     exposedHeaders: ['set-auth-token'],
+
   });
 
   app.useGlobalPipes(

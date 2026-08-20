@@ -1,4 +1,3 @@
-import { cssInterop } from "nativewind";
 import { forwardRef } from "react";
 import {
   Pressable,
@@ -17,8 +16,14 @@ import Animated, {
 
 import { motion } from "@/design";
 
+/**
+ * `Pressable` is already NativeWind-enabled via the Metro import rewrite, so
+ * wrapping it again with `styled()` double-processed `className` and fed
+ * Reanimated shared values through the CSS runtime — which is what produced
+ * the "Reading from `value` during component render" warnings and left
+ * buttons unstyled on device while web looked fine.
+ */
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
-cssInterop(AnimatedPressable, { className: "style" });
 
 type PressableScaleProps = Omit<PressableProps, "style"> & {
   /** Widened so callers can hand in Reanimated styles (e.g. animated fills). */

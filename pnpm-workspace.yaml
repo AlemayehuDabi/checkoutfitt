@@ -10,3 +10,5 @@ allowBuilds:
   unrs-resolver: true
 minimumReleaseAgeExclude:
   - expo-image@57.0.3
+overrides:
+  lightningcss: "1.30.1"

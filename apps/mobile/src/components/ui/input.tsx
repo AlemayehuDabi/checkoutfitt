@@ -7,10 +7,33 @@ import {
   Text,
   TextInput,
   type TextInputProps,
+  type StyleProp,
+  type TextStyle,
   View,
 } from "react-native";
 
-import { color, elevation } from "@/design";
+import { color, elevation, typography } from "@/design";
+
+/**
+ * Layout and type for the native field, as a stable style object.
+ *
+ * NativeWind's `flex-1` compiles to `{ flexBasis: "0%" }`. Inside a
+ * `flex-row items-center` chrome that collapses the TextInput to 0×0 on
+ * Android — the bordered box still paints, but taps never hit the field.
+ * Setting flex/height here, and not via `className`, keeps the hit target
+ * the full 52px. The object is module-scoped so NativeWind's style guard
+ * does not see a new identity on every keystroke and remount the field.
+ */
+const fieldTextStyle: TextStyle = {
+  flex: 1,
+  alignSelf: "stretch",
+  paddingVertical: 0,
+  margin: 0,
+  fontSize: typography.body.size,
+  lineHeight: typography.body.lineHeight,
+  color: color.textPrimary,
+  includeFontPadding: false,
+};
 
 type InputProps = TextInputProps & {
   label?: string;
@@ -40,6 +63,7 @@ export function Input({
   containerClassName = "",
   onFocus,
   onBlur,
+  style,
   ...rest
 }: InputProps) {
   const [hidden, setHidden] = useState(!!secureTextEntry);
@@ -74,16 +98,21 @@ export function Input({
       >
         {icon ? <View className="mr-md">{icon}</View> : null}
         <TextInput
-          className="flex-1 text-body text-text-primary"
-          placeholderTextColor={color.textMuted}
-          secureTextEntry={secureToggle ? hidden : secureTextEntry}
           autoCapitalize="none"
           autoCorrect={false}
+          underlineColorAndroid="transparent"
+          {...rest}
+          style={
+            style
+              ? ([fieldTextStyle, style] as StyleProp<TextStyle>)
+              : fieldTextStyle
+          }
+          placeholderTextColor={color.textMuted}
+          secureTextEntry={secureToggle ? hidden : secureTextEntry}
           multiline={multiline}
           textAlignVertical={multiline ? "top" : "center"}
           onFocus={handleFocus}
           onBlur={handleBlur}
-          {...rest}
         />
         {secureToggle ? (
           <Pressable

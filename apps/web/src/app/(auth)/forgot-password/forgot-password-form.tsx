@@ -3,22 +3,35 @@
 import * as React from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowLeft, Mail, MailCheck } from "lucide-react";
+import { AlertCircle, ArrowLeft, Mail, MailCheck } from "lucide-react";
 import { Button, ButtonLink } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useAuth } from "@/lib/auth-context";
 
 export function ForgotPasswordForm() {
+  const { forgotPassword } = useAuth();
   const [email, setEmail] = React.useState("");
   const [submitting, setSubmitting] = React.useState(false);
   const [sent, setSent] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
 
-  function onSubmit(event: React.FormEvent) {
+  async function onSubmit(event: React.FormEvent) {
     event.preventDefault();
+    setError(null);
     setSubmitting(true);
-    window.setTimeout(() => {
-      setSubmitting(false);
+
+    try {
+      await forgotPassword({ email });
       setSent(true);
-    }, 700);
+    } catch (err: unknown) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Failed to process request. Please try again.",
+      );
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -48,8 +61,8 @@ export function ForgotPasswordForm() {
               Use a different email
             </Button>
             <ButtonLink href="/sign-in" variant="ghost" size="lg" fullWidth iconLeft={<ArrowLeft className="size-4" />}>
-                Back to sign in
-              </ButtonLink>
+              Back to sign in
+            </ButtonLink>
           </div>
         </motion.div>
       ) : (
@@ -66,6 +79,12 @@ export function ForgotPasswordForm() {
           </p>
 
           <form onSubmit={onSubmit} className="mt-3xl flex flex-col gap-lg">
+            {error && (
+              <div className="flex items-center gap-md rounded-md bg-danger-light p-md text-caption text-danger">
+                <AlertCircle className="size-4 shrink-0" />
+                <span>{error}</span>
+              </div>
+            )}
             <Input
               label="Email"
               type="email"

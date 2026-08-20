@@ -22,7 +22,7 @@ type ButtonProps = {
  * Fill and border per variant, as plain utility classes.
  *
  * These are deliberately *not* driven through a Reanimated animated style.
- * `PressableScale` is a `cssInterop`-wrapped animated Pressable, so its
+ * `PressableScale` is an animated Pressable, so its
  * `className` and its `style` prop both resolve onto `style` — and when both
  * try to set `backgroundColor`, the animated one loses. Driving the resting
  * fill from an animated style is what left every primary button transparent

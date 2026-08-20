@@ -7,7 +7,9 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import { type Edge, SafeAreaView } from "react-native-safe-area-context";
+import { type Edge } from "react-native-safe-area-context";
+
+import { SafeAreaView } from "./safe-area-view";
 
 type ScreenContainerProps = {
   children: ReactNode;

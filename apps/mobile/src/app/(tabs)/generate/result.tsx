@@ -9,9 +9,9 @@ import {
   Text,
   View,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 import { OutfitCard } from "@/components/outfit/outfit-card";
+import { SafeAreaView } from "@/components/ui/safe-area-view";
 import { Button } from "@/components/ui/button";
 import { IconButton } from "@/components/ui/icon-button";
 import { PaginationDots } from "@/components/ui/pagination-dots";

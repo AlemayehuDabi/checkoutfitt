@@ -1,6 +1,38 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/preflight.css" layer(base);
+@import "tailwindcss/utilities.css";
+@import "nativewind/theme";
+
+/**
+ * Reference the existing JS-based token config. Tailwind v4 no longer auto-
+ * detects `tailwind.config.js` — it must be explicitly loaded via `@config`.
+ *
+ * Only `theme.extend` is read from the JS config; `content` paths are handled
+ * by Tailwind v4's automatic source detection, and `presets` is replaced by
+ * the `@import "nativewind/theme"` directive above.
+ */
+@config "../tailwind.config.js";
+
+/**
+ * Tailwind's numeric scale (`h-16`, `pt-16`, `mt-12`, `px-4`, `gap-2`…) is all
+ * derived from `--spacing`, which defaults to `0.25rem`. NativeWind's compiler
+ * inlines rem at 14px while the browser resolves it against 16px, so every one
+ * of those steps rendered 12.5% smaller on device than on
+ * http://localhost:8081. Stating the base in px takes rem out of the scale, so
+ * both platforms compile to the same pixels.
+ *
+ * A `:root { font-size }` declaration only reaches the rem values written
+ * directly in a declaration, not the ones reached through a custom property
+ * like `--spacing`, which is why the base is pinned here rather than there.
+ */
+@theme {
+  --spacing: 4px;
+}
+
+/** Catches the literal rems left in Tailwind defaults we don't override. */
+:root {
+  font-size: 16px;
+}
 
 /**
  * CheckoutFitt global stylesheet.

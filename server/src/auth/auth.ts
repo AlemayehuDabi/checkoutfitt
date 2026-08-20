@@ -115,7 +115,7 @@ export const auth = betterAuth({
     enabled: true,
     minPasswordLength: 8,
     maxPasswordLength: 128,
-    requireEmailVerification: false,
+    requireEmailVerification: true,
     revokeSessionsOnPasswordReset: true,
     resetPasswordTokenExpiresIn: 60 * 60, // 1 hour
     sendResetPassword: ({ user, url }) =>
@@ -143,12 +143,12 @@ export const auth = betterAuth({
       process.env.APPLE_TEAM_ID &&
       process.env.APPLE_KEY_ID &&
       process.env.APPLE_PRIVATE_KEY && {
-        apple: async () => ({
-          clientId: process.env.APPLE_CLIENT_ID as string,
-          clientSecret: await generateAppleClientSecret(),
-          appBundleIdentifier: process.env.APPLE_APP_BUNDLE_IDENTIFIER,
-        }),
+      apple: async () => ({
+        clientId: process.env.APPLE_CLIENT_ID as string,
+        clientSecret: await generateAppleClientSecret(),
+        appBundleIdentifier: process.env.APPLE_APP_BUNDLE_IDENTIFIER,
       }),
+    }),
   },
 
   session: {

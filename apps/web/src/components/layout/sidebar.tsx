@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import {
   ChevronsUpDown,
@@ -28,6 +28,7 @@ import {
   DropdownSeparator,
 } from "@/components/ui/dropdown";
 import { mockUser } from "@/lib/mock-data";
+import { useAuth } from "@/lib/auth-context";
 
 function NavLink({
   item,
@@ -94,6 +95,18 @@ export function SidebarContent({
   onToggleCollapsed,
   onNavigate,
 }: SidebarProps) {
+  const router = useRouter();
+  const { user, signOut } = useAuth();
+
+  const displayName = user?.name || mockUser.name;
+  const displayEmail = user?.email || mockUser.email;
+
+  const handleSignOut = async () => {
+    onNavigate?.();
+    await signOut();
+    router.push("/sign-in");
+  };
+
   return (
     <div className="flex h-full flex-col bg-surface">
       {/* Brand */}
@@ -170,10 +183,10 @@ export function SidebarContent({
             <Link
               href={PROFILE_NAV.href}
               onClick={onNavigate}
-              title={mockUser.name}
+              title={displayName}
               className="flex justify-center rounded-lg p-2 transition-colors hover:bg-surface-secondary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
             >
-              <Avatar name={mockUser.name} size="sm" />
+              <Avatar name={displayName} size="sm" />
             </Link>
             <button
               type="button"
@@ -192,13 +205,13 @@ export function SidebarContent({
             className="top-auto bottom-[calc(100%+8px)] left-0 min-w-[224px]"
             trigger={
               <span className="flex w-full items-center gap-md rounded-lg p-2 transition-colors duration-200 hover:bg-surface-secondary">
-                <Avatar name={mockUser.name} size="sm" />
+                <Avatar name={displayName} size="sm" />
                 <span className="min-w-0 flex-1 text-left">
                   <span className="block truncate text-sm font-[500] text-text-primary">
-                    {mockUser.name}
+                    {displayName}
                   </span>
                   <span className="block truncate text-caption text-text-muted">
-                    {mockUser.email}
+                    {displayEmail}
                   </span>
                 </span>
                 <ChevronsUpDown
@@ -208,7 +221,7 @@ export function SidebarContent({
               </span>
             }
           >
-            <DropdownLabel>{mockUser.email}</DropdownLabel>
+            <DropdownLabel>{displayEmail}</DropdownLabel>
             <DropdownSeparator />
             <DropdownItem href={PROFILE_NAV.href} icon={<User />} onSelect={onNavigate}>
               Profile
@@ -217,7 +230,7 @@ export function SidebarContent({
               Settings
             </DropdownItem>
             <DropdownSeparator />
-            <DropdownItem href="/sign-in" icon={<LogOut />} onSelect={onNavigate}>
+            <DropdownItem onSelect={handleSignOut} icon={<LogOut />}>
               Log out
             </DropdownItem>
           </Dropdown>

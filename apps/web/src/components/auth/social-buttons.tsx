@@ -1,5 +1,12 @@
+"use client";
+
 import * as React from "react";
+import { useRouter } from "next/navigation";
+import { AlertCircle, Key } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Modal } from "@/components/ui/modal";
+import { Input } from "@/components/ui/input";
+import { useAuth } from "@/lib/auth-context";
 
 /** Brand marks are inlined — the CSP blocks external assets and these are tiny. */
 function AppleMark() {
@@ -34,14 +41,102 @@ function GoogleMark() {
 }
 
 export function SocialButtons({ verb = "Continue" }: { verb?: string }) {
+  const router = useRouter();
+  const { socialSignIn } = useAuth();
+  const [activeProvider, setActiveProvider] = React.useState<"google" | "apple" | null>(null);
+  const [idToken, setIdToken] = React.useState("");
+  const [submitting, setSubmitting] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
+
+  const handleProviderClick = (provider: "google" | "apple") => {
+    setActiveProvider(provider);
+    setError(null);
+    setIdToken("");
+  };
+
+  const handleSocialSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!activeProvider) return;
+    setSubmitting(true);
+    setError(null);
+
+    try {
+      await socialSignIn(activeProvider, { idToken });
+      setActiveProvider(null);
+      router.push("/dashboard");
+    } catch (err: unknown) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : `Social sign-in with ${activeProvider} failed.`,
+      );
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return (
-    <div className="grid gap-md sm:grid-cols-2">
-      <Button variant="outline" type="button" iconLeft={<AppleMark />} fullWidth>
-        {verb} with Apple
-      </Button>
-      <Button variant="outline" type="button" iconLeft={<GoogleMark />} fullWidth>
-        {verb} with Google
-      </Button>
-    </div>
+    <>
+      <div className="grid gap-md sm:grid-cols-2">
+        <Button
+          variant="outline"
+          type="button"
+          iconLeft={<AppleMark />}
+          fullWidth
+          onClick={() => handleProviderClick("apple")}
+        >
+          {verb} with Apple
+        </Button>
+        <Button
+          variant="outline"
+          type="button"
+          iconLeft={<GoogleMark />}
+          fullWidth
+          onClick={() => handleProviderClick("google")}
+        >
+          {verb} with Google
+        </Button>
+      </div>
+
+      <Modal
+        open={Boolean(activeProvider)}
+        onClose={() => setActiveProvider(null)}
+        title={`${verb} with ${activeProvider === "apple" ? "Apple" : "Google"}`}
+        description="Enter your provider identity token (idToken) to authenticate with the backend social authentication endpoint."
+        footer={
+          <>
+            <Button variant="outline" onClick={() => setActiveProvider(null)}>
+              Cancel
+            </Button>
+            <Button
+              variant="primary"
+              loading={submitting}
+              onClick={handleSocialSubmit}
+              disabled={!idToken.trim()}
+            >
+              Authenticate
+            </Button>
+          </>
+        }
+      >
+        <form onSubmit={handleSocialSubmit} className="flex flex-col gap-md py-sm">
+          {error && (
+            <div className="flex items-center gap-md rounded-md bg-danger-light p-md text-caption text-danger">
+              <AlertCircle className="size-4 shrink-0" />
+              <span>{error}</span>
+            </div>
+          )}
+          <Input
+            label="ID Token"
+            type="text"
+            placeholder="Paste Google or Apple ID Token..."
+            icon={<Key className="size-4" />}
+            value={idToken}
+            onChange={(e) => setIdToken(e.target.value)}
+            required
+          />
+        </form>
+      </Modal>
+    </>
   );
 }

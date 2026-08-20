@@ -3,26 +3,50 @@
 import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Mail } from "lucide-react";
+import { AlertCircle, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Divider } from "@/components/ui/divider";
 import { SocialButtons } from "@/components/auth/social-buttons";
+import { useAuth } from "@/lib/auth-context";
 
 export function SignInForm() {
   const router = useRouter();
+  const { signIn } = useAuth();
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
   const [submitting, setSubmitting] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
 
-  // UI only — no auth call. The delay makes the loading state visible.
-  function onSubmit(event: React.FormEvent) {
+  async function onSubmit(event: React.FormEvent) {
     event.preventDefault();
+    setError(null);
     setSubmitting(true);
-    window.setTimeout(() => router.push("/dashboard"), 700);
+
+    try {
+      await signIn({ email, password });
+      router.push("/dashboard");
+    } catch (err: unknown) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Invalid email or password. Please try again.",
+      );
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
     <>
       <form onSubmit={onSubmit} className="mt-3xl flex flex-col gap-lg">
+        {error && (
+          <div className="flex items-center gap-md rounded-md bg-danger-light p-md text-caption text-danger">
+            <AlertCircle className="size-4 shrink-0" />
+            <span>{error}</span>
+          </div>
+        )}
+
         <Input
           label="Email"
           type="email"
@@ -31,6 +55,8 @@ export function SignInForm() {
           inputSize="lg"
           placeholder="you@example.com"
           icon={<Mail />}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           required
         />
 
@@ -42,6 +68,8 @@ export function SignInForm() {
             inputSize="lg"
             placeholder="••••••••"
             passwordToggle
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             required
           />
           <div className="mt-sm flex justify-end">

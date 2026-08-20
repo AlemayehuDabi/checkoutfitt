@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Bell, LogOut, Menu, Search, Settings, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { titleForPath } from "@/lib/navigation";
@@ -14,11 +14,22 @@ import {
   DropdownItem,
   DropdownSeparator,
 } from "@/components/ui/dropdown";
+import { useAuth } from "@/lib/auth-context";
 
 export function TopBar({ onOpenMenu }: { onOpenMenu: () => void }) {
   const pathname = usePathname();
+  const router = useRouter();
+  const { user, signOut } = useAuth();
   const title = titleForPath(pathname);
   const [scrolled, setScrolled] = React.useState(false);
+
+  const displayName = user?.name || mockUser.name;
+  const displayEmail = user?.email || mockUser.email;
+
+  const handleSignOut = async () => {
+    await signOut();
+    router.push("/sign-in");
+  };
 
   // The bottom border only appears once content slides under the bar.
   React.useEffect(() => {
@@ -78,14 +89,14 @@ export function TopBar({ onOpenMenu }: { onOpenMenu: () => void }) {
 
       <Dropdown
         label="Account menu"
-        trigger={<Avatar name={mockUser.name} size="sm" />}
+        trigger={<Avatar name={displayName} size="sm" />}
       >
         <div className="px-md py-2">
           <p className="truncate text-sm font-[500] text-text-primary">
-            {mockUser.name}
+            {displayName}
           </p>
           <p className="truncate text-caption text-text-muted">
-            {mockUser.email}
+            {displayEmail}
           </p>
         </div>
         <DropdownSeparator />
@@ -96,7 +107,7 @@ export function TopBar({ onOpenMenu }: { onOpenMenu: () => void }) {
           Settings
         </DropdownItem>
         <DropdownSeparator />
-        <DropdownItem href="/sign-in" icon={<LogOut />} danger>
+        <DropdownItem onSelect={handleSignOut} icon={<LogOut />} danger>
           Log out
         </DropdownItem>
       </Dropdown>

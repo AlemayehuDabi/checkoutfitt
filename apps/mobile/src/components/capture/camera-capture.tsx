@@ -3,9 +3,9 @@ import { router } from "expo-router";
 import { Camera as CameraIcon, Check, RefreshCw, X } from "lucide-react-native";
 import { useRef, useState } from "react";
 import { Pressable, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Button } from "@/components/ui/button";
+import { SafeAreaView } from "@/components/ui/safe-area-view";
 import { ScreenContainer } from "@/components/ui/screen-container";
 import { color, elevation } from "@/design";
 import { IconWell } from "@/components/ui/icon-well";
